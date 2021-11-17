@@ -6,11 +6,51 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 
 import '../constants/constants.dart' hide Message;
 
 class NotificationUtils {
   const NotificationUtils._();
+
+  //极光推送初始化
+  NotificationUtils.jPushInit(){
+    final JPush jpush =  JPush();
+    initJPush(){
+      jpush.addEventHandler(
+        // 接收通知回调方法。
+        onReceiveNotification: (Map<String, dynamic> message) async {
+          print("flutter onReceiveNotification: $message");
+        },
+        // 点击通知回调方法。
+        onOpenNotification: (Map<String, dynamic> message) async {
+          print("flutter onOpenNotification: $message");
+        },
+        // 接收自定义消息回调方法。
+        onReceiveMessage: (Map<String, dynamic> message) async {
+          print("flutter onReceiveMessage: $message");
+        },
+      );
+
+      jpush.setup(
+        appKey: "713db5486c35b95a967e3b3a",
+        channel: "theChannel",
+        production: false,
+        debug: false, // 设置是否打印 debug 日志
+      );
+
+      jpush.applyPushAuthority(const NotificationSettingsIOS(
+          sound: true,
+          alert: true,
+          badge: true));
+
+      jpush.setAlias('libin');
+
+      jpush.getRegistrationID().then((rid) {
+        print('deviceToken:$rid');
+      });
+    }
+  }
 
   static final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();

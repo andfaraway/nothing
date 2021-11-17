@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nothing/constants/constants.dart';
 import 'package:nothing/home_page.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'constants/instances.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
-
-  runApp(const MyApp());
+  NotificationUtils.jPushInit();
+  runApp(MultiProvider(providers: [
+    buildProvider<SettingsProvider>(SettingsProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,3 +37,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+

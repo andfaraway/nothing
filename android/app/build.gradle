@@ -1,4 +1,3 @@
-
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -34,11 +33,22 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.nothing"
+        applicationId "com.libin.nothing"
         minSdkVersion 17
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+//            ndk {
+//                //选择要添加的对应 cpu 类型的 .so 库。
+//                abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a',
+//            }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "713db5486c35b95a967e3b3a", // NOTE: JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
     }
 
     buildTypes {

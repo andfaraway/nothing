@@ -15,13 +15,15 @@ class SimplePage extends StatefulWidget {
       this.title,
       this.backgroundColor,
       this.requestCallback,
-      this.justify = false})
+      this.justify = false,
+      this.initialRefresh = true})
       : super(key: key);
 
   final String? title;
   final Color? backgroundColor;
   final RequestCallback? requestCallback;
   final bool justify;
+  final bool initialRefresh;
 
   @override
   _SimplePageState createState() => _SimplePageState();
@@ -32,7 +34,7 @@ class _SimplePageState extends State<SimplePage>
   @override
   bool get wantKeepAlive => true;
 
-  final RefreshController _controller = RefreshController(initialRefresh: true);
+  late final RefreshController _controller;
   final double marginWidth = 30;
   String contentText = '';
   Color? backgroundColor;
@@ -40,6 +42,7 @@ class _SimplePageState extends State<SimplePage>
   @override
   void initState() {
     super.initState();
+    _controller = RefreshController(initialRefresh: widget.initialRefresh);
     backgroundColor = widget.backgroundColor;
   }
 

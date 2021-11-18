@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/constants/constants.dart';
@@ -22,9 +23,9 @@ ChangeNotifierProvider<T> buildProvider<T extends ChangeNotifier>(T value) {
   return ChangeNotifierProvider<T>.value(value: value);
 }
 
-List<SingleChildWidget> get providers => _providers;
-
-final List<ChangeNotifierProvider<dynamic>> _providers =
-    <ChangeNotifierProvider<dynamic>>[
-  buildProvider<ThemesProvider>(ThemesProvider()),
-];
+// List<SingleChildWidget> get providers => _providers;
+//
+// final List<ChangeNotifierProvider<dynamic>> _providers =
+//     <ChangeNotifierProvider<dynamic>>[
+//   buildProvider<ThemesProvider>(ThemesProvider()),
+// ];

@@ -91,29 +91,29 @@ class HiveFieldUtils {
   static bool? getLaunchFromSystemBrowser() =>
       _box.get(settingLaunchFromSystemBrowser) as bool;
 
-  /// 设置是否启用新应用图标
-  static Future<void>? setEnabledNewAppsIcon(bool enable) {
-    provider.newAppCenterIcon = enable;
-    return _box.put(settingNewIcons, enable);
-  }
-
-  /// 设置首页的初始页
-  static Future<void>? setHomeSplashIndex(int index) async {
-    provider.homeSplashIndex = index;
-    await _box.put(settingHomeSplashIndex, index);
-  }
-
-  /// 设置是否隐藏被屏蔽的动态
-  static Future<void>? setEnabledHideShieldPost(bool enable) {
-    provider.hideShieldPost = enable;
-    return _box.put(settingHideShieldPost, enable);
-  }
-
-  /// 设置是否通过系统浏览器打开网页
-  static Future<void>? setLaunchFromSystemBrowser(bool enable) {
-    provider.launchFromSystemBrowser = enable;
-    return _box.put(settingLaunchFromSystemBrowser, enable);
-  }
+  // /// 设置是否启用新应用图标
+  // static Future<void>? setEnabledNewAppsIcon(bool enable) {
+  //   provider.newAppCenterIcon = enable;
+  //   return _box.put(settingNewIcons, enable);
+  // }
+  //
+  // /// 设置首页的初始页
+  // static Future<void>? setHomeSplashIndex(int index) async {
+  //   provider.homeSplashIndex = index;
+  //   await _box.put(settingHomeSplashIndex, index);
+  // }
+  //
+  // /// 设置是否隐藏被屏蔽的动态
+  // static Future<void>? setEnabledHideShieldPost(bool enable) {
+  //   provider.hideShieldPost = enable;
+  //   return _box.put(settingHideShieldPost, enable);
+  // }
+  //
+  // /// 设置是否通过系统浏览器打开网页
+  // static Future<void>? setLaunchFromSystemBrowser(bool enable) {
+  //   provider.launchFromSystemBrowser = enable;
+  //   return _box.put(settingLaunchFromSystemBrowser, enable);
+  // }
 
   /// 获取设备PushToken
   static String getDevicePushToken() => _box.get(devicePushToken) as String;

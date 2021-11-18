@@ -5,9 +5,9 @@
 
 part of 'providers.dart';
 
-class SettingsProvider extends ChangeNotifier {
+class SettingsProvider extends ChangeNotifier with DiagnosticableTreeMixin{
   SettingsProvider() {
-    init();
+    // init();
   }
 
   // Fow start index.
@@ -38,33 +38,39 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _announcementsUserEnabled = false;
-
-  bool get announcementsUserEnabled => _announcementsUserEnabled;
-
-  set announcementsUserEnabled(bool value) {
-    _announcementsUserEnabled = value;
-    notifyListeners();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('announcementsEnabled', announcementsEnabled.toString()));
   }
 
-  bool _newAppCenterIcon = false;
-
-  bool get newAppCenterIcon => _newAppCenterIcon;
-
-  set newAppCenterIcon(bool value) {
-    _newAppCenterIcon = value;
-    notifyListeners();
-  }
-
-  bool _hideShieldPost = true;
-
-  bool get hideShieldPost => _hideShieldPost;
-
-  set hideShieldPost(bool value) {
-    _hideShieldPost = value;
-    notifyListeners();
-  }
-
+  // bool _announcementsUserEnabled = false;
+  //
+  // bool get announcementsUserEnabled => _announcementsUserEnabled;
+  //
+  // set announcementsUserEnabled(bool value) {
+  //   _announcementsUserEnabled = value;
+  //   notifyListeners();
+  // }
+  //
+  // bool _newAppCenterIcon = false;
+  //
+  // bool get newAppCenterIcon => _newAppCenterIcon;
+  //
+  // set newAppCenterIcon(bool value) {
+  //   _newAppCenterIcon = value;
+  //   notifyListeners();
+  // }
+  //
+  // bool _hideShieldPost = true;
+  //
+  // bool get hideShieldPost => _hideShieldPost;
+  //
+  // set hideShieldPost(bool value) {
+  //   _hideShieldPost = value;
+  //   notifyListeners();
+  // }
+  //
   bool _launchFromSystemBrowser = false;
 
   bool get launchFromSystemBrowser => _launchFromSystemBrowser;
@@ -77,57 +83,57 @@ class SettingsProvider extends ChangeNotifier {
     _launchFromSystemBrowser = value;
     notifyListeners();
   }
-
-  List<double> fontScaleRange = DeviceUtils.deviceModel.contains('iPad')
-      ? <double>[0.3, 0.7]
-      : <double>[0.8, 1.2];
-  double _fontScale = DeviceUtils.deviceModel.contains('iPad') ? 0.5 : 1.0;
-
-  double get fontScale => _fontScale;
-
-  set fontScale(double value) {
-    _fontScale = value;
-    notifyListeners();
-  }
-
-  void init() {
-    getAnnouncement();
-    _fontScale = HiveFieldUtils.getFontScale() ?? _fontScale;
-    _homeSplashIndex = HiveFieldUtils.getHomeSplashIndex() ?? _homeSplashIndex;
-    _newAppCenterIcon =
-        HiveFieldUtils.getEnabledNewAppsIcon() ?? _newAppCenterIcon;
-    _hideShieldPost =
-        HiveFieldUtils.getEnabledHideShieldPost() ?? _hideShieldPost;
-    _launchFromSystemBrowser =
-        HiveFieldUtils.getLaunchFromSystemBrowser() ?? _launchFromSystemBrowser;
-  }
-
-  void reset() {
-    _fontScale = DeviceUtils.deviceModel.contains('iPad') ? 0.5 : 1.0;
-    _homeSplashIndex = 0;
-    _newAppCenterIcon = false;
-    _hideShieldPost = true;
-    _launchFromSystemBrowser = false;
-    _announcementsUserEnabled = _announcementsEnabled;
-    notifyListeners();
-  }
-
-  Future<void> getAnnouncement() async {
-    try {
-      final Response<Map<String, dynamic>> res = await NetUtils.get(
-        API.announcement,
-      );
-      final Map<String, dynamic>? data = res.data;
-      _announcements = (data?['announcements'] as List<dynamic>)
-          .cast<Map<dynamic, dynamic>>();
-      _announcementsEnabled = data?['enabled'] as bool;
-      _announcementsUserEnabled = _announcementsEnabled;
-      notifyListeners();
-    } catch (e) {
-      LogUtils.e('Get announcement error: $e');
-      Future<void>.delayed(30.seconds, getAnnouncement);
-    }
-  }
+  //
+  // List<double> fontScaleRange = DeviceUtils.deviceModel.contains('iPad')
+  //     ? <double>[0.3, 0.7]
+  //     : <double>[0.8, 1.2];
+  // double _fontScale = DeviceUtils.deviceModel.contains('iPad') ? 0.5 : 1.0;
+  //
+  // double get fontScale => _fontScale;
+  //
+  // set fontScale(double value) {
+  //   _fontScale = value;
+  //   notifyListeners();
+  // }
+  //
+  // void init() {
+  //   getAnnouncement();
+  //   _fontScale = HiveFieldUtils.getFontScale() ?? _fontScale;
+  //   _homeSplashIndex = HiveFieldUtils.getHomeSplashIndex() ?? _homeSplashIndex;
+  //   _newAppCenterIcon =
+  //       HiveFieldUtils.getEnabledNewAppsIcon() ?? _newAppCenterIcon;
+  //   _hideShieldPost =
+  //       HiveFieldUtils.getEnabledHideShieldPost() ?? _hideShieldPost;
+  //   _launchFromSystemBrowser =
+  //       HiveFieldUtils.getLaunchFromSystemBrowser() ?? _launchFromSystemBrowser;
+  // }
+  //
+  // void reset() {
+  //   _fontScale = DeviceUtils.deviceModel.contains('iPad') ? 0.5 : 1.0;
+  //   _homeSplashIndex = 0;
+  //   _newAppCenterIcon = false;
+  //   _hideShieldPost = true;
+  //   _launchFromSystemBrowser = false;
+  //   _announcementsUserEnabled = _announcementsEnabled;
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> getAnnouncement() async {
+  //   try {
+  //     final Response<Map<String, dynamic>> res = await NetUtils.get(
+  //       API.announcement,
+  //     );
+  //     final Map<String, dynamic>? data = res.data;
+  //     _announcements = (data?['announcements'] as List<dynamic>)
+  //         .cast<Map<dynamic, dynamic>>();
+  //     _announcementsEnabled = data?['enabled'] as bool;
+  //     _announcementsUserEnabled = _announcementsEnabled;
+  //     notifyListeners();
+  //   } catch (e) {
+  //     LogUtils.e('Get announcement error: $e');
+  //     Future<void>.delayed(30.seconds, getAnnouncement);
+  //   }
+  // }
 
   /// Get cloud settings from xAuth server.
   /// 从自有认证获取云设置

@@ -1,14 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/home_page.dart';
+import 'package:nothing/utils/notification_utils.dart';
 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
-  NotificationUtils.jPushInit();
+  if(Platform.version.contains('ios_x86')){
+     NotificationUtils.jPushInit();
+  }
   runApp(MultiProvider(providers: [
     buildProvider<SettingsProvider>(SettingsProvider()),
   ], child: const MyApp()));

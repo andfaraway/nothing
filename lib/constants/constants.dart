@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 export 'package:intl/intl.dart' show DateFormat;
 export 'package:pull_to_refresh/pull_to_refresh.dart';
 

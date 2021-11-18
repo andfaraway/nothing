@@ -21,6 +21,8 @@ export 'screens.dart';
 export 'widgets.dart';
 export '../utils/local_data_utils.dart';
 
+export 'singleton.dart';
+
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 

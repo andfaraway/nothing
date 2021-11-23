@@ -6,15 +6,13 @@ part of 'providers.dart';
 
 class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
-    initTheme();
+    // initTheme();
   }
 
   ThemeGroup _currentThemeGroup = defaultThemeGroup;
 
   ThemeGroup get currentThemeGroup => _currentThemeGroup;
-
   set currentThemeGroup(ThemeGroup value) {
-    assert(value != null);
     if (_currentThemeGroup == value) {
       return;
     }
@@ -23,15 +21,13 @@ class ThemesProvider with ChangeNotifier {
   }
 
   bool _dark = false;
-
   bool get dark => _dark;
-
   set dark(bool value) {
     assert(value != null);
     if (_dark == value) {
       return;
     }
-    HiveFieldUtils.setBrightnessDark(value);
+    // HiveFieldUtils.setBrightnessDark(value);
     _dark = value;
     notifyListeners();
   }
@@ -252,33 +248,33 @@ class ThemesProvider with ChangeNotifier {
 const List<ThemeGroup> supportThemeGroups = <ThemeGroup>[
   defaultThemeGroup, // This is the default theme group.
   ThemeGroup(
-    lightThemeColor: Color(0xfff06292),
-    darkThemeColor: Color(0xffcc537c),
-  ),
+      lightThemeColor: Color(0xfff06292),
+      darkThemeColor: Color(0xffcc537c),
+      name: '基佬粉'),
   ThemeGroup(
-    lightThemeColor: Color(0xffba68c8),
-    darkThemeColor: Color(0xff9e58aa),
-  ),
+      lightThemeColor: Color(0xffba68c8),
+      darkThemeColor: Color(0xff9e58aa),
+      name: '魅力紫'),
   ThemeGroup(
-    lightThemeColor: Color(0xff2196f3),
-    darkThemeColor: Color(0xff1c7ece),
-  ),
+      lightThemeColor: Color(0xff2196f3),
+      darkThemeColor: Color(0xff1c7ece),
+      name: '远峰蓝'),
   ThemeGroup(
-    lightThemeColor: Color(0xff00bcd4),
-    darkThemeColor: Color(0xff00a0b4),
-  ),
+      lightThemeColor: Color(0xff00bcd4),
+      darkThemeColor: Color(0xff00a0b4),
+      name: '铁青'),
   ThemeGroup(
-    lightThemeColor: Color(0xff26a69a),
-    darkThemeColor: Color(0xff208d83),
-  ),
+      lightThemeColor: Color(0xFF4CAF50),
+      darkThemeColor: Color(0xff208d83),
+      name: '海藻绿'),
   ThemeGroup(
-    lightThemeColor: Color(0xffffeb3b),
-    darkThemeColor: Color(0xffd9c832),
-    lightButtonTextColor: Colors.black,
-    darkButtonTextColor: Colors.black,
-  ),
+      lightThemeColor: Color(0xffffeb3b),
+      darkThemeColor: Color(0xffd9c832),
+      lightButtonTextColor: Colors.black,
+      darkButtonTextColor: Colors.black,
+      name: '香蕉黄'),
   ThemeGroup(
-    lightThemeColor: Color(0xffff7043),
-    darkThemeColor: Color(0xffd95f39),
-  ),
+      lightThemeColor: Color(0xffff7043),
+      darkThemeColor: Color(0xffd95f39),
+      name: '活力橙'),
 ];

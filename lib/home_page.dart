@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
+import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'constants/constants.dart';
 import 'package:nothing/top_news.dart';
@@ -47,9 +48,13 @@ class _HomePageState extends State<HomePage>
   loadData() async {
     var list = await LocalDataUtils.get(Constants.keyFavoriteList);
     favoriteList.clear();
-    if(list != null){
+    if (list != null) {
       favoriteList.addAll(list.cast<String>());
     }
+
+    var str =  await NetUtils.get('http://1.14.252.115:5000/');
+    print('str = ${str.data}');
+    showToast(str.toString());
   }
 
   drawer(BuildContext context) {
@@ -71,16 +76,31 @@ class _HomePageState extends State<HomePage>
                       left: kDrawerMarginLeft,
                       right: kDrawerMarginLeft,
                       bottom: kDrawerMarginLeft),
-                  child: ValueListenableBuilder(
-                    valueListenable: _tipsStr,
-                    builder: (context, value, child) {
-                      return Text(
-                        _tipsStr.value,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 22),
-                        textAlign: TextAlign.start,
-                      );
+                  child: GestureDetector(
+                    onTap: () async {
+                      String text = _tipsStr.value.trim().toString();
+                      if (!favoriteList.contains(text)) {
+                        favoriteList.add(text);
+                        bool s = await LocalDataUtils.setStringList(
+                            Constants.keyFavoriteList, favoriteList);
+                        if (s) {
+                          showToast('眼光不错哦！');
+                        } else {
+                          showToast('no~');
+                        }
+                      } else {}
                     },
+                    child: ValueListenableBuilder(
+                      valueListenable: _tipsStr,
+                      builder: (context, value, child) {
+                        return Text(
+                          _tipsStr.value,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 22),
+                          textAlign: TextAlign.start,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 color: Colors.green,
@@ -98,10 +118,27 @@ class _HomePageState extends State<HomePage>
                               duration: Duration.zero);
                         },
                         child: ListTile(
-                          title: Text(
-                            value.title ?? '',
-                            style: const TextStyle(fontSize: 18),
-                          ),
+                          title: value.tag == 3
+                              ? Consumer<ThemesProvider>(
+                                  builder: (context, provider, child) {
+                                    return Text(
+                                      value.title ?? '',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Constants.isDark
+                                              ? provider.currentThemeGroup
+                                                  .darkThemeColor
+                                              : provider.currentThemeGroup
+                                                  .lightThemeColor),
+                                    );
+                                  },
+                                )
+                              : Text(
+                                  value.title ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
                         ),
                       )))
                   .values
@@ -114,6 +151,19 @@ class _HomePageState extends State<HomePage>
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const FavoritePage()));
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  '主题',
+                  style: TextStyle(fontSize: 18),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ThemeSettingPage('主题'),
+                    ),
+                  );
                 },
               ),
               Expanded(

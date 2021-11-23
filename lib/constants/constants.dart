@@ -40,6 +40,9 @@ class Constants {
   /// Whether force logger to print.
   static bool get forceLogging => false;
 
+  ///暗黑模式
+  static bool isDark = false;
+
   static const String endLineTag = '没有更多了';
 
   /// Fow news list.

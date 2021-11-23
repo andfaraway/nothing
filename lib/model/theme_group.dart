@@ -26,6 +26,7 @@ class ThemeGroup {
     this.darkPrimaryTextColor = const Color(0xffb4b4b6),
     this.darkSecondaryTextColor = const Color(0xff878787),
     this.darkButtonTextColor = Colors.white,
+    this.name = '朱红',
   });
 
   final Color lightThemeColor;
@@ -45,6 +46,8 @@ class ThemeGroup {
   final Color darkPrimaryTextColor;
   final Color darkSecondaryTextColor;
   final Color darkButtonTextColor;
+
+  final String name;
 
   Color adaptiveThemeColor(BuildContext context) =>
       context.brightness == Brightness.dark ? darkThemeColor : lightThemeColor;

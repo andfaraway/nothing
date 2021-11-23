@@ -13,9 +13,7 @@ void main() {
   if(Platform.version.contains('ios_x86')){
      NotificationUtils.jPushInit();
   }
-  runApp(MultiProvider(providers: [
-    buildProvider<SettingsProvider>(SettingsProvider()),
-  ], child: const MyApp()));
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Constants.isDark = context.theme.brightness == Brightness.dark;
     return RefreshConfiguration(
       headerBuilder: () => WaterDropHeader(
         complete: const Icon(

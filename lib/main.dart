@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/constants/constants.dart';
@@ -10,10 +11,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
+
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
+
+  if(kIsWeb) return;
   if(Platform.version.contains('ios_x86')){
      NotificationUtils.jPushInit();
   }
-  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Constants.isDark = context.theme.brightness == Brightness.dark;
     return RefreshConfiguration(
       headerBuilder: () => WaterDropHeader(

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
+import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'constants/constants.dart';
@@ -36,8 +37,8 @@ class _HomePageState extends State<HomePage>
     _interfaceList.add(InterfaceModel(tag: 0, title: '黄历', url: API.huangli));
     _interfaceList
         .add(InterfaceModel(tag: 2, title: '健康提示', url: API.healthTips));
-    _interfaceList
-        .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
+    // _interfaceList
+    //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
     _interfaceList
         .add(InterfaceModel(tag: 4, title: '今日头条新闻', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
@@ -51,10 +52,6 @@ class _HomePageState extends State<HomePage>
     if (list != null) {
       favoriteList.addAll(list.cast<String>());
     }
-
-    var str =  await NetUtils.get('http://1.14.252.115:5000/');
-    print('str = ${str.data}');
-    showToast(str.toString());
   }
 
   drawer(BuildContext context) {
@@ -162,6 +159,19 @@ class _HomePageState extends State<HomePage>
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const ThemeSettingPage('主题'),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  '奇怪的东西',
+                  style: TextStyle(fontSize: 18),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const PhotoShow(),
                     ),
                   );
                 },

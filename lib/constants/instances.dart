@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'constants.dart';
 
@@ -39,6 +40,7 @@ int get currentTimeStamp => currentTime.millisecondsSinceEpoch;
 
 List<String> favoriteList = [];
 
+
 class Instances {
   const Instances._();
 
@@ -57,4 +59,6 @@ class Instances {
   // static GlobalKey<MainPageState> mainPageStateKey =
   //     GlobalKey<MainPageState>();
 
+  //桥接
+  static const platform = MethodChannel('com.libin.nothing');
 }

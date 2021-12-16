@@ -4,6 +4,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/photo_show.dart';
@@ -14,6 +15,8 @@ import 'package:nothing/top_news.dart';
 import 'package:nothing/model/interface_model.dart';
 
 import 'simple_page.dart';
+
+import 'package:um_share_plugin/um_share_plugin.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,6 +47,10 @@ class _HomePageState extends State<HomePage>
     _tabController = TabController(length: _interfaceList.length, vsync: this);
 
     loadData();
+
+    //初始化第三方登录
+    UMSharePlugin.init('61b81959e014255fcbb28077');
+    UMSharePlugin.setPlatform(platform:UMSocialPlatformType_QQ, appKey: '1112081029');
   }
 
   loadData() async {
@@ -53,6 +60,9 @@ class _HomePageState extends State<HomePage>
       favoriteList.addAll(list.cast<String>());
     }
   }
+
+  //登录信息
+  UMShareUserInfo? info;
 
   drawer(BuildContext context) {
     return SmartDrawer(
@@ -67,6 +77,26 @@ class _HomePageState extends State<HomePage>
         child: Builder(builder: (context) {
           return Column(
             children: [
+              Container(
+                height: Screens.topSafeHeight+70,
+                color: Colors.green,
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: kDrawerMarginLeft,right: kDrawerMarginLeft,),
+                  child: GestureDetector(
+                    onTap: () async{
+                      info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
+                      setState(() {
+                        showToast("hello ${info!.name}");
+                      });
+                      },
+                    child: const CircleAvatar(
+                        backgroundImage: AssetImage('images/avatar.png'),
+                        radius:25
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -101,7 +131,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 color: Colors.green,
-                height: 200,
+                height: 150,
                 alignment: Alignment.bottomLeft,
               ),
               ..._interfaceList
@@ -288,7 +318,7 @@ class _HomePageState extends State<HomePage>
         BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width,
             maxHeight: MediaQuery.of(context).size.height),
-        designSize: const Size(360, 690),
+        designSize: const Size(375, 667),
         orientation: Orientation.portrait);
     return Scaffold(
       drawer: drawer(context),

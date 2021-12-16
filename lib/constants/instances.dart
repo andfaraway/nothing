@@ -59,6 +59,6 @@ class Instances {
   // static GlobalKey<MainPageState> mainPageStateKey =
   //     GlobalKey<MainPageState>();
 
-  //桥接
-  static const platform = MethodChannel('com.libin.nothing');
+  //平台通道
+  static const platformChannel = MethodChannel('com.libin.nothing');
 }

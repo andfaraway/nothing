@@ -5,20 +5,9 @@ import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/models.dart';
 import 'package:nothing/widgets/dialogs/confirmation_dialog.dart';
 
-UserInfo get currentUser => UserAPI.currentUser;
-
-set currentUser(UserInfo? user) {
-  if (user == null) {
-    return;
-  }
-  UserAPI.currentUser = user;
-}
 
 class UserAPI {
   const UserAPI._();
-
-  static UserInfo currentUser = const UserInfo();
-
 
   static Future<Response<Map<String, dynamic>>> login(
     Map<String, dynamic> params,
@@ -42,5 +31,16 @@ class UserAPI {
 
   static Future<dynamic> getQiaomen() async {
     return NetUtils.get(API.qiaomen);
+  }
+
+  // 第三方登录
+  static Future<Map?> thirdLogin({String? name,int? platform,String? openId,String? icon,}) async{
+    Map<String,dynamic> param = {'name':name,'platform':platform,'openId':openId,'icon':icon};
+    var response = await NetUtils.post(API.thirdLogin,queryParameters: param);
+    if(response.data['code'].toString() == "200"){
+      return response.data['data'][0];
+    }else{
+      return null;
+    }
   }
 }

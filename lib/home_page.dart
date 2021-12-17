@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage>
 
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
-    UMSharePlugin.setPlatform(platform:UMSocialPlatformType_QQ, appKey: '1112081029');
+    UMSharePlugin.setPlatform(
+        platform: UMSocialPlatformType_QQ, appKey: '1112081029');
   }
 
   loadData() async {
@@ -78,22 +79,39 @@ class _HomePageState extends State<HomePage>
           return Column(
             children: [
               Container(
-                height: Screens.topSafeHeight+70,
+                height: Screens.topSafeHeight + 70,
                 color: Colors.green,
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: kDrawerMarginLeft,right: kDrawerMarginLeft,),
+                  padding: const EdgeInsets.only(
+                    left: kDrawerMarginLeft,
+                    right: kDrawerMarginLeft,
+                  ),
                   child: GestureDetector(
-                    onTap: () async{
-                      info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
-                      setState(() {
-                        showToast("hello ${info!.name}");
-                      });
-                      },
+                    onTap: () async {
+                      //调起QQ登录
+                      info = await UMSharePlugin.getUserInfoForPlatform(
+                          UMSocialPlatformType_QQ);
+                      print('登录结果${info?.error}');
+                      if (info?.error == null) {
+                        Map? map = await UserAPI.thirdLogin(
+                            name: info?.name,
+                            platform: 1,
+                            openId: info?.openid,
+                            icon: info?.iconurl);
+                        if (map != null) {
+                          LocalDataUtils.setMap(KEY_USER_INFO, map);
+                          showToast("hello ${info?.name}");
+                        } else {
+                          showToast("登录失败");
+                        }
+                      } else {
+                        showToast(info?.error ?? '登录失败');
+                      }
+                    },
                     child: const CircleAvatar(
                         backgroundImage: AssetImage('images/avatar.png'),
-                        radius:25
-                    ),
+                        radius: 25),
                   ),
                 ),
               ),

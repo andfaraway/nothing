@@ -6,7 +6,6 @@ part of 'models.dart';
 
 /// 用户信息实体
 ///
-/// [sid] 用户token, [ticket] 用户用于更新token的凭证, [blowfish] 用户设备随机uuid,
 /// [uid] 用户uid, [unitId] 组织/学校id, [workId] 工号/学号, [classId] 班级id,
 /// [name] 名字, [signature] 签名, [gender] 性别, [isFollowing] 是否已关注
 @immutable

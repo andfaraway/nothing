@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+const String KEY_USER_INFO = 'USER_INFO';
+
 class LocalDataUtils {
   LocalDataUtils._();
 

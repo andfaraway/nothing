@@ -4,8 +4,6 @@ import 'package:nothing/constants/constants.dart';
 class SignAPI {
   const SignAPI._();
 
-  static Future<void> requestSign() async =>
-      await NetUtils.post<dynamic>(API.sign);
 
   static Future<Response<Map<String, dynamic>>> getSignList() async =>
       NetUtils.post(

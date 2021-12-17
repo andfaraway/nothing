@@ -17,11 +17,15 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  ///登录
-  static const String login = 'https://openjmu.jmu.edu.cn';
+  static const bool isDebug = true;
+
+  static const baseUrl = isDebug ? 'http://10.0.21.195:5000' : 'http://1.14.252.115:5000';
+
+  ///第三方登录
+  static const String thirdLogin = baseUrl + '/thirdLogin';
 
   ///登录
-  static const String sign = 'https://openjmu.jmu.edu.cn';
+  static const String login = 'https://openjmu.jmu.edu.cn';
 
   ///登录
   static const String signList = 'https://openjmu.jmu.edu.cn';
@@ -59,6 +63,7 @@ class API {
 
   ///土味情话
   static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
+
 
   static Future<bool> launchWeb({
     required String url,
@@ -101,4 +106,6 @@ class API {
     }
     return tipsStr;
   }
+
+
 }

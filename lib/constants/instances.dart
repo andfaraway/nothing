@@ -48,6 +48,7 @@ class Instances {
     ..on<dynamic>().listen((dynamic event) {
       LogUtils.d('Event fired: ${event.runtimeType}');
     });
+
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static final RouteObserver<Route<dynamic>> routeObserver =

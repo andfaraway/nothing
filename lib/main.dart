@@ -7,10 +7,13 @@ import 'package:nothing/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
+  //读取本地信息
+  // LocalDataUtils.cleanData();
+  await Singleton.loadData();
 
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 

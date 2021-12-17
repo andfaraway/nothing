@@ -31,17 +31,17 @@ class LocalDataUtils {
   static Future<bool> setMap(String key, Map value) async =>
       (await _prefs).setString(key, json.encode(value));
 
-  static Future<Map?> getMap(String key) async =>
+  static Future<Map<String,dynamic>?> getMap(String key) async =>
       (await _prefs).getString(key)?.toMap();
 
   static Future<dynamic> get(String key) async => (await _prefs).get(key);
 
-  static Future<bool> cleanData(String? key) async {
-    if (key != null) (await _prefs).remove(key);
+  static Future<bool> cleanData({String? key}) async {
+    if (key != null) return (await _prefs).remove(key);
     return (await _prefs).clear();
   }
 }
 
 extension LocalStringExtenSion on String {
-  Map? toMap() => json.decode(this);
+  Map<String,dynamic>? toMap() => json.decode(this);
 }

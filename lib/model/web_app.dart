@@ -75,9 +75,9 @@ class WebApp {
   String get replacedUrl {
     final RegExp sidReg = RegExp(r'{SID}');
     final RegExp uidReg = RegExp(r'{UID}');
-    final String result = url??''
-        .replaceAllMapped(sidReg, (Match match) => currentUser.sid.toString())
-        .replaceAllMapped(uidReg, (Match match) => currentUser.uid.toString());
+    final String result = url??'';
+        // .replaceAllMapped(sidReg, (Match match) => currentUser.sid.toString())
+        // .replaceAllMapped(uidReg, (Match match) => currentUser.uid.toString());
     return result;
   }
 

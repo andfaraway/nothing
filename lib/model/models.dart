@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 
 import '../constants/constants.dart';
 
+export 'user_info_model.dart';
+
 part 'cloud_settings.dart';
 part 'json_model.dart';
 part 'theme_group.dart';

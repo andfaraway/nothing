@@ -34,11 +34,12 @@ class UserAPI {
   }
 
   // 第三方登录
-  static Future<Map?> thirdLogin({String? name,int? platform,String? openId,String? icon,}) async{
+  static Future<Map<String,dynamic>?> thirdLogin({String? name,int? platform,String? openId,String? icon,}) async{
     Map<String,dynamic> param = {'name':name,'platform':platform,'openId':openId,'icon':icon};
     var response = await NetUtils.post(API.thirdLogin,queryParameters: param);
-    if(response.data['code'].toString() == "200"){
-      return response.data['data'][0];
+    print(response);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data['data'][0];
     }else{
       return null;
     }

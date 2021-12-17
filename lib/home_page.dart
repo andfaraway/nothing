@@ -17,6 +17,7 @@ import 'package:nothing/model/interface_model.dart';
 import 'simple_page.dart';
 
 import 'package:um_share_plugin/um_share_plugin.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -47,7 +48,6 @@ class _HomePageState extends State<HomePage>
     _tabController = TabController(length: _interfaceList.length, vsync: this);
 
     loadData();
-
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
     UMSharePlugin.setPlatform(
@@ -88,20 +88,36 @@ class _HomePageState extends State<HomePage>
                     right: kDrawerMarginLeft,
                   ),
                   child: GestureDetector(
+                    onLongPressEnd: (details) {
+                      setState(() {
+                        showToast("${Singleton.currentUser.name} bye");
+                        LocalDataUtils.cleanData();
+                        Singleton.currentUser = UserInfoModel();
+                      });
+                    },
                     onTap: () async {
+                      if (Singleton.currentUser.name != null) {
+                        showToast("hello ${Singleton.currentUser.name}");
+                        return;
+                      }
                       //调起QQ登录
                       info = await UMSharePlugin.getUserInfoForPlatform(
                           UMSocialPlatformType_QQ);
-                      print('登录结果${info?.error}');
                       if (info?.error == null) {
-                        Map? map = await UserAPI.thirdLogin(
+                        Map<String, dynamic>? map = await UserAPI.thirdLogin(
                             name: info?.name,
                             platform: 1,
                             openId: info?.openid,
                             icon: info?.iconurl);
+
                         if (map != null) {
+                          map['userId'] = map['user_id'];
+                          map.remove('user_id');
+                          print(map);
+                          Singleton.currentUser = UserInfoModel().fromJson(map);
                           LocalDataUtils.setMap(KEY_USER_INFO, map);
                           showToast("hello ${info?.name}");
+                          setState(() {});
                         } else {
                           showToast("登录失败");
                         }
@@ -109,9 +125,20 @@ class _HomePageState extends State<HomePage>
                         showToast(info?.error ?? '登录失败');
                       }
                     },
-                    child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/avatar.png'),
-                        radius: 25),
+                    child: Singleton.currentUser.icon == null
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: SpinKitSpinningLines(
+                              duration: Duration(seconds: 5),
+                              color: Colors.white.withOpacity(0.5),
+                              size: 50,
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(Singleton.currentUser.icon!),
+                            backgroundColor: Colors.green,
+                            radius: 25),
                   ),
                 ),
               ),

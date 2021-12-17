@@ -265,6 +265,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.1"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.1.0"
   flutter_swiper_null_safety:
     dependency: "direct main"
     description:
@@ -577,10 +584,10 @@ packages:
   um_share_plugin:
     dependency: "direct main"
     description:
-      path: "/Users/libin/Desktop/my_plugins/um_share_plugin"
-      relative: false
-    source: path
-    version: "0.0.1"
+      name: um_share_plugin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   url_launcher:
     dependency: "direct main"
     description:

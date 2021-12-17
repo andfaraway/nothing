@@ -8,60 +8,57 @@ import '../constants/constants.dart';
 class NetUtils {
   const NetUtils._();
 
-  static const bool _isProxyEnabled = false;
-  static const String _proxyDestination = 'PROXY 192.168.1.23:8764';
-
   static const bool shouldLogRequest = false;
 
   static final Dio dio = Dio(_options);
   static final Dio tokenDio = Dio(_options);
 
-
-  static Future<Response<T>> post<T>(
+  static Future<Response<T>?> post<T>(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
     CancelToken? cancelToken,
     Options? options,
-  }) async =>
-      await dio.post<T>(
-        url,
-        queryParameters: queryParameters,
-        data: data,
-        options: (options ?? Options()).copyWith(
-          headers: headers ?? _buildPostHeaders(currentUser.sid ?? ''),
-        ),
-        cancelToken: cancelToken,
-      );
+  }) async {
+    Response<T>? response;
+      try{
+        response = await dio.post<T>(
+          url,
+          queryParameters: queryParameters,
+          data: data,
+          options: (options ?? Options()).copyWith(
+            headers:
+            headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
+          ),
+          cancelToken: cancelToken,
+        );
+      }on DioError catch (error) {
+         LogUtils.e('request error:$url,\n$queryParameters,');
+    }
+    return response;
+  }
 
   static Future<Response<T>> get<T>(
-      String url, {
-        Map<String, dynamic>? queryParameters,
-        Map<String, dynamic>? headers,
-        CancelToken? cancelToken,
-        Options? options,
-      }) =>
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    CancelToken? cancelToken,
+    Options? options,
+  }) =>
       dio.get<T>(
         url,
         queryParameters: queryParameters,
-      //   cancelToken: cancelToken,
-      //   options: (options ?? Options()).copyWith(
-      //     headers: headers ?? _buildPostHeaders(currentUser.sid ?? ''),
-      //   ),
+        cancelToken: cancelToken,
+        options: (options ?? Options()).copyWith(
+          headers:
+              headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
+        ),
       );
 
-  static Map<String, dynamic> _buildPostHeaders(String sid) {
+  static Map<String, dynamic> _buildPostHeaders(String token) {
     final Map<String, String> headers = <String, String>{
-      'CLOUDID': 'jmu',
-      'CLOUD-ID': 'jmu',
-      'UAP-SID': sid,
-      'WEIBO-API-KEY': Platform.isIOS
-          ? Constants.postApiKeyIOS
-          : Constants.postApiKeyAndroid,
-      'WEIBO-API-SECRET': Platform.isIOS
-          ? Constants.postApiSecretIOS
-          : Constants.postApiSecretAndroid,
+      'x-access-token': token,
     };
     return headers;
   }
@@ -75,15 +72,5 @@ class NetUtils {
       followRedirects: true,
       maxRedirects: 100,
     );
-  }
-
-  static HttpClient Function(HttpClient client) get _clientCreate {
-    return (HttpClient client) {
-      if (_isProxyEnabled) {
-        client.findProxy = (_) => _proxyDestination;
-      }
-      client.badCertificateCallback = (_, __, ___) => true;
-      return client;
-    };
   }
 }

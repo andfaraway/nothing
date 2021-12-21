@@ -19,6 +19,13 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
+  - JCore (2.7.1)
+  - JPush (3.7.0):
+    - JCore (< 3.0.0, >= 2.0.0)
+  - jpush_flutter (0.0.2):
+    - Flutter
+    - JCore (= 2.7.1)
+    - JPush (= 3.7.0)
   - OrderedSet (5.0.0)
   - "permission_handler (5.1.0+2)":
     - Flutter
@@ -60,6 +67,7 @@ DEPENDENCIES:
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -68,6 +76,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - JCore
+    - JPush
     - OrderedSet
     - ReachabilitySwift
     - Toast
@@ -92,6 +102,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  jpush_flutter:
+    :path: ".symlinks/plugins/jpush_flutter/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   photo_manager:
@@ -111,6 +123,9 @@ SPEC CHECKSUMS:
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
+  JCore: 9d5bda3a172c65bbe14f2806ab0f6246f8a06065
+  JPush: 1fd7a326e7e6588eba517659ce1b79a144e54938
+  jpush_flutter: d5fd523a73277ed66d453fc7ac1c981d1fa525e2
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   photo_manager: 84fa94fbeb82e607333ea9a13c43b58e0903a463

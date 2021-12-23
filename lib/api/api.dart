@@ -27,6 +27,10 @@ class API {
   ///注册推送
   static const String registerNotification = baseUrl + '/registerNotification';
 
+  ///发送消息
+  static const String sayHello = baseUrl + '/sayHello';
+
+
   ///登录
   static const String login = 'https://openjmu.jmu.edu.cn';
 

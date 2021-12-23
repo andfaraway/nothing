@@ -52,7 +52,18 @@ class UserAPI {
     var response = await NetUtils.post(API.registerNotification,queryParameters: param);
     print(response);
     if(response?.data['code'].toString() == "200"){
-      return response?.data['data'][0];
+      return {};
+    }else{
+      return null;
+    }
+  }
+
+  // 发送消息 alias：别名  alert：消息内容
+  static Future<Map<String,dynamic>?> sayHello(String alias, String alert) async{
+    Map<String,dynamic> param = {'alias':alias,'alert':alert,'alias':alias};
+    var response = await NetUtils.post(API.sayHello,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return {};
     }else{
       return null;
     }

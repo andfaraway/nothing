@@ -54,8 +54,6 @@ class NotificationUtils {
             if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
           }
           alias = result;
-          var a = await jpush.setAlias(result);
-          print('alias = $a');
         }
       } catch (error) {
         print('error = $error');
@@ -64,6 +62,8 @@ class NotificationUtils {
     if(alias == null || alias.isEmpty){
       alias = 'all';
     }
+    //设置别名
+    await jpush.setAlias(alias);
 
     var userId = Singleton.currentUser.userId;
     var registrationId = await jpush.getRegistrationID();

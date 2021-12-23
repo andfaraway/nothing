@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/photo_show.dart';
+import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'constants/constants.dart';
@@ -237,15 +238,28 @@ class _HomePageState extends State<HomePage>
                   );
                 },
               ),
+              // ListTile(
+              //   title: const Text(
+              //     '奇怪的东西',
+              //     style: TextStyle(fontSize: 18),
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).push(
+              //       MaterialPageRoute(
+              //         builder: (context) => const PhotoShow(),
+              //       ),
+              //     );
+              //   },
+              // ),
               ListTile(
                 title: const Text(
-                  '奇怪的东西',
+                  'hi',
                   style: TextStyle(fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const PhotoShow(),
+                      builder: (context) => SayHi(),
                     ),
                   );
                 },

@@ -23,6 +23,7 @@ class NetUtils {
   }) async {
     Response<T>? response;
       try{
+        LogUtils.d('request url:$url,\n$queryParameters,');
         response = await dio.post<T>(
           url,
           queryParameters: queryParameters,

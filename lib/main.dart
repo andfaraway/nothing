@@ -18,8 +18,8 @@ void main() async{
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 
   if(kIsWeb) return;
-  if(Platform.version.contains('ios_x86')){
-     NotificationUtils.jPushInit();
+  if(Platform.isIOS || Platform.isAndroid){
+    NotificationUtils.jPushInit();
   }
 }
 

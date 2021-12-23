@@ -3,10 +3,12 @@
 /// [Date] 2019-12-13 14:11
 ///
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import '../constants/constants.dart' hide Message;
 
@@ -14,7 +16,7 @@ class NotificationUtils {
   const NotificationUtils._();
 
   //极光推送初始化
-  NotificationUtils.jPushInit() {
+  static jPushInit() async {
     final JPush jpush = JPush();
 
     jpush.addEventHandler(
@@ -42,11 +44,47 @@ class NotificationUtils {
     jpush.applyPushAuthority(
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
-    jpush.setAlias('libin');
+    String? alias = Singleton.currentUser.name;
+    if (Singleton.currentUser.name != null) {
+      try {
+        if (alias != null) {
+          String result = '';
+          for (int i = 0; i < alias.length; i++) {
+            String c = alias[i];
+            if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
+          }
+          alias = result;
+          var a = await jpush.setAlias(result);
+          print('alias = $a');
+        }
+      } catch (error) {
+        print('error = $error');
+      }
+    }
+    if(alias == null || alias.isEmpty){
+      alias = 'all';
+    }
 
-    jpush.getRegistrationID().then((rid) {
-      print('deviceToken:$rid');
-    });
+    var userId = Singleton.currentUser.userId;
+    var registrationId = await jpush.getRegistrationID();
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    String? identifierForVendor;
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      identifierForVendor = androidInfo.fingerprint;
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      identifierForVendor = iosInfo.identifierForVendor;
+    }
+
+    UserAPI.registerNotification(
+        userId: userId,
+        pushToken: null,
+        alias: alias,
+        registrationId: registrationId,
+        identifier: identifierForVendor);
   }
 
   static final FlutterLocalNotificationsPlugin plugin =

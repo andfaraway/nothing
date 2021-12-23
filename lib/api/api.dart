@@ -19,10 +19,13 @@ class API {
 
   static const bool isDebug = false;
 
-  static const baseUrl = isDebug ? 'http://10.0.21.195:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? 'http://10.0.21.52:5000' : 'http://1.14.252.115:5000';
 
   ///第三方登录
   static const String thirdLogin = baseUrl + '/thirdLogin';
+
+  ///注册推送
+  static const String registerNotification = baseUrl + '/registerNotification';
 
   ///登录
   static const String login = 'https://openjmu.jmu.edu.cn';

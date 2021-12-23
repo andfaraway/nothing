@@ -113,7 +113,6 @@ class _HomePageState extends State<HomePage>
                         if (map != null) {
                           map['userId'] = map['user_id'];
                           map.remove('user_id');
-                          print(map);
                           Singleton.currentUser = UserInfoModel().fromJson(map);
                           LocalDataUtils.setMap(KEY_USER_INFO, map);
                           showToast("hello ${info?.name}");

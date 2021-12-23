@@ -44,4 +44,18 @@ class UserAPI {
       return null;
     }
   }
+
+
+  // 注册推送 userId, 推送id：pushToken, 别名：alias
+  static Future<Map<String,dynamic>?> registerNotification({String? userId, String? pushToken,String? alias, String? registrationId, String? identifier}) async{
+    Map<String,dynamic> param = {'user_id':userId,'push_token':pushToken,'alias':alias,'registration_id':registrationId,'identifier':identifier};
+    var response = await NetUtils.post(API.registerNotification,queryParameters: param);
+    print(response);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data['data'][0];
+    }else{
+      return null;
+    }
+  }
+
 }

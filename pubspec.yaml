@@ -60,6 +60,7 @@ dependencies:
   um_share_plugin: ^0.0.1
   flutter_spinkit: ^5.1.0
   jpush_flutter: ^2.2.0
+  device_info: ^2.0.3
 
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin

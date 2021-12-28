@@ -17,6 +17,7 @@ export 'package:provider/provider.dart';
 
 part 'settings_provider.dart';
 part 'themes_provider.dart';
+part 'home_provider.dart';
 
 ChangeNotifierProvider<T> buildProvider<T extends ChangeNotifier>(T value) {
   return ChangeNotifierProvider<T>.value(value: value);

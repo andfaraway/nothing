@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
         color: Colors.white,
         width: Screens.width * 0.8,
         child: Builder(builder: (context) {
-          return Column(
+          return ListView(
             children: [
               Container(
                 height: Screens.topSafeHeight + 70,

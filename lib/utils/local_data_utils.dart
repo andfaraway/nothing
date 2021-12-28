@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 const String KEY_USER_INFO = 'USER_INFO';
+const String KEY_TO_USER = 'HI_TO_USER';
 
 class LocalDataUtils {
   LocalDataUtils._();
@@ -31,7 +32,7 @@ class LocalDataUtils {
   static Future<bool> setMap(String key, Map value) async =>
       (await _prefs).setString(key, json.encode(value));
 
-  static Future<Map<String,dynamic>?> getMap(String key) async =>
+  static Future<Map<String, dynamic>?> getMap(String key) async =>
       (await _prefs).getString(key)?.toMap();
 
   static Future<dynamic> get(String key) async => (await _prefs).get(key);
@@ -43,5 +44,5 @@ class LocalDataUtils {
 }
 
 extension LocalStringExtenSion on String {
-  Map<String,dynamic>? toMap() => json.decode(this);
+  Map<String, dynamic>? toMap() => json.decode(this);
 }

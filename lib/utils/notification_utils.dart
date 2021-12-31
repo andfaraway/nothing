@@ -13,10 +13,9 @@ import 'package:device_info_plus/device_info_plus.dart';
 import '../constants/constants.dart' hide Message;
 
 class NotificationUtils {
-  const NotificationUtils._();
 
   //极光推送初始化
-  static jPushInit() async {
+  static Future<void> jPushInit() async {
     final JPush jpush = JPush();
 
     jpush.addEventHandler(
@@ -27,6 +26,7 @@ class NotificationUtils {
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
         print("flutter onOpenNotification: $message");
+        showToast('点击通知');
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {
@@ -85,7 +85,11 @@ class NotificationUtils {
         alias: alias,
         registrationId: registrationId,
         identifier: identifierForVendor);
+
+
   }
+
+
 
   static final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();

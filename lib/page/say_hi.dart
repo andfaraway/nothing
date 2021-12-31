@@ -15,7 +15,7 @@ class SayHi extends StatefulWidget {
 
 class _SayHiState extends State<SayHi> {
   String user = 'biubiubiu';
-  String text = '早';
+  String text = '爱你哦';
 
   loadData() async {
     String? u = await LocalDataUtils.get(KEY_TO_USER);

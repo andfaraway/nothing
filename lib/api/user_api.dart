@@ -45,6 +45,16 @@ class UserAPI {
     }
   }
 
+  // 检查更新
+  static Future<Map<String,dynamic>?> checkUpdate(String platform, String version) async{
+    Map<String,dynamic> param = {'platform':platform,'version':version,};
+    var response = await NetUtils.post(API.checkUpdate,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return {};
+    }else{
+      return null;
+    }
+  }
 
   // 注册推送 userId, 推送id：pushToken, 别名：alias
   static Future<Map<String,dynamic>?> registerNotification({String? userId, String? pushToken,String? alias, String? registrationId, String? identifier}) async{

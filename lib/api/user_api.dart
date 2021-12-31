@@ -50,7 +50,7 @@ class UserAPI {
     Map<String,dynamic> param = {'platform':platform,'version':version,};
     var response = await NetUtils.post(API.checkUpdate,queryParameters: param);
     if(response?.data['code'].toString() == "200"){
-      return {};
+      return response?.data['data'][0];
     }else{
       return null;
     }

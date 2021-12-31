@@ -2,6 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-04 18:13:56
 
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'constants/constants.dart';
 import 'package:nothing/top_news.dart';
 import 'package:nothing/model/interface_model.dart';
@@ -53,6 +55,23 @@ class _HomePageState extends State<HomePage>
     UMSharePlugin.init('61b81959e014255fcbb28077');
     UMSharePlugin.setPlatform(
         platform: UMSocialPlatformType_QQ, appKey: '1112081029');
+
+    checkUpdate();
+  }
+
+  checkUpdate() async{
+    IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
+    String version = iosInfo.systemVersion;
+    Map? data =  await UserAPI.checkUpdate('ios', version);
+    print('data = $data');
+    if(data?['update']){
+      const url = 'https://www.pgyer.com/0jvz';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
   }
 
   loadData() async {

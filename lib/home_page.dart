@@ -11,6 +11,7 @@ import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
+import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'constants/constants.dart';
@@ -21,6 +22,7 @@ import 'simple_page.dart';
 
 import 'package:um_share_plugin/um_share_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:package_info/package_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -48,6 +50,7 @@ class _HomePageState extends State<HomePage>
     //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
     _interfaceList
         .add(InterfaceModel(tag: 4, title: '今日头条新闻', url: API.topNews));
+    _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
 
     loadData();
@@ -59,19 +62,32 @@ class _HomePageState extends State<HomePage>
     checkUpdate();
   }
 
-  checkUpdate() async{
-    IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
-    String version = iosInfo.systemVersion;
-    Map? data =  await UserAPI.checkUpdate('ios', version);
+  checkUpdate() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    String version = packageInfo.version;
+    Map? data = await UserAPI.checkUpdate('ios', version);
     print('data = $data');
-    if(data?['update']){
-      const url = 'https://www.pgyer.com/0jvz';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
+    if (data?['update'] != null) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CheckUpdateWidget(
+              content: data?['content'],
+              updateOnTap: () async {
+                String url = data?['path'];
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              cancelOnTap: (){
+                Navigator.pop(context);
+              },
+            );
+          });
+    } else {}
   }
 
   loadData() async {
@@ -435,7 +451,7 @@ class _HomePageState extends State<HomePage>
                           var data = s.data['newslist'];
                           return data;
                         });
-                  } else if (_interfaceList[key].tag == 0) {
+                  } else {
                     result = SimplePage(
                         title: value.title,
                         backgroundColor: getRandomColor(),

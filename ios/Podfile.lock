@@ -29,6 +29,8 @@ PODS:
     - JCore (= 2.7.1)
     - JPush (= 3.7.0)
   - OrderedSet (5.0.0)
+  - package_info (0.0.1):
+    - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
   - photo_manager (1.0.0):
@@ -71,6 +73,7 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -109,6 +112,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   jpush_flutter:
     :path: ".symlinks/plugins/jpush_flutter/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   photo_manager:
@@ -133,6 +138,7 @@ SPEC CHECKSUMS:
   JPush: 1fd7a326e7e6588eba517659ce1b79a144e54938
   jpush_flutter: d5fd523a73277ed66d453fc7ac1c981d1fa525e2
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   photo_manager: 84fa94fbeb82e607333ea9a13c43b58e0903a463
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825

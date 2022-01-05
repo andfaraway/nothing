@@ -23,7 +23,6 @@ class NetUtils {
   }) async {
     Response<T>? response;
       try{
-        LogUtils.d('request url:$url,\n$queryParameters,');
         response = await dio.post<T>(
           url,
           queryParameters: queryParameters,
@@ -34,6 +33,7 @@ class NetUtils {
           ),
           cancelToken: cancelToken,
         );
+        LogUtils.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
       }on DioError catch (error) {
          LogUtils.e('request error:$url,\n$queryParameters,');
     }

@@ -27,3 +27,4 @@ void showTopToast(String text) {
 void hideAllToast() {
   Fluttertoast.cancel();
 }
+

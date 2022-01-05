@@ -68,14 +68,14 @@ class _HomePageState extends State<HomePage>
     String version = packageInfo.version;
     Map? data = await UserAPI.checkUpdate('ios', version);
     print('data = $data');
-    if (data?['update'] != null) {
+    if (data != null && data['update'] == true) {
       showDialog(
           context: context,
           builder: (context) {
             return CheckUpdateWidget(
-              content: data?['content'],
+              content: data['content'],
               updateOnTap: () async {
-                String url = data?['path'];
+                String url = data['path'];
                 if (await canLaunch(url)) {
                   await launch(url);
                 } else {

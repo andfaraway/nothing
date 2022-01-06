@@ -3,6 +3,8 @@
 //  [Date] 2021-12-23 18:04:50
 //
 
+import 'dart:io';
+
 import 'package:nothing/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,10 @@ class SayHi extends StatefulWidget {
 
 class _SayHiState extends State<SayHi> {
   String user = 'biubiubiu';
-  String text = '爱你哦';
+  String text = '😘';
+
+  ///是否允许发送
+  final ValueNotifier<bool> _canSend = ValueNotifier(true);
 
   loadData() async {
     String? u = await LocalDataUtils.get(KEY_TO_USER);
@@ -26,6 +31,7 @@ class _SayHiState extends State<SayHi> {
 
   late TextEditingController userCtl;
   late TextEditingController contentCtl;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -56,7 +62,6 @@ class _SayHiState extends State<SayHi> {
               controller: userCtl,
               onChanged: (value) {
                 user = value;
-                print('user = $user');
               },
             ),
           ),
@@ -76,22 +81,39 @@ class _SayHiState extends State<SayHi> {
               const SizedBox(
                 height: 50,
               ),
-              MaterialButton(
+              ValueListenableBuilder(
+                valueListenable: _canSend,
+                builder: (context, bool canSend, Widget? child) =>
+                    MaterialButton(
                   child: const Text(
                     'send',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.blue,
-                  onPressed: () async{
-                    await UserAPI.sayHello(user, text);
-                    await LocalDataUtils.setString(KEY_TO_USER,user);
-                    showToast('发送成功');
-                  }),
-
+                  color: canSend ? currentThemeGroup.themeColor : Colors.black54,
+                  onPressed: sendBtnOnPressed,
+                ),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> sendBtnOnPressed() async {
+    if(_canSend.value){
+      _canSend.value = false;
+      await UserAPI.sayHello(user, text);
+      await LocalDataUtils.setString(KEY_TO_USER, user);
+    }
+    _canSend.value = true;
+    showToast('发送成功');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _canSend.dispose();
   }
 }

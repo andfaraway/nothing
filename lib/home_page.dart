@@ -37,22 +37,16 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
 
   final List<InterfaceModel> _interfaceList = [];
-  final ValueNotifier _tipsStr = ValueNotifier('Nothing');
+  final ValueNotifier _tipsStr = ValueNotifier(null);
+
+  //登录信息
+  UMShareUserInfo? info;
 
   @override
   void initState() {
     super.initState();
-    _interfaceList
-        .add(InterfaceModel(tag: 1, title: '生活小窍门', url: API.qiaomen));
-    _interfaceList.add(InterfaceModel(tag: 0, title: '黄历', url: API.huangli));
-    _interfaceList
-        .add(InterfaceModel(tag: 2, title: '健康提示', url: API.healthTips));
-    // _interfaceList
-    //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
-    _interfaceList
-        .add(InterfaceModel(tag: 4, title: '今日头条新闻', url: API.topNews));
-    _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
-    _tabController = TabController(length: _interfaceList.length, vsync: this);
+
+    initTabBar();
 
     loadData();
     //初始化第三方登录
@@ -60,15 +54,54 @@ class _HomePageState extends State<HomePage>
     UMSharePlugin.setPlatform(
         platform: UMSocialPlatformType_QQ, appKey: '1112081029');
 
+    //检查更新
     checkUpdate();
   }
 
-  checkUpdate() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  initTabBar() {
+    _interfaceList.add(InterfaceModel(
+        tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', API.qiaomen)));
 
+    _interfaceList.add(InterfaceModel(
+        tag: 0,
+        title: '黄历',
+        page: huangliPage(
+            '黄历',
+            API.huangli +
+                '&date=${DateFormat('yyyyy-MM-DD').format(DateTime.now())}')));
+    _interfaceList.add(InterfaceModel(
+        tag: 2, title: '健康提示', page: genericPage('生活小窍门', API.healthTips)));
+    // _interfaceList
+    //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
+    _interfaceList.add(InterfaceModel(
+        tag: 4,
+        title: '今日头条',
+        page: TopNewsPage(
+            title: '今日头条',
+            backgroundColor: getRandomColor(),
+            requestCallback: () async {
+              Response s = await NetUtils.get(API.topNews);
+              var data = s.data['newslist'];
+              return data;
+            })));
+    // _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
+    _tabController = TabController(length: _interfaceList.length, vsync: this);
+  }
+
+  /// 初始化数据
+  Future<void> loadData() async {
+    var list = await LocalDataUtils.get(Constants.keyFavoriteList);
+    favoriteList.clear();
+    if (list != null) {
+      favoriteList.addAll(list.cast<String>());
+    }
+  }
+
+  /// 检查更新
+  Future<void> checkUpdate() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     Map? data = await UserAPI.checkUpdate('ios', version);
-    print('data = $data');
     if (data != null && data['update'] == true) {
       showDialog(
           context: context,
@@ -83,7 +116,7 @@ class _HomePageState extends State<HomePage>
                   throw 'Could not launch $url';
                 }
               },
-              cancelOnTap: (){
+              cancelOnTap: () {
                 Navigator.pop(context);
               },
             );
@@ -91,22 +124,12 @@ class _HomePageState extends State<HomePage>
     } else {}
   }
 
-  loadData() async {
-    var list = await LocalDataUtils.get(Constants.keyFavoriteList);
-    favoriteList.clear();
-    if (list != null) {
-      favoriteList.addAll(list.cast<String>());
-    }
-  }
-
-  //登录信息
-  UMShareUserInfo? info;
-
+  ///左侧菜单
   drawer(BuildContext context) {
     return SmartDrawer(
       callback: (open) async {
         if (open) {
-          _tipsStr.value = (await API.loadTips()).replaceAll('娶', '嫁');
+          _tipsStr.value ??= (await API.loadTips()).replaceAll('娶', '嫁');
         }
       },
       child: Container(
@@ -209,7 +232,7 @@ class _HomePageState extends State<HomePage>
                       valueListenable: _tipsStr,
                       builder: (context, value, child) {
                         return Text(
-                          _tipsStr.value,
+                          _tipsStr.value ?? '',
                           style: const TextStyle(
                               color: Colors.white, fontSize: 22),
                           textAlign: TextAlign.start,
@@ -240,11 +263,8 @@ class _HomePageState extends State<HomePage>
                                       value.title ?? '',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Constants.isDark
-                                              ? provider.currentThemeGroup
-                                                  .darkThemeColor
-                                              : provider.currentThemeGroup
-                                                  .lightThemeColor),
+                                          color: provider
+                                              .currentThemeGroup.themeColor),
                                     );
                                   },
                                 )
@@ -328,7 +348,6 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  /// Current date tips.
   /// 当前日期问候
   Widget currentDay(BuildContext context) {
     String hello = '你好';
@@ -412,6 +431,51 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  ///通用界面
+  Widget genericPage(String title, String url) {
+    return SimplePage(
+        title: title,
+        backgroundColor: getRandomColor(),
+        justify: true,
+        requestCallback: () async {
+          Response s = await NetUtils.get(url);
+          var dataStr = s.data['newslist'].first['content'];
+          if (dataStr is String) {
+            return dataStr.replaceAll('XXX', '娜娜');
+          }
+
+          return s.data.toString();
+        });
+  }
+
+  ///黄历
+  Widget huangliPage(String title, String url) {
+    return SimplePage(
+        title: title,
+        backgroundColor: getRandomColor(),
+        requestCallback: () async {
+          Response s = await NetUtils.get(url);
+          print(s.data);
+          Map map = s.data['newslist'].first;
+          String str = '';
+          String jieri =
+              ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)
+                  ? (map['lunar_festival'] ?? map['festival']) + '\n\n'
+                  : '';
+          str += jieri;
+          String dateStr = '日期：' + map['gregoriandate'];
+          String nongliStr = '\n农历：' +
+              map['tiangandizhiyear'] +
+              '年 ' +
+              map['lubarmonth'] +
+              map['lunarday'];
+          String yiStr = '\n宜：' + map['fitness'];
+          String jiStr = '\n忌：' + map['taboo'];
+          str = dateStr + nongliStr + yiStr + jiStr;
+          return str;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕
@@ -421,81 +485,14 @@ class _HomePageState extends State<HomePage>
             maxHeight: MediaQuery.of(context).size.height),
         designSize: const Size(375, 667),
         orientation: Orientation.portrait);
+
     return Scaffold(
       drawer: drawer(context),
       body: DefaultTabController(
         length: 12,
         child: TabBarView(
             controller: _tabController,
-            children: _interfaceList
-                .asMap()
-                .map((key, value) {
-                  late Widget result;
-                  if (_interfaceList[key].tag == 1 ||
-                      _interfaceList[key].tag == 2 ||
-                      _interfaceList[key].tag == 3) {
-                    result = SimplePage(
-                        title: value.title,
-                        backgroundColor: getRandomColor(),
-                        justify: true,
-                        requestCallback: () async {
-                          if (_interfaceList[key].url == null) return '';
-                          Response s =
-                              await NetUtils.get(_interfaceList[key].url ?? '');
-                          var dataStr = s.data['newslist'].first['content'];
-                          if (dataStr is String) {
-                            return dataStr.replaceAll('XXX', '娜娜');
-                          }
-
-                          return s.data.toString();
-                        });
-                  } else if (_interfaceList[key].tag == 4) {
-                    result = TopNewsPage(
-                        title: value.title,
-                        backgroundColor: getRandomColor(),
-                        requestCallback: () async {
-                          Response s =
-                              await NetUtils.get(_interfaceList[key].url ?? '');
-                          var data = s.data['newslist'];
-                          return data;
-                        });
-                  } else {
-                    result = SimplePage(
-                        title: value.title,
-                        backgroundColor: getRandomColor(),
-                        requestCallback: () async {
-                          if (_interfaceList[key].url == null) return '';
-                          Response s =
-                              await NetUtils.get(_interfaceList[key].url ?? '');
-                          Map map = s.data['newslist'].first;
-                          String str = '';
-                          String jieri =
-                              ((map['lunar_festival'] ?? map['festival'])
-                                      .toString()
-                                      .isNotEmpty)
-                                  ? (map['lunar_festival'] ?? map['festival']) +
-                                      '\n\n'
-                                  : '';
-                          str += jieri;
-                          String dateStr = '日期：' + map['gregoriandate'];
-                          String nongliStr = '\n农历：' +
-                              map['tiangandizhiyear'] +
-                              '年 ' +
-                              map['lubarmonth'] +
-                              map['lunarday'];
-                          String yiStr = '\n宜：' + map['fitness'];
-                          String jiStr = '\n忌：' + map['taboo'];
-                          str = dateStr + nongliStr + yiStr + jiStr;
-                          return str;
-                        });
-                  }
-                  return MapEntry(
-                    key,
-                    result,
-                  );
-                })
-                .values
-                .toList()),
+            children: _interfaceList.map((e) => e.page).toList()),
       ),
     );
   }

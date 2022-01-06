@@ -51,6 +51,8 @@ class ThemeGroup {
 
   Color adaptiveThemeColor(BuildContext context) =>
       context.brightness == Brightness.dark ? darkThemeColor : lightThemeColor;
+
+  Color get themeColor => Constants.isDark ? darkThemeColor : lightThemeColor;
 }
 
 const ThemeGroup defaultThemeGroup = ThemeGroup();

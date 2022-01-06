@@ -25,8 +25,12 @@ class Singleton {
     Map<String, dynamic>? map = await LocalDataUtils.getMap(KEY_USER_INFO);
     print(map);
     if(map != null){
-      currentUser = UserInfoModel().fromJson(map);
+      currentUser = UserInfoModel.fromJson(map);
     }
+  }
+
+  static cleanData() async{
+     LocalDataUtils.cleanData();
   }
 
   static late final Singleton _instance = Singleton._internal();

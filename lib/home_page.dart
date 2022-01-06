@@ -11,6 +11,7 @@ import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
+import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -147,11 +148,18 @@ class _HomePageState extends State<HomePage>
                             icon: info?.iconurl);
 
                         if (map != null) {
-                          map['userId'] = map['user_id'];
-                          map.remove('user_id');
-                          Singleton.currentUser = UserInfoModel().fromJson(map);
+                          Singleton.currentUser = UserInfoModel.fromJson(map);
                           LocalDataUtils.setMap(KEY_USER_INFO, map);
-                          showToast("hello ${info?.name}");
+                          //注册通知
+                          String alias = await NotificationUtils.setAlias(Singleton.currentUser.name);
+                          UserAPI.registerNotification(
+                              userId: Singleton.currentUser.userId,
+                              pushToken: null,
+                              alias: alias,
+                              registrationId: '',
+                              identifier: Singleton.currentUser.openId);
+
+                          showToast("hello ${Singleton.currentUser.name}");
                           setState(() {});
                         } else {
                           showToast("登录失败");

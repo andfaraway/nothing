@@ -13,11 +13,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import '../constants/constants.dart' hide Message;
 
 class NotificationUtils {
+  static final JPush jpush = JPush();
 
   //极光推送初始化
-  static Future<void> jPushInit() async {
-    final JPush jpush = JPush();
-
+  static Future<JPush> jPushInit() async {
     jpush.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {
@@ -44,40 +43,24 @@ class NotificationUtils {
     jpush.applyPushAuthority(
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
-    String? alias = Singleton.currentUser.name;
-    if (Singleton.currentUser.name != null) {
-      try {
-        if (alias != null) {
-          String result = '';
-          for (int i = 0; i < alias.length; i++) {
-            String c = alias[i];
-            if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
-          }
-          alias = result;
-        }
-      } catch (error) {
-        print('error = $error');
-      }
-    }
-    if(alias == null || alias.isEmpty){
-      alias = 'all';
-    }
     //设置别名
-    await jpush.setAlias(alias);
+    String alias = await setAlias(Singleton.currentUser.name);
+
+    jpush.setBadge(0);
 
     var userId = Singleton.currentUser.userId;
     var registrationId = await jpush.getRegistrationID();
 
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String? identifierForVendor = Singleton.currentUser.openId;
 
-    String? identifierForVendor;
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      identifierForVendor = androidInfo.fingerprint;
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      identifierForVendor = iosInfo.identifierForVendor;
-    }
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // if (Platform.isAndroid) {
+    //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    //   identifierForVendor = androidInfo.fingerprint;
+    // } else if (Platform.isIOS) {
+    //   IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //   identifierForVendor = iosInfo.identifierForVendor;
+    // }
 
     UserAPI.registerNotification(
         userId: userId,
@@ -86,10 +69,28 @@ class NotificationUtils {
         registrationId: registrationId,
         identifier: identifierForVendor);
 
-
+    return jpush;
   }
 
+  static Future<String> setAlias(String? alias) async {
+    try {
+      if (alias != null) {
+        String result = '';
+        for (int i = 0; i < alias.length; i++) {
+          String c = alias[i];
+          if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
+        }
+        alias = result;
+      }
+    } catch (error) {}
 
+    if (alias == null || alias.isEmpty) {
+      alias = 'all';
+    }
+    //设置别名
+    await jpush.setAlias(alias);
+    return alias;
+  }
 
   static final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();

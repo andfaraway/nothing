@@ -17,9 +17,9 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static const bool isDebug = false;
+  static const bool isDebug = true;
 
-  static const baseUrl = isDebug ? 'http://10.0.21.164:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? 'http://10.0.21.229:5000' : 'http://1.14.252.115:5000';
 
   ///第三方登录
   static const String thirdLogin = baseUrl + '/thirdLogin';

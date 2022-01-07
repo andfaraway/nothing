@@ -25,7 +25,6 @@ class NotificationUtils {
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
         print("flutter onOpenNotification: $message");
-        showToast('点击通知');
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {

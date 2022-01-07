@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 export 'package:intl/intl.dart' show DateFormat;
 export 'package:pull_to_refresh/pull_to_refresh.dart';
 
+export 'package:nothing/generated/l10n.dart';
+
 export '../api/api.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';

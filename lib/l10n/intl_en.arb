@@ -1,0 +1,7 @@
+{
+  "login": "login",
+  "username_hint": "Please key in ID",
+  "password_hint": "Please key in password",
+  "sign_up": "Sign Up",
+  "forgot_password": "Forgot Password"
+}

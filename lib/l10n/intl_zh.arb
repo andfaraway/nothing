@@ -1,0 +1,7 @@
+{
+  "login": "登录",
+  "username_hint": "请输入账号",
+  "password_hint": "请输入密码",
+  "sign_up": "注册",
+  "forgot_password": "忘记密码"
+}

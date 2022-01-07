@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
+import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
@@ -39,9 +40,6 @@ class _HomePageState extends State<HomePage>
   final List<InterfaceModel> _interfaceList = [];
   final ValueNotifier _tipsStr = ValueNotifier(null);
 
-  //登录信息
-  UMShareUserInfo? info;
-
   @override
   void initState() {
     super.initState();
@@ -49,10 +47,6 @@ class _HomePageState extends State<HomePage>
     initTabBar();
 
     loadData();
-    //初始化第三方登录
-    UMSharePlugin.init('61b81959e014255fcbb28077');
-    UMSharePlugin.setPlatform(
-        platform: UMSocialPlatformType_QQ, appKey: '1112081029');
 
     //检查更新
     checkUpdate();
@@ -152,44 +146,17 @@ class _HomePageState extends State<HomePage>
                       setState(() {
                         showToast("${Singleton.currentUser.name} bye");
                         LocalDataUtils.cleanData();
-                        Singleton.currentUser = UserInfoModel();
+                        if (mounted) {
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
+                        }
                       });
                     },
                     onTap: () async {
                       if (Singleton.currentUser.name != null) {
                         showToast("hello ${Singleton.currentUser.name}");
-                        return;
                       }
-                      //调起QQ登录
-                      info = await UMSharePlugin.getUserInfoForPlatform(
-                          UMSocialPlatformType_QQ);
-                      if (info?.error == null) {
-                        Map<String, dynamic>? map = await UserAPI.thirdLogin(
-                            name: info?.name,
-                            platform: 1,
-                            openId: info?.openid,
-                            icon: info?.iconurl);
 
-                        if (map != null) {
-                          Singleton.currentUser = UserInfoModel.fromJson(map);
-                          LocalDataUtils.setMap(KEY_USER_INFO, map);
-                          //注册通知
-                          String alias = await NotificationUtils.setAlias(Singleton.currentUser.name);
-                          UserAPI.registerNotification(
-                              userId: Singleton.currentUser.userId,
-                              pushToken: null,
-                              alias: alias,
-                              registrationId: '',
-                              identifier: Singleton.currentUser.openId);
-
-                          showToast("hello ${Singleton.currentUser.name}");
-                          setState(() {});
-                        } else {
-                          showToast("登录失败");
-                        }
-                      } else {
-                        showToast(info?.error ?? '登录失败');
-                      }
                     },
                     child: Singleton.currentUser.icon == null
                         ? Padding(
@@ -455,7 +422,6 @@ class _HomePageState extends State<HomePage>
         backgroundColor: getRandomColor(),
         requestCallback: () async {
           Response s = await NetUtils.get(url);
-          print(s.data);
           Map map = s.data['newslist'].first;
           String str = '';
           String jieri =
@@ -478,14 +444,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕
-    ScreenUtil.init(
-        BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: const Size(375, 667),
-        orientation: Orientation.portrait);
-
     return Scaffold(
       drawer: drawer(context),
       body: DefaultTabController(

@@ -62,7 +62,8 @@ dependencies:
   jpush_flutter: ^2.2.0
   device_info: ^2.0.3
   package_info: ^2.0.2
-
+  flutter_localizations:
+    sdk: flutter
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 
@@ -120,3 +121,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

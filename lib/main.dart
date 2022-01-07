@@ -2,24 +2,18 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/constants/constants.dart';
-import 'package:nothing/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
+import 'package:nothing/welcome_page.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
-  //读取本地信息
-  await Singleton.loadData();
-
   runApp(MultiProvider(providers: providers, child: MyApp()));
-
-  if (kIsWeb) return;
-  if (Platform.isIOS || Platform.isAndroid) {
-    NotificationUtils.jPushInit();
-  }
 }
 
 
@@ -61,7 +55,15 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
           theme: ThemeData(
             primarySwatch: primarySwatch,
           ),
-          home: const HomePage(),
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          // home: const HomePage(),
+          home: WelcomePage(),
         );
       }),
     );
@@ -69,7 +71,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print("--" + state.toString());
+    // print("--" + state.toString());
     switch (state) {
       case AppLifecycleState.inactive: // 处于这种状态的应用程序应该假设它们可能在任何时候暂停。
         break;

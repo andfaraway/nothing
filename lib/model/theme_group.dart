@@ -8,6 +8,9 @@ part of 'models.dart';
 const Color defaultLightColor = Color(0xffef5350);
 const Color defaultDarkColor = Color(0xffcb4644);
 
+const Color colorTextFieldBackground = Color(0xFFF2F3F5);
+const Color colorLoginButton = Color(0xFFE6333F);
+
 class ThemeGroup {
   const ThemeGroup({
     this.lightThemeColor = defaultLightColor,

@@ -1,4 +1,3 @@
-
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -38,6 +37,16 @@ class Screens {
   static void updateStatusBarStyle(SystemUiOverlayStyle style) {
     SystemChrome.setSystemUIOverlayStyle(style);
   }
+
+  //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕
+  static init(BuildContext context, Size size) {
+    ScreenUtil.init(
+        BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width,
+            maxHeight: MediaQuery.of(context).size.height),
+        designSize: size,
+        orientation: Orientation.portrait);
+  }
 }
 
 /// Screen capability method.
@@ -52,18 +61,35 @@ double suSetWidth(double size, {double? scale}) =>
 double suSetHeight(double size, {double? scale}) =>
     _sizeCapable((ScreenUtil().setHeight(size) * 2).toDouble(), scale: scale);
 
-double _sizeCapable(num size, {double? scale}) => (size *
-        (scale ??
-            1))
-    .toDouble();
+double _sizeCapable(num size, {double? scale}) =>
+    (size * (scale ?? 1)).toDouble();
 
 extension SizeExtension on num {
-  double get w => _sizeCapable(ScreenUtil().setWidth(this) * 2);
+  double get w => ScreenUtil().setWidth(this);
 
-  double get h => _sizeCapable(ScreenUtil().setHeight(this) * 2);
+  double get h => ScreenUtil().setHeight(this);
 
-  double get sp => _sizeCapable(ScreenUtil().setSp(this) * 2);
+  double get sp => ScreenUtil().setSp(this);
 
-  double get ssp =>
-      _sizeCapable(ScreenUtil().setSp(this) * 2);
+  double get ssp => ScreenUtil().setSp(this);
+
+  //高度间隔
+  Widget get hSizedBox => SizedBox(
+        height: ScreenUtil().setHeight(this).toDouble(),
+      );
+
+  //宽度间隔
+  Widget get wSizedBox => SizedBox(
+        height: ScreenUtil().setHeight(this).toDouble(),
+      );
+
+// double get w => _sizeCapable(ScreenUtil().setWidth(this) * 2);
+//
+// double get h => _sizeCapable(ScreenUtil().setHeight(this) * 2);
+//
+// double get sp => _sizeCapable(ScreenUtil().setSp(this) * 2);
+//
+// double get ssp =>
+//     _sizeCapable(ScreenUtil().setSp(this) * 2);
+
 }

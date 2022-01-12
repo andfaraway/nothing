@@ -2,7 +2,13 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:nothing/api/user_api.dart';
+import 'package:nothing/constants/instances.dart';
+import 'package:nothing/widgets/check_update_widget.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 export 'package:intl/intl.dart' show DateFormat;
 export 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -63,4 +69,36 @@ class Constants {
 
   static const String keyFavoriteList = 'keyFavoriteList';
 
+  static const platform = MethodChannel('com.libin.nothing');
+
+  /// 检查更新
+  static Future<void> checkUpdate({Map? data}) async {
+    BuildContext context = navigatorState.overlay!.context;
+    if(data == null){
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String version = packageInfo.version;
+      data = await UserAPI.checkUpdate('ios', version);
+    }
+    if (data != null && data['update'] == true) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CheckUpdateWidget(
+              content: data!['content'],
+              updateOnTap: () async {
+                String url = data!['path'];
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              cancelOnTap: () {
+                Navigator.pop(context);
+              },
+            );
+          });
+    } else {}
+  }
 }
+

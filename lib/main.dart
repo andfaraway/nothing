@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +6,8 @@ import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/welcome_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nothing/widgets/check_update_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -16,15 +17,41 @@ void main() async {
   runApp(MultiProvider(providers: providers, child: MyApp()));
 }
 
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget with WidgetsBindingObserver{
-  MyApp({Key? key}) : super(key: key);
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    WidgetsBinding.instance?.addObserver(this);
+
+    Constants.platform.setMethodCallHandler((MethodCall call) async {
+      print('channel：${call.method},${call.arguments}');
+
+      BuildContext context = navigatorState.overlay!.context;
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Text('${call.method}\n${call.arguments}');
+          });
+    });
+
+    Constants.isDark = context.theme.brightness == Brightness.dark;
+
+    Future.delayed(Duration(seconds: 3),(){
+      Constants.checkUpdate();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addObserver(this);
-
-    Constants.isDark = context.theme.brightness == Brightness.dark;
     return RefreshConfiguration(
       headerBuilder: () => WaterDropHeader(
         complete: const Icon(
@@ -85,3 +112,5 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     }
   }
 }
+
+

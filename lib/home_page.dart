@@ -48,8 +48,6 @@ class _HomePageState extends State<HomePage>
 
     loadData();
 
-    //检查更新
-    checkUpdate();
   }
 
   initTabBar() {
@@ -91,33 +89,6 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  /// 检查更新
-  Future<void> checkUpdate() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String version = packageInfo.version;
-    Map? data = await UserAPI.checkUpdate('ios', version);
-    if (data != null && data['update'] == true) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return CheckUpdateWidget(
-              content: data['content'],
-              updateOnTap: () async {
-                String url = data['path'];
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              },
-              cancelOnTap: () {
-                Navigator.pop(context);
-              },
-            );
-          });
-    } else {}
-  }
-
   ///左侧菜单
   drawer(BuildContext context) {
     return SmartDrawer(
@@ -144,7 +115,7 @@ class _HomePageState extends State<HomePage>
                   child: GestureDetector(
                     onLongPressEnd: (details) {
                       setState(() {
-                        showToast("${Singleton.currentUser.name} bye");
+                        showToast("${Singleton.currentUser.username} bye");
                         LocalDataUtils.cleanData();
                         if (mounted) {
                           Navigator.pushAndRemoveUntil(context,
@@ -153,12 +124,12 @@ class _HomePageState extends State<HomePage>
                       });
                     },
                     onTap: () async {
-                      if (Singleton.currentUser.name != null) {
-                        showToast("hello ${Singleton.currentUser.name}");
+                      if (Singleton.currentUser.username != null) {
+                        showToast("hello ${Singleton.currentUser.username}");
                       }
 
                     },
-                    child: Singleton.currentUser.icon == null
+                    child: Singleton.currentUser.avatar == null
                         ? Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: SpinKitSpinningLines(
@@ -169,7 +140,7 @@ class _HomePageState extends State<HomePage>
                           )
                         : CircleAvatar(
                             backgroundImage:
-                                NetworkImage(Singleton.currentUser.icon!),
+                                NetworkImage(Singleton.currentUser.avatar!),
                             backgroundColor: Colors.green,
                             radius: 25),
                   ),

@@ -17,8 +17,8 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  // static const bool isDebug = false;
   static const bool isDebug = true;
+  // static const bool isDebug = false;
 
   static const baseUrl = isDebug ? 'http://192.168.0.3:5000' : 'http://1.14.252.115:5000';
 

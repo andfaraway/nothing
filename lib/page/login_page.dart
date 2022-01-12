@@ -82,12 +82,14 @@ class _LoginPageState extends State<LoginPage> {
           platform: 1,
           openId: info.openid,
           icon: info.iconurl);
+      print('第三方登录：$map');
       if (map != null) {
-        Singleton.currentUser = UserInfoModel.fromJson(map);
+        map['userId'] = map['id'];
+        Singleton.currentUser = UserInfoModel().fromJson(map);
         LocalDataUtils.setMap(KEY_USER_INFO, map);
         //注册通知
         String? alias =
-            await NotificationUtils.setAlias(Singleton.currentUser.name);
+            await NotificationUtils.setAlias(Singleton.currentUser.username);
         if(alias != null){
           UserAPI.registerNotification(
               userId: Singleton.currentUser.userId,
@@ -102,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
               (_) => false);
-          showToast("hello ${Singleton.currentUser.name}");
+          showToast("hello ${Singleton.currentUser.username}");
         }
       } else {
         showToast("登录失败");

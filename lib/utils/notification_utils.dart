@@ -43,7 +43,7 @@ class NotificationUtils {
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     //设置别名
-    String? alias = await setAlias(Singleton.currentUser.name);
+    String? alias = await setAlias(Singleton.currentUser.username);
 
     jpush.setBadge(0);
 
@@ -89,8 +89,14 @@ class NotificationUtils {
     if (alias == null || alias.isEmpty) {
       alias = 'all';
     }
+
+    print('alias11 = $alias');
+
     //设置别名
-    await jpush.setAlias(alias);
+    try {
+      await jpush.deleteAlias();
+      await jpush.setAlias(alias);
+    }catch(error){}
     return alias;
   }
 

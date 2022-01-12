@@ -24,21 +24,23 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    initData();
+
+  }
+
+  Future<void> initData() async{
+    //读取本地信息
+    await Singleton.loadData();
+
+    //判断是否登录
     if (Singleton.currentUser.userId != null) {
       goPage(const HomePage());
     } else {
       goPage(const LoginPage());
     }
 
-    initData();
-  }
-
-  initData() async{
-    //读取本地信息
-    await Singleton.loadData();
-
-    print("Singleton.currentUser.userId"+Singleton.currentUser.userId.toString());
-
+    //初始化推送
     if (kIsWeb) return;
     if (Platform.isIOS || Platform.isAndroid) {
       NotificationUtils.jPushInit();
@@ -46,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   goPage(Widget page) async {
-    await Future.delayed(const Duration(seconds: 2), () {
+    await Future.delayed(const Duration(microseconds: 150), () {
       if (mounted) {
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => page), (_) => false);

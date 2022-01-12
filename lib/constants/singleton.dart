@@ -23,9 +23,9 @@ class Singleton {
 
   static loadData() async{
     Map<String, dynamic>? map = await LocalDataUtils.getMap(KEY_USER_INFO);
-    print(map);
+    print('初始化数据：$map');
     if(map != null){
-      currentUser = UserInfoModel.fromJson(map);
+      currentUser = UserInfoModel().fromJson(map);
     }
   }
 

@@ -43,7 +43,7 @@ class NotificationUtils {
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     //设置别名
-    String alias = await setAlias(Singleton.currentUser.name);
+    String? alias = await setAlias(Singleton.currentUser.name);
 
     jpush.setBadge(0);
 
@@ -61,6 +61,7 @@ class NotificationUtils {
     //   identifierForVendor = iosInfo.identifierForVendor;
     // }
 
+    if(alias != null)
     UserAPI.registerNotification(
         userId: userId,
         pushToken: null,
@@ -71,7 +72,9 @@ class NotificationUtils {
     return jpush;
   }
 
-  static Future<String> setAlias(String? alias) async {
+  static Future<String?> setAlias(String? alias) async {
+    if(alias == null || alias == '') return null;
+
     try {
       if (alias != null) {
         String result = '';

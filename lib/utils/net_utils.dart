@@ -36,7 +36,7 @@ class NetUtils {
         );
         LogUtils.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
       }on DioError catch (error) {
-         LogUtils.e('request error:$url,\n$queryParameters,');
+         LogUtils.e('request error:$url,\n$queryParameters,\n${error.toString()}');
     }
     return response;
   }

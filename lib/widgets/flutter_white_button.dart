@@ -29,7 +29,7 @@ class FlutterWhiteButton extends StatelessWidget {
       {Key? key,
       this.size = const Size(150, 150),
       this.radius = 5,
-      this.distance = 1,
+      this.distance = 3,
       this.blur = 2,
       this.spreadRadius = 0,
       this.lightLocation = LightLocation.topLeft,

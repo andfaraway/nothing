@@ -18,6 +18,9 @@ ThemeGroup get currentThemeGroup =>
 
 Color get currentThemeColor => currentTheme.colorScheme.secondary;
 
+///背景色
+Color get colorBackground => const Color(0xffe0e0e0);
+
 bool get currentIsDark => currentTheme.brightness == Brightness.dark;
 
 T lessThanOne<T extends num>(T value) =>
@@ -62,4 +65,6 @@ class Instances {
 
   //平台通道
   static const platformChannel = MethodChannel('com.libin.nothing');
+
+
 }

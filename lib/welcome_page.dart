@@ -26,10 +26,9 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     initData();
-
   }
 
-  Future<void> initData() async{
+  Future<void> initData() async {
     //读取本地信息
     await Singleton.loadData();
 

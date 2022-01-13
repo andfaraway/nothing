@@ -7,6 +7,8 @@ import 'package:nothing/model/user_info_model.dart';
 import 'package:nothing/generated/json/user_info_model_helper.dart';
 import 'package:nothing/model/collect_model.dart';
 import 'package:nothing/generated/json/collect_model_helper.dart';
+import 'package:nothing/model/message_model.dart';
+import 'package:nothing/generated/json/message_model_helper.dart';
 
 class JsonConvert<T> {
 	T fromJson(Map<String, dynamic> json) {
@@ -22,7 +24,9 @@ class JsonConvert<T> {
 			case UserInfoModel:
 				return userInfoModelFromJson(data as UserInfoModel, json) as T;
 			case CollectModel:
-				return collectModelFromJson(data as CollectModel, json) as T;    }
+				return collectModelFromJson(data as CollectModel, json) as T;
+			case MessageModel:
+				return messageModelFromJson(data as MessageModel, json) as T;    }
 		return data as T;
 	}
 
@@ -32,6 +36,8 @@ class JsonConvert<T> {
 				return userInfoModelToJson(data as UserInfoModel);
 			case CollectModel:
 				return collectModelToJson(data as CollectModel);
+			case MessageModel:
+				return messageModelToJson(data as MessageModel);
 			}
 			return data as T;
 		}
@@ -44,6 +50,9 @@ class JsonConvert<T> {
 		if(type == (CollectModel).toString()){
 			return CollectModel().fromJson(json);
 		}
+		if(type == (MessageModel).toString()){
+			return MessageModel().fromJson(json);
+		}
 
 		return null;
 	}
@@ -55,6 +64,9 @@ class JsonConvert<T> {
 		}
 		if(<CollectModel>[] is M){
 			return data.map<CollectModel>((e) => CollectModel().fromJson(e)).toList() as M;
+		}
+		if(<MessageModel>[] is M){
+			return data.map<MessageModel>((e) => MessageModel().fromJson(e)).toList() as M;
 		}
 
 		throw Exception("not found");

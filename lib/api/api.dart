@@ -17,10 +17,17 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static const bool isDebug = true;
-  // static const bool isDebug = false;
+  // static const bool isDebug = true;
+  static const bool isDebug = false;
+
+  // 是模拟器
+  static const bool isSimulator = true;
+
 
   static const baseUrl = isDebug ? 'http://192.168.0.3:5000' : 'http://1.14.252.115:5000';
+
+  ///登录
+  static const String login = baseUrl + '/login';
 
   ///第三方登录
   static const String thirdLogin = baseUrl + '/thirdLogin';
@@ -34,8 +41,8 @@ class API {
   ///检查更新
   static const String checkUpdate = baseUrl + '/checkUpdate';
 
-  ///登录
-  static const String login = 'https://openjmu.jmu.edu.cn';
+  ///获取消息列表
+  static const String getMessages = baseUrl + '/getMessages';
 
   ///登录
   static const String signList = 'https://openjmu.jmu.edu.cn';

@@ -10,6 +10,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 const String KEY_USER_INFO = 'USER_INFO';
 const String KEY_TO_USER = 'HI_TO_USER';
+const String KEY_ALIAS = 'KEY_ALIAS';
 
 class LocalDataUtils {
   LocalDataUtils._();

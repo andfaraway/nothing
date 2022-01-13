@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/login_page.dart';
+import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
@@ -76,6 +77,12 @@ class _HomePageState extends State<HomePage>
               var data = s.data['newslist'];
               return data;
             })));
+
+    _interfaceList.add(InterfaceModel(
+        tag: 5,
+        title: S.current.message,
+        page: const MessagePage()));
+
     // _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }

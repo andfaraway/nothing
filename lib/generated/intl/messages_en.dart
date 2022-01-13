@@ -24,8 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "login": MessageLookupByLibrary.simpleMessage("login"),
+        "message": MessageLookupByLibrary.simpleMessage("Message"),
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
+        "request_failed":
+            MessageLookupByLibrary.simpleMessage("request failed"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "username_hint":
             MessageLookupByLibrary.simpleMessage("Please key in ID")

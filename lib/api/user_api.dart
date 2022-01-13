@@ -9,12 +9,6 @@ import 'package:nothing/widgets/dialogs/confirmation_dialog.dart';
 class UserAPI {
   const UserAPI._();
 
-  static Future<Response<Map<String, dynamic>>> login(
-    Map<String, dynamic> params,
-  ) {
-    return NetUtils.tokenDio.post(API.login, data: params);
-  }
-
   static Future<void> logout(BuildContext context) async {
     final bool confirm = await ConfirmationDialog.show(
       context,
@@ -33,11 +27,21 @@ class UserAPI {
     return NetUtils.get(API.qiaomen);
   }
 
+  // 登录
+  static Future<Map<String,dynamic>?> login(String username, String password) async{
+    Map<String,dynamic> param = {'username':username,'password':password};
+    var response = await NetUtils.post(API.login,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data['data'][0];
+    }else{
+      return null;
+    }
+  }
+
   // 第三方登录
   static Future<Map<String,dynamic>?> thirdLogin({String? name,int? platform,String? openId,String? icon,}) async{
     Map<String,dynamic> param = {'name':name,'platform':platform,'openId':openId,'icon':icon};
     var response = await NetUtils.post(API.thirdLogin,queryParameters: param);
-    print(response);
     if(response?.data['code'].toString() == "200"){
       return response?.data['data'][0];
     }else{
@@ -75,6 +79,17 @@ class UserAPI {
     var response = await NetUtils.post(API.sayHello,queryParameters: param);
     if(response?.data['code'].toString() == "200"){
       return {};
+    }else{
+      return null;
+    }
+  }
+
+  // 获取消息列表
+  static Future<List?> getMessages(String? alias) async{
+    Map<String,dynamic> param = {'alias':alias};
+    var response = await NetUtils.post(API.getMessages,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data['data'];
     }else{
       return null;
     }

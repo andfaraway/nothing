@@ -42,15 +42,7 @@ class NotificationUtils {
     jpush.applyPushAuthority(
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
-    //设置别名
-    String? alias = await setAlias(Singleton.currentUser.username);
-
     jpush.setBadge(0);
-
-    var userId = Singleton.currentUser.userId;
-    var registrationId = await jpush.getRegistrationID();
-
-    String? identifierForVendor = Singleton.currentUser.openId;
 
     // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     // if (Platform.isAndroid) {
@@ -61,20 +53,17 @@ class NotificationUtils {
     //   identifierForVendor = iosInfo.identifierForVendor;
     // }
 
-    if(alias != null)
-    UserAPI.registerNotification(
-        userId: userId,
-        pushToken: null,
-        alias: alias,
-        registrationId: registrationId,
-        identifier: identifierForVendor);
-
+    //设置别名
+    await setAlias(Singleton.currentUser.username);
     return jpush;
   }
 
   static Future<String?> setAlias(String? alias) async {
-    if(alias == null || alias == '') return null;
-
+    if (alias == null || alias == '') return null;
+    //若本地有，表明设置成功过，无需再设置
+    String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
+    print('localAlias=$localAlias');
+    if (localAlias != null) return localAlias;
     try {
       if (alias != null) {
         String result = '';
@@ -90,13 +79,25 @@ class NotificationUtils {
       alias = 'all';
     }
 
-    print('alias11 = $alias');
-
-    //设置别名
     try {
-      await jpush.deleteAlias();
-      await jpush.setAlias(alias);
-    }catch(error){}
+      if(API.isSimulator){
+         jpush.setAlias(alias);
+      }else{
+         await jpush.setAlias(alias);
+      }
+      // 设置成功，保存本地
+      await LocalDataUtils.setString(KEY_ALIAS, alias);
+      // 注册服务器
+      var userId = Singleton.currentUser.userId;
+      var registrationId = await jpush.getRegistrationID();
+      String? identifierForVendor = Singleton.currentUser.openId;
+      UserAPI.registerNotification(
+          userId: userId,
+          pushToken: null,
+          alias: alias,
+          registrationId: registrationId,
+          identifier: identifierForVendor);
+    } catch (error) {}
     return alias;
   }
 

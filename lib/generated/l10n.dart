@@ -99,6 +99,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Message`
+  String get message {
+    return Intl.message(
+      'Message',
+      name: 'message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `request failed`
+  String get request_failed {
+    return Intl.message(
+      'request failed',
+      name: 'request_failed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

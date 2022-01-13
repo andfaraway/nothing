@@ -41,7 +41,9 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       height: 88.h,
       child: MaterialButton(
-          onPressed: () {},
+          onPressed: (){
+            loginButtonPressed();
+          },
           color: colorLoginButton,
           child: Text(
             S.current.login,
@@ -56,7 +58,40 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> loginButtonPressed(BuildContext context) async {}
+  Future<void> loginButtonPressed() async {
+    Map<String, dynamic>? map = await UserAPI.login(_username.value,_password.value);
+    if (map != null) {
+      map['userId'] = map['id'];
+      Singleton.currentUser = UserInfoModel().fromJson(map);
+      LocalDataUtils.setMap(KEY_USER_INFO, map);
+
+      print('222');
+
+      //注册通知
+      String? alias =
+          await NotificationUtils.setAlias(Singleton.currentUser.username);
+      print('222');
+
+      if (alias != null) {
+        UserAPI.registerNotification(
+            userId: Singleton.currentUser.userId,
+            pushToken: null,
+            alias: alias,
+            registrationId: '',
+            identifier: Singleton.currentUser.openId);
+      }
+
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (_) => false);
+        showToast("hello ${Singleton.currentUser.username}");
+      }
+    } else {
+      showToast("登录失败");
+    }
+  }
 
   //qq登录
   Widget qqButton() {
@@ -84,13 +119,12 @@ class _LoginPageState extends State<LoginPage> {
           icon: info.iconurl);
       print('第三方登录：$map');
       if (map != null) {
-        map['userId'] = map['id'];
         Singleton.currentUser = UserInfoModel().fromJson(map);
         LocalDataUtils.setMap(KEY_USER_INFO, map);
         //注册通知
         String? alias =
             await NotificationUtils.setAlias(Singleton.currentUser.username);
-        if(alias != null){
+        if (alias != null) {
           UserAPI.registerNotification(
               userId: Singleton.currentUser.userId,
               pushToken: null,
@@ -216,6 +250,9 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                           controller: _usernameController,
                                           textAlign: TextAlign.center,
+                                          onChanged: (value){
+                                            _username.value = value;
+                                          },
                                         ),
                                       ),
                                     ],
@@ -238,6 +275,9 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     controller: _passwordController,
                                     textAlign: TextAlign.center,
+                                    onChanged: (value){
+                                      _password.value = value;
+                                    },
                                   ),
                                 ),
                                 80.hSizedBox,

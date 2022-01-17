@@ -24,7 +24,7 @@ var channel: FlutterMethodChannel? = nil
     var dic = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
     if(dic != nil){
           print(dic)
-         self.perform(#selector(notificationFlutter), with: dic, afterDelay: 3)
+         self.perform(#selector(notificationFlutter), with: dic, afterDelay: 2)
       }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/constants/constants.dart';
+import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/welcome_page.dart';
 
@@ -34,13 +35,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
     Constants.platform.setMethodCallHandler((MethodCall call) async {
       print('channel：${call.method},${call.arguments}');
-
       BuildContext context = navigatorState.overlay!.context;
-      showDialog(
-          context: context,
-          builder: (context) {
-            return Text('${call.method}\n${call.arguments}');
-          });
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MessagePage()));
     });
 
     Constants.isDark = context.theme.brightness == Brightness.dark;

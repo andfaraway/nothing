@@ -9,5 +9,6 @@
   "request_failed": "request failed",
 
   "feedback": "Feedback",
-  "theme": "Theme"
+  "theme": "Theme",
+  "favorite": "Favorite"
 }

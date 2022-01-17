@@ -94,4 +94,38 @@ class UserAPI {
     }
   }
 
+  // 添加收藏
+  static Future<List?> addFavorite(String content,{String? source}) async{
+    Map<String,dynamic> param = {'userid':Singleton.currentUser.userId,'content':content,'source':source};
+    var response = await NetUtils.post(API.addFavorite,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return [];
+    }else{
+      showToast(response?.data['msg']);
+      return null;
+    }
+  }
+
+  // 查询收藏
+  static Future<List?> getFavorite() async{
+    Map<String,dynamic> param = {'userid':Singleton.currentUser.userId};
+    var response = await NetUtils.post(API.getFavorite,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data['data'];
+    }else{
+      return null;
+    }
+  }
+
+  // 删除收藏
+  static Future<List?> deleteFavorite(String favoriteId) async{
+    Map<String,dynamic> param = {'userid':Singleton.currentUser.userId,'favoriteId':favoriteId};
+    var response = await NetUtils.post(API.deleteFavorite,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return response?.data;
+    }else{
+      return null;
+    }
+  }
+
 }

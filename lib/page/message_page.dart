@@ -33,7 +33,7 @@ class _MessagePageState extends State<MessagePage> {
 
     dataList.clear();
     for (Map<String, dynamic> map in list) {
-      MessageModel model = MessageModel().fromJson(map);
+      MessageModel model = MessageModel.fromJson(map);
       dataList.add(model);
     }
     _refreshController.refreshCompleted();
@@ -57,7 +57,7 @@ class _MessagePageState extends State<MessagePage> {
                 child: Text('nothing'),
               )
             : SingleChildScrollView(
-              padding:EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+              padding:const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Column(
                   children:
                       dataList.map((model) => messageWidget(model)).toList()),
@@ -91,7 +91,7 @@ class _MessagePageState extends State<MessagePage> {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    model.time?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
+                    model.date?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
                     style: TextStyle(
                       color: const Color(0xff888888),
                       fontSize: 28.sp,

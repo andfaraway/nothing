@@ -19,7 +19,7 @@ extension StringExtension on String {
     try {
       date = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
     } catch (error) {
-      return '- -';
+      return '';
     }
     //format 不为空 返回格式化字符串
     if (format == null) {

@@ -84,11 +84,11 @@ class _HomePageState extends State<HomePage>
 
   /// 初始化数据
   Future<void> loadData() async {
-    var list = await LocalDataUtils.get(Constants.keyFavoriteList);
-    favoriteList.clear();
-    if (list != null) {
-      favoriteList.addAll(list.cast<String>());
-    }
+    // var list = await LocalDataUtils.get(Constants.keyFavoriteList);
+    // favoriteList.clear();
+    // if (list != null) {
+    //   favoriteList.addAll(list.cast<String>());
+    // }
   }
 
   ///左侧菜单
@@ -162,18 +162,22 @@ class _HomePageState extends State<HomePage>
                         bottom: kDrawerMarginLeft),
                     child: GestureDetector(
                       onTap: () async {
-                        String text = _tipsStr.value.trim().toString();
-                        if (!favoriteList.contains(text)) {
-                          favoriteList.add(text);
-                          bool s = await LocalDataUtils.setStringList(
-                              Constants.keyFavoriteList, favoriteList);
-                          if (s) {
-                            showToast('眼光不错哦！');
-                          } else {
-                            showToast('no~');
-                          }
-                        } else {}
-                      },
+                        var result = await UserAPI.addFavorite(_tipsStr.value.trim().toString(),source: '看着顺眼');
+                        if(result != null){
+                          showToast('收藏成功！');
+                        }
+                        // String text = _tipsStr.value.trim().toString();
+                        // if (!favoriteList.contains(text)) {
+                        //   favoriteList.add(text);
+                        //   bool s = await LocalDataUtils.setStringList(
+                        //       Constants.keyFavoriteList, favoriteList);
+                        //   if (s) {
+                        //     showToast('眼光不错哦！');
+                        //   } else {
+                        //     showToast('no~');
+                        //   }
+                        // } else {}
+                      }.throttle(),
                       child: ValueListenableBuilder(
                         valueListenable: _tipsStr,
                         builder: (context, value, child) {

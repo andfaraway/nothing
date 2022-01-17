@@ -69,8 +69,6 @@ class Constants {
   static const String postApiKeyIOS = '3E63F9003DF7BE296A865910D8DEE630';
   static const String postApiSecretIOS = '773958E5CFE0FF8252808C417A8ECCAB';
 
-  static const String keyFavoriteList = 'keyFavoriteList';
-
   static const platform = MethodChannel('com.libin.nothing');
 
   /// 检查更新

@@ -9,5 +9,6 @@
   "request_failed": "请求失败",
 
   "feedback": "意见与建议",
-  "theme": "主题"
+  "theme": "主题",
+  "favorite": "收藏"
 }

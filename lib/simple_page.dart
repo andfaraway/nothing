@@ -92,19 +92,24 @@ class _SimplePageState extends State<SimplePage>
                         bottom: Screens.navigationBarHeight),
                     child: GestureDetector(
                       onDoubleTap: () async {
-                        String text = contentText.trim().toString();
-                        if (!favoriteList.contains(text)) {
-                          favoriteList.add(text);
-                          bool s = await LocalDataUtils.setStringList(
-                              Constants.keyFavoriteList, favoriteList);
-                          if (s) {
-                            showToast('收藏成功！');
-                          } else {
-                            showToast('收藏失败！');
-                          }
-                        } else {
-                          showToast('已收藏');
+                        var result = await UserAPI.addFavorite(contentText.trim().toString(),source: widget.title);
+                        if(result != null){
+                           showToast('收藏成功！');
                         }
+
+                        // String text = contentText.trim().toString();
+                        // if (!favoriteList.contains(text)) {
+                        //   favoriteList.add(text);
+                        //   bool s = await LocalDataUtils.setStringList(
+                        //       Constants.keyFavoriteList, favoriteList);
+                        //   if (s) {
+                        //     showToast('收藏成功！');
+                        //   } else {
+                        //     showToast('收藏失败！');
+                        //   }
+                        // } else {
+                        //   showToast('已收藏');
+                        // }
                       },
                       child: ExtendedText(
                         contentText.isEmpty ? '' : contentText,

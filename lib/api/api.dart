@@ -40,6 +40,15 @@ class API {
   ///获取消息列表
   static const String getMessages = baseUrl + '/getMessages';
 
+  ///添加收藏
+  static const String addFavorite = baseUrl + '/addFavorite';
+
+  ///查询收藏
+  static const String getFavorite = baseUrl + '/getFavorite';
+
+  ///获取消息列表
+  static const String deleteFavorite = baseUrl + '/deleteFavorite';
+
   ///登录
   static const String signList = 'https://openjmu.jmu.edu.cn';
 

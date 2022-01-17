@@ -1,6 +1,16 @@
-import 'package:nothing/generated/json/base/json_convert_content.dart';
+import 'package:nothing/generated/json/base/json_field.dart';
+import 'package:nothing/generated/json/user_info_model.g.dart';
 
-class UserInfoModel with JsonConvert<UserInfoModel> {
+
+@JsonSerializable()
+class UserInfoModel {
+
+	UserInfoModel();
+
+	factory UserInfoModel.fromJson(Map<String, dynamic> json) => $UserInfoModelFromJson(json);
+
+	Map<String, dynamic> toJson() => $UserInfoModelToJson(this);
+
 	String? username;
 	String? nickname;
 	String? email;

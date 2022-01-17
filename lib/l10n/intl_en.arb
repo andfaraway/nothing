@@ -6,5 +6,8 @@
   "forgot_password": "Forgot Password",
 
   "message": "Message",
-  "request_failed": "request failed"
+  "request_failed": "request failed",
+
+  "feedback": "Feedback",
+  "theme": "Theme"
 }

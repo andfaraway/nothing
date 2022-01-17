@@ -65,12 +65,9 @@ class _LoginPageState extends State<LoginPage> {
       Singleton.currentUser = UserInfoModel().fromJson(map);
       LocalDataUtils.setMap(KEY_USER_INFO, map);
 
-      print('222');
-
       //注册通知
       String? alias =
           await NotificationUtils.setAlias(Singleton.currentUser.username);
-      print('222');
 
       if (alias != null) {
         UserAPI.registerNotification(

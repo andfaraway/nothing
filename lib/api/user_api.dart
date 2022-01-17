@@ -53,7 +53,6 @@ class UserAPI {
   static Future<Map<String,dynamic>?> checkUpdate(String platform, String version) async{
     Map<String,dynamic> param = {'platform':platform,'version':version,};
     var response = await NetUtils.post(API.checkUpdate,queryParameters: param);
-    print(response?.data['code']);
     if(response?.data['code'].toString() == "200"){
       return response?.data['data'][0];
     }else{

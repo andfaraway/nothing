@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/message_model.dart';
 import 'package:nothing/widgets/flutter_white_button.dart';
@@ -43,10 +42,6 @@ class _MessagePageState extends State<MessagePage> {
 
   @override
   Widget build(BuildContext context) {
-    MessageModel model = MessageModel();
-    model.time = '01-03 14:15';
-    model.title = 'nothing';
-    model.content = 'hello';
     return Scaffold(
       backgroundColor: colorBackground,
       appBar: AppBar(
@@ -96,7 +91,7 @@ class _MessagePageState extends State<MessagePage> {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '01-13 11:27',
+                    model.time?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
                     style: TextStyle(
                       color: const Color(0xff888888),
                       fontSize: 28.sp,

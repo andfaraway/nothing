@@ -41,7 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
     //初始化推送
     if (kIsWeb) return;
-    if (Platform.isIOS || Platform.isAndroid) {
+    if (await Constants.isPhysicalDevice()) {
       NotificationUtils.jPushInit();
     }
   }

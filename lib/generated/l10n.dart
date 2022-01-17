@@ -119,6 +119,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Feedback`
+  String get feedback {
+    return Intl.message(
+      'Feedback',
+      name: 'feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message(
+      'Theme',
+      name: 'theme',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -6,5 +6,8 @@
   "forgot_password": "忘记密码",
 
   "message": "消息",
-  "request_failed": "请求失败"
+  "request_failed": "请求失败",
+
+  "feedback": "意见与建议",
+  "theme": "主题"
 }

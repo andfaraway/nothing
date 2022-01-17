@@ -44,15 +44,6 @@ class NotificationUtils {
 
     jpush.setBadge(0);
 
-    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    // if (Platform.isAndroid) {
-    //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    //   identifierForVendor = androidInfo.fingerprint;
-    // } else if (Platform.isIOS) {
-    //   IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //   identifierForVendor = iosInfo.identifierForVendor;
-    // }
-
     //设置别名
     await setAlias(Singleton.currentUser.username);
     return jpush;
@@ -60,6 +51,8 @@ class NotificationUtils {
 
   static Future<String?> setAlias(String? alias) async {
     if (alias == null || alias == '') return null;
+    if (! await Constants.isPhysicalDevice()) return null;
+
     //若本地有，表明设置成功过，无需再设置
     String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
     print('localAlias=$localAlias');
@@ -80,11 +73,7 @@ class NotificationUtils {
     }
 
     try {
-      if(API.isSimulator){
-         jpush.setAlias(alias);
-      }else{
-         await jpush.setAlias(alias);
-      }
+      await jpush.setAlias(alias);
       // 设置成功，保存本地
       await LocalDataUtils.setString(KEY_ALIAS, alias);
       // 注册服务器

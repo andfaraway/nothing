@@ -3,10 +3,7 @@
 //  [Date] 2021-12-23 18:04:50
 //
 
-import 'dart:io';
-
 import 'package:nothing/constants/constants.dart';
-import 'package:flutter/material.dart';
 
 class SayHi extends StatefulWidget {
   const SayHi({Key? key}) : super(key: key);
@@ -89,7 +86,8 @@ class _SayHiState extends State<SayHi> {
                     'send',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: canSend ? currentThemeGroup.themeColor : Colors.black54,
+                  color:
+                      canSend ? currentThemeGroup.themeColor : Colors.black54,
                   onPressed: sendBtnOnPressed,
                 ),
               )
@@ -101,7 +99,7 @@ class _SayHiState extends State<SayHi> {
   }
 
   Future<void> sendBtnOnPressed() async {
-    if(_canSend.value){
+    if (_canSend.value) {
       _canSend.value = false;
       await UserAPI.sayHello(user, text);
       await LocalDataUtils.setString(KEY_TO_USER, user);

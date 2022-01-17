@@ -3,7 +3,6 @@
 //  [Date] 2021-12-02 15:42:01
 //
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:nothing/widgets/photo_show_widget.dart';

@@ -2,7 +2,6 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-05 14:48:10
 //
-import 'package:flutter/material.dart';
 import 'package:nothing/constants/constants.dart';
 import 'flutter_white_button.dart';
 

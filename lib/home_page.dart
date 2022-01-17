@@ -2,9 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-04 18:13:56
 
-import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
@@ -48,7 +46,6 @@ class _HomePageState extends State<HomePage>
     initTabBar();
 
     loadData();
-
   }
 
   initTabBar() {
@@ -79,9 +76,7 @@ class _HomePageState extends State<HomePage>
             })));
 
     _interfaceList.add(InterfaceModel(
-        tag: 5,
-        title: S.current.message,
-        page: const MessagePage()));
+        tag: 5, title: S.current.message, page: const MessagePage()));
 
     // _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
@@ -110,86 +105,93 @@ class _HomePageState extends State<HomePage>
         child: Builder(builder: (context) {
           return Column(
             children: [
-              Container(
-                height: Screens.topSafeHeight + 70,
-                color: Colors.green,
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: kDrawerMarginLeft,
-                    right: kDrawerMarginLeft,
-                  ),
-                  child: GestureDetector(
-                    onLongPressEnd: (details) {
-                      setState(() {
-                        showToast("${Singleton.currentUser.username} bye");
-                        LocalDataUtils.cleanData();
-                        if (mounted) {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
-                        }
-                      });
-                    },
-                    onTap: () async {
-                      if (Singleton.currentUser.username != null) {
-                        showToast("hello ${Singleton.currentUser.username}");
-                      }
-
-                    },
-                    child: Singleton.currentUser.avatar == null
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: SpinKitSpinningLines(
-                              duration: Duration(seconds: 5),
-                              color: Colors.white.withOpacity(0.5),
-                              size: 50,
-                            ),
-                          )
-                        : CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(Singleton.currentUser.avatar!),
-                            backgroundColor: Colors.green,
-                            radius: 25),
-                  ),
-                ),
+              Consumer<ThemesProvider>(builder: (context, provider, child) {
+                  return Container(
+                    height: Screens.topSafeHeight + 70,
+                    color: provider.currentThemeGroup.themeColor,
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: kDrawerMarginLeft,
+                        right: kDrawerMarginLeft,
+                      ),
+                      child: GestureDetector(
+                        onLongPressEnd: (details) {
+                          setState(() {
+                            showToast("${Singleton.currentUser.username} bye");
+                            LocalDataUtils.cleanData();
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                  (_) => false);
+                            }
+                          });
+                        },
+                        onTap: () async {
+                          if (Singleton.currentUser.username != null) {
+                            showToast("hello ${Singleton.currentUser.username}");
+                          }
+                        },
+                        child: Singleton.currentUser.avatar == null
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: SpinKitSpinningLines(
+                                  duration: Duration(seconds: 5),
+                                  color: Colors.white.withOpacity(0.5),
+                                  size: 50,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(Singleton.currentUser.avatar!),
+                                backgroundColor: provider.currentThemeGroup.themeColor,
+                                radius: 25),
+                      ),
+                    ),
+                  );
+                }
               ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: kDrawerMarginLeft,
-                      right: kDrawerMarginLeft,
-                      bottom: kDrawerMarginLeft),
-                  child: GestureDetector(
-                    onTap: () async {
-                      String text = _tipsStr.value.trim().toString();
-                      if (!favoriteList.contains(text)) {
-                        favoriteList.add(text);
-                        bool s = await LocalDataUtils.setStringList(
-                            Constants.keyFavoriteList, favoriteList);
-                        if (s) {
-                          showToast('眼光不错哦！');
-                        } else {
-                          showToast('no~');
-                        }
-                      } else {}
-                    },
-                    child: ValueListenableBuilder(
-                      valueListenable: _tipsStr,
-                      builder: (context, value, child) {
-                        return Text(
-                          _tipsStr.value ?? '',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 22),
-                          textAlign: TextAlign.start,
-                        );
+              Consumer<ThemesProvider>(builder: (context, provider, child) {
+                return Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: kDrawerMarginLeft,
+                        right: kDrawerMarginLeft,
+                        bottom: kDrawerMarginLeft),
+                    child: GestureDetector(
+                      onTap: () async {
+                        String text = _tipsStr.value.trim().toString();
+                        if (!favoriteList.contains(text)) {
+                          favoriteList.add(text);
+                          bool s = await LocalDataUtils.setStringList(
+                              Constants.keyFavoriteList, favoriteList);
+                          if (s) {
+                            showToast('眼光不错哦！');
+                          } else {
+                            showToast('no~');
+                          }
+                        } else {}
                       },
+                      child: ValueListenableBuilder(
+                        valueListenable: _tipsStr,
+                        builder: (context, value, child) {
+                          return Text(
+                            _tipsStr.value ?? '',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 22),
+                            textAlign: TextAlign.start,
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-                color: Colors.green,
-                height: 150,
-                alignment: Alignment.bottomLeft,
-              ),
+                  color: provider.currentThemeGroup.themeColor,
+                  height: 150,
+                  alignment: Alignment.bottomLeft,
+                );
+              }),
               ..._interfaceList
                   .asMap()
                   .map((key, value) => MapEntry(
@@ -234,14 +236,14 @@ class _HomePageState extends State<HomePage>
                 },
               ),
               ListTile(
-                title: const Text(
-                  '主题',
+                title: Text(
+                  S.current.theme,
                   style: TextStyle(fontSize: 18),
                 ),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const ThemeSettingPage('主题'),
+                      builder: (context) => ThemeSettingPage(S.current.theme),
                     ),
                   );
                 },

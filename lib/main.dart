@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/page/message_page.dart';
@@ -7,9 +5,6 @@ import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/welcome_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:nothing/widgets/check_update_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,18 +53,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
       ),
       child: Consumer<ThemesProvider>(builder: (context, provider, child) {
         MaterialColor primarySwatch = MaterialColor(
-          provider.currentThemeGroup.darkThemeColor.value,
+          provider.currentThemeGroup.themeColor.value,
           <int, Color>{
-            50: Color(0xFFE3F2FD),
-            100: Color(0xFFBBDEFB),
-            200: Color(0xFF90CAF9),
-            300: Color(0xFF64B5F6),
-            400: Color(0xFF42A5F5),
-            500: Color(provider.currentThemeGroup.darkThemeColor.value),
-            600: Color(0xFF1E88E5),
-            700: Color(0xFF1976D2),
-            800: Color(0xFF1565C0),
-            900: Color(0xFF0D47A1),
+            50: const Color(0xFFE3F2FD),
+            100: const Color(0xFFBBDEFB),
+            200: const Color(0xFF90CAF9),
+            300: const Color(0xFF64B5F6),
+            400: const Color(0xFF42A5F5),
+            500: Color(provider.currentThemeGroup.themeColor.value),
+            600: const Color(0xFF1E88E5),
+            700: const Color(0xFF1976D2),
+            800: const Color(0xFF1565C0),
+            900: const Color(0xFF0D47A1),
           },
         );
 

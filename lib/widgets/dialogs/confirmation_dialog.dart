@@ -3,7 +3,6 @@
 /// [Date] 2020-01-22 14:47
 ///
 import 'package:extended_text/extended_text.dart';
-import 'package:flutter/material.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/extensions/extensions.e.dart';
 

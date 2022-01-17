@@ -3,9 +3,6 @@
 //  [Date] 2021-11-18 17:27:25
 //
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 import 'package:flutter_colors_border/flutter_colors_border.dart';
 import 'package:nothing/constants/constants.dart';
 

@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -21,12 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "feedback": MessageLookupByLibrary.simpleMessage("意见与建议"),
         "forgot_password": MessageLookupByLibrary.simpleMessage("忘记密码"),
         "login": MessageLookupByLibrary.simpleMessage("登录"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),
+        "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "username_hint": MessageLookupByLibrary.simpleMessage("请输入账号")
       };
 }

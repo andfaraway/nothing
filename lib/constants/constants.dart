@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nothing/api/user_api.dart';
@@ -9,11 +10,12 @@ import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+export 'package:flutter/material.dart';
 export 'package:intl/intl.dart' show DateFormat;
-export 'package:pull_to_refresh/pull_to_refresh.dart';
-
+export 'package:pull_to_refresh/pull_to_refresh.dart'
+    hide RefreshIndicator, RefreshIndicatorState;
 export 'package:nothing/generated/l10n.dart';
-
 export '../api/api.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
@@ -74,7 +76,7 @@ class Constants {
   /// 检查更新
   static Future<void> checkUpdate({Map? data}) async {
     BuildContext context = navigatorState.overlay!.context;
-    if(data == null){
+    if (data == null) {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version;
       data = await UserAPI.checkUpdate('ios', version);
@@ -100,5 +102,16 @@ class Constants {
           });
     } else {}
   }
-}
 
+  /// true:真机 false:模拟器
+  static Future<bool> isPhysicalDevice() async {
+    DeviceInfoPlugin plugin = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await plugin.iosInfo;
+      return iosInfo.isPhysicalDevice;
+    } else {
+      AndroidDeviceInfo androidInfo = await plugin.androidInfo;
+      return androidInfo.isPhysicalDevice;
+    }
+  }
+}

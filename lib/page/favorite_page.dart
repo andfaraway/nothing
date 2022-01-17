@@ -3,7 +3,6 @@
 //  [Date] 2021-11-12 18:04:14
 //
 
-import 'package:flutter/material.dart';
 import 'package:nothing/constants/constants.dart';
 
 class FavoritePage extends StatefulWidget {

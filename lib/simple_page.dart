@@ -3,7 +3,6 @@
 //  [Date] 2021-11-11 17:41:19
 //
 
-import 'package:flutter/material.dart';
 import 'package:extended_text/extended_text.dart';
 import 'constants/constants.dart';
 

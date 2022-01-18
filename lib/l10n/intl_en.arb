@@ -6,6 +6,7 @@
   "forgot_password": "Forgot Password",
 
   "message": "Message",
+  "no_message": "No Message",
   "request_failed": "request failed",
 
   "feedback": "Feedback",

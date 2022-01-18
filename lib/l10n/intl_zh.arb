@@ -6,6 +6,7 @@
   "forgot_password": "忘记密码",
 
   "message": "消息",
+  "no_message": "没有消息",
   "request_failed": "请求失败",
 
   "feedback": "意见与建议",

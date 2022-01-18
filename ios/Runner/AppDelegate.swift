@@ -11,25 +11,23 @@ var channel: FlutterMethodChannel? = nil
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-      
+      let notificationDic = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
+
       let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
       channel = FlutterMethodChannel(name: "com.libin.nothing",
                                                     binaryMessenger: controller.binaryMessenger)
       channel?.setMethodCallHandler({
             (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
-              
+                print("ios welcomeLoad")
+              if call.method == "welcomeLoad" {
+                  result(notificationDic)
+              }
           })
     GeneratedPluginRegistrant.register(with: self)
-      
-    var dic = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
-    if(dic != nil){
-          print(dic)
-         self.perform(#selector(notificationFlutter), with: dic, afterDelay: 2)
-      }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
     
-    @objc func notificationFlutter(dic:Dictionary<String, Any>) -> Void {
+    @objc func notificationFlutter(dic:Any?) -> Void {
         channel?.invokeMethod("remoteNotification", arguments: dic)
     }
     

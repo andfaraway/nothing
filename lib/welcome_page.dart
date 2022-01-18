@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nothing/home_page.dart';
 import 'package:nothing/page/login_page.dart';
+import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'constants/constants.dart';
 
@@ -31,6 +32,10 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> initData() async {
     //读取本地信息
     await Singleton.loadData();
+    //初始化推送信息
+    if (await Constants.isPhysicalDevice() || !kIsWeb) {
+      NotificationUtils.jPushInit();
+    }
 
     //判断是否登录
     if (Singleton.currentUser.userId != null) {
@@ -39,20 +44,27 @@ class _WelcomePageState extends State<WelcomePage> {
       goPage(const LoginPage());
     }
 
-    //初始化推送
-    if (kIsWeb) return;
-    if (await Constants.isPhysicalDevice()) {
-      NotificationUtils.jPushInit();
+    //通知加载完毕
+    Map<dynamic, dynamic>? result =
+        await Instances.platformChannel.invokeMapMethod('welcomeLoad');
+
+    if (result != null) {
+      BuildContext context = navigatorState.overlay!.context;
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
     }
+
   }
 
   goPage(Widget page) async {
-    await Future.delayed(const Duration(microseconds: 150), () {
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => page), (_) => false);
-      }
-    });
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => page), (_) => false);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

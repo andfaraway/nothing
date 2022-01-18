@@ -1,6 +1,7 @@
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/message_model.dart';
 import 'package:nothing/widgets/flutter_white_button.dart';
+import 'package:nothing/widgets/request_loading_widget.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -53,15 +54,17 @@ class _MessagePageState extends State<MessagePage> {
         },
         controller: _refreshController,
         child: dataList.isEmpty
-            ? const Center(
-                child: Text('nothing'),
-              )
+            ? const RequestLoadingWidget()
             : SingleChildScrollView(
-              padding:const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-              child: Column(
-                  children:
-                      dataList.map((model) => messageWidget(model)).toList()),
-            ),
+                padding:
+                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                child: Column(
+                    children: dataList.isEmpty
+                        ? [Center(child: Text(S.current.no_message))]
+                        : dataList
+                            .map((model) => messageWidget(model))
+                            .toList()),
+              ),
       ),
     );
   }

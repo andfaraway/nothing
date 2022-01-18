@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `No Message`
+  String get no_message {
+    return Intl.message(
+      'No Message',
+      name: 'no_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `request failed`
   String get request_failed {
     return Intl.message(

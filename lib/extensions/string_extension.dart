@@ -31,7 +31,6 @@ extension StringExtension on String {
     int nowInt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     int dateInt = toInt();
     int secondsValue = nowInt - dateInt;
-    secondsValue = 59;
     if (secondsValue < 60) {
       //1分钟内显示为“刚刚”
       return "刚刚";

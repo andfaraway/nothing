@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:nothing/page/message_page.dart';
 
 import '../constants/constants.dart' hide Message;
 
@@ -20,11 +21,13 @@ class NotificationUtils {
     jpush.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {
-        print("flutter onReceiveNotification: $message");
+        print("flutter onReceiveNotification: ${message}");
       },
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
-        print("flutter onOpenNotification: $message");
+        print("flutter onOpenNotification: ${message}");
+        BuildContext context = navigatorState.overlay!.context;
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const MessagePage()));
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {

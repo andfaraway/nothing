@@ -29,9 +29,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     WidgetsBinding.instance?.addObserver(this);
 
     Constants.platform.setMethodCallHandler((MethodCall call) async {
+      showToast('${call.method}');
       print('channel：${call.method},${call.arguments}');
-      BuildContext context = navigatorState.overlay!.context;
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MessagePage()));
+      // BuildContext context = navigatorState.overlay!.context;
+      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MessagePage()));
     });
 
     Constants.isDark = context.theme.brightness == Brightness.dark;

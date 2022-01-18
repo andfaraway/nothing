@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgot_password": MessageLookupByLibrary.simpleMessage("忘记密码"),
         "login": MessageLookupByLibrary.simpleMessage("登录"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
+        "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),

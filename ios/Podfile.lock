@@ -46,8 +46,8 @@ PODS:
     - UMCCommonLog
     - UMCShare/Social/ReducedQQ
     - UMCShare/UI
-  - UMAPM (1.5.5)
-  - UMCCommon (7.3.5):
+  - UMAPM (1.5.6)
+  - UMCCommon (7.3.6):
     - UMAPM
     - UMDevice
   - UMCCommonLog (2.0.2)
@@ -59,7 +59,7 @@ PODS:
   - UMCShare/UI (6.10.2):
     - UMCCommon
     - UMCShare/Core
-  - UMDevice (2.1.0)
+  - UMDevice (2.2.0)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -145,11 +145,11 @@ SPEC CHECKSUMS:
   shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   um_share_plugin: 20e45db2fbf77af2f08851774e7c6c7837e249e2
-  UMAPM: 1ab13287a2b05c1d491009321270daddf5659a74
-  UMCCommon: 3c535e9e3958f72df075cc6fe4776fb5e403c8bc
+  UMAPM: 5ab988b8bedfd090ee2307cb80530ba79b8ac264
+  UMCCommon: 67766370204f54467c2271a13397c403992ebeec
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
-  UMDevice: 04948a92184e8d25f1369b635dff5490c1f063e0
+  UMDevice: 2221685f316f781e45a22305256ea5af6f3a4093
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
 
 PODFILE CHECKSUM: b41d264841421198507240ffad7e8d887bb2f6e3

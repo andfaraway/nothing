@@ -128,4 +128,15 @@ class UserAPI {
     }
   }
 
+  // 添加反馈
+  static Future<List?> addFeedback(String content,String? nickname) async{
+    Map<String,dynamic> param = {'userid':Singleton.currentUser.userId,'content':content,'nickname':nickname};
+    var response = await NetUtils.post(API.addFeedback,queryParameters: param);
+    if(response?.data['code'].toString() == "200"){
+      return [];
+    }else{
+      showToast(response?.data['msg']);
+      return null;
+    }
+  }
 }

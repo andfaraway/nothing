@@ -11,5 +11,8 @@
 
   "feedback": "Feedback",
   "theme": "Theme",
-  "favorite": "Favorite"
+  "favorite": "Favorite",
+
+  "confirm": "Confirm",
+  "cancel": "Cancel"
 }

@@ -17,8 +17,8 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static const bool isDebug = true;
-  // static const bool isDebug = false;
+  // static const bool isDebug = true;
+  static const bool isDebug = false;
 
   static const baseUrl = isDebug ? 'http://10.0.21.184:5000' : 'http://1.14.252.115:5000';
 
@@ -46,8 +46,11 @@ class API {
   ///查询收藏
   static const String getFavorite = baseUrl + '/getFavorite';
 
-  ///获取消息列表
+  ///删除收藏
   static const String deleteFavorite = baseUrl + '/deleteFavorite';
+
+  ///添加反馈
+  static const String addFeedback = baseUrl + '/addFeedback';
 
   ///登录
   static const String signList = 'https://openjmu.jmu.edu.cn';

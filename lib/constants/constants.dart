@@ -112,4 +112,8 @@ class Constants {
       return androidInfo.isPhysicalDevice;
     }
   }
+
+  static hideKeyboard(BuildContext context){
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
 }

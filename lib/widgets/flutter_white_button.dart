@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class FlutterWhiteButton extends StatelessWidget {
   final Size size;
 
+  final Widget? child;
   ///圆角
   final double radius;
 
@@ -28,9 +29,10 @@ class FlutterWhiteButton extends StatelessWidget {
   const FlutterWhiteButton(
       {Key? key,
       this.size = const Size(150, 150),
+        this.child,
       this.radius = 5,
-      this.distance = 3,
-      this.blur = 2,
+      this.distance = 10,
+      this.blur = 25,
       this.spreadRadius = 0,
       this.lightLocation = LightLocation.topLeft,
       this.backgroundColor = const Color(0xffe0e0e0),
@@ -45,6 +47,7 @@ class FlutterWhiteButton extends StatelessWidget {
         width: size.width,
         height: size.height,
         alignment: Alignment.center,
+        child: child,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20.0)),
           color: backgroundColor,

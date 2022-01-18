@@ -80,9 +80,11 @@ extension SizeExtension on num {
 
   //宽度间隔
   Widget get wSizedBox => SizedBox(
-        height: ScreenUtil().setHeight(this).toDouble(),
+        width: ScreenUtil().setWidth(this).toDouble(),
       );
 
+  //宽度间隔
+  Widget get hDivider => Divider(height: toDouble(), thickness: toDouble());
 // double get w => _sizeCapable(ScreenUtil().setWidth(this) * 2);
 //
 // double get h => _sizeCapable(ScreenUtil().setHeight(this) * 2);

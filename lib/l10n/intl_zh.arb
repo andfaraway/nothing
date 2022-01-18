@@ -11,5 +11,8 @@
 
   "feedback": "意见与建议",
   "theme": "主题",
-  "favorite": "收藏"
+  "favorite": "收藏",
+
+  "confirm": "确定",
+  "cancel": "取消"
 }

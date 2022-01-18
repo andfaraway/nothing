@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nothing/page/favorite_page.dart';
+import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/photo_show.dart';
@@ -63,21 +64,22 @@ class _HomePageState extends State<HomePage>
         tag: 2, title: '健康提示', page: genericPage('生活小窍门', API.healthTips)));
     // _interfaceList
     //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
-    _interfaceList.add(InterfaceModel(
-        tag: 4,
-        title: '今日头条',
-        page: TopNewsPage(
-            title: '今日头条',
-            backgroundColor: getRandomColor(),
-            requestCallback: () async {
-              Response s = await NetUtils.get(API.topNews);
-              var data = s.data['newslist'];
-              return data;
-            })));
+    // _interfaceList.add(InterfaceModel(
+    //     tag: 4,
+    //     title: '今日头条',
+    //     page: TopNewsPage(
+    //         title: '今日头条',
+    //         backgroundColor: getRandomColor(),
+    //         requestCallback: () async {
+    //           Response s = await NetUtils.get(API.topNews);
+    //           var data = s.data['newslist'];
+    //           return data;
+    //         })));
 
     _interfaceList.add(InterfaceModel(
         tag: 5, title: S.current.message, page: const MessagePage()));
-
+    _interfaceList.add(InterfaceModel(
+        tag: 6, title: S.current.feedback, page: const FeedbackPage()));
     // _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
@@ -95,6 +97,7 @@ class _HomePageState extends State<HomePage>
   drawer(BuildContext context) {
     return SmartDrawer(
       callback: (open) async {
+        Constants.hideKeyboard(context);
         if (open) {
           _tipsStr.value ??= (await API.loadTips()).replaceAll('娶', '嫁');
         }

@@ -29,4 +29,5 @@ final List<ChangeNotifierProvider<dynamic>> _providers =
     <ChangeNotifierProvider<dynamic>>[
       buildProvider<SettingsProvider>(SettingsProvider()),
       buildProvider<ThemesProvider>(ThemesProvider()),
-];
+      buildProvider<HomeProvider>(HomeProvider()),
+    ];

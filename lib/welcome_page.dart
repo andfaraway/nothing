@@ -46,14 +46,16 @@ class _WelcomePageState extends State<WelcomePage> {
 
     //通知加载完毕
     Map<dynamic, dynamic>? result =
-        await Instances.platformChannel.invokeMapMethod('welcomeLoad');
+        await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
     if (result != null) {
-      BuildContext context = navigatorState.overlay!.context;
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
+      if (globalContext?.widget.toString() != 'MessagePage') {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const MessagePage()));
+      }
     }
-
   }
 
   goPage(Widget page) async {

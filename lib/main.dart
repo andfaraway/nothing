@@ -28,17 +28,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
     WidgetsBinding.instance?.addObserver(this);
 
-    Constants.platform.setMethodCallHandler((MethodCall call) async {
+    platformChannel.setMethodCallHandler((MethodCall call) async {
       showToast('${call.method}');
       print('channel：${call.method},${call.arguments}');
-      // BuildContext context = navigatorState.overlay!.context;
-      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MessagePage()));
     });
 
     Constants.isDark = context.theme.brightness == Brightness.dark;
 
     Future.delayed(Duration(seconds: 3),(){
       Constants.checkUpdate();
+      Constants.insertLaunchInfo();
     });
   }
 
@@ -96,6 +95,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         break;
       case AppLifecycleState.resumed:// 应用程序可见，前台
         NotificationUtils.jpush.setBadge(0);
+        Constants.insertLaunchInfo();
         break;
       case AppLifecycleState.paused: // 应用程序不可见，后台
         break;
@@ -103,6 +103,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         break;
     }
   }
+
+
 }
 
 

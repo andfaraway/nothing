@@ -21,6 +21,8 @@ class _MessagePageState extends State<MessagePage> {
     super.initState();
     _refreshController = RefreshController();
     loadData();
+
+    globalContext = context;
   }
 
   Future<void> loadData() async {
@@ -103,13 +105,25 @@ class _MessagePageState extends State<MessagePage> {
                 ],
               ),
               30.hSizedBox,
-              Text(
-                model.content ?? '',
-                style: TextStyle(
-                  color: const Color(0xff888888),
-                  fontSize: 28.sp,
-                ),
-              )
+              model.type != 5
+                  ? Text(
+                      model.content ?? '',
+                      style: TextStyle(
+                        color: const Color(0xff888888),
+                        fontSize: 28.sp,
+                      ),
+                    )
+                  : SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        model.content ?? '',
+                        style: TextStyle(
+                          color: const Color(0xff888888),
+                          fontSize: 28.sp,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
             ],
           ),
         ),

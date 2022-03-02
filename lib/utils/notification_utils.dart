@@ -26,8 +26,10 @@ class NotificationUtils {
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
         print("flutter onOpenNotification: ${message}");
-        BuildContext context = navigatorState.overlay!.context;
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const MessagePage()));
+        if (globalContext?.widget.toString() != 'MessagePage') {
+          BuildContext context = navigatorState.overlay!.context;
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const MessagePage()));
+        }
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {
@@ -61,14 +63,12 @@ class NotificationUtils {
     print('localAlias=$localAlias');
     if (localAlias != null) return localAlias;
     try {
-      if (alias != null) {
-        String result = '';
-        for (int i = 0; i < alias.length; i++) {
-          String c = alias[i];
-          if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
-        }
-        alias = result;
+      String result = '';
+      for (int i = 0; i < alias.length; i++) {
+        String c = alias[i];
+        if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
       }
+      alias = result;
     } catch (error) {}
 
     if (alias == null || alias.isEmpty) {

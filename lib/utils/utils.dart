@@ -15,6 +15,7 @@ export 'log_utils.dart';
 export 'net_utils.dart';
 // export 'notification_utils.dart';
 export 'toast_utils.dart';
+export 'device_utils.dart';
 
 const bool logMessageSocketPacket = false;
 

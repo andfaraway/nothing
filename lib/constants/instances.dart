@@ -62,9 +62,4 @@ class Instances {
   static GlobalKey appRepaintBoundaryKey = GlobalKey();
   // static GlobalKey<MainPageState> mainPageStateKey =
   //     GlobalKey<MainPageState>();
-
-  //平台通道
-  static const platformChannel = MethodChannel('com.libin.nothing');
-
-
 }

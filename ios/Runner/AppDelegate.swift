@@ -18,14 +18,25 @@ var channel: FlutterMethodChannel? = nil
                                                     binaryMessenger: controller.binaryMessenger)
       channel?.setMethodCallHandler({
             (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
-                print("ios welcomeLoad")
               if call.method == "welcomeLoad" {
                   result(notificationDic)
+              }else if call.method == "getBatteryLevel"{
+                  self.receiveBatteryLevel(result:result)
               }
           })
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+    
+    private func receiveBatteryLevel(result: FlutterResult) {
+      let device = UIDevice.current;
+      device.isBatteryMonitoringEnabled = true;
+      if (device.batteryState == UIDevice.BatteryState.unknown) {
+          result(-1);
+      } else {
+          result(Int(device.batteryLevel * 100));
+      }
+    }
     
     @objc func notificationFlutter(dic:Any?) -> Void {
         channel?.invokeMethod("remoteNotification", arguments: dic)

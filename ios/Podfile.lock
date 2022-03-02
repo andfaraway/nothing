@@ -59,7 +59,7 @@ PODS:
   - UMCShare/UI (6.10.2):
     - UMCCommon
     - UMCShare/Core
-  - UMDevice (2.2.0)
+  - UMDevice (2.2.1)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -149,7 +149,7 @@ SPEC CHECKSUMS:
   UMCCommon: 67766370204f54467c2271a13397c403992ebeec
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
-  UMDevice: 2221685f316f781e45a22305256ea5af6f3a4093
+  UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
 
 PODFILE CHECKSUM: b41d264841421198507240ffad7e8d887bb2f6e3

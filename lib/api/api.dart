@@ -20,7 +20,7 @@ class API {
   // static const bool isDebug = true;
   static const bool isDebug = false;
 
-  static const baseUrl = isDebug ? 'http://10.0.21.184:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? 'http://10.0.21.183:5000' : 'http://1.14.252.115:5000';
 
   ///登录
   static const String login = baseUrl + '/login';
@@ -52,17 +52,8 @@ class API {
   ///添加反馈
   static const String addFeedback = baseUrl + '/addFeedback';
 
-  ///登录
-  static const String signList = 'https://openjmu.jmu.edu.cn';
-
-  ///登录
-  static const String signSummary = 'https://openjmu.jmu.edu.cn';
-
-  ///状态
-  static const String signStatus = 'https://openjmu.jmu.edu.cn';
-
-  ///公告
-  static const String announcement = 'https://openjmu.jmu.edu.cn';
+  ///添加登录信息
+  static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
 
   static const String tianApi = 'http://api.tianapi.com';
   static const String secretKey = 'e1d306002add9c529feaa829d3969766';
@@ -131,6 +122,8 @@ class API {
     }
     return tipsStr;
   }
+
+
 
 
 }

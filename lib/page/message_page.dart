@@ -72,59 +72,70 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget messageWidget(MessageModel model) {
-    return Padding(
-      padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        ),
-        child: Padding(
-          padding:
-              EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    model.title ?? 'nothing',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    model.date?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
-                    style: TextStyle(
-                      color: const Color(0xff888888),
-                      fontSize: 28.sp,
+    return GestureDetector(
+      onLongPress: () async {
+        showConfirmToast(
+            context: context,
+            title: '确定删除吗？',
+            onConfirm: () async {
+              await UserAPI.deleteMessages(model.id.toString());
+              loadData();
+            });
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      model.title ?? 'nothing',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.bold),
                     ),
-                  )
-                ],
-              ),
-              30.hSizedBox,
-              model.type != 5
-                  ? Text(
-                      model.content ?? '',
+                    Text(
+                      model.date?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
                       style: TextStyle(
                         color: const Color(0xff888888),
                         fontSize: 28.sp,
                       ),
                     )
-                  : SizedBox(
-                      width: double.infinity,
-                      child: Text(
+                  ],
+                ),
+                30.hSizedBox,
+                model.type != 5
+                    ? Text(
                         model.content ?? '',
                         style: TextStyle(
                           color: const Color(0xff888888),
                           fontSize: 28.sp,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-            ],
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          model.content ?? '',
+                          style: TextStyle(
+                            color: const Color(0xff888888),
+                            fontSize: 28.sp,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+              ],
+            ),
           ),
         ),
       ),

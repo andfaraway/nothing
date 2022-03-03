@@ -124,6 +124,17 @@ class UserAPI {
     }
   }
 
+  //删除消息
+  static Future<List?> deleteMessages(String? id) async {
+    Map<String, dynamic> param = {'id': id};
+    var response = await NetUtils.post(API.deleteMessage, queryParameters: param);
+    if (response?.data['code'].toString() == "200") {
+      return response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
   // 添加收藏
   static Future<List?> addFavorite(String content, {String? source}) async {
     Map<String, dynamic> param = {

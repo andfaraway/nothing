@@ -16,7 +16,7 @@ class CheckUpdateWidget extends StatelessWidget {
 
   const CheckUpdateWidget(
       {Key? key,
-      this.title = '',
+      this.title = 'version update',
       this.content = '',
       required this.updateOnTap,
       this.cancelOnTap})
@@ -24,26 +24,35 @@ class CheckUpdateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widgetWidth = Screens.width - 80;
+    double widgetWidth = 640.w;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
           child: Padding(
         padding: const EdgeInsets.only(bottom: 60),
         child: SizedBox(
-          width: widgetWidth,
-          height: widgetWidth * 948 / 827,
+          width: 640.w,
+          height: 734.h,
           child: Stack(
             children: [
               Image.asset('images/version_update.png'),
               Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Text(
-                    content,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    250.hSizedBox,
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 40.sp),
+                    ),
+                    50.hSizedBox,
+                    Text(
+                      content,
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 176, 176, 176),
+                          fontSize: 30.sp),
+                    ),
+                  ],
                 ),
               ),
               Align(
@@ -66,7 +75,8 @@ class CheckUpdateWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 60, bottom: 20),
                       child: Text(
                         'cancel',
-                        style: TextStyle(color: Colors.orangeAccent, fontSize: 18),
+                        style:
+                            TextStyle(color: Colors.orangeAccent, fontSize: 18),
                       ),
                     )),
               )

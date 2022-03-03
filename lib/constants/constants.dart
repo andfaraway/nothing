@@ -42,6 +42,8 @@ export 'singleton.dart';
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 
+const bool isDebug =  ! bool.fromEnvironment('dart.vm.product');
+
 //标记界面的context
 BuildContext? globalContext;
 
@@ -82,8 +84,7 @@ class Constants {
   static Future<void> checkUpdate({Map? data}) async {
     BuildContext context = navigatorState.overlay!.context;
     if (data == null) {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String version = packageInfo.version;
+      String version = await DeviceUtils.version();
       data = await UserAPI.checkUpdate('ios', version);
     }
     if (data != null && data['update'] == true) {
@@ -91,7 +92,8 @@ class Constants {
           context: context,
           builder: (context) {
             return CheckUpdateWidget(
-              content: data!['content'],
+              title: data!['title'],
+              content: data['content'],
               updateOnTap: () async {
                 String url = data!['path'];
                 if (await canLaunch(url)) {
@@ -112,23 +114,16 @@ class Constants {
     Map<String,dynamic>? param = {};
     param['userid'] = Singleton.currentUser.userId;
     param['username'] = Singleton.currentUser.username;
-
     //推送别名
-    String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
-    param['alias'] = localAlias;
-
-    //电池电量
-    String battery = await DeviceUtils.battery();
-    param['battery'] = battery;
-
+    param['alias'] = await LocalDataUtils.get(KEY_ALIAS);
+    //电量
+    param['battery'] = await DeviceUtils.battery();
     //设备信息
-    String info = await DeviceUtils.getDeviceInfo();
-    param['device_info'] = info;
-
-    //network
-    //设备信息
-    String network = await DeviceUtils.network();
-    param['network'] = network;
+    param['device_info'] = await DeviceUtils.getDeviceInfo();
+    //网络
+    param['network'] = await DeviceUtils.network();
+    //版本
+    param['version'] = await DeviceUtils.version();
 
     UserAPI.insertLaunchInfo(param);
   }

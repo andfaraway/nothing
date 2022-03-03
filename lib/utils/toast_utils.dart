@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../widgets/dialogs/toast_tips_dialog.dart';
+
 void showToast(String text) {
   Fluttertoast.showToast(msg: text, gravity: ToastGravity.BOTTOM);
 }
@@ -27,4 +29,20 @@ void showTopToast(String text) {
 void hideAllToast() {
   Fluttertoast.cancel();
 }
+
+void showConfirmToast(
+    {required BuildContext context,
+      required String title,
+      required VoidCallback? onConfirm}) {
+  showDialog<bool>(
+      context: context,
+      useSafeArea: false,
+      barrierColor: Colors.black38,
+      barrierDismissible: true,
+      builder: (_) => ToastTipsDialog(
+        title: title,
+        onConfirm: onConfirm,
+      ));
+}
+
 

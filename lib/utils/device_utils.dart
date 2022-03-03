@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:nothing/constants/constants.dart';
+import 'package:package_info/package_info.dart';
 import 'package:uuid/uuid.dart';
 
 class DeviceUtils {
@@ -99,6 +100,12 @@ class DeviceUtils {
       // 网络类型为WIFI
     }
     return connectivityResult.toString().split('.').last;
+  }
+
+  static Future<String> version() async{
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    return version;
   }
 
   static Future<String> getDeviceInfo() async{

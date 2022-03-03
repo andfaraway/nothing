@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage>
         page: huangliPage(
             '黄历',
             API.huangli +
-                '&date=${DateFormat('yyyyy-MM-DD').format(DateTime.now())}')));
+                '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
     _interfaceList.add(InterfaceModel(
         tag: 2, title: '健康提示', page: genericPage('生活小窍门', API.healthTips)));
     // _interfaceList
@@ -404,6 +404,7 @@ class _HomePageState extends State<HomePage>
 
   ///黄历
   Widget huangliPage(String title, String url) {
+    print('黄历：$url');
     return SimplePage(
         title: title,
         backgroundColor: getRandomColor(),

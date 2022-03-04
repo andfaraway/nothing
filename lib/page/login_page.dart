@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       height: 88.h,
       child: MaterialButton(
-          onPressed: (){
+          onPressed: () {
             loginButtonPressed();
           },
           color: colorLoginButton,
@@ -59,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> loginButtonPressed() async {
-    Map<String, dynamic>? map = await UserAPI.login(_username.value,_password.value);
+    Map<String, dynamic>? map =
+        await UserAPI.login(_username.value, _password.value);
     if (map != null) {
       map['userId'] = map['id'];
       Singleton.currentUser = UserInfoModel.fromJson(map);
@@ -119,8 +120,9 @@ class _LoginPageState extends State<LoginPage> {
         Singleton.currentUser = UserInfoModel.fromJson(map);
         LocalDataUtils.setMap(KEY_USER_INFO, map);
         //注册通知
-        String? alias =
-            await NotificationUtils.setAlias(Singleton.currentUser.username);
+        String? alias = await NotificationUtils.setAlias(
+            Singleton.currentUser.username,
+            mustset: true);
         if (alias != null) {
           UserAPI.registerNotification(
               userId: Singleton.currentUser.userId,
@@ -247,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                           controller: _usernameController,
                                           textAlign: TextAlign.center,
-                                          onChanged: (value){
+                                          onChanged: (value) {
                                             _username.value = value;
                                           },
                                         ),
@@ -272,7 +274,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     controller: _passwordController,
                                     textAlign: TextAlign.center,
-                                    onChanged: (value){
+                                    onChanged: (value) {
                                       _password.value = value;
                                     },
                                   ),

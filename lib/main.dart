@@ -29,8 +29,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     WidgetsBinding.instance?.addObserver(this);
 
     platformChannel.setMethodCallHandler((MethodCall call) async {
-      showToast('${call.method}');
-      print('channel：${call.method},${call.arguments}');
+      if(call.method == 'deviceToken'){
+        String deviceToken = call.arguments.toString();
+        UserAPI.pushDeviceToken(Singleton.currentUser.userId, deviceToken);
+        print('deviceToken：${call.arguments.toString()}');
+      }
     });
 
     Constants.isDark = context.theme.brightness == Brightness.dark;
@@ -95,7 +98,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         break;
       case AppLifecycleState.resumed:// 应用程序可见，前台
         NotificationUtils.jpush.setBadge(0);
-        Constants.insertLaunchInfo();
+        // Constants.insertLaunchInfo();
         break;
       case AppLifecycleState.paused: // 应用程序不可见，后台
         break;

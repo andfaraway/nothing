@@ -42,7 +42,7 @@ export 'singleton.dart';
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 
-const bool isDebug =  ! bool.fromEnvironment('dart.vm.product');
+const bool isDebug =  false;
 
 //标记界面的context
 BuildContext? globalContext;

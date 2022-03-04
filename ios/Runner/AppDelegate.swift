@@ -38,6 +38,11 @@ var channel: FlutterMethodChannel? = nil
       }
     }
     
+    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let deviceId = deviceToken.map{ String(format: "%02.2hhx", $0) }.joined()
+        channel?.invokeMethod("deviceToken", arguments: deviceId)
+    }
+    
     @objc func notificationFlutter(dic:Any?) -> Void {
         channel?.invokeMethod("remoteNotification", arguments: dic)
     }

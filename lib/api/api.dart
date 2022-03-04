@@ -16,68 +16,71 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static final baseUrl = isDebug ? 'http://10.0.21.183:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? 'http://10.0.21.183:5000' : 'http://1.14.252.115:5000';
 
   ///登录
-  static final String login = baseUrl + '/login';
+  static const String login = baseUrl + '/login';
 
   ///第三方登录
-  static final String thirdLogin = baseUrl + '/thirdLogin';
+  static const String thirdLogin = baseUrl + '/thirdLogin';
 
   ///注册推送
-  static final String registerNotification = baseUrl + '/registerNotification';
+  static const String registerNotification = baseUrl + '/registerNotification';
 
   ///发送消息
-  static final String sayHello = baseUrl + '/sayHello';
+  static const String sayHello = baseUrl + '/sayHello';
 
   ///检查更新
-  static final String checkUpdate = baseUrl + '/checkUpdate';
+  static const String checkUpdate = baseUrl + '/checkUpdate';
 
   ///获取消息列表
-  static final String getMessages = baseUrl + '/getMessages';
+  static const String getMessages = baseUrl + '/getMessages';
 
   ///删除消息
-  static final String deleteMessage = baseUrl + '/deleteMessage';
+  static const String deleteMessage = baseUrl + '/deleteMessage';
 
   ///添加收藏
-  static final String addFavorite = baseUrl + '/addFavorite';
+  static const String addFavorite = baseUrl + '/addFavorite';
 
   ///查询收藏
-  static final String getFavorite = baseUrl + '/getFavorite';
+  static const String getFavorite = baseUrl + '/getFavorite';
 
   ///删除收藏
-  static final String deleteFavorite = baseUrl + '/deleteFavorite';
+  static const String deleteFavorite = baseUrl + '/deleteFavorite';
 
   ///添加反馈
-  static final String addFeedback = baseUrl + '/addFeedback';
+  static const String addFeedback = baseUrl + '/addFeedback';
 
   ///添加登录信息
-  static final String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
+  static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
 
-  static final String tianApi = 'http://api.tianapi.com';
-  static final String secretKey = 'e1d306002add9c529feaa829d3969766';
+  ///添加登录信息
+  static const String pushDeviceToken = baseUrl + '/pushDeviceToken';
+
+  static const String tianApi = 'http://api.tianapi.com';
+  static const String secretKey = 'e1d306002add9c529feaa829d3969766';
 
   ///生活小窍门
-  static final String qiaomen =
+  static const String qiaomen =
       tianApi + '/qiaomen/index' + '?key=' + secretKey;
 
   ///健康提示
-  static final String healthTips =
+  static const String healthTips =
       tianApi + '/healthtip/index' + '?key=' + secretKey;
 
   ///彩虹屁
-  static final String caihongpi =
+  static const String caihongpi =
       tianApi + '/caihongpi/index' + '?key=' + secretKey;
 
   ///今日头条新闻
-  static final String topNews =
+  static const String topNews =
       tianApi + '/topnews/index' + '?key=' + secretKey;
 
   ///中国老黄历
-  static final String huangli = tianApi + '/lunar/index' + '?key=' + secretKey;
+  static const String huangli = tianApi + '/lunar/index' + '?key=' + secretKey;
 
   ///土味情话
-  static final String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
+  static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
 
 
   static Future<bool> launchWeb({

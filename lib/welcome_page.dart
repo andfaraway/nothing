@@ -47,7 +47,7 @@ class _WelcomePageState extends State<WelcomePage> {
     //通知加载完毕
     Map<dynamic, dynamic>? result =
         await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
-
+    print('welcomeLoad : $result');
     if (result != null) {
       if (globalContext?.widget.toString() != 'MessagePage') {
         Navigator.push(

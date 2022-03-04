@@ -62,25 +62,10 @@ class _HomePageState extends State<HomePage>
                 '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
     _interfaceList.add(InterfaceModel(
         tag: 2, title: '健康提示', page: genericPage('生活小窍门', API.healthTips)));
-    // _interfaceList
-    //     .add(InterfaceModel(tag: 3, title: '❤️娜娜❤️', url: API.caihongpi));
-    // _interfaceList.add(InterfaceModel(
-    //     tag: 4,
-    //     title: '今日头条',
-    //     page: TopNewsPage(
-    //         title: '今日头条',
-    //         backgroundColor: getRandomColor(),
-    //         requestCallback: () async {
-    //           Response s = await NetUtils.get(API.topNews);
-    //           var data = s.data['newslist'];
-    //           return data;
-    //         })));
-
     _interfaceList.add(InterfaceModel(
         tag: 5, title: S.current.message, page: const MessagePage()));
     _interfaceList.add(InterfaceModel(
         tag: 6, title: S.current.feedback, page: const FeedbackPage()));
-    // _interfaceList.add(InterfaceModel(tag: 5, title: '通知', url: API.topNews));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
 
@@ -109,53 +94,53 @@ class _HomePageState extends State<HomePage>
           return Column(
             children: [
               Consumer<ThemesProvider>(builder: (context, provider, child) {
-                  return Container(
-                    height: Screens.topSafeHeight + 70,
-                    color: provider.currentThemeGroup.themeColor,
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: kDrawerMarginLeft,
-                        right: kDrawerMarginLeft,
-                      ),
-                      child: GestureDetector(
-                        onLongPressEnd: (details) {
-                          setState(() {
-                            showToast("${Singleton.currentUser.username} bye");
-                            LocalDataUtils.cleanData();
-                            if (mounted) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()),
-                                  (_) => false);
-                            }
-                          });
-                        },
-                        onTap: () async {
-                          if (Singleton.currentUser.username != null) {
-                            showToast("hello ${Singleton.currentUser.username}");
-                          }
-                        },
-                        child: Singleton.currentUser.avatar == null
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: SpinKitSpinningLines(
-                                  duration: Duration(seconds: 5),
-                                  color: Colors.white.withOpacity(0.5),
-                                  size: 50,
-                                ),
-                              )
-                            : CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(Singleton.currentUser.avatar!),
-                                backgroundColor: provider.currentThemeGroup.themeColor,
-                                radius: 25),
-                      ),
+                return Container(
+                  height: Screens.topSafeHeight + 70,
+                  color: provider.currentThemeGroup.themeColor,
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: kDrawerMarginLeft,
+                      right: kDrawerMarginLeft,
                     ),
-                  );
-                }
-              ),
+                    child: GestureDetector(
+                      onLongPressEnd: (details) {
+                        setState(() {
+                          showToast("${Singleton.currentUser.username} bye");
+                          LocalDataUtils.cleanData();
+                          if (mounted) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()),
+                                (_) => false);
+                          }
+                        });
+                      },
+                      onTap: () async {
+                        if (Singleton.currentUser.username != null) {
+                          showToast("hello ${Singleton.currentUser.username}");
+                        }
+                      },
+                      child: Singleton.currentUser.avatar == null
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: SpinKitSpinningLines(
+                                duration: Duration(seconds: 5),
+                                color: Colors.white.withOpacity(0.5),
+                                size: 50,
+                              ),
+                            )
+                          : CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(Singleton.currentUser.avatar!),
+                              backgroundColor:
+                                  provider.currentThemeGroup.themeColor,
+                              radius: 25),
+                    ),
+                  ),
+                );
+              }),
               Consumer<ThemesProvider>(builder: (context, provider, child) {
                 return Container(
                   child: Padding(
@@ -165,8 +150,10 @@ class _HomePageState extends State<HomePage>
                         bottom: kDrawerMarginLeft),
                     child: GestureDetector(
                       onTap: () async {
-                        var result = await UserAPI.addFavorite(_tipsStr.value.trim().toString(),source: '看着顺眼');
-                        if(result != null){
+                        var result = await UserAPI.addFavorite(
+                            _tipsStr.value.trim().toString(),
+                            source: '看着顺眼');
+                        if (result != null) {
                           showToast('收藏成功！');
                         }
                         // String text = _tipsStr.value.trim().toString();
@@ -199,101 +186,118 @@ class _HomePageState extends State<HomePage>
                   alignment: Alignment.bottomLeft,
                 );
               }),
-              ..._interfaceList
-                  .asMap()
-                  .map((key, value) => MapEntry(
-                      key,
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          _tabController.animateTo(key,
-                              duration: Duration.zero);
-                        },
-                        child: ListTile(
-                          title: value.tag == 3
-                              ? Consumer<ThemesProvider>(
-                                  builder: (context, provider, child) {
-                                    return Text(
-                                      value.title ?? '',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: provider
-                                              .currentThemeGroup.themeColor),
-                                    );
-                                  },
-                                )
-                              : Text(
-                                  value.title ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                        ),
-                      )))
-                  .values
-                  .toList(),
-              ListTile(
-                title: const Text(
-                  '收藏',
-                  style: TextStyle(fontSize: 18),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const FavoritePage()));
-                },
-              ),
-              ListTile(
-                title: Text(
-                  S.current.theme,
-                  style: TextStyle(fontSize: 18),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ThemeSettingPage(S.current.theme),
-                    ),
-                  );
-                },
-              ),
-              // ListTile(
-              //   title: const Text(
-              //     '奇怪的东西',
-              //     style: TextStyle(fontSize: 18),
-              //   ),
-              //   onTap: () {
-              //     Navigator.of(context).push(
-              //       MaterialPageRoute(
-              //         builder: (context) => const PhotoShow(),
-              //       ),
-              //     );
-              //   },
-              // ),
-              ListTile(
-                title: const Text(
-                  'hi',
-                  style: TextStyle(fontSize: 18),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SayHi(),
-                    ),
-                  );
-                },
-              ),
               Expanded(
+                  child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: currentDay(context),
+                    ..._interfaceList
+                        .asMap()
+                        .map((key, value) => MapEntry(
+                            key,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                                _tabController.animateTo(key,
+                                    duration: Duration.zero);
+                              },
+                              child: ListTile(
+                                title: value.tag == 3
+                                    ? Consumer<ThemesProvider>(
+                                        builder: (context, provider, child) {
+                                          return Text(
+                                            value.title ?? '',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: provider
+                                                    .currentThemeGroup
+                                                    .themeColor),
+                                          );
+                                        },
+                                      )
+                                    : Text(
+                                        value.title ?? '',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                              ),
+                            )))
+                        .values
+                        .toList(),
+                    ListTile(
+                      title: const Text(
+                        '收藏',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const FavoritePage()));
+                      },
                     ),
-                    SizedBox(
-                      height: Screens.bottomSafeHeight,
+                    ListTile(
+                      title: Text(
+                        S.current.theme,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ThemeSettingPage(S.current.theme),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'hi',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SayHi(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        S.current.version_update,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      onTap: () async {
+                        String version = await DeviceUtils.version();
+                        Map<String,dynamic>? data =
+                            await UserAPI.checkUpdate('ios', version);
+
+                        if (data != null && data['update'] == true) {
+                          String url = data['path'];
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        } else {
+                          showToast('当前已是最新版本: v$version');
+                        }
+                      },
                     ),
                   ],
                 ),
+              )),
+              50.hSizedBox,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: currentDay(context),
+                  ),
+                  SizedBox(
+                    height: Screens.bottomSafeHeight,
+                  ),
+                ],
               ),
             ],
           );
@@ -381,7 +385,7 @@ class _HomePageState extends State<HomePage>
           fontSize: 18,
         ),
       ),
-      textAlign: TextAlign.justify,
+      textAlign: TextAlign.end,
     );
   }
 

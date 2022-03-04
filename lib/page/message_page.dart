@@ -98,12 +98,15 @@ class _MessagePageState extends State<MessagePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      model.title ?? 'nothing',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        model.title ?? 'nothing',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                      ),
                     ),
                     Text(
                       model.date?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',

@@ -160,6 +160,16 @@ class S {
     );
   }
 
+  /// `version update`
+  String get version_update {
+    return Intl.message(
+      'version update',
+      name: 'version_update',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get confirm {
     return Intl.message(

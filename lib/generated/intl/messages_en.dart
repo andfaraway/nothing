@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "username_hint":
-            MessageLookupByLibrary.simpleMessage("Please key in ID")
+            MessageLookupByLibrary.simpleMessage("Please key in ID"),
+        "version_update": MessageLookupByLibrary.simpleMessage("version update")
       };
 }

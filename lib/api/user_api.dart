@@ -135,6 +135,17 @@ class UserAPI {
     }
   }
 
+  //删除消息
+  static Future<List?> pushDeviceToken(String? userid,String? deviceToken,) async {
+    Map<String, dynamic> param = {'userid': userid,'deviceToken':deviceToken,'debug':isDebug};
+    var response = await NetUtils.post(API.pushDeviceToken, queryParameters: param);
+    if (response?.data['code'].toString() == "200") {
+      return response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
   // 添加收藏
   static Future<List?> addFavorite(String content, {String? source}) async {
     Map<String, dynamic> param = {
@@ -194,7 +205,7 @@ class UserAPI {
   }
 
   //插入登录表
-  static Future<Map<String, dynamic>?> insertLaunchInfo(
+  static Future<List<dynamic>?> insertLaunchInfo(
       Map<String, dynamic>? param) async {
     var response =
         await NetUtils.post(API.insertLaunchInfo, queryParameters: param);

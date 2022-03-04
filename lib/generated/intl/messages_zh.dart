@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
-        "username_hint": MessageLookupByLibrary.simpleMessage("请输入账号")
+        "username_hint": MessageLookupByLibrary.simpleMessage("请输入账号"),
+        "version_update": MessageLookupByLibrary.simpleMessage("检查更新")
       };
 }

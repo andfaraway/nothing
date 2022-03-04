@@ -40,7 +40,7 @@ class NotificationUtils {
     jpush.setup(
       appKey: "713db5486c35b95a967e3b3a",
       channel: "theChannel",
-      production: false,
+      production: isDebug,
       debug: false, // 设置是否打印 debug 日志
     );
 
@@ -50,18 +50,21 @@ class NotificationUtils {
     jpush.setBadge(0);
 
     //设置别名
-    await setAlias(Singleton.currentUser.username);
+    var result = await setAlias(Singleton.currentUser.username);
+    print('result = $result');
     return jpush;
   }
 
-  static Future<String?> setAlias(String? alias) async {
+  static Future<String?> setAlias(String? alias,{bool mustset = false}) async {
     if (alias == null || alias == '') return null;
     if (! await Constants.isPhysicalDevice()) return null;
 
     //若本地有，表明设置成功过，无需再设置
     String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
     print('localAlias=$localAlias');
-    if (localAlias != null) return localAlias;
+    if(mustset == false){
+      if (localAlias != null ) return localAlias;
+    }
     try {
       String result = '';
       for (int i = 0; i < alias.length; i++) {

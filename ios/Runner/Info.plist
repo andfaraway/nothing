@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Nothing Need Get Local NetWork </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Nothing Need Save Photo</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

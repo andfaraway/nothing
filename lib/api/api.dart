@@ -51,6 +51,9 @@ class API {
   ///添加反馈
   static const String addFeedback = baseUrl + '/addFeedback';
 
+  ///获取桌面图片
+  static const String getDesktopImage = baseUrl + '/getDesktopImage';
+
   ///添加登录信息
   static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
 
@@ -81,7 +84,6 @@ class API {
 
   ///土味情话
   static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
-
 
   static Future<bool> launchWeb({
     required String url,

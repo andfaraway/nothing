@@ -64,6 +64,7 @@ dependencies:
   package_info: ^2.0.2
   flutter_localizations:
     sdk: flutter
+  path_provider: ^2.0.9
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 

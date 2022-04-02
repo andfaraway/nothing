@@ -215,4 +215,15 @@ class UserAPI {
       return null;
     }
   }
+
+  // 获取桌面图片
+  static Future<List<dynamic>?> getDesktopImage({String? id}) async {
+    Map<String, dynamic>? param = id == null ? null : {'id': id};
+    var response = await NetUtils.get(API.getDesktopImage, queryParameters: null);
+    if (response.data['code'].toString() == "200") {
+      return response.data['data'];
+    } else {
+      return null;
+    }
+  }
 }

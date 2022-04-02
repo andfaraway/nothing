@@ -23,20 +23,21 @@ class NetUtils {
     Options? options,
   }) async {
     Response<T>? response;
-      try{
-        response = await dio.post<T>(
-          url,
-          queryParameters: queryParameters,
-          data: data,
-          options: (options ?? Options()).copyWith(
-            headers:
-            headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
-          ),
-          cancelToken: cancelToken,
-        );
-        LogUtils.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
-      }on DioError catch (error) {
-         LogUtils.e('request error:$url,\n$queryParameters,\n${error.toString()}');
+    try {
+      response = await dio.post<T>(
+        url,
+        queryParameters: queryParameters,
+        data: data,
+        options: (options ?? Options()).copyWith(
+          headers:
+              headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
+        ),
+        cancelToken: cancelToken,
+      );
+      LogUtils.d(
+          'request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
+    } on DioError catch (error) {
+      LogUtils.e('request error:$url,\n$queryParameters,\n${error.toString()}');
     }
     return response;
   }
@@ -75,4 +76,16 @@ class NetUtils {
       maxRedirects: 100,
     );
   }
+
+  // 下载file
+  static Future<Response> download<T>({
+    required String urlPath,
+    required String savePath,
+    void Function(int, int)? onReceiveProgress,
+  }) =>
+      dio.download(
+        urlPath,
+        savePath,
+        onReceiveProgress: onReceiveProgress,
+      );
 }

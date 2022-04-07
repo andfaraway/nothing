@@ -160,6 +160,36 @@ class S {
     );
   }
 
+  /// `Hi`
+  String get hi {
+    return Intl.message(
+      'Hi',
+      name: 'hi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload File`
+  String get upload_file {
+    return Intl.message(
+      'Upload File',
+      name: 'upload_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release Version`
+  String get release_version {
+    return Intl.message(
+      'Release Version',
+      name: 'release_version',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `version update`
   String get version_update {
     return Intl.message(

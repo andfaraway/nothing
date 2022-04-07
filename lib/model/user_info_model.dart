@@ -7,7 +7,10 @@ class UserInfoModel {
 
 	UserInfoModel();
 
-	factory UserInfoModel.fromJson(Map<String, dynamic> json) => $UserInfoModelFromJson(json);
+	factory UserInfoModel.fromJson(Map<String, dynamic> json) {
+		json['accountType'] = json['account_type'];
+		return $UserInfoModelFromJson(json);
+	}
 
 	Map<String, dynamic> toJson() => $UserInfoModelToJson(this);
 
@@ -19,4 +22,5 @@ class UserInfoModel {
 	String? avatar;
 	String? token;
 	String? openId;
+	String? accountType;
 }

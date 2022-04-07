@@ -12,6 +12,9 @@
   "feedback": "Feedback",
   "theme": "Theme",
   "favorite": "Favorite",
+  "hi": "Hi",
+  "upload_file": "Upload File",
+  "release_version": "Release Version",
   "version_update": "version update",
 
   "confirm": "Confirm",

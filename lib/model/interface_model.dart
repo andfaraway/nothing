@@ -8,11 +8,18 @@ class InterfaceModel {
   final String? title;
   final String? url;
   final int? tag;
-  final Widget page;
+  final Widget? page;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
 
-  InterfaceModel({this.title, this.url, this.tag,required this.page});
+  InterfaceModel(
+      {this.title, this.url, this.tag, required this.page, this.onTap, this.onLongPress});
 
   InterfaceModel fromJson(Map map) {
-    return InterfaceModel(title: map['title'], url: map['url'] ,tag: map['tag'],page: map['page']);
+    return InterfaceModel(
+        title: map['title'],
+        url: map['url'],
+        tag: map['tag'],
+        page: map['page']);
   }
 }

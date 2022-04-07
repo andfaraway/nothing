@@ -10,8 +10,10 @@ import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/photo_show.dart';
+import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
+import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
@@ -38,6 +40,7 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
 
   final List<InterfaceModel> _interfaceList = [];
+  final List<InterfaceModel> _settingList = [];
   final ValueNotifier _tipsStr = ValueNotifier(null);
 
   @override
@@ -52,7 +55,6 @@ class _HomePageState extends State<HomePage>
   initTabBar() {
     _interfaceList.add(InterfaceModel(
         tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', API.qiaomen)));
-
     _interfaceList.add(InterfaceModel(
         tag: 0,
         title: '黄历',
@@ -61,11 +63,57 @@ class _HomePageState extends State<HomePage>
             API.huangli +
                 '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
     _interfaceList.add(InterfaceModel(
-        tag: 2, title: '健康提示', page: genericPage('生活小窍门', API.healthTips)));
-    _interfaceList.add(InterfaceModel(
-        tag: 5, title: S.current.message, page: const MessagePage()));
-    _interfaceList.add(InterfaceModel(
-        tag: 6, title: S.current.feedback, page: const FeedbackPage()));
+        tag: 2, title: '健康提示', page: genericPage('健康提示', API.healthTips)));
+
+    // 配置
+    _settingList.add(
+        InterfaceModel(title: S.current.message, page: const MessagePage()));
+    _settingList.add(
+        InterfaceModel(title: S.current.feedback, page: const FeedbackPage()));
+    _settingList.add(InterfaceModel(
+        title: S.current.theme, page: ThemeSettingPage(S.current.theme)));
+    _settingList.add(InterfaceModel(title: S.current.hi, page: const SayHi()));
+    if(currentUser.accountType == '1'){
+      _settingList.add(
+          InterfaceModel(title: S.current.release_version, page: const ReleaseVersion()));
+      _settingList.add(
+          InterfaceModel(title: S.current.upload_file, page: const UploadFile()));
+    }
+
+    _settingList.add(InterfaceModel(
+        title: S.current.version_update,
+        page: null,
+        onTap: () async {
+          String version = await DeviceUtils.version();
+          Map<String, dynamic>? data =
+              await UserAPI.checkUpdate('ios', version);
+          if (data != null && data['update'] == true) {
+            String url = data['path'];
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          } else {
+            showToast('当前已是最新版本: v$version');
+          }
+        },
+        onLongPress: () async {
+          String version = await DeviceUtils.version();
+          Map<String, dynamic>? data =
+              await UserAPI.checkUpdate('ios', version);
+          if (data != null) {
+            String url = data['path'];
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          } else {
+            showToast('请求失败');
+          }
+        }));
+
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
 
@@ -79,7 +127,7 @@ class _HomePageState extends State<HomePage>
   }
 
   ///左侧菜单
-  drawer(BuildContext context) {
+  Widget drawer(BuildContext context) {
     return SmartDrawer(
       callback: (open) async {
         Constants.hideKeyboard(context);
@@ -187,105 +235,27 @@ class _HomePageState extends State<HomePage>
                 );
               }),
               Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ..._interfaceList
-                        .asMap()
-                        .map((key, value) => MapEntry(
-                            key,
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                _tabController.animateTo(key,
-                                    duration: Duration.zero);
-                              },
-                              child: ListTile(
-                                title: value.tag == 3
-                                    ? Consumer<ThemesProvider>(
-                                        builder: (context, provider, child) {
-                                          return Text(
-                                            value.title ?? '',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: provider
-                                                    .currentThemeGroup
-                                                    .themeColor),
-                                          );
-                                        },
-                                      )
-                                    : Text(
-                                        value.title ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
+                child: SingleChildScrollView(
+                  child: Column(
+                      children: _settingList
+                          .map(
+                            (e) => ListTile(
+                              title: Text(
+                                e.title!,
+                                style: const TextStyle(fontSize: 18),
                               ),
-                            )))
-                        .values
-                        .toList(),
-                    ListTile(
-                      title: const Text(
-                        '收藏',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const FavoritePage()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        S.current.theme,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ThemeSettingPage(S.current.theme),
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'hi',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SayHi(),
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        S.current.version_update,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      onTap: () async {
-                        String version = await DeviceUtils.version();
-                        Map<String,dynamic>? data =
-                            await UserAPI.checkUpdate('ios', version);
-
-                        if (data != null && data['update'] == true) {
-                          String url = data['path'];
-                          if (await canLaunch(url)) {
-                            await launch(url);
-                          } else {
-                            throw 'Could not launch $url';
-                          }
-                        } else {
-                          showToast('当前已是最新版本: v$version');
-                        }
-                      },
-                    ),
-                  ],
+                              onTap: e.onTap ??
+                                  () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => e.page!));
+                                  },
+                              onLongPress: e.onLongPress,
+                            ),
+                          )
+                          .toList()),
                 ),
-              )),
+              ),
               50.hSizedBox,
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -438,11 +408,34 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer(context),
-      body: DefaultTabController(
-        length: 12,
-        child: TabBarView(
-            controller: _tabController,
-            children: _interfaceList.map((e) => e.page).toList()),
+      body: Stack(
+        children: [
+          DefaultTabController(
+            length: 12,
+            child: TabBarView(
+                controller: _tabController,
+                children: _interfaceList.map((e) => e.page!).toList()),
+          ),
+          Align(
+            child: Padding(
+              padding: EdgeInsets.only(top: Screens.topSafeHeight+5, left: 20),
+              child: Builder(
+                builder: (context) {
+                  return GestureDetector(
+                    onTap: (){
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+              ),
+            ),
+            alignment: Alignment.topLeft,
+          )
+        ],
       ),
     );
   }

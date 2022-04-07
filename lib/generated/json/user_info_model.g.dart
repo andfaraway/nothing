@@ -35,6 +35,10 @@ UserInfoModel $UserInfoModelFromJson(Map<String, dynamic> json) {
 	if (openId != null) {
 		userInfoModel.openId = openId;
 	}
+	final String? accountType = jsonConvert.convert<String>(json['accountType']);
+	if (accountType != null) {
+		userInfoModel.accountType = accountType;
+	}
 	return userInfoModel;
 }
 
@@ -48,5 +52,6 @@ Map<String, dynamic> $UserInfoModelToJson(UserInfoModel entity) {
 	data['avatar'] = entity.avatar;
 	data['token'] = entity.token;
 	data['openId'] = entity.openId;
+	data['accountType'] = entity.accountType;
 	return data;
 }

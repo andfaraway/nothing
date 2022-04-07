@@ -28,15 +28,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Forgot Password"),
+        "hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "login": MessageLookupByLibrary.simpleMessage("login"),
         "message": MessageLookupByLibrary.simpleMessage("Message"),
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
+        "release_version":
+            MessageLookupByLibrary.simpleMessage("Release Version"),
         "request_failed":
             MessageLookupByLibrary.simpleMessage("request failed"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "upload_file": MessageLookupByLibrary.simpleMessage("Upload File"),
         "username_hint":
             MessageLookupByLibrary.simpleMessage("Please key in ID"),
         "version_update": MessageLookupByLibrary.simpleMessage("version update")

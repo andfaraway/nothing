@@ -27,13 +27,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("收藏"),
         "feedback": MessageLookupByLibrary.simpleMessage("意见与建议"),
         "forgot_password": MessageLookupByLibrary.simpleMessage("忘记密码"),
+        "hi": MessageLookupByLibrary.simpleMessage("hi"),
         "login": MessageLookupByLibrary.simpleMessage("登录"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
         "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),
+        "release_version": MessageLookupByLibrary.simpleMessage("发布版本"),
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
+        "upload_file": MessageLookupByLibrary.simpleMessage("上传文件"),
         "username_hint": MessageLookupByLibrary.simpleMessage("请输入账号"),
         "version_update": MessageLookupByLibrary.simpleMessage("检查更新")
       };

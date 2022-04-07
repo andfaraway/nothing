@@ -40,7 +40,9 @@ class _WelcomePageState extends State<WelcomePage> {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       timeCount.value--;
       if (timeCount.value == 0) {
-        jumpPage();
+        if(mounted){
+          jumpPage();
+        }
         timer.cancel();
       }
     });

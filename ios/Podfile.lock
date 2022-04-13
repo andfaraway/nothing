@@ -21,13 +21,15 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
-  - JCore (2.7.1)
-  - JPush (3.7.0):
-    - JCore (< 3.0.0, >= 2.0.0)
+  - image_gallery_saver (1.5.0):
+    - Flutter
+  - JCore (3.1.0)
+  - JPush (4.4.0):
+    - JCore (>= 2.0.0)
   - jpush_flutter (0.0.2):
     - Flutter
-    - JCore (= 2.7.1)
-    - JPush (= 3.7.0)
+    - JCore (= 3.1.0)
+    - JPush (= 4.4.0)
   - OrderedSet (5.0.0)
   - package_info (0.0.1):
     - Flutter
@@ -48,7 +50,7 @@ PODS:
     - UMCCommonLog
     - UMCShare/Social/ReducedQQ
     - UMCShare/UI
-  - UMAPM (1.5.6)
+  - UMAPM (1.6.3)
   - UMCCommon (7.3.6):
     - UMAPM
     - UMDevice
@@ -74,6 +76,7 @@ DEPENDENCIES:
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -113,6 +116,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  image_gallery_saver:
+    :path: ".symlinks/plugins/image_gallery_saver/ios"
   jpush_flutter:
     :path: ".symlinks/plugins/jpush_flutter/ios"
   package_info:
@@ -138,25 +143,26 @@ SPEC CHECKSUMS:
   flutter_colors_border: 9d0e38876c41081d638d9f25990751517e48b222
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
-  JCore: 9d5bda3a172c65bbe14f2806ab0f6246f8a06065
-  JPush: 1fd7a326e7e6588eba517659ce1b79a144e54938
-  jpush_flutter: d5fd523a73277ed66d453fc7ac1c981d1fa525e2
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
+  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
+  JCore: 4029befb2497adc36b2496e2cfd6b24d9f671784
+  JPush: b7d00f2cc78766e76c8abb30a5741fe94d21e5bc
+  jpush_flutter: bc88cfa9a4ff4481031564b641c3fe24024bb2cb
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   photo_manager: 84fa94fbeb82e607333ea9a13c43b58e0903a463
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   um_share_plugin: 20e45db2fbf77af2f08851774e7c6c7837e249e2
-  UMAPM: 5ab988b8bedfd090ee2307cb80530ba79b8ac264
+  UMAPM: 76db9514ceb4c94c44cfa143498860626ca0dda5
   UMCCommon: 67766370204f54467c2271a13397c403992ebeec
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
-  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
 PODFILE CHECKSUM: b41d264841421198507240ffad7e8d887bb2f6e3
 

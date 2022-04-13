@@ -81,7 +81,7 @@ class NetUtils {
   static Future<Response> download<T>({
     required String urlPath,
     required String savePath,
-    void Function(int, int)? onReceiveProgress,
+    ProgressCallback? onReceiveProgress,
   }) =>
       dio.download(
         urlPath,

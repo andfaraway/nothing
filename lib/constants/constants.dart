@@ -12,6 +12,7 @@ import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:nothing/utils/photo_save.dart';
 
 import '../utils/local_data_utils.dart';
 import '../utils/utils.dart';

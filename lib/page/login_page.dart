@@ -177,6 +177,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Screens.init(context);
+
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
     UMSharePlugin.setPlatform(

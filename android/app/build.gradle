@@ -22,10 +22,11 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion flutter.compileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -34,25 +35,27 @@ android {
 
     defaultConfig {
         applicationId "com.libin.nothing"
-        minSdkVersion 17
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
-//            ndk {
-//                //选择要添加的对应 cpu 类型的 .so 库。
-//                abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a',
-//            }
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
+        }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME: applicationId,
+                applicationName : "Nothing",
+                JPUSH_PKGNAME : applicationId,
                 JPUSH_APPKEY : "713db5486c35b95a967e3b3a", // NOTE: JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
     }
 
     buildTypes {
         release {
+            // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }

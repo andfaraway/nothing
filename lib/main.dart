@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
@@ -10,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
-  runApp(MultiProvider(providers: providers, child: MyApp()));
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -84,7 +85,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
           ],
           supportedLocales: S.delegate.supportedLocales,
           // home: const HomePage(),
-          home: WelcomePage(),
+          home: const WelcomePage(),
+          builder: EasyLoading.init(),
         );
       }),
     );

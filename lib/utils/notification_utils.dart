@@ -51,7 +51,7 @@ class NotificationUtils {
 
     //设置别名
     var result = await setAlias(Singleton.currentUser.username);
-    print('result = $result');
+    print('setAlias = $result');
     return jpush;
   }
 

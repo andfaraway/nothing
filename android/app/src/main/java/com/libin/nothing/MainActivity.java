@@ -1,4 +1,4 @@
-package com.example.nothing;
+package com.libin.nothing;
 
 import io.flutter.embedding.android.FlutterActivity;
 

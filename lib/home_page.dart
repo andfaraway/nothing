@@ -52,6 +52,12 @@ class _HomePageState extends State<HomePage>
     loadData();
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   initTabBar() {
     _interfaceList.add(InterfaceModel(
         tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', API.qiaomen)));
@@ -138,8 +144,7 @@ class _HomePageState extends State<HomePage>
       child: Container(
         color: Colors.white,
         width: Screens.width * 0.8,
-        child: Builder(builder: (context) {
-          return Column(
+        child: Column(
             children: [
               Consumer<ThemesProvider>(builder: (context, provider, child) {
                 return Container(
@@ -197,7 +202,7 @@ class _HomePageState extends State<HomePage>
                         right: kDrawerMarginLeft,
                         bottom: kDrawerMarginLeft),
                     child: GestureDetector(
-                      onTap: () async {
+                      onDoubleTap: () async {
                         var result = await UserAPI.addFavorite(
                             _tipsStr.value.trim().toString(),
                             source: '看着顺眼');
@@ -270,8 +275,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ],
-          );
-        }),
+          )
       ),
     );
   }
@@ -406,6 +410,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    Screens.init(context);
+
     return Scaffold(
       drawer: drawer(context),
       body: Stack(

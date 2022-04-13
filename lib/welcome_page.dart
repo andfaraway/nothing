@@ -52,9 +52,8 @@ class _WelcomePageState extends State<WelcomePage> {
     });
   }
 
-  //
+  // 跳转页面
   Future<void> jumpPage() async {
-    return;
     //判断是否登录
     if (Singleton.currentUser.userId != null) {
       goPage(const HomePage());
@@ -106,7 +105,7 @@ class _WelcomePageState extends State<WelcomePage> {
         launchUrl.value = localPath;
       }
     } else {
-        launchUrl.value = localPath;
+      launchUrl.value = localPath;
     }
   }
 
@@ -133,7 +132,7 @@ class _WelcomePageState extends State<WelcomePage> {
             return Stack(
               children: [
                 if (value != null)
-                  (value == ''
+                  (value != ''
                       ? GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onLongPress: () {
@@ -148,12 +147,14 @@ class _WelcomePageState extends State<WelcomePage> {
                             height: double.infinity,
                           ),
                         )
-                      :  Center(
-                          child: Text('Hi',style: TextStyle(
-                            fontSize: 80,
-                            fontWeight: FontWeight.lerp(FontWeight.normal,
-                                FontWeight.bold, .1)
-                          ),),
+                      : Center(
+                          child: Text(
+                            'Hi',
+                            style: TextStyle(
+                                fontSize: 80,
+                                fontWeight: FontWeight.lerp(
+                                    FontWeight.normal, FontWeight.bold, .1)),
+                          ),
                         )),
                 Align(
                   child: Padding(

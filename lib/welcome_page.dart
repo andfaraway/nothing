@@ -18,6 +18,8 @@ import 'package:nothing/utils/photo_save.dart';
 import 'package:path_provider/path_provider.dart';
 import 'constants/constants.dart';
 
+const int secondCount = 3;
+
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -30,7 +32,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Map<dynamic, dynamic>? result;
 
-  ValueNotifier<int> timeCount = ValueNotifier(5);
+  ValueNotifier<int> timeCount = ValueNotifier(secondCount);
 
   late Timer timer;
 

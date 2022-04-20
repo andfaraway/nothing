@@ -18,6 +18,7 @@ class NotificationUtils {
 
   //极光推送初始化
   static Future<JPush> jPushInit() async {
+    // return jpush;
     jpush.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {

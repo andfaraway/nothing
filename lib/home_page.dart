@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
     _settingList.add(
         InterfaceModel(title: S.current.feedback, page: const FeedbackPage()));
     _settingList.add(InterfaceModel(
-        title: S.current.theme, page: ThemeSettingPage(S.current.theme)));
+        title: S.current.theme, page: ThemeSettingPage()));
     _settingList.add(InterfaceModel(title: S.current.hi, page: const SayHi()));
     if(currentUser.accountType == '1'){
       _settingList.add(

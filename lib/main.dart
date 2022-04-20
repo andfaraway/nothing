@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nothing/app_routes.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
@@ -84,8 +85,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
             GlobalWidgetsLocalizations.delegate
           ],
           supportedLocales: S.delegate.supportedLocales,
+          routes: AppRoutes.routes,
+          initialRoute: welcomeRoute.routeName,
           // home: const HomePage(),
-          home: const WelcomePage(),
+          // home: const WelcomePage(),
           builder: EasyLoading.init(),
         );
       }),

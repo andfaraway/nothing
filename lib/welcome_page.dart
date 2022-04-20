@@ -135,20 +135,24 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 if (value != null)
                   (value != ''
-                      ? GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onLongPress: () {
-                            saveLocalPhoto(
-                              saveName: 'launchImage.jpg',
-                              localPath: value,
-                            );
-                          },
-                          child: Image.asset(
-                            value,
-                            width: double.infinity,
-                            height: double.infinity,
+                      ? Container(
+                    color: Colors.black,
+                        child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onLongPress: () {
+                              saveLocalPhoto(
+                                saveName: 'launchImage.jpg',
+                                localPath: value,
+                              );
+                            },
+                            child: Image.asset(
+                              value,
+                              width: double.infinity,
+                              height: double.infinity,
+                              // fit: BoxFit.fitWidth,
+                            ),
                           ),
-                        )
+                      )
                       : Center(
                           child: Text(
                             'Hi',

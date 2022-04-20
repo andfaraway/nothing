@@ -7,16 +7,14 @@ import 'package:flutter_colors_border/flutter_colors_border.dart';
 import 'package:nothing/constants/constants.dart';
 
 class ThemeSettingPage extends StatelessWidget {
-  final String title;
-
-  const ThemeSettingPage(this.title, {Key? key}) : super(key: key);
+  const ThemeSettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          S.current.theme,
         ),
       ),
       body: Column(

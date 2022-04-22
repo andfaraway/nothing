@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
   runApp(MultiProvider(providers: providers, child: const MyApp()));
@@ -88,7 +89,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
           routes: AppRoutes.routes,
           initialRoute: welcomeRoute.routeName,
           // home: const HomePage(),
-          // home: const WelcomePage(),
           builder: EasyLoading.init(),
         );
       }),

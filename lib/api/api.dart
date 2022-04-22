@@ -16,7 +16,7 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static const baseUrl = isDebug ? 'http://10.0.21.183:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? 'http://10.0.21.117:5000' : 'http://1.14.252.115:5000';
 
   ///登录
   static const String login = baseUrl + '/login';
@@ -51,8 +51,8 @@ class API {
   ///添加反馈
   static const String addFeedback = baseUrl + '/addFeedback';
 
-  ///获取桌面图片
-  static const String getDesktopImage = baseUrl + '/getDesktopImage';
+  ///获取启动页信息
+  static const String getLaunchInfo = baseUrl + '/getLaunchInfo';
 
   ///添加登录信息
   static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';

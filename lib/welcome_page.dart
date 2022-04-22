@@ -15,20 +15,22 @@ import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/utils/photo_save.dart';
+import 'package:nothing/widgets/launch_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'constants/constants.dart';
 
-const int secondCount = 3;
+const int secondCount = 5;
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({Key? key, String? localPath}) : super(key: key);
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  ValueNotifier<String?> launchUrl = ValueNotifier(null);
+  // 启动页信息
+  ValueNotifier<Map<String, dynamic>?> launchInfo = ValueNotifier({});
 
   Map<dynamic, dynamic>? result;
 
@@ -42,25 +44,17 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     initData();
-
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      timeCount.value--;
-      if (timeCount.value == 0) {
-        if (mounted) {
-          jumpPage();
-        }
-        timer.cancel();
-      }
-    });
   }
 
   // 跳转页面
   Future<void> jumpPage() async {
     //判断是否登录
     if (Singleton.currentUser.userId != null) {
-      goPage(const HomePage());
+      Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context) => const HomePage()), (_) => false);
     } else {
-      goPage(const LoginPage());
+      Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
     }
 
     if (result != null) {
@@ -85,35 +79,39 @@ class _WelcomePageState extends State<WelcomePage> {
     result = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
     // 获取启动图片
-    List<dynamic>? s = await UserAPI.getDesktopImage();
-    String url = s?.first['url'];
-    String name = 'launchImage${s?.first['format']}';
+    launchInfo.value = await UserAPI.getLaunchInfo();
 
-    // 本地图片路径
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String localPath = appDocDir.path + '/' + name;
+    // // 本地图片路径
+    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    // String localPath = appDocDir.path + '/' + name;
+    //
+    // // 查询本地是否已经下载图片
+    // String? localUrl = await LocalDataUtils.get('launchImgDate');
+    // if (url != localUrl) {
+    //   // 未下载，保存图片到本地
+    //   Response s = await NetUtils.download(urlPath: url, savePath: localPath);
+    //
+    //   // 下载完成，记录状态
+    //   if (s.statusCode == 200) {
+    //     LogUtils.i('launchImage:$url');
+    //     await LocalDataUtils.setString('launchImgDate', url);
+    //
+    //     launchUrl.value = localPath;
+    //   }
+    // } else {
+    //   launchUrl.value = localPath;
+    // }
 
-    // 查询本地是否已经下载图片
-    String? localUrl = await LocalDataUtils.get('launchImgDate');
-    if (url != localUrl) {
-      // 未下载，保存图片到本地
-      Response s = await NetUtils.download(urlPath: url, savePath: localPath);
-
-      // 下载完成，记录状态
-      if (s.statusCode == 200) {
-        LogUtils.i('launchImage:$url');
-        await LocalDataUtils.setString('launchImgDate', url);
-
-        launchUrl.value = localPath;
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      timeCount.value--;
+      if (timeCount.value == 0) {
+        if (mounted) {
+          jumpPage();
+        }
+        timer.cancel();
       }
-    } else {
-      launchUrl.value = localPath;
-    }
-  }
+    });
 
-  goPage(Widget page) async {
-    Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => page), (_) => false);
   }
 
   @override
@@ -126,42 +124,46 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     Screens.init(context);
-
     return Scaffold(
       body: ValueListenableBuilder(
-          valueListenable: launchUrl,
-          builder: (context, String? value, child) {
+          valueListenable: launchInfo,
+          builder: (context, Map<String, dynamic>? map, child) {
             return Stack(
               children: [
-                if (value != null)
-                  (value != ''
-                      ? Container(
-                    color: Colors.black,
-                        child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onLongPress: () {
-                              saveLocalPhoto(
-                                saveName: 'launchImage.jpg',
-                                localPath: value,
-                              );
-                            },
-                            child: Image.asset(
-                              value,
-                              width: double.infinity,
-                              height: double.infinity,
-                              // fit: BoxFit.fitWidth,
-                            ),
-                          ),
+                map == null
+                    ? Center(
+                        child: Text(
+                          'Hi',
+                          style: TextStyle(
+                              fontSize: 80,
+                              fontWeight: FontWeight.lerp(
+                                  FontWeight.normal, FontWeight.bold, .1)),
+                        ),
                       )
-                      : Center(
-                          child: Text(
-                            'Hi',
-                            style: TextStyle(
-                                fontSize: 80,
-                                fontWeight: FontWeight.lerp(
-                                    FontWeight.normal, FontWeight.bold, .1)),
-                          ),
-                        )),
+                    : map.isNotEmpty
+                        ? Container(
+                            color: Colors.black,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onLongPress: () {
+                                // saveLocalPhoto(
+                                //   saveName: 'launchImage.jpg',
+                                //   localPath: ,
+                                // );
+                              },
+                              child: LaunchWidget(
+                                title: map['title'],
+                                url: map['image'],
+                                dayStr: map['dayStr'],
+                                monthStr: map['monthStr'],
+                                dateDetailStr: map['dateDetailStr'],
+                                contentStr: map['contentStr'],
+                                author: map['authorStr'],
+                                codeStr: map['codeStr'],
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                 Align(
                   child: Padding(
                     padding: const EdgeInsets.all(20),

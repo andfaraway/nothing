@@ -25,6 +25,7 @@ var channel: FlutterMethodChannel? = nil
               }
           })
     GeneratedPluginRegistrant.register(with: self)
+      
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
     

@@ -216,10 +216,10 @@ class UserAPI {
     }
   }
 
-  // 获取桌面图片
-  static Future<List<dynamic>?> getDesktopImage({String? id}) async {
-    Map<String, dynamic>? param = id == null ? null : {'id': id};
-    var response = await NetUtils.get(API.getDesktopImage, queryParameters: null);
+  // 获取启动页信息
+  static Future<Map<String,dynamic>?> getLaunchInfo({String? date}) async {
+    Map<String, dynamic>? param = date == null ? null : {'date': date};
+    var response = await NetUtils.get(API.getLaunchInfo, queryParameters: null);
     if (response.data['code'].toString() == "200") {
       return response.data['data'];
     } else {

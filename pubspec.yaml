@@ -67,6 +67,7 @@ dependencies:
   path_provider: ^2.0.9
   image_gallery_saver: ^1.7.1
   flutter_easyloading: ^3.0.3
+  qr_flutter: ^4.0.0
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 

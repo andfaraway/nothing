@@ -20,15 +20,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="bqJ-Vd-dF8">
-                                <rect key="frame" x="20" y="44" width="374" height="818"/>
+                                <rect key="frame" x="0.0" y="229" width="414" height="667"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bqJ-Vd-dF8" firstAttribute="top" secondItem="f7c-9I-g6A" secondAttribute="bottom" id="L7T-AC-T0u"/>
-                            <constraint firstItem="S4r-4j-Eor" firstAttribute="top" secondItem="bqJ-Vd-dF8" secondAttribute="bottom" id="dRk-yG-rGh"/>
-                            <constraint firstItem="bqJ-Vd-dF8" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="jke-vm-eLs"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bqJ-Vd-dF8" secondAttribute="trailing" id="r8A-Ex-QjO"/>
+                            <constraint firstAttribute="bottom" secondItem="bqJ-Vd-dF8" secondAttribute="bottom" id="dRk-yG-rGh"/>
+                            <constraint firstItem="bqJ-Vd-dF8" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="jke-vm-eLs"/>
+                            <constraint firstAttribute="trailing" secondItem="bqJ-Vd-dF8" secondAttribute="trailing" id="r8A-Ex-QjO"/>
                         </constraints>
                     </view>
                 </viewController>

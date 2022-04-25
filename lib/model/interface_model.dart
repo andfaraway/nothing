@@ -15,7 +15,7 @@ class InterfaceModel {
   InterfaceModel(
       {this.title, this.url, this.tag, required this.page, this.onTap, this.onLongPress});
 
-  InterfaceModel fromJson(Map map) {
+  static InterfaceModel fromJson(Map map) {
     return InterfaceModel(
         title: map['title'],
         url: map['url'],

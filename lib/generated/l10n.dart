@@ -130,6 +130,16 @@ class S {
     );
   }
 
+  /// `Setting`
+  String get setting {
+    return Intl.message(
+      'Setting',
+      name: 'setting',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Feedback`
   String get feedback {
     return Intl.message(
@@ -215,6 +225,56 @@ class S {
     return Intl.message(
       'Cancel',
       name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Camera`
+  String get camera {
+    return Intl.message(
+      'Camera',
+      name: 'camera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photo Album`
+  String get photo_album {
+    return Intl.message(
+      'Photo Album',
+      name: 'photo_album',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `upload`
+  String get upload {
+    return Intl.message(
+      'upload',
+      name: 'upload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fail`
+  String get fail {
+    return Intl.message(
+      'Fail',
+      name: 'fail',
       desc: '',
       args: [],
     );

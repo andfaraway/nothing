@@ -21,6 +21,7 @@ class NetUtils {
     Map<String, dynamic>? headers,
     CancelToken? cancelToken,
     Options? options,
+        ProgressCallback? onSendProgress,
   }) async {
     Response<T>? response;
     try {
@@ -33,6 +34,7 @@ class NetUtils {
               headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
         ),
         cancelToken: cancelToken,
+        onSendProgress: onSendProgress
       );
       LogUtils.d(
           'request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');

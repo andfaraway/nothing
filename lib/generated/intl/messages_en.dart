@@ -22,8 +22,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "forgot_password":
@@ -34,12 +36,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
+        "photo_album": MessageLookupByLibrary.simpleMessage("Photo Album"),
         "release_version":
             MessageLookupByLibrary.simpleMessage("Release Version"),
         "request_failed":
             MessageLookupByLibrary.simpleMessage("request failed"),
+        "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "success": MessageLookupByLibrary.simpleMessage("Success"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "upload": MessageLookupByLibrary.simpleMessage("upload"),
         "upload_file": MessageLookupByLibrary.simpleMessage("Upload File"),
         "username_hint":
             MessageLookupByLibrary.simpleMessage("Please key in ID"),

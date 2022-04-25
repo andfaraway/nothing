@@ -12,6 +12,7 @@ import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
+import 'package:nothing/page/setting.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/utils/notification_utils.dart';
@@ -27,6 +28,7 @@ import 'simple_page.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:package_info/package_info.dart';
+import 'public.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,8 +42,8 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
 
   final List<InterfaceModel> _interfaceList = [];
-  final List<InterfaceModel> _settingList = [];
   final ValueNotifier _tipsStr = ValueNotifier(null);
+  final ValueNotifier<String?> _todayTips = ValueNotifier(null);
 
   @override
   void initState() {
@@ -71,55 +73,6 @@ class _HomePageState extends State<HomePage>
     _interfaceList.add(InterfaceModel(
         tag: 2, title: '健康提示', page: genericPage('健康提示', API.healthTips)));
 
-    // 配置
-    _settingList.add(
-        InterfaceModel(title: S.current.message, page: const MessagePage()));
-    _settingList.add(
-        InterfaceModel(title: S.current.feedback, page: const FeedbackPage()));
-    _settingList.add(InterfaceModel(
-        title: S.current.theme, page: ThemeSettingPage()));
-    _settingList.add(InterfaceModel(title: S.current.hi, page: const SayHi()));
-    if(currentUser.accountType == '1'){
-      _settingList.add(
-          InterfaceModel(title: S.current.release_version, page: const ReleaseVersion()));
-      _settingList.add(
-          InterfaceModel(title: S.current.upload_file, page: const UploadFile()));
-    }
-
-    _settingList.add(InterfaceModel(
-        title: S.current.version_update,
-        page: null,
-        onTap: () async {
-          String version = await DeviceUtils.version();
-          Map<String, dynamic>? data =
-              await UserAPI.checkUpdate('ios', version);
-          if (data != null && data['update'] == true) {
-            String url = data['path'];
-            if (await canLaunch(url)) {
-              await launch(url);
-            } else {
-              throw 'Could not launch $url';
-            }
-          } else {
-            showToast('当前已是最新版本: v$version');
-          }
-        },
-        onLongPress: () async {
-          String version = await DeviceUtils.version();
-          Map<String, dynamic>? data =
-              await UserAPI.checkUpdate('ios', version);
-          if (data != null) {
-            String url = data['path'];
-            if (await canLaunch(url)) {
-              await launch(url);
-            } else {
-              throw 'Could not launch $url';
-            }
-          } else {
-            showToast('请求失败');
-          }
-        }));
-
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
 
@@ -130,6 +83,22 @@ class _HomePageState extends State<HomePage>
     // if (list != null) {
     //   favoriteList.addAll(list.cast<String>());
     // }
+
+    _todayTips.value = await UserAPI.getTips();
+  }
+
+  Widget todayTipsWidget() {
+    return SizedBox(
+      width: double.infinity,
+      child: ValueListenableBuilder(
+          valueListenable: _todayTips,
+          builder: (context, String? value, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text(value ?? '')],
+            );
+          }),
+    );
   }
 
   ///左侧菜单
@@ -142,9 +111,9 @@ class _HomePageState extends State<HomePage>
         }
       },
       child: Container(
-        color: Colors.white,
-        width: Screens.width * 0.8,
-        child: Column(
+          color: Colors.white,
+          width: Screens.width * 0.8,
+          child: Column(
             children: [
               Consumer<ThemesProvider>(builder: (context, provider, child) {
                 return Container(
@@ -239,127 +208,30 @@ class _HomePageState extends State<HomePage>
                   alignment: Alignment.bottomLeft,
                 );
               }),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                      children: _settingList
-                          .map(
-                            (e) => ListTile(
-                              title: Text(
-                                e.title!,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                              onTap: e.onTap ??
-                                  () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => e.page!));
-                                  },
-                              onLongPress: e.onLongPress,
-                            ),
-                          )
-                          .toList()),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: kDrawerMarginLeft,
+                  right: kDrawerMarginLeft,
                 ),
+                child: todayTipsWidget(),
               ),
-              50.hSizedBox,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: currentDay(context),
-                  ),
-                  SizedBox(
-                    height: Screens.bottomSafeHeight,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      NormalCell(
+                        title:S.current.setting,
+                        onTap: () {
+                          AppRoutes.pushPage(context, const SettingPage());
+                        },
+                      )
+                    ]),
+              ),
+              SizedBox(
+                height: Screens.bottomSafeHeight,
               ),
             ],
-          )
-      ),
-    );
-  }
-
-  /// 当前日期问候
-  Widget currentDay(BuildContext context) {
-    String hello = '你好';
-    final DateTime now = DateTime.now();
-    final int hour = now.hour;
-
-    if (hour >= 0 && hour < 6) {
-      hello = '深夜了，注意休息';
-    } else if (hour >= 6 && hour < 8) {
-      hello = '早上好';
-    } else if (hour >= 8 && hour < 11) {
-      hello = '上午好';
-    } else if (hour >= 11 && hour < 14) {
-      hello = '中午好';
-    } else if (hour >= 14 && hour < 18) {
-      hello = '下午好';
-    } else if (hour >= 18 && hour < 20) {
-      hello = '傍晚好';
-    } else if (hour >= 20 && hour <= 24) {
-      hello = '晚上好';
-    }
-
-    int currentWeek = now.weekday;
-    late String weekString = '一';
-    switch (currentWeek) {
-      case 1:
-        weekString = '一';
-        break;
-      case 2:
-        weekString = '二';
-        break;
-      case 3:
-        weekString = '三';
-        break;
-      case 4:
-        weekString = '四';
-        break;
-      case 5:
-        weekString = '五';
-        break;
-      case 6:
-        weekString = '六';
-        break;
-      case 7:
-        weekString = '日';
-        break;
-    }
-
-    return Text.rich(
-      TextSpan(
-        children: <TextSpan>[
-          TextSpan(text: '$hello，'),
-          const TextSpan(text: '今天是'),
-          TextSpan(
-            text: '${DateFormat('MM月dd日').format(now)}，',
-          ),
-          TextSpan(
-            text: '星期$weekString',
-          ),
-          if (currentWeek < 5)
-            TextSpan(children: <InlineSpan>[
-              const TextSpan(text: ', 距离周五还有'),
-              TextSpan(
-                text: '${5 - currentWeek.abs()}',
-                style: TextStyle(
-                  color: currentThemeColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const TextSpan(text: '天'),
-            ]),
-          const TextSpan(
-            text: '❤️',
-          ),
-        ],
-        style: context.textTheme.bodyText2?.copyWith(
-          fontSize: 18,
-        ),
-      ),
-      textAlign: TextAlign.end,
+          )),
     );
   }
 
@@ -424,20 +296,19 @@ class _HomePageState extends State<HomePage>
           ),
           Align(
             child: Padding(
-              padding: EdgeInsets.only(top: Screens.topSafeHeight+5, left: 20),
-              child: Builder(
-                builder: (context) {
-                  return GestureDetector(
-                    onTap: (){
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-              ),
+              padding:
+                  EdgeInsets.only(top: Screens.topSafeHeight + 5, left: 20),
+              child: Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                );
+              }),
             ),
             alignment: Alignment.topLeft,
           )

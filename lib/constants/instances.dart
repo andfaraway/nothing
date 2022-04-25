@@ -18,8 +18,6 @@ ThemeGroup get currentThemeGroup =>
 
 Color get currentThemeColor => currentTheme.colorScheme.secondary;
 
-///背景色
-Color get colorBackground => const Color(0xffe0e0e0);
 
 bool get currentIsDark => currentTheme.brightness == Brightness.dark;
 

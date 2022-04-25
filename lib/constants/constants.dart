@@ -38,12 +38,14 @@ export '../utils/local_data_utils.dart';
 export 'platform_channel.dart';
 export 'package:nothing/utils/utils.dart';
 
+export 'colors.dart';
+
 export 'singleton.dart';
 
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 
-const bool isDebug =  true;
+const bool isDebug =  false;
 
 //标记界面的context
 BuildContext? globalContext;

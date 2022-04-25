@@ -9,6 +9,8 @@
   "no_message": "No Message",
   "request_failed": "request failed",
 
+  "setting": "Setting",
+
   "feedback": "Feedback",
   "theme": "Theme",
   "favorite": "Favorite",
@@ -18,5 +20,12 @@
   "version_update": "version update",
 
   "confirm": "Confirm",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+
+  "camera": "Camera",
+  "photo_album": "Photo Album",
+  "upload": "upload",
+
+  "success": "Success",
+  "fail": "Fail"
 }

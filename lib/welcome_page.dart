@@ -44,6 +44,16 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     initData();
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      timeCount.value--;
+      if (timeCount.value == 0) {
+        if (mounted) {
+          jumpPage();
+        }
+        timer.cancel();
+      }
+    });
   }
 
   // 跳转页面
@@ -101,16 +111,6 @@ class _WelcomePageState extends State<WelcomePage> {
     // } else {
     //   launchUrl.value = localPath;
     // }
-
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      timeCount.value--;
-      if (timeCount.value == 0) {
-        if (mounted) {
-          jumpPage();
-        }
-        timer.cancel();
-      }
-    });
 
   }
 

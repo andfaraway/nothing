@@ -16,7 +16,8 @@ export 'user_api.dart';
 class API {
   const API._();
 
-  static const baseUrl = isDebug ? 'http://10.0.21.117:5000' : 'http://1.14.252.115:5000';
+  static const baseUrl =
+      isDebug ? 'http://10.0.21.117:5000' : 'http://1.14.252.115:5000';
 
   ///登录
   static const String login = baseUrl + '/login';
@@ -54,6 +55,15 @@ class API {
   ///获取启动页信息
   static const String getLaunchInfo = baseUrl + '/getLaunchInfo';
 
+  ///获取设置模块
+  static const String getSettingModule = baseUrl + '/getSettingModule';
+
+  ///上传文件
+  static const String uploadFile = baseUrl + '/uploadFile';
+
+  ///获取每日提示
+  static const String getTips = baseUrl + '/getTips';
+
   ///添加登录信息
   static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
 
@@ -83,7 +93,8 @@ class API {
   static const String huangli = tianApi + '/lunar/index' + '?key=' + secretKey;
 
   ///土味情话
-  static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
+  static const String sayLove =
+      tianApi + '/saylove/index' + '?key=' + secretKey;
 
   static Future<bool> launchWeb({
     required String url,
@@ -118,16 +129,12 @@ class API {
     }
   }
 
-  static Future<String> loadTips() async{
+  static Future<String> loadTips() async {
     var response = await NetUtils.get(API.sayLove);
     String tipsStr = '';
-    if(response.data['code'].toString() == "200"){
+    if (response.data['code'].toString() == "200") {
       tipsStr = response.data['newslist'].first['content'];
     }
     return tipsStr;
   }
-
-
-
-
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/models.dart';
 import 'package:nothing/widgets/dialogs/confirmation_dialog.dart';
@@ -219,11 +220,58 @@ class UserAPI {
   // 获取启动页信息
   static Future<Map<String,dynamic>?> getLaunchInfo({String? date}) async {
     Map<String, dynamic>? param = date == null ? null : {'date': date};
-    var response = await NetUtils.get(API.getLaunchInfo, queryParameters: null);
+    var response = await NetUtils.get(API.getLaunchInfo, queryParameters: param);
     if (response.data['code'].toString() == "200") {
       return response.data['data'];
     } else {
       return null;
     }
+  }
+
+  // 获取设置模块
+  static Future<List<dynamic>?> getSettingModule({String?
+  accountType}) async {
+    Map<String, dynamic>? param = accountType == null ? null : {'accountType': accountType};
+    var response = await NetUtils.get(API.getSettingModule, queryParameters: param);
+    if (response.data['code'].toString() == "200") {
+      return response.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  // 获取获取今日提示
+  static Future<String?> getTips() async {
+    var response = await NetUtils.get(API.getTips,);
+    if (response.data['code'].toString() == "200") {
+      return response.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  // 上传文件
+  static uploadFile(String imagePath,String fileName) async {
+    print('imagePath = $imagePath');
+    List list = imagePath.split('.');
+    String houzhui = list.last;
+    if (houzhui.length == 1) {
+      houzhui = 'jpg';
+    }
+
+    MultipartFile f =
+    await MultipartFile.fromFile(imagePath, filename: fileName);
+    FormData formData = FormData.fromMap({
+      'file': f,
+      //传参信息
+      "type": 'launchImage',
+      "name":fileName
+    });
+
+    return NetUtils.post(API.uploadFile,
+        data: formData, onSendProgress: (a, b) {
+          double s = double.parse(a.toString()) / double.parse(b.toString());
+          EasyLoading.showProgress(s);
+    });
   }
 }

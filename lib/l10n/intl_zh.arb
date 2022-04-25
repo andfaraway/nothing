@@ -9,6 +9,8 @@
   "no_message": "没有消息",
   "request_failed": "请求失败",
 
+  "setting": "设置",
+
   "feedback": "意见与建议",
   "theme": "主题",
   "favorite": "收藏",
@@ -18,5 +20,12 @@
   "version_update": "检查更新",
 
   "confirm": "确定",
-  "cancel": "取消"
+  "cancel": "取消",
+
+  "camera": "相机",
+  "photo_album": "相册",
+  "upload": "上传",
+
+  "success": "成功",
+  "fail": "失败"
 }

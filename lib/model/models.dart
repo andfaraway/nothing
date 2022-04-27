@@ -12,16 +12,6 @@ part 'json_model.dart';
 part 'theme_group.dart';
 part 'user_info.dart';
 part 'web_app.dart';
+part 'launch_info.dart';
+part 'models.g.dart';
 
-
-class NoGlowScrollBehavior extends ScrollBehavior {
-  const NoGlowScrollBehavior();
-
-  @override
-  Widget buildViewportChrome(
-    BuildContext context,
-    Widget child,
-    AxisDirection axisDirection,
-  ) =>
-      child;
-}

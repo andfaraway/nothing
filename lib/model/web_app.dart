@@ -8,8 +8,7 @@ part of 'models.dart';
 ///
 /// [appId] 应用id, [sequence] 排序下标, [code] 代码,
 /// [name] 名称, [url] 地址, [menuType] 分类
-@immutable
-@HiveType(typeId: HiveAdapterTypeIds.webapp)
+
 class WebApp {
   const WebApp({
     this.appId,

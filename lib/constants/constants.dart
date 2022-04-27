@@ -72,16 +72,8 @@ class Constants {
   /// Fow news list.
   static final int appId = Platform.isIOS ? 274 : 273;
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
-  static const String cloudId = 'jmu';
   static final String deviceType = Platform.isIOS ? 'iPhone' : 'Android';
-  static const int marketTeamId = 430;
-  static const String unitCode = 'jmu';
-  static const int unitId = 55;
 
-  static const String postApiKeyAndroid = '1FD8506EF9FF0FAB7CAFEBB610F536A1';
-  static const String postApiSecretAndroid = 'E3277DE3AED6E2E5711A12F707FA2365';
-  static const String postApiKeyIOS = '3E63F9003DF7BE296A865910D8DEE630';
-  static const String postApiSecretIOS = '773958E5CFE0FF8252808C417A8ECCAB';
 
   /// 检查更新
   static Future<void> checkUpdate({Map? data}) async {

@@ -2,14 +2,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/app_routes.dart';
 import 'package:nothing/constants/constants.dart';
-import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
-import 'package:nothing/welcome_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await PathUtils.init();
+  await HiveBoxes.init();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
     Constants.isDark = context.theme.brightness == Brightness.dark;
 
-    Future.delayed(Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 3),(){
       Constants.checkUpdate();
       Constants.insertLaunchInfo();
     });

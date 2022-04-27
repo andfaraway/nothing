@@ -29,9 +29,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  // 启动页信息
-  ValueNotifier<Map<String, dynamic>?> launchInfo = ValueNotifier({});
-
   Map<dynamic, dynamic>? result;
 
   ValueNotifier<int> timeCount = ValueNotifier(secondCount);
@@ -61,10 +58,14 @@ class _WelcomePageState extends State<WelcomePage> {
     //判断是否登录
     if (Singleton.currentUser.userId != null) {
       Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => const HomePage()), (_) => false);
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (_) => false);
     } else {
       Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (_) => false);
     }
 
     if (result != null) {
@@ -88,30 +89,22 @@ class _WelcomePageState extends State<WelcomePage> {
     // 页面加载完毕
     result = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
-    // 获取启动图片
-    launchInfo.value = await UserAPI.getLaunchInfo();
+    LaunchProvider provider = context.read<LaunchProvider>();
 
-    // // 本地图片路径
-    // Directory appDocDir = await getApplicationDocumentsDirectory();
-    // String localPath = appDocDir.path + '/' + name;
-    //
-    // // 查询本地是否已经下载图片
-    // String? localUrl = await LocalDataUtils.get('launchImgDate');
-    // if (url != localUrl) {
-    //   // 未下载，保存图片到本地
-    //   Response s = await NetUtils.download(urlPath: url, savePath: localPath);
-    //
-    //   // 下载完成，记录状态
-    //   if (s.statusCode == 200) {
-    //     LogUtils.i('launchImage:$url');
-    //     await LocalDataUtils.setString('launchImgDate', url);
-    //
-    //     launchUrl.value = localPath;
-    //   }
-    // } else {
-    //   launchUrl.value = localPath;
-    // }
+    Map<String, dynamic>? map;
 
+    map = await UserAPI.getLaunchInfo();
+    print('map = $map');
+
+    if (map != null && provider.launchInfo?.image != map['image']) {
+      provider.launchInfo = LaunchInfo.fromJson(map);
+      String saveName = map['image'].toString().split('/').last;
+      String? localPath = await saveToDocument(
+          url: provider.launchInfo?.image ?? '', saveName: saveName);
+      provider.launchInfo?.localPath = localPath;
+      provider.updateHives();
+      provider.update();
+    }
   }
 
   @override
@@ -125,85 +118,84 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     Screens.init(context);
     return Scaffold(
-      body: ValueListenableBuilder(
-          valueListenable: launchInfo,
-          builder: (context, Map<String, dynamic>? map, child) {
-            return Stack(
-              children: [
-                map == null
-                    ? Center(
-                        child: Text(
-                          'Hi',
-                          style: TextStyle(
-                              fontSize: 80,
-                              fontWeight: FontWeight.lerp(
-                                  FontWeight.normal, FontWeight.bold, .1)),
+      body: Consumer<LaunchProvider>(
+        builder: (context, provider, child) {
+          return Stack(
+            children: [
+              provider.launchInfo == null
+                  ? Center(
+                      child: Text(
+                        'Hi',
+                        style: TextStyle(
+                            fontSize: 80,
+                            fontWeight: FontWeight.lerp(
+                                FontWeight.normal, FontWeight.bold, .1)),
+                      ),
+                    )
+                  : Container(
+                      color: Colors.black,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onLongPress: () {
+                          // saveLocalPhoto(
+                          //   saveName: 'launchImage.jpg',
+                          //   localPath: ,
+                          // );
+                        },
+                        child: LaunchWidget(
+                          title: provider.launchInfo?.title,
+                          url: provider.launchInfo?.image,
+                          localPath: provider.launchInfo?.localPath,
+                          dayStr: provider.launchInfo?.dayStr,
+                          monthStr: provider.launchInfo?.monthStr,
+                          dateDetailStr: provider.launchInfo?.dateDetailStr,
+                          contentStr: provider.launchInfo?.contentStr,
+                          author: provider.launchInfo?.authorStr,
+                          codeStr: provider.launchInfo?.contentStr,
                         ),
-                      )
-                    : map.isNotEmpty
-                        ? Container(
-                            color: Colors.black,
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onLongPress: () {
-                                // saveLocalPhoto(
-                                //   saveName: 'launchImage.jpg',
-                                //   localPath: ,
-                                // );
-                              },
-                              child: LaunchWidget(
-                                title: map['title'],
-                                url: map['image'],
-                                dayStr: map['dayStr'],
-                                monthStr: map['monthStr'],
-                                dateDetailStr: map['dateDetailStr'],
-                                contentStr: map['contentStr'],
-                                author: map['authorStr'],
-                                codeStr: map['codeStr'],
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                Align(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        const Expanded(child: SizedBox.shrink()),
-                        TextButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ValueListenableBuilder(
-                                builder: (context, value, child) {
-                                  return Text(
-                                    '$value ',
-                                  );
-                                },
-                                valueListenable: timeCount,
-                              ),
-                              const Text('跳过'),
-                            ],
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.black26),
-                            minimumSize: MaterialStateProperty.all(Size.zero),
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
-                          onPressed: () {
-                            jumpPage();
-                          },
-                        ),
-                      ],
+                      ),
                     ),
+              Align(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      const Expanded(child: SizedBox.shrink()),
+                      TextButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ValueListenableBuilder(
+                              builder: (context, value, child) {
+                                return Text(
+                                  '$value ',
+                                );
+                              },
+                              valueListenable: timeCount,
+                            ),
+                            const Text('跳过'),
+                          ],
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black26),
+                          minimumSize: MaterialStateProperty.all(Size.zero),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        onPressed: () {
+                          jumpPage();
+                        },
+                      ),
+                    ],
                   ),
-                  alignment: Alignment.bottomRight,
-                )
-              ],
-            );
-          }),
+                ),
+                alignment: Alignment.bottomRight,
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }

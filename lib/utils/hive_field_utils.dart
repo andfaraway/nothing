@@ -16,7 +16,7 @@ class HiveFieldUtils {
         listen: false,
       );
 
-  static final Box _box = HiveBoxes.settingsBox!;
+  static final Box _box = HiveBoxes.settingsBox;
 
   static const String brightnessDark = 'theme_brightness';
   static const String colorThemeIndex = 'theme_colorThemeIndex';

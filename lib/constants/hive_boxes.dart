@@ -1,56 +1,113 @@
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2019-12-01 19:34
-///
-import 'package:hive/hive.dart';
+//
+//  [Author] libin (https://github.com/andfaraway/nothing)
+//  [Date] 2022-04-26 15:25:56
+//
 
-const String boxPrefix = 'openjmu';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:hive_flutter/adapters.dart';
+
+import '../model/models.dart';
+import '../utils/log_utils.dart';
+import '../widgets/dialogs/confirmation_dialog.dart';
+
+const String boxPrefix = 'nothing';
 
 class HiveBoxes {
   const HiveBoxes._();
 
-  /// 应用消息表
-  static Box<Map<dynamic, dynamic>>? appMessagesBox;
+  static Future<void> init() async {
+    await Hive.initFlutter();
 
-  /// 私聊消息表
-  static Box<Map<dynamic, dynamic>>? personalMessagesBox;
+    // if (!Hi.containsKey(currentUser.uid)) {
+    //   await appBox.put(currentUser.uid, <int, List<AppMessage>>{});
+    // }
 
-  /// 课程缓存表
-  static Box<Map<dynamic, dynamic>>? coursesBox;
+    await openBoxes();
+  }
 
-  /// 课表备注表
-  static Box<String>? courseRemarkBox;
-
-  /// 学期开始日缓存表
-  static Box<DateTime>? startWeekBox;
-
-  /// 成绩缓存表
-  static Box<Map<dynamic, dynamic>>? scoresBox;
-
-  /// 应用中心应用缓存表
-  static Box<List<dynamic>>? webAppsBox;
-
-  /// 最近使用的应用缓存表
-  static Box<List<dynamic>>? webAppsCommonBox;
-
-  /// 举报去重池
-  static Box<List<dynamic>>? reportRecordBox;
+  /// 启动页信息
+  static late Box<dynamic> launchBox;
 
   /// 设置表
-  static Box<dynamic>? settingsBox;
+  static late Box<dynamic> settingsBox;
 
-  /// 设置表
-  static Box<bool>? firstOpenBox;
+  static Future<void> openBoxes() async {
+    Hive.registerAdapter(LaunchInfoAdapter());
 
-  /// 最近表情表
-  static Box<List<dynamic>>? emojisBox;
+    await Future.wait(
+      <Future<void>>[
+        () async {
+          settingsBox =
+              await Hive.openBox<dynamic>('${boxPrefix}_app_settings');
+        }(),
+        () async {
+          launchBox = await Hive.openBox<dynamic>('${boxPrefix}_app_launch');
+        }(),
+      ],
+    );
+  }
 
+  static Future<void> clearCacheBoxes(BuildContext context) async {
+    if (await ConfirmationDialog.show(
+      context,
+      title: '清除缓存数据',
+      showConfirm: true,
+      content: '即将清除包括课程信息、成绩和学期起始日等缓存数据。请确认操作',
+    )) {
+      if (await ConfirmationDialog.show(
+        context,
+        title: '确认清除缓存数据',
+        showConfirm: true,
+        content: '清除的数据无法恢复，请确认操作',
+      )) {
+        LogUtils.d('Clearing Hive Cache Boxes...');
+        await Future.wait<void>(<Future<dynamic>>[
+          // coursesBox.clear(),
+          // courseRemarkBox.clear(),
+          // scoresBox.clear(),
+          // startWeekBox.clear(),
+        ]);
+        LogUtils.d('Cache boxes cleared.');
+        if (kReleaseMode) {
+          SystemNavigator.pop();
+        }
+      }
+    }
+  }
 
+  static Future<void> clearAllBoxes(BuildContext context) async {
+    if (await ConfirmationDialog.show(
+      context,
+      title: '重置应用',
+      showConfirm: true,
+      content: '即将清除所有应用内容（包括设置、应用信息），请确认操作',
+    )) {
+      if (await ConfirmationDialog.show(
+        context,
+        title: '确认重置应用',
+        showConfirm: true,
+        content: '清除的内容无法恢复，请确认操作',
+      )) {
+        LogUtils.d('Clearing Hive Boxes...');
+        await Future.wait<void>(<Future<dynamic>>[
+          launchBox.clear(),
+          settingsBox.clear(),
+        ]);
+        LogUtils.d('Boxes cleared.');
+        if (kReleaseMode) {
+          SystemNavigator.pop();
+        }
+      }
+    }
+  }
 }
 
 class HiveAdapterTypeIds {
   const HiveAdapterTypeIds._();
 
-  static const int appMessage = 0;
+  static const int launchInfo = 0;
   static const int message = 1;
   static const int course = 2;
   static const int score = 3;

@@ -2,8 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-20 12:09:13
 //
-import 'package:flutter/material.dart';
-import 'package:nothing/constants/screens.dart';
+import 'package:nothing/constants/constants.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class LaunchWidget extends StatelessWidget {
@@ -41,13 +40,13 @@ class LaunchWidget extends StatelessWidget {
         children: [
           localPath != null
               ? Image.asset(
-                  localPath ?? '',
+                  '${PathUtils.documentPath}/$localPath',
                   fit: BoxFit.fitHeight,
                   width: double.infinity,
                   height: double.infinity,
                 )
               : Image.network(
-                  url ?? '',
+                  url!,
                   fit: BoxFit.fitHeight,
                   width: double.infinity,
                   height: double.infinity,
@@ -76,13 +75,13 @@ class LaunchWidget extends StatelessWidget {
                       height: 548.h,
                       child: localPath != null
                           ? Image.asset(
-                              localPath!,
+                              '${PathUtils.documentPath}/$localPath',
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,
                             )
                           : Image.network(
-                              url!,
+                              url ?? '',
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,

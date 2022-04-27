@@ -72,6 +72,9 @@ dependencies:
   image_picker: ^0.8.5
   image_cropper: ^1.5.1
   modal_bottom_sheet: ^2.0.1
+  hive_flutter: ^1.1.0
+  build_runner: ^2.1.10
+  hive_generator: ^1.1.2
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 

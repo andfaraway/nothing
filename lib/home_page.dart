@@ -283,7 +283,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     Screens.init(context);
-
     return Scaffold(
       drawer: drawer(context),
       body: Stack(

@@ -47,3 +47,5 @@ class LocalDataUtils {
 extension LocalStringExtenSion on String {
   Map<String, dynamic>? toMap() => json.decode(this);
 }
+
+

@@ -7,6 +7,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class PathUtils{
+  PathUtils._();
+
   static Future<void> init()async{
     Directory appDocDir = await getApplicationDocumentsDirectory();
     PathUtils.documentPath = appDocDir.path;

@@ -94,16 +94,27 @@ class _WelcomePageState extends State<WelcomePage> {
     Map<String, dynamic>? map;
 
     map = await UserAPI.getLaunchInfo();
-    print('map = $map');
 
-    if (map != null && provider.launchInfo?.image != map['image']) {
-      provider.launchInfo = LaunchInfo.fromJson(map);
-      String saveName = map['image'].toString().split('/').last;
-      String? localPath = await saveToDocument(
-          url: provider.launchInfo?.image ?? '', saveName: saveName);
-      provider.launchInfo?.localPath = localPath;
-      provider.updateHives();
-      provider.update();
+    if (map != null) {
+      // 判断是否需要更新
+      bool needDownload = false;
+      Map<String,dynamic>? localMap = provider.launchInfo?.toJson();
+      for(String key in map.keys){
+        if(map[key] != localMap?[key]){
+          needDownload = true;
+          break;
+        }
+      }
+
+      if(needDownload){
+        provider.launchInfo = LaunchInfo.fromJson(map);
+        String saveName = map['image'].toString().split('/').last;
+        String? localPath = await saveToDocument(
+            url: provider.launchInfo?.image ?? '', saveName: saveName);
+        provider.launchInfo?.localPath = localPath;
+        provider.updateHives();
+        // provider.update();
+      }
     }
   }
 
@@ -137,10 +148,11 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onLongPress: () {
-                          // saveLocalPhoto(
-                          //   saveName: 'launchImage.jpg',
-                          //   localPath: ,
-                          // );
+                          saveLocalPhoto(
+                            saveName: 'launchImage.jpg',
+                            localPath:
+                                '${PathUtils.documentPath}/${provider.launchInfo?.localPath}',
+                          );
                         },
                         child: LaunchWidget(
                           title: provider.launchInfo?.title,

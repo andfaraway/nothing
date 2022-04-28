@@ -29,7 +29,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  Map<dynamic, dynamic>? result;
 
   ValueNotifier<int> timeCount = ValueNotifier(secondCount);
 
@@ -51,6 +50,8 @@ class _WelcomePageState extends State<WelcomePage> {
         timer.cancel();
       }
     });
+
+    print('111 initState');
   }
 
   // 跳转页面
@@ -68,7 +69,7 @@ class _WelcomePageState extends State<WelcomePage> {
           (_) => false);
     }
 
-    if (result != null) {
+    if (Singleton.welcomeLoadResult != null) {
       if (globalContext?.widget.toString() != 'MessagePage') {
         Navigator.push(
             context,
@@ -79,43 +80,40 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Future<void> initData() async {
-    //读取本地信息
-    await Singleton.loadData();
-    //初始化推送信息
-    if (await Constants.isPhysicalDevice() || !kIsWeb) {
-      NotificationUtils.jPushInit();
-    }
-
-    // 页面加载完毕
-    result = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
     LaunchProvider provider = context.read<LaunchProvider>();
 
-    Map<String, dynamic>? map;
-
-    map = await UserAPI.getLaunchInfo();
-
+    Map<String, dynamic>? map = await UserAPI.getLaunchInfo();
+    print('map=$map');
     if (map != null) {
-      // 判断是否需要更新
-      bool needDownload = false;
-      Map<String,dynamic>? localMap = provider.launchInfo?.toJson();
-      for(String key in map.keys){
-        if(map[key] != localMap?[key]){
-          needDownload = true;
-          break;
-        }
-      }
+      if (!map.containsMap(provider.launchInfo?.toJson() ?? {})) {
+        String? image = provider.launchInfo?.image;
+        String? imageBackground = provider.launchInfo?.backgroundImage;
 
-      if(needDownload){
         provider.launchInfo = LaunchInfo.fromJson(map);
-        String saveName = map['image'].toString().split('/').last;
-        String? localPath = await saveToDocument(
-            url: provider.launchInfo?.image ?? '', saveName: saveName);
-        provider.launchInfo?.localPath = localPath;
+        if (map['image'] != image) {
+          String saveName = 'launchImage.jpg';
+          String? localPath = await saveToDocument(
+              url: provider.launchInfo?.image ?? '', saveName: saveName);
+          provider.launchInfo?.localPath = localPath;
+        }
+        if (map['backgroundImage'] == map['image']) {
+          provider.launchInfo?.localBackgroundPath =
+              provider.launchInfo?.localPath;
+        } else {
+          if (map['backgroundImage'] != imageBackground) {
+            String saveName = 'launchImageBg.jpg';
+            String? localPath = await saveToDocument(
+                url: provider.launchInfo?.backgroundImage ?? '',
+                saveName: saveName);
+            provider.launchInfo?.localBackgroundPath = localPath;
+          }
+        }
         provider.updateHives();
         // provider.update();
       }
     }
+    print('document:${PathUtils.documentPath}');
   }
 
   @override
@@ -127,6 +125,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('111 build');
     Screens.init(context);
     return Scaffold(
       body: Consumer<LaunchProvider>(
@@ -156,8 +155,11 @@ class _WelcomePageState extends State<WelcomePage> {
                         },
                         child: LaunchWidget(
                           title: provider.launchInfo?.title,
-                          url: provider.launchInfo?.image,
+                          image: provider.launchInfo?.image,
                           localPath: provider.launchInfo?.localPath,
+                          backgroundImage: provider.launchInfo?.backgroundImage,
+                          localBackgroundPath:
+                              provider.launchInfo?.localBackgroundPath,
                           dayStr: provider.launchInfo?.dayStr,
                           monthStr: provider.launchInfo?.monthStr,
                           dateDetailStr: provider.launchInfo?.dateDetailStr,

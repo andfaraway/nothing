@@ -31,7 +31,6 @@ export 'events.dart';
 export 'hive_boxes.dart';
 export 'instances.dart';
 export 'messages.dart';
-export 'resources.dart';
 export 'screens.dart';
 export 'widgets.dart';
 export '../utils/local_data_utils.dart';
@@ -45,7 +44,7 @@ export 'singleton.dart';
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 
-const bool isDebug =  false;
+const bool isDebug =  true;
 
 //标记界面的context
 BuildContext? globalContext;

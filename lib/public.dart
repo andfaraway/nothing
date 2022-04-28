@@ -5,6 +5,7 @@
 export 'package:flutter/material.dart';
 export 'app_routes.dart';
 export  '../generated/l10n.dart';
+export 'generated/assets.dart';
 
 export 'constants/screens.dart';
 

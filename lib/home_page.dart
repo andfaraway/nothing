@@ -3,31 +3,15 @@
 //  [Date] 2021-11-04 18:13:56
 
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nothing/page/favorite_page.dart';
-import 'package:nothing/page/feedback_page.dart';
+
 import 'package:nothing/page/login_page.dart';
-import 'package:nothing/page/message_page.dart';
-import 'package:nothing/page/photo_show.dart';
-import 'package:nothing/page/release_version.dart';
-import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/setting.dart';
-import 'package:nothing/page/theme_setting.dart';
-import 'package:nothing/page/upload_file.dart';
-import 'package:nothing/utils/notification_utils.dart';
-import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'constants/constants.dart';
-import 'package:nothing/top_news.dart';
 import 'package:nothing/model/interface_model.dart';
 
 import 'simple_page.dart';
 
-import 'package:um_share_plugin/um_share_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:package_info/package_info.dart';
 import 'public.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +27,7 @@ class _HomePageState extends State<HomePage>
 
   final List<InterfaceModel> _interfaceList = [];
   final ValueNotifier _tipsStr = ValueNotifier(null);
-  final ValueNotifier<String?> _todayTips = ValueNotifier(null);
+  final ValueNotifier<Map<String, dynamic>?> _todayTips = ValueNotifier(null);
 
   @override
   void initState() {
@@ -83,22 +67,74 @@ class _HomePageState extends State<HomePage>
     // if (list != null) {
     //   favoriteList.addAll(list.cast<String>());
     // }
-
     _todayTips.value = await UserAPI.getTips();
   }
+
+  TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 32.sp);
+  TextStyle vipStyle = TextStyle(color: Colors.red, fontSize: 32.sp);
 
   Widget todayTipsWidget() {
     return SizedBox(
       width: double.infinity,
       child: ValueListenableBuilder(
           valueListenable: _todayTips,
-          builder: (context, String? value, child) {
+          builder: (context, Map<String, dynamic>? map, child) {
+            if (map == null) return const SizedBox.shrink();
+
+            String dayName1 = map['first_dic']['name'];
+            int dayCount1 = map['first_dic']['days'];
+            String dayStr1 = dayCount1.toString();
+            String timeStr1 = '天';
+            if (dayCount1 == 0) {
+              double hour = map['first_dic']['seconds'] / 3600;
+              dayStr1 = hour.toStringAsPrecision(1);
+              timeStr1 = '小时';
+            }
+
+            String dayName2 = map['second_dic']['name'];
+            int dayCount2 = map['second_dic']['days'];
+            String dayStr2 = dayCount2.toString();
+            String timeStr2 = '天';
+            if (dayCount2 == 0) {
+              double hour = map['second_dic']['seconds'] / 3600;
+              dayStr2 = hour.toStringAsPrecision(1);
+              timeStr2 = '小时';
+            }
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(value ?? '')],
+              children: [
+                Text(
+                  map['tips_name'],
+                  style: TextStyle(color: Colors.black, fontSize: 32.sp),
+                ),
+                Text(
+                  map['date_str'] + '\n',
+                  style: TextStyle(color: Colors.black, fontSize: 32.sp),
+                ),
+                Text(
+                  map['wish_str'],
+                  style: TextStyle(color: Colors.black, fontSize: 32.sp),
+                ),
+                if (map['week_distance'] != null)
+                  _holidayDistanceWidget(
+                      '周末', map['week_distance'].toString(), '天'),
+                _holidayDistanceWidget(dayName1, dayStr1, timeStr1),
+                _holidayDistanceWidget(dayName2, dayStr2, timeStr2),
+              ],
             );
           }),
     );
+  }
+
+  Widget _holidayDistanceWidget(
+      String holidayName, String days, String timeStr) {
+    InlineSpan span = TextSpan(children: [
+      TextSpan(text: '离$holidayName还有', style: defaultStyle),
+      TextSpan(text: ' $days ', style: vipStyle),
+      TextSpan(text: timeStr, style: defaultStyle),
+    ]);
+    return Text.rich(span);
   }
 
   ///左侧菜单
@@ -108,6 +144,7 @@ class _HomePageState extends State<HomePage>
         Constants.hideKeyboard(context);
         if (open) {
           _tipsStr.value ??= (await API.loadTips()).replaceAll('娶', '嫁');
+          _todayTips.value = await UserAPI.getTips();
         }
       },
       child: Container(
@@ -210,22 +247,22 @@ class _HomePageState extends State<HomePage>
               }),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: kDrawerMarginLeft,
-                  right: kDrawerMarginLeft,
-                ),
+                    left: kDrawerMarginLeft,
+                    right: kDrawerMarginLeft,
+                    top: kDrawerMarginLeft),
                 child: todayTipsWidget(),
               ),
               Expanded(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      NormalCell(
-                        title:S.current.setting,
-                        onTap: () {
-                          AppRoutes.pushPage(context, const SettingPage());
-                        },
-                      )
-                    ]),
+                child:
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  NormalCell(
+                    title: S.current.setting,
+                    onTap: () {
+                      AppRoutes.pushPage(context, const SettingPage());
+                    },
+                    showDivider: false,
+                  )
+                ]),
               ),
               SizedBox(
                 height: Screens.bottomSafeHeight,

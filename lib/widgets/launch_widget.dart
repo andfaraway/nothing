@@ -2,13 +2,15 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-20 12:09:13
 //
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/public.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class LaunchWidget extends StatelessWidget {
   final String? title;
+  final String? image;
   final String? localPath;
-  final String? url;
+  final String? backgroundImage;
+  final String? localBackgroundPath;
 
   final String? dayStr;
   final String? monthStr;
@@ -22,8 +24,10 @@ class LaunchWidget extends StatelessWidget {
 
   const LaunchWidget(
       {Key? key,
+      this.image,
       this.localPath,
-      this.url,
+      this.backgroundImage,
+      this.localBackgroundPath,
       this.title,
       this.dayStr,
       this.monthStr,
@@ -36,24 +40,27 @@ class LaunchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          localPath != null
+          localBackgroundPath != null
               ? Image.asset(
-                  '${PathUtils.documentPath}/$localPath',
+                  '${PathUtils.documentPath}/$localBackgroundPath',
                   fit: BoxFit.fitHeight,
                   width: double.infinity,
                   height: double.infinity,
                 )
-              : Image.network(
-                  url!,
-                  fit: BoxFit.fitHeight,
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
+              : (backgroundImage != null
+                  ? Image.network(
+                      backgroundImage!,
+                      fit: BoxFit.fitHeight,
+                      width: double.infinity,
+                      height: double.infinity,
+                    )
+                  : const SizedBox.shrink()),
           Align(
             alignment: Alignment.center,
-            child: SizedBox(
+            child: Container(
               width: 630.w,
               height: 1120.h,
               child: CustomPaint(
@@ -80,12 +87,14 @@ class LaunchWidget extends StatelessWidget {
                               height: double.infinity,
                               fit: BoxFit.cover,
                             )
-                          : Image.network(
-                              url ?? '',
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                          : (image != null
+                              ? Image.network(
+                                  image!,
+                                  fit: BoxFit.fitHeight,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                )
+                              : const SizedBox.shrink()),
                     ),
                     37.hSizedBox,
                     Row(

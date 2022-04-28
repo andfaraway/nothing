@@ -8,7 +8,6 @@ import 'package:nothing/constants/constants.dart';
 import 'package:nothing/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

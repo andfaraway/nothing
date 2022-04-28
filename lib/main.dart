@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/app_routes.dart';
@@ -11,6 +12,15 @@ void main() async {
 
   await PathUtils.init();
   await HiveBoxes.init();
+  //读取本地信息
+  await Singleton.loadData();
+  //初始化推送信息
+  if (await Constants.isPhysicalDevice() || !kIsWeb) {
+    await NotificationUtils.jPushInit();
+  }
+
+  Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey
+      .welcomeLoad);
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);

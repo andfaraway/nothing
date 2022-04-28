@@ -82,7 +82,7 @@ extension SizeExtension on num {
         width: ScreenUtil().setWidth(this).toDouble(),
       );
 
-  //宽度间隔
+  //高度间隔
   Widget get hDivider => Divider(height: toDouble(), thickness: toDouble());
 // double get w => _sizeCapable(ScreenUtil().setWidth(this) * 2);
 //

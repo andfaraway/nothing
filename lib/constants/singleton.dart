@@ -21,6 +21,9 @@ class Singleton {
     return _instance;
   }
 
+  /// 页面是否加载完成
+  static Map<dynamic, dynamic>? welcomeLoadResult;
+
   static loadData() async{
     Map<String, dynamic>? map = await LocalDataUtils.getMap(KEY_USER_INFO);
     print('初始化数据：$map');

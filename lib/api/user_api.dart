@@ -241,7 +241,7 @@ class UserAPI {
   }
 
   // 获取获取今日提示
-  static Future<String?> getTips() async {
+  static Future<Map<String,dynamic>?> getTips() async {
     var response = await NetUtils.get(API.getTips,);
     if (response.data['code'].toString() == "200") {
       return response.data['data'];

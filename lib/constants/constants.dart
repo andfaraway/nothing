@@ -3,16 +3,11 @@ import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nothing/api/user_api.dart';
 import 'package:nothing/constants/instances.dart';
-import 'package:nothing/constants/platform_channel.dart';
 import 'package:nothing/constants/singleton.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
-import 'package:package_info/package_info.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:nothing/utils/photo_save.dart';
 
 import '../utils/local_data_utils.dart';
 import '../utils/utils.dart';
@@ -44,7 +39,7 @@ export 'singleton.dart';
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
 
-const bool isDebug =  true;
+const bool isDebug =  false;
 
 //标记界面的context
 BuildContext? globalContext;

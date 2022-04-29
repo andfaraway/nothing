@@ -60,7 +60,7 @@ class LaunchWidget extends StatelessWidget {
                   : const SizedBox.shrink()),
           Align(
             alignment: Alignment.center,
-            child: Container(
+            child: SizedBox(
               width: 630.w,
               height: 1120.h,
               child: CustomPaint(

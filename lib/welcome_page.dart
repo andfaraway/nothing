@@ -51,7 +51,6 @@ class _WelcomePageState extends State<WelcomePage> {
       }
     });
 
-    print('111 initState');
   }
 
   // 跳转页面
@@ -84,7 +83,6 @@ class _WelcomePageState extends State<WelcomePage> {
     LaunchProvider provider = context.read<LaunchProvider>();
 
     Map<String, dynamic>? map = await UserAPI.getLaunchInfo();
-    print('map=$map');
     if (map != null) {
       if (!map.containsMap(provider.launchInfo?.toJson() ?? {})) {
         String? image = provider.launchInfo?.image;
@@ -125,7 +123,6 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('111 build');
     Screens.init(context);
     return Scaffold(
       body: Consumer<LaunchProvider>(

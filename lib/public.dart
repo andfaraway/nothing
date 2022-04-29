@@ -12,3 +12,5 @@ export 'constants/screens.dart';
 export 'constants/constants.dart';
 export 'widgets/normal_cell.dart';
 export 'widgets/content_white_bg.dart';
+
+export 'app_function.dart';

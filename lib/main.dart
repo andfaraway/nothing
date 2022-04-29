@@ -15,7 +15,7 @@ void main() async {
   //读取本地信息
   await Singleton.loadData();
   //初始化推送信息
-  if (await Constants.isPhysicalDevice() || !kIsWeb) {
+  if (await Constants.isPhysicalDevice() && !kIsWeb) {
     await NotificationUtils.jPushInit();
   }
 

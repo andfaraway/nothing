@@ -14,6 +14,7 @@ class NormalCell extends StatelessWidget {
       this.showSuffixIcon = true,
       this.suffixWidget,
       this.onTap,
+        this.onLongPress,
       this.showDivider = true})
       : super(key: key);
 
@@ -23,6 +24,7 @@ class NormalCell extends StatelessWidget {
   final Widget? suffixWidget;
   final double? height;
   final GestureTapCallback? onTap;
+  final GestureTapCallback? onLongPress;
   final bool showDivider;
 
   @override
@@ -53,7 +55,9 @@ class NormalCell extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: onTap,
+                  onLongPress: onLongPress,
                   child: Container(
                     width: Screens.width,
                     color: Colors.transparent,

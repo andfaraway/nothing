@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage>
             String timeStr1 = '天';
             if (dayCount1 == 0) {
               double hour = map['first_dic']['seconds'] / 3600;
-              dayStr1 = hour.toStringAsPrecision(1);
+              dayStr1 = hour.toStringAsFixed(0);
               timeStr1 = '小时';
             }
 
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage>
             String timeStr2 = '天';
             if (dayCount2 == 0) {
               double hour = map['second_dic']['seconds'] / 3600;
-              dayStr2 = hour.toStringAsPrecision(1);
+              dayStr2 = hour.toStringAsFixed(0);
               timeStr2 = '小时';
             }
 

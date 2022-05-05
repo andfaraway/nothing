@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     });
 
     Constants.isDark = context.theme.brightness == Brightness.dark;
+    Constants.context = context;
 
     Future.delayed(const Duration(seconds: 3),(){
       Constants.checkUpdate();

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nothing/api/user_api.dart';
 import 'package:nothing/constants/instances.dart';
 import 'package:nothing/constants/singleton.dart';
@@ -38,6 +39,8 @@ export 'singleton.dart';
 
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
+///主页两边宽度
+const double MARGIN_MAIN = 17;
 
 const bool isDebug =  true;
 
@@ -60,6 +63,12 @@ class Constants {
 
   ///暗黑模式
   static bool isDark = false;
+
+  ///
+  static late BuildContext context;
+
+  /// 中文
+  static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true :false;
 
   static const String endLineTag = '没有更多了';
 

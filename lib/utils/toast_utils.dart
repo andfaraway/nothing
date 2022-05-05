@@ -1,10 +1,17 @@
+//
+//  [Author] libin (https://www.imin.sg)
+//  [Date] 2022-02-17 16:32:31
+//
+
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nothing/public.dart';
+import '/public.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
-void showToast(String text) {
-  Fluttertoast.showToast(msg: text, gravity: ToastGravity.BOTTOM);
+void showToast(String text,{int timeInSecForIosWeb = 1}) {
+  Fluttertoast.showToast(msg: text, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: timeInSecForIosWeb);
 }
 
 void showCenterToast(String text) {
@@ -22,6 +29,25 @@ void showCenterErrorToast(String text) {
       backgroundColor: Colors.redAccent);
 }
 
+void showHttpLoading(){
+  EasyLoading.instance
+    ..loadingStyle = EasyLoadingStyle.custom
+
+  ///背景颜色
+    ..backgroundColor = Color(0xfff4f7fb)
+
+  ///进度颜色
+    ..indicatorColor = Color(0xff0082CD)
+    ..textColor = Color(0xff0082CD)
+    ..textStyle = TextStyle(fontSize: 12)
+    ..indicatorType = EasyLoadingIndicatorType.wave;
+  EasyLoading.show();
+}
+
+void hideHttpLoading(){
+  EasyLoading.dismiss();
+}
+
 void showTopToast(String text) {
   Fluttertoast.showToast(msg: text, gravity: ToastGravity.TOP);
 }
@@ -32,20 +58,22 @@ void hideAllToast() {
 
 void showConfirmToast(
     {required BuildContext context,
-    required String title,
-    required VoidCallback? onConfirm}) {
+      required String title,
+      required VoidCallback? onConfirm,
+      double? height}) {
   showDialog<bool>(
       context: context,
       useSafeArea: false,
       barrierColor: Colors.black38,
       barrierDismissible: true,
       builder: (_) => ToastTipsDialog(
-            title: title,
-            onConfirm: onConfirm,
-          ));
+        title: title,
+        onConfirm: onConfirm,
+        height: height,
+      ));
 }
 
-void showSheet(BuildContext context, List<SheetButtonModel> list) {
+showSheet(BuildContext context, List<SheetButtonModel> list) {
   showMaterialModalBottomSheet(
     expand: false,
     context: context,
@@ -63,56 +91,53 @@ class ModalFit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         child: SafeArea(
-      top: false,
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: list.map((e) {
-            return Container(
-              height: 44,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        Navigator.pop(context);
-                        if (e.onTap != null) {
-                          e.onTap();
-                        }
-                      },
-                      child: Stack(
-                        children: [
-                          Align(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 32),
-                              child: e.icon,
-                            ),
-                            alignment: Alignment.centerLeft,
+          top: false,
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: list.map((e) {
+                return Container(
+                  height: 44,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.pop(context);
+                            if (e.onTap != null) {
+                              e.onTap();
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              Align(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: MARGIN_MAIN),
+                                  child: e.icon,
+                                ),
+                                alignment: Alignment.centerLeft,
+                              ),
+                              Align(
+                                child: Text(e.title,
+                                    style: e.textStyle ?? themeTextStyle(fontSize: 16)),
+                                alignment: Alignment.center,
+                              )
+                            ],
                           ),
-                          Align(
-                            child: Text(e.title,
-                                style: e.textStyle ?? const TextStyle(
-                                        color: Color(0xff333333),
-                                        fontSize: 16,
-                                      )),
-                            alignment: Alignment.center,
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: colorBackground,
+                        indent: MARGIN_MAIN,
+                        endIndent: MARGIN_MAIN,
+                      )
+                    ],
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: colorBackground,
-                    indent: 32,
-                    endIndent: 32,
-                  )
-                ],
-              ),
-            );
-          }).toList()),
-    ));
+                );
+              }).toList()),
+        ));
   }
 }
 

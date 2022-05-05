@@ -10,6 +10,7 @@ export 'generated/assets.dart';
 export 'constants/screens.dart';
 
 export 'constants/constants.dart';
+export 'constants/colors.dart';
 export 'widgets/normal_cell.dart';
 export 'widgets/content_white_bg.dart';
 

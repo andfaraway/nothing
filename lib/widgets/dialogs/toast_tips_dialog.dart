@@ -2,40 +2,27 @@
 //  [Author] libin (https://www.imin.sg)
 //  [Date] 2022-02-17 16:32:31
 //
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../generated/l10n.dart';
 
-class ToastTipsDialog extends StatefulWidget {
+import '/public.dart';
+
+class ToastTipsDialog extends StatelessWidget {
   const ToastTipsDialog(
       {Key? key,
-      required this.title,
-      this.content,
-      this.cancelLabel,
-      this.confirmLabel,
-      this.onCancel,
-      this.onConfirm})
+        required this.title,
+        this.cancelLabel,
+        this.confirmLabel,
+        this.onCancel,
+        this.onConfirm,
+        this.height})
       : super(key: key);
 
   final String title;
-  final String? content;
   final String? cancelLabel;
   final String? confirmLabel;
 
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
-
-  @override
-  _ToastTipsDialogState createState() => _ToastTipsDialogState();
-}
-
-class _ToastTipsDialogState extends State<ToastTipsDialog> {
-  String? content;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +40,14 @@ class _ToastTipsDialogState extends State<ToastTipsDialog> {
                   padding: EdgeInsets.only(left: 60.w, right: 60.w),
                   child: Center(
                     child: Text(
-                      widget.title,
+                      title,
                       style: TextStyle(
                         color: const Color(0xFF333333),
                         fontSize: 34.sp,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.none,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -74,15 +62,15 @@ class _ToastTipsDialogState extends State<ToastTipsDialog> {
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: widget.onCancel ??
-                            () {
+                        onPressed: onCancel ??
+                                () {
                               Navigator.pop(context);
                             },
                         child: Text(
-                          widget.cancelLabel ?? S.current.cancel,
+                          cancelLabel ?? S.current.cancel,
                           style: TextStyle(
-                            color: const Color(0xFF333333),
-                            fontSize: 32.sp
+                              color: const Color(0xFF1578FE),
+                              fontSize: 32.sp
                           ),
                         ),
                       ),
@@ -96,12 +84,12 @@ class _ToastTipsDialogState extends State<ToastTipsDialog> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          widget.onConfirm?.call();
+                          onConfirm?.call();
                         },
                         child: Text(
-                          widget.confirmLabel ?? S.current.confirm,
+                          confirmLabel ?? S.current.confirm,
                           style: TextStyle(
-                              color: Colors.red[400],
+                              color: colorRedSelect,
                               fontSize: 32.sp
                           ),
                         ),
@@ -113,7 +101,7 @@ class _ToastTipsDialogState extends State<ToastTipsDialog> {
             ],
           ),
           width: 690.w,
-          height: 294.h,
+          height: height ?? 294.h,
         ),
       ),
     );

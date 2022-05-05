@@ -9,15 +9,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'api/user_api.dart';
 
 Function? functionWithString(String functionStr) {
-  List l = functionStr.split('~');
-  String functionName = l.first;
   String? url;
-  if(l.length == 2){
-    url = l[1];
+  if('web:'.matchAsPrefix(functionStr) != null){
+    url = functionStr.split('web:').last;
+    functionStr = 'web';
   }
-
+  print('url = $functionStr');
   Function? f;
-  switch (functionName) {
+  switch (functionStr) {
     case 'checkUpdate':
       f = () async {
         String version = await DeviceUtils.version();
@@ -48,7 +47,7 @@ Function? functionWithString(String functionStr) {
         }
       };
       break;
-    case 'openUrl':
+    case 'web':
       f = () async {
           if (await canLaunch(url!)) {
             await launch(url);

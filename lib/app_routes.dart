@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
+import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/release_version.dart';
@@ -70,6 +71,7 @@ class AppRoutes {
     themeSettingRoute.routeName: (BuildContext context) =>
         themeSettingRoute.page,
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
+    informationPageRoute.routeName: (BuildContext context) => informationPageRoute.page,
   };
 }
 
@@ -84,6 +86,10 @@ const AppRoutes sayHiRoute = AppRoutes('/sayHiRoute', SayHi());
 const AppRoutes themeSettingRoute =
     AppRoutes('/themeSettingRoute', ThemeSettingPage());
 const AppRoutes uploadFileRoute = AppRoutes('/uploadFileRoute', UploadFile());
+const AppRoutes informationPageRoute = AppRoutes('/informationPageRoute',
+    InformationPage());
+
+
 
 /// 处理服务器目标页面
 class ServerTargetModel {

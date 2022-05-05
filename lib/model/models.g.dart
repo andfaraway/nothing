@@ -29,13 +29,14 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       date: fields[9] as String?,
       backgroundImage: fields[10] as String?,
       localBackgroundPath: fields[11] as String?,
+      homePage: fields[12] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, LaunchInfo obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -59,7 +60,9 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       ..writeByte(10)
       ..write(obj.backgroundImage)
       ..writeByte(11)
-      ..write(obj.localBackgroundPath);
+      ..write(obj.localBackgroundPath)
+      ..writeByte(12)
+      ..write(obj.homePage);
   }
 
   @override

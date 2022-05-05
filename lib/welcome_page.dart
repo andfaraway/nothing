@@ -40,7 +40,6 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     initData();
-
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       timeCount.value--;
       if (timeCount.value == 0) {
@@ -50,7 +49,6 @@ class _WelcomePageState extends State<WelcomePage> {
         timer.cancel();
       }
     });
-
   }
 
   // 跳转页面
@@ -79,44 +77,45 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Future<void> initData() async {
-
     LaunchProvider provider = context.read<LaunchProvider>();
-
     Map<String, dynamic>? map = await UserAPI.getLaunchInfo();
     if (map != null) {
-      if (!map.containsMap(provider.launchInfo?.toJson() ?? {})) {
         String? image = provider.launchInfo?.image;
         String? imageBackground = provider.launchInfo?.backgroundImage;
-
+        String? localPath = provider.launchInfo?.localPath;
+        String? localBackgroundPath = provider.launchInfo?.localBackgroundPath;
         provider.launchInfo = LaunchInfo.fromJson(map);
-        if (map['image'] != image) {
+
+        provider.launchInfo?.localPath = localPath;
+        provider.launchInfo?.localBackgroundPath = localBackgroundPath;
+        if (map['image'] != image || localPath == null) {
           String saveName = 'launchImage.jpg';
-          String? localPath = await saveToDocument(
+          String? path = await saveToDocument(
               url: provider.launchInfo?.image ?? '', saveName: saveName);
-          provider.launchInfo?.localPath = localPath;
+          provider.launchInfo?.localPath = path;
         }
+
         if (map['backgroundImage'] == map['image']) {
           provider.launchInfo?.localBackgroundPath =
               provider.launchInfo?.localPath;
         } else {
-          if (map['backgroundImage'] != imageBackground) {
+          if (map['backgroundImage'] != imageBackground || localBackgroundPath == null) {
             String saveName = 'launchImageBg.jpg';
-            String? localPath = await saveToDocument(
+            String? path = await saveToDocument(
                 url: provider.launchInfo?.backgroundImage ?? '',
                 saveName: saveName);
-            provider.launchInfo?.localBackgroundPath = localPath;
+            provider.launchInfo?.localBackgroundPath = path;
           }
         }
         provider.updateHives();
-        // provider.update();
-      }
+      // provider.update();
     }
+    print('provider.launchInfo = ${provider.launchInfo}');
     print('document:${PathUtils.documentPath}');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     timer.cancel();
   }

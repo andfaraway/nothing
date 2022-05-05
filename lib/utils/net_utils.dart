@@ -72,7 +72,7 @@ class NetUtils {
     return BaseOptions(
       connectTimeout: 20000,
       sendTimeout: 10000,
-      receiveTimeout: 10000,
+      receiveTimeout: 60000,
       receiveDataWhenStatusError: true,
       followRedirects: true,
       maxRedirects: 100,

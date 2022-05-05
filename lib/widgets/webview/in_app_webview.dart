@@ -134,7 +134,7 @@ class _AppWebViewState extends State<AppWebView>
       initialUrlRequest: URLRequest(url: Uri.parse(url)),
       initialOptions: InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
-          applicationNameForUserAgent: 'openjmu-webview',
+          applicationNameForUserAgent: 'nothing-webview',
           cacheEnabled: widget.withCookie,
           clearCache: !widget.withCookie,
           horizontalScrollBarEnabled: false,
@@ -248,7 +248,8 @@ class _AppWebViewState extends State<AppWebView>
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            // appBar(context),
+            if(widget.withAppBar)
+              AppBar(title: Text(widget.title??''),),
             Expanded(child: _webView),
           ],
         ),

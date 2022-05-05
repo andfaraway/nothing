@@ -15,6 +15,7 @@ Function? functionWithString(String functionStr) {
   if(l.length == 2){
     url = l[1];
   }
+
   Function? f;
   switch (functionName) {
     case 'checkUpdate':

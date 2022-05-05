@@ -11,6 +11,7 @@ import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
+import 'package:nothing/public.dart';
 import 'package:nothing/welcome_page.dart';
 
 class AppRoutes {
@@ -63,9 +64,11 @@ class AppRoutes {
     loginRoute.routeName: (BuildContext context) => loginRoute.page,
     messageRoute.routeName: (BuildContext context) => messageRoute.page,
     welcomeRoute.routeName: (BuildContext context) => welcomeRoute.page,
-    releaseVersionRoute.routeName: (BuildContext context) => releaseVersionRoute.page,
+    releaseVersionRoute.routeName: (BuildContext context) =>
+        releaseVersionRoute.page,
     sayHiRoute.routeName: (BuildContext context) => sayHiRoute.page,
-    themeSettingRoute.routeName: (BuildContext context) => themeSettingRoute.page,
+    themeSettingRoute.routeName: (BuildContext context) =>
+        themeSettingRoute.page,
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
   };
 }
@@ -81,3 +84,34 @@ const AppRoutes sayHiRoute = AppRoutes('/sayHiRoute', SayHi());
 const AppRoutes themeSettingRoute =
     AppRoutes('/themeSettingRoute', ThemeSettingPage());
 const AppRoutes uploadFileRoute = AppRoutes('/uploadFileRoute', UploadFile());
+
+/// 处理服务器目标页面
+class ServerTargetModel {
+  ServerTargetModel({this.type = 0, this.url, this.page, this.routeName});
+
+  /// [type] 类型0.页面  1.webView
+  int type;
+
+  /// [url] webView url
+  String? url;
+
+  /// [page] 路由页面
+  Widget? page;
+
+  ///  [routeName]路由名称
+  String? routeName;
+
+  static ServerTargetModel fromString(BuildContext context, String targetStr) {
+    ServerTargetModel model = ServerTargetModel();
+    if ('web:'.matchAsPrefix(targetStr) != null) {
+      String url = targetStr.split('web:').last;
+      model.type = 1;
+      model.url = url;
+    } else {
+      model.type = 0;
+      model.routeName = targetStr;
+      model.page = AppRoutes.routes[targetStr]?.call(context);
+    }
+    return model;
+  }
+}

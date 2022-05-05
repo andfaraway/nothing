@@ -27,6 +27,7 @@ class LaunchInfo extends HiveObject {
     this.date,
     this.backgroundImage,
     this.localBackgroundPath,
+    this.homePage
   });
 
   factory LaunchInfo.fromJson(Map<String, dynamic> json) {
@@ -43,6 +44,7 @@ class LaunchInfo extends HiveObject {
       date: json['date'],
       backgroundImage: json['backgroundImage'],
       localBackgroundPath: json['localBackgroundPath'],
+      homePage:json['homePage']
     );
   }
 
@@ -70,6 +72,8 @@ class LaunchInfo extends HiveObject {
   String? backgroundImage;
   @HiveField(11)
   String? localBackgroundPath;
+  @HiveField(12)
+  String? homePage;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -85,6 +89,7 @@ class LaunchInfo extends HiveObject {
       'date': date,
       'backgroundImage': backgroundImage,
       'localBackgroundPath': localBackgroundPath,
+      'homePage': homePage,
     };
   }
 

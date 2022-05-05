@@ -17,7 +17,7 @@ class API {
   const API._();
 
   static const baseUrl =
-      isDebug ? 'http://10.0.21.34:5000' : 'http://1.14.252.115:5000';
+      isDebug ? 'http://10.0.21.146:5000' : 'http://1.14.252.115:5000';
 
   ///登录
   static const String login = baseUrl + '/login';

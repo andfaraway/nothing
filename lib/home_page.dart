@@ -8,6 +8,7 @@ import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 import 'package:nothing/model/interface_model.dart';
+import 'package:nothing/widgets/webview/in_app_webview.dart';
 
 import 'simple_page.dart';
 
@@ -18,12 +19,14 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class _HomePageState extends State<HomePage>
+class _HomeWidgetState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  Widget? homeWidget;
 
   final List<InterfaceModel> _interfaceList = [];
   final ValueNotifier _tipsStr = ValueNotifier(null);
@@ -32,8 +35,26 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
+    print('homePage=$homePage');
+    if (homePage != null) {
+      ServerTargetModel targetModel = ServerTargetModel.fromString(context, homePage);
+      if(targetModel.type == 0){
+        homeWidget = targetModel.page;
+      }else{
+        homeWidget = AppWebView(url:targetModel.url,title: 'nothing',);
+      }
+    }
 
-    initTabBar();
+    if(homeWidget == null){
+      initTabBar();
+      homeWidget = DefaultTabController(
+        length: 12,
+        child: TabBarView(
+            controller: _tabController,
+            children: _interfaceList.map((e) => e.page!).toList()),
+      );
+    }
 
     loadData();
   }
@@ -324,12 +345,7 @@ class _HomePageState extends State<HomePage>
       drawer: drawer(context),
       body: Stack(
         children: [
-          DefaultTabController(
-            length: 12,
-            child: TabBarView(
-                controller: _tabController,
-                children: _interfaceList.map((e) => e.page!).toList()),
-          ),
+          homeWidget!,
           Align(
             child: Padding(
               padding:

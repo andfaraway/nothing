@@ -7,4 +7,3 @@ export 'color_extension.dart';
 export 'datetime_extension.dart';
 export 'string_extension.dart';
 export 'void_extension.dart';
-export 'map_extension.dart';

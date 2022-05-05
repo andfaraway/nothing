@@ -5,7 +5,6 @@
 part of 'providers.dart';
 
 class LaunchProvider extends ChangeNotifier {
-
   final String launchKey = 'launchKey';
 
   LaunchProvider() {
@@ -18,8 +17,7 @@ class LaunchProvider extends ChangeNotifier {
 
   LaunchInfo? get launchInfo => _launchInfo;
 
-
-  set launchInfo(LaunchInfo? value){
+  set launchInfo(LaunchInfo? value) {
     if (_launchInfo == value) {
       return;
     }
@@ -27,11 +25,11 @@ class LaunchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  update(){
+  update() {
     notifyListeners();
   }
 
-  Future<void> updateHives() async{
+  Future<void> updateHives() async {
     await HiveBoxes.launchBox.put(launchKey, _launchInfo);
   }
 }

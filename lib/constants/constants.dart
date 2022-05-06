@@ -83,6 +83,7 @@ class Constants {
     if (data == null) {
       String version = await DeviceUtils.version();
       data = await API.checkUpdate('ios', version);
+      print('data = $data');
     }
     if (data != null && data['update'] == true) {
       showDialog(
@@ -107,7 +108,7 @@ class Constants {
     } else {}
   }
 
-  static Future<void> insertLaunchInfo() async{
+  static Future<void> insertLaunch() async{
     Map<String,dynamic>? param = {};
     param['userid'] = Singleton.currentUser.userId;
     param['username'] = Singleton.currentUser.username;
@@ -122,7 +123,7 @@ class Constants {
     //版本
     param['version'] = await DeviceUtils.version();
 
-    API.insertLaunchInfo(param);
+    API.insertLaunch(param);
   }
 
   /// true:真机 false:模拟器

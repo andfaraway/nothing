@@ -10,7 +10,7 @@
   "request_failed": "request failed",
 
   "setting": "Setting",
-
+  "launch_screen": "Launch Screen",
   "feedback": "Feedback",
   "theme": "Theme",
   "favorite": "Favorite",
@@ -29,5 +29,8 @@
   "success": "Success",
   "fail": "Fail",
 
-  "information": "Information"
+  "information": "Information",
+  "input_required": "Required",
+  "input_optional": "Optional",
+  "select": "Select"
 }

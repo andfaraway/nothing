@@ -23,7 +23,7 @@ class API {
     return Http.get(ConstUrl.qiaomen);
   }
 
-  // 登录
+  /// 登录
   static Future<Map<String, dynamic>?> login(
       String username, String password) async {
     Map<String, dynamic> param = {'username': username, 'password': password};
@@ -31,7 +31,7 @@ class API {
     return response;
   }
 
-  // 第三方登录
+  /// 第三方登录
   static Future<Map<String, dynamic>?> thirdLogin({
     String? name,
     int? platform,
@@ -48,7 +48,7 @@ class API {
     return response;
   }
 
-  // 检查更新
+  /// 检查更新
   static Future<Map<String, dynamic>?> checkUpdate(
       String platform, String version) async {
     Map<String, dynamic> param = {
@@ -59,7 +59,7 @@ class API {
     return response;
   }
 
-  // 注册推送 userId, 推送id：pushToken, 别名：alias
+  /// 注册推送 userId, 推送id：pushToken, 别名：alias
   static Future<Map<String, dynamic>?> registerNotification(
       {String? userId,
       String? pushToken,
@@ -78,7 +78,7 @@ class API {
     return response;
   }
 
-  // 发送消息 alias：别名  alert：消息内容
+  /// 发送消息 alias：别名  alert：消息内容
   static Future<Map<String, dynamic>?> sayHello(
       String alias, String alert) async {
     Map<String, dynamic> param = {
@@ -89,7 +89,7 @@ class API {
     return response;
   }
 
-  // 获取消息列表
+  /// 获取消息列表
   static Future<List?> getMessages(String? alias) async {
     Map<String, dynamic> param = {'alias': alias};
     var response = await Http.post(ConstUrl.getMessages, params: param);
@@ -117,7 +117,7 @@ class API {
     return response;
   }
 
-  // 添加收藏
+  /// 添加收藏
   static Future<List?> addFavorite(String content, {String? source}) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
@@ -128,14 +128,14 @@ class API {
     return response;
   }
 
-  // 查询收藏
+  /// 查询收藏
   static Future<List?> getFavorite() async {
     Map<String, dynamic> param = {'userid': Singleton.currentUser.userId};
     var response = await Http.post(ConstUrl.getFavorite, params: param);
     return response;
   }
 
-  // 删除收藏
+  /// 删除收藏
   static Future<List?> deleteFavorite(String favoriteId) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
@@ -145,7 +145,7 @@ class API {
     return response;
   }
 
-  // 添加反馈
+  /// 添加反馈
   static Future<List?> addFeedback(String content, String? nickname) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
@@ -157,20 +157,26 @@ class API {
   }
 
   //插入登录表
-  static Future<List<dynamic>?> insertLaunchInfo(
+  static Future<List<dynamic>?> insertLaunch(
       Map<String, dynamic>? param) async {
-    var response = await Http.post(ConstUrl.insertLaunchInfo, params: param);
+    var response = await Http.post(ConstUrl.insertLaunch, params: param);
     return response;
   }
 
-  // 获取启动页信息
+  /// 获取启动页信息
   static Future<Map<String, dynamic>?> getLaunchInfo({String? date}) async {
     Map<String, dynamic>? param = date == null ? null : {'date': date};
     var response = await Http.get(ConstUrl.getLaunchInfo, params: param);
     return response;
   }
 
-  // 获取设置模块
+  /// 插入启动页信息
+  static Future<Map<String, dynamic>?> insertLaunchInfo(Map<String, dynamic>? param) async {
+    var response = await Http.post(ConstUrl.insertLaunchInfo, params: param);
+    return response;
+  }
+
+  /// 获取设置模块
   static Future<List<dynamic>?> getSettingModule({String? accountType}) async {
     Map<String, dynamic>? param =
         accountType == null ? null : {'accountType': accountType};
@@ -178,7 +184,7 @@ class API {
     return response;
   }
 
-  // 获取获取今日提示
+  /// 获取获取今日提示
   static Future<Map<String, dynamic>?> getTips() async {
     var response = await Http.get(
       ConstUrl.getTips,
@@ -186,7 +192,7 @@ class API {
     return response;
   }
 
-  // 上传文件
+  /// 上传文件
   static uploadFile(String imagePath, String fileName) async {
     List list = imagePath.split('.');
     String houzhui = list.last;
@@ -291,6 +297,9 @@ class ConstUrl {
   ///获取启动页信息
   static const String getLaunchInfo = '/getLaunchInfo';
 
+  ///插入启动页信息
+  static const String insertLaunchInfo = '/insertLaunchInfo';
+
   ///获取设置模块
   static const String getSettingModule = '/getSettingModule';
 
@@ -301,7 +310,7 @@ class ConstUrl {
   static const String getTips = '/getTips';
 
   ///添加登录信息
-  static const String insertLaunchInfo = '/insertLaunchInfo';
+  static const String insertLaunch = '/insertLaunch';
 
   ///添加登录信息
   static const String pushDeviceToken = '/pushDeviceToken';

@@ -7,10 +7,11 @@ import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nothing/constants/constants.dart';
 import 'package:nothing/public.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_cropper/image_cropper.dart';
+
+import '../public.dart';
 
 class UploadFile extends StatefulWidget {
   const UploadFile({Key? key}) : super(key: key);
@@ -20,8 +21,11 @@ class UploadFile extends StatefulWidget {
 }
 
 class _UploadFileState extends State<UploadFile> {
-  PickedFile? file;
   String? fileName;
+  LaunchInfo launchInfo = LaunchInfo();
+
+  /// 选择图片的类型 0.image 1.image_background
+  int imageType = 0;
 
   @override
   void initState() {
@@ -35,64 +39,179 @@ class _UploadFileState extends State<UploadFile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.upload_file),
-        actions: file == null
-            ? null
-            : [
-                TextButton(
-                    onPressed: () {
-                      upload();
-                    },
-                    child: Text(
-                      S.current.upload,
-                      style: const TextStyle(color: Colors.white),
-                    ))
-              ],
-      ),
-      body: Column(
-        children: [
-          if (file != null) Column(
-            children: [
-              TextField(
-                controller: TextEditingController(text: fileName),
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  fileName = value;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.current.launch_screen),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  Map<String, dynamic> param = {
+                    'id': launchInfo.date,
+                    'festival': launchInfo.date,
+                    'content': launchInfo.contentStr,
+                    'author': launchInfo.authorStr,
+                    'qr_code': launchInfo.codeStr,
+                    'home_page': launchInfo.homePage,
+                    'image': launchInfo.image,
+                    'image_background': launchInfo.backgroundImage,
+                  };
+                  await API.insertLaunchInfo(param);
+                  showToast(S.current.success);
+                  setState(() {
+                    launchInfo = LaunchInfo();
+                  });
                 },
-              ),
-              Image.asset(file!.path),
-            ],
-          ),
-          Expanded(
-            child: Center(
-              child: MaterialButton(
-                  color: Colors.blue,
-                  child: const Text('select file'),
-                  onPressed: () {
-                    selectFile();
-                  }),
+                child: Text(
+                  S.current.upload,
+                  style: const TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
+        body: Column(
+          children: [
+            inputCell(
+                title: 'id',
+                text: launchInfo.date,
+                onChanged: (value) {
+                  launchInfo.date = value;
+                }),
+            inputCell(
+                title: 'festival',
+                text: launchInfo.title,
+                onChanged: (value) {
+                  launchInfo.title = value;
+                }),
+            inputCell(
+                title: 'content',
+                text: launchInfo.contentStr,
+                onChanged: (value) {
+                  launchInfo.contentStr = value;
+                },
+                required: true),
+            inputCell(
+                title: 'author',
+                text: launchInfo.authorStr,
+                onChanged: (value) {
+                  launchInfo.authorStr = value;
+                }),
+            inputCell(
+                title: 'qr_code',
+                text: launchInfo.codeStr,
+                onChanged: (value) {
+                  launchInfo.codeStr = value;
+                }),
+            inputCell(
+                title: 'homePage',
+                text: launchInfo.homePage,
+                onChanged: (value) {
+                  launchInfo.homePage = value;
+                }),
+            inputCell(
+                title: 'image',
+                text: launchInfo.image,
+                onChanged: (value) {
+                  launchInfo.image = value;
+                },
+                trailing: MaterialButton(
+                    color: Colors.blue,
+                    child: Text(S.current.select),
+                    onPressed: () {
+                      imageType = 0;
+                      selectFile();
+                    }),
+                required: true),
+            inputCell(
+                title: 'image_background',
+                text: launchInfo.backgroundImage,
+                onChanged: (value) {
+                  launchInfo.backgroundImage = value;
+                },
+                trailing: MaterialButton(
+                    color: Colors.blue,
+                    child: Text(S.current.select),
+                    onPressed: () {
+                      imageType = 1;
+                      selectFile();
+                    }),
+                required: true),
+            50.hSizedBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: colorBlackDefault.withOpacity(.2)),
+                      ),
+                      width: 100.w,
+                      height: 100.w,
+                      child: launchInfo.localPath == null
+                          ? null
+                          : Image.asset(launchInfo.localPath!),
+                    ),
+                    10.hSizedBox,
+                    const Text('image')
+                  ],
+                ),
+                100.wSizedBox,
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: colorBlackDefault.withOpacity(.2)),
+                      ),
+                      width: 100.w,
+                      height: 100.w,
+                      child: launchInfo.localBackgroundPath == null
+                          ? null
+                          : Image.asset(launchInfo.localPath!),
+                    ),
+                    10.hSizedBox,
+                    const Text('image_background')
+                  ],
+                ),
+              ],
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  // 上传文件
-  Future<void> upload() async {
-    EasyLoading.show();
-    // 上传文件
-    await API.uploadFile(file?.path ?? '', fileName ?? '');
-    EasyLoading.dismiss();
-    showToast(S.current.success);
-    setState(() {
-      file = null;
-    });
+  /// 输入cell
+  Widget inputCell(
+      {required String title,
+      String? text,
+      ValueChanged<String>? onChanged,
+      Widget? trailing,
+      bool required = false}) {
+    return ListTile(
+        // title: Text(title),
+        subtitle: TextField(
+            controller: TextEditingController(text: text),
+            decoration: InputDecoration(
+                labelText: title,
+                labelStyle: TextStyle(
+                    color: required ? colorRedSelect : colorBlackDefault),
+                hintText: required
+                    ? S.current.input_required
+                    : S.current.input_optional,
+                hintStyle: TextStyle(
+                    color: required
+                        ? colorRedSelect.withOpacity(.5)
+                        : colorBlackDefault.withOpacity(.2))),
+            onChanged: onChanged),
+        trailing: trailing);
   }
 
-  // 选择文件
+  /// 选择文件
   Future<void> selectFile() async {
     SheetButtonModel model1 = SheetButtonModel(
         icon: const Icon(Icons.camera_alt),
@@ -109,13 +228,15 @@ class _UploadFileState extends State<UploadFile> {
     showSheet(context, [model1, model2]);
   }
 
+  /// 裁剪图片 0.相机  1.相册
   Future<void> _cropImage(int type) async {
     ImageSource source = ImageSource.camera;
     if (type == 1) {
       source = ImageSource.gallery;
     }
     ImagePicker picker = ImagePicker();
-    file = await picker.getImage(source: source).catchError((error) {
+    PickedFile? file =
+        await picker.getImage(source: source).catchError((error) {
       print('picker error : ' + error.toString());
       openAppSettings();
     });
@@ -140,23 +261,41 @@ class _UploadFileState extends State<UploadFile> {
                 CropAspectRatioPreset.ratio7x5,
                 CropAspectRatioPreset.ratio16x9
               ],
-        androidUiSettings: AndroidUiSettings(
+        androidUiSettings: const AndroidUiSettings(
             toolbarTitle: 'Clip',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
+        iosUiSettings: const IOSUiSettings(
           title: 'Clip',
         ));
+
     if (croppedFile != null) {
       File compressedFile = await FlutterNativeImage.compressImage(
           croppedFile.path,
           quality: 70,
           percentage: 70);
-      file = PickedFile(compressedFile.path);
-      // file = PickedFile(croppedFile.path);
-      setState(() {});
+      PickedFile? file = PickedFile(compressedFile.path);
+      upload(file);
     }
+  }
+
+  /// 上传文件
+  Future<void> upload(PickedFile? file) async {
+    EasyLoading.show();
+    // 上传文件
+    var data = await API.uploadFile(file?.path ?? '', fileName ?? '');
+    String url = data['url'];
+    if (imageType == 0) {
+      launchInfo.image = url;
+      launchInfo.localPath = file?.path;
+    } else if (imageType == 1) {
+      launchInfo.backgroundImage = url;
+      launchInfo.localBackgroundPath = file?.path;
+    }
+    setState(() {});
+    EasyLoading.dismiss();
+    showToast(S.current.success);
   }
 }

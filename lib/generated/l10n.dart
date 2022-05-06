@@ -140,6 +140,16 @@ class S {
     );
   }
 
+  /// `Launch Screen`
+  String get launch_screen {
+    return Intl.message(
+      'Launch Screen',
+      name: 'launch_screen',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Feedback`
   String get feedback {
     return Intl.message(
@@ -285,6 +295,36 @@ class S {
     return Intl.message(
       'Information',
       name: 'information',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Required`
+  String get input_required {
+    return Intl.message(
+      'Required',
+      name: 'input_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optional`
+  String get input_optional {
+    return Intl.message(
+      'Optional',
+      name: 'input_optional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get select {
+    return Intl.message(
+      'Select',
+      name: 'select',
       desc: '',
       args: [],
     );

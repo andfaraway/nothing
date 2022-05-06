@@ -32,6 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "information": MessageLookupByLibrary.simpleMessage("Information"),
+        "input_optional": MessageLookupByLibrary.simpleMessage("Optional"),
+        "input_required": MessageLookupByLibrary.simpleMessage("Required"),
+        "launch_screen": MessageLookupByLibrary.simpleMessage("Launch Screen"),
         "login": MessageLookupByLibrary.simpleMessage("login"),
         "message": MessageLookupByLibrary.simpleMessage("Message"),
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
@@ -42,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Release Version"),
         "request_failed":
             MessageLookupByLibrary.simpleMessage("request failed"),
+        "select": MessageLookupByLibrary.simpleMessage("Select"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),

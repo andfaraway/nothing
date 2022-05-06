@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
 
     Future.delayed(const Duration(seconds: 3),(){
       Constants.checkUpdate();
-      Constants.insertLaunchInfo();
+      Constants.insertLaunch();
     });
   }
 
@@ -113,7 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         break;
       case AppLifecycleState.resumed:// 应用程序可见，前台
         NotificationUtils.jpush.setBadge(0);
-        // Constants.insertLaunchInfo();
+        // Constants.insertLaunch();
         break;
       case AppLifecycleState.paused: // 应用程序不可见，后台
         break;

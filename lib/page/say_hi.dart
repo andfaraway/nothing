@@ -3,7 +3,7 @@
 //  [Date] 2021-12-23 18:04:50
 //
 
-import 'package:nothing/constants/constants.dart';
+import '/public.dart';
 
 class SayHi extends StatefulWidget {
   const SayHi({Key? key}) : super(key: key);
@@ -101,7 +101,7 @@ class _SayHiState extends State<SayHi> {
   Future<void> sendBtnOnPressed() async {
     if (_canSend.value) {
       _canSend.value = false;
-      await UserAPI.sayHello(user, text);
+      await API.sayHello(user, text);
       await LocalDataUtils.setString(KEY_TO_USER, user);
     }
     _canSend.value = true;

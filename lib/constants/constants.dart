@@ -4,12 +4,12 @@ import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nothing/api/user_api.dart';
 import 'package:nothing/constants/instances.dart';
 import 'package:nothing/constants/singleton.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../http/api.dart';
 import '../utils/local_data_utils.dart';
 import '../utils/utils.dart';
 
@@ -18,7 +18,6 @@ export 'package:intl/intl.dart' show DateFormat;
 export 'package:pull_to_refresh/pull_to_refresh.dart'
     hide RefreshIndicator, RefreshIndicatorState;
 export 'package:nothing/generated/l10n.dart';
-export '../api/api.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
@@ -83,7 +82,7 @@ class Constants {
     BuildContext context = navigatorState.overlay!.context;
     if (data == null) {
       String version = await DeviceUtils.version();
-      data = await UserAPI.checkUpdate('ios', version);
+      data = await API.checkUpdate('ios', version);
     }
     if (data != null && data['update'] == true) {
       showDialog(
@@ -123,7 +122,7 @@ class Constants {
     //版本
     param['version'] = await DeviceUtils.version();
 
-    UserAPI.insertLaunchInfo(param);
+    API.insertLaunchInfo(param);
   }
 
   /// true:真机 false:模拟器

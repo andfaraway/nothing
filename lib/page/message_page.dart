@@ -1,6 +1,6 @@
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/message_model.dart';
-import 'package:nothing/widgets/flutter_white_button.dart';
+import '/public.dart';
 import 'package:nothing/widgets/request_loading_widget.dart';
 
 class MessagePage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _MessagePageState extends State<MessagePage> {
 
   Future<void> loadData() async {
     String? alias = await LocalDataUtils.get(KEY_ALIAS);
-    List? list = await UserAPI.getMessages(alias);
+    List? list = await API.getMessages(alias);
     if (list == null) {
       showToast(S.current.request_failed);
       _refreshController.refreshCompleted();
@@ -78,7 +78,7 @@ class _MessagePageState extends State<MessagePage> {
             context: context,
             title: '确定删除吗？',
             onConfirm: () async {
-              await UserAPI.deleteMessages(model.id.toString());
+              await API.deleteMessages(model.id.toString());
               loadData();
             });
       },

@@ -5,12 +5,14 @@
 export 'package:flutter/material.dart';
 export 'app_routes.dart';
 export  '../generated/l10n.dart';
+export 'package:flutter_svg/svg.dart';
 export 'generated/assets.dart';
 
 export 'constants/screens.dart';
 
 export 'constants/constants.dart';
 export 'constants/colors.dart';
+export 'http/api.dart';
 export 'widgets/normal_cell.dart';
 export 'widgets/content_white_bg.dart';
 

@@ -5,6 +5,7 @@
 import 'package:dio/dio.dart';
 import 'package:nothing/public.dart';
 
+import '../http/http.dart';
 import '../model/interface_model.dart';
 import '../simple_page.dart';
 
@@ -31,16 +32,16 @@ class _InformationPageState extends State<InformationPage>
 
   void initTabBar() {
     _interfaceList.add(InterfaceModel(
-        tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', API.qiaomen)));
+        tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', ConstUrl.qiaomen)));
     _interfaceList.add(InterfaceModel(
         tag: 0,
         title: '黄历',
         page: huangliPage(
             '黄历',
-            API.huangli +
+            ConstUrl.huangli +
                 '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
     _interfaceList.add(InterfaceModel(
-        tag: 2, title: '健康提示', page: genericPage('健康提示', API.healthTips)));
+        tag: 2, title: '健康提示', page: genericPage('健康提示', ConstUrl.healthTips)));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
 
@@ -57,8 +58,8 @@ class _InformationPageState extends State<InformationPage>
         backgroundColor: getRandomColor(),
         justify: true,
         requestCallback: () async {
-          Response s = await NetUtils.get(url);
-          var dataStr = s.data['newslist'].first['content'];
+          var s = await Http.get(url);
+          var dataStr = s['newslist'].first['content'];
           if (dataStr is String) {
             return dataStr.replaceAll('XXX', '娜娜');
           }
@@ -74,8 +75,8 @@ class _InformationPageState extends State<InformationPage>
         title: title,
         backgroundColor: getRandomColor(),
         requestCallback: () async {
-          Response s = await NetUtils.get(url);
-          Map map = s.data['newslist'].first;
+          var s = await Http.get(url);
+          Map map = s['newslist'].first;
           String str = '';
           String jieri =
               ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)

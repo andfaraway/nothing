@@ -2,8 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-17 16:09:34
 //
-import 'package:nothing/constants/constants.dart';
-import 'package:nothing/widgets/flutter_white_button.dart';
+import '/public.dart';
 import 'package:nothing/widgets/login_button.dart';
 
 class FeedbackPage extends StatefulWidget {
@@ -105,7 +104,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       return null;
     }
     Constants.hideKeyboard(context);
-    List? result = await UserAPI.addFeedback(content, nickname);
+    List? result = await API.addFeedback(content, nickname);
     if (result == null) {
       showToast('反馈失败');
     } else {
@@ -119,7 +118,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   feedback1() async {
     if (content.isEmpty) return;
-    await UserAPI.addFeedback(content, nickname);
+    await API.addFeedback(content, nickname);
   }
 
   @override

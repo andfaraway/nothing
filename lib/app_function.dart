@@ -5,8 +5,7 @@
 import 'package:nothing/utils/device_utils.dart';
 import 'package:nothing/utils/toast_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'api/user_api.dart';
+import 'public.dart';
 
 Function? functionWithString(String functionStr) {
   String? url;
@@ -20,7 +19,7 @@ Function? functionWithString(String functionStr) {
     case 'checkUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await UserAPI.checkUpdate('ios', version);
+        Map<String, dynamic>? data = await API.checkUpdate('ios', version);
         if (data != null && data['update'] == true) {
           String url = data['path'];
           if (await canLaunch(url)) {
@@ -36,7 +35,7 @@ Function? functionWithString(String functionStr) {
     case 'goUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await UserAPI.checkUpdate('ios', version);
+        Map<String, dynamic>? data = await API.checkUpdate('ios', version);
         if (data != null) {
           String url = data['path'];
           if (await canLaunch(url)) {

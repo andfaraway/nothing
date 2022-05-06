@@ -3,9 +3,8 @@
 //  [Date] 2021-11-12 18:04:14
 //
 
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/public.dart';
 import 'package:nothing/model/favorite_model.dart';
-
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   Future<void> loadData() async {
-    List? list = await UserAPI.getFavorite();
+    List? list = await API.getFavorite();
     if (list == null) {
       showToast(S.current.request_failed);
       _refreshController.refreshCompleted();
@@ -44,7 +43,6 @@ class _FavoritePageState extends State<FavoritePage> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +57,15 @@ class _FavoritePageState extends State<FavoritePage> {
         controller: _refreshController,
         child: dataList.isEmpty
             ? const Center(
-          child: Text('nothing'),
-        )
+                child: Text('nothing'),
+              )
             : SingleChildScrollView(
-          padding:const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-          child: Column(
-              children:
-              dataList.map((model) => messageWidget(model)).toList()),
-        ),
+                padding:
+                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                child: Column(
+                    children:
+                        dataList.map((model) => messageWidget(model)).toList()),
+              ),
       ),
     );
   }
@@ -81,7 +80,7 @@ class _FavoritePageState extends State<FavoritePage> {
         ),
         child: Padding(
           padding:
-          EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
+              EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

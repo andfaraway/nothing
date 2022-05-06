@@ -75,6 +75,7 @@ dependencies:
   hive_flutter: ^1.1.0
   build_runner: ^2.1.10
   hive_generator: ^1.1.2
+  flutter_svg: ^1.0.3
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 

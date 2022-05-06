@@ -7,8 +7,10 @@ import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/constants.dart';
+import '../widgets/webview/in_app_webview.dart';
 import 'http.dart';
 
 /// Definition of various sorts of APIs.
@@ -26,11 +28,7 @@ class API {
       String username, String password) async {
     Map<String, dynamic> param = {'username': username, 'password': password};
     var response = await Http.post(ConstUrl.login, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'][0];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 第三方登录
@@ -47,11 +45,7 @@ class API {
       'icon': icon
     };
     var response = await Http.post(ConstUrl.thirdLogin, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'][0];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 检查更新
@@ -62,11 +56,7 @@ class API {
       'version': version,
     };
     var response = await Http.post(ConstUrl.checkUpdate, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'][0];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 注册推送 userId, 推送id：pushToken, 别名：alias
@@ -85,11 +75,7 @@ class API {
     };
     var response =
         await Http.post(ConstUrl.registerNotification, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return {};
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 发送消息 alias：别名  alert：消息内容
@@ -100,33 +86,21 @@ class API {
       'alert': alert,
     };
     var response = await Http.post(ConstUrl.sayHello, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return {};
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 获取消息列表
   static Future<List?> getMessages(String? alias) async {
     Map<String, dynamic> param = {'alias': alias};
     var response = await Http.post(ConstUrl.getMessages, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   //删除消息
   static Future<List?> deleteMessages(String? id) async {
     Map<String, dynamic> param = {'id': id};
     var response = await Http.post(ConstUrl.deleteMessage, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   //删除消息
@@ -140,11 +114,7 @@ class API {
       'debug': isDebug
     };
     var response = await Http.post(ConstUrl.pushDeviceToken, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 添加收藏
@@ -155,23 +125,14 @@ class API {
       'source': source
     };
     var response = await Http.post(ConstUrl.addFavorite, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return [];
-    } else {
-      showToast(response?.data['msg']);
-      return null;
-    }
+    return response;
   }
 
   // 查询收藏
   static Future<List?> getFavorite() async {
     Map<String, dynamic> param = {'userid': Singleton.currentUser.userId};
     var response = await Http.post(ConstUrl.getFavorite, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 删除收藏
@@ -181,11 +142,7 @@ class API {
       'favoriteId': favoriteId
     };
     var response = await Http.post(ConstUrl.deleteFavorite, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data;
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 添加反馈
@@ -196,34 +153,21 @@ class API {
       'nickname': nickname
     };
     var response = await Http.post(ConstUrl.addFeedback, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return [];
-    } else {
-      showToast(response?.data['msg']);
-      return null;
-    }
+    return response;
   }
 
   //插入登录表
   static Future<List<dynamic>?> insertLaunchInfo(
       Map<String, dynamic>? param) async {
     var response = await Http.post(ConstUrl.insertLaunchInfo, params: param);
-    if (response?.data['code'].toString() == "200") {
-      return response?.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 获取启动页信息
   static Future<Map<String, dynamic>?> getLaunchInfo({String? date}) async {
     Map<String, dynamic>? param = date == null ? null : {'date': date};
     var response = await Http.get(ConstUrl.getLaunchInfo, params: param);
-    if (response.data['code'].toString() == "200") {
-      return response.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 获取设置模块
@@ -231,11 +175,7 @@ class API {
     Map<String, dynamic>? param =
         accountType == null ? null : {'accountType': accountType};
     var response = await Http.get(ConstUrl.getSettingModule, params: param);
-    if (response.data['code'].toString() == "200") {
-      return response.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 获取获取今日提示
@@ -243,11 +183,7 @@ class API {
     var response = await Http.get(
       ConstUrl.getTips,
     );
-    if (response.data['code'].toString() == "200") {
-      return response.data['data'];
-    } else {
-      return null;
-    }
+    return response;
   }
 
   // 上传文件
@@ -276,11 +212,40 @@ class API {
 
   static Future<String> loadTips() async {
     var response = await Http.get(ConstUrl.sayLove);
-    String tipsStr = '';
-    if (response.data['code'].toString() == "200") {
-      tipsStr = response.data['newslist'].first['content'];
+    return response['newslist'].first['content'];
+  }
+
+  static Future<bool> launchWeb({
+    required String url,
+    String? title,
+    WebApp? app,
+    bool withCookie = true,
+  }) async {
+    final SettingsProvider provider = Provider.of<SettingsProvider>(
+      currentContext,
+      listen: false,
+    );
+    final bool shouldLaunchFromSystem = provider.launchFromSystemBrowser;
+    final String uri = '${Uri.parse(url.trim())}';
+    if (shouldLaunchFromSystem) {
+      LogUtils.d('Launching web: $uri');
+      return launch(
+        uri,
+        forceSafariVC: false,
+        forceWebView: false,
+        enableJavaScript: true,
+        enableDomStorage: true,
+      );
+    } else {
+      LogUtils.d('Launching web: $uri');
+      AppWebView.launch(
+        url: uri,
+        title: title,
+        app: app,
+        withCookie: withCookie,
+      );
+      return true;
     }
-    return tipsStr;
   }
 }
 
@@ -288,58 +253,58 @@ class ConstUrl {
   ConstUrl._();
 
   static const baseUrl =
-      isDebug ? 'http://10.0.21.184:5000' : 'http://1.14.252.115:5000';
+      isDebug ? 'http://10.0.21.146:5000' : 'http://1.14.252.115:5000';
 
   ///登录
-  static const String login = baseUrl + '/login';
+  static const String login = '/login';
 
   ///第三方登录
-  static const String thirdLogin = baseUrl + '/thirdLogin';
+  static const String thirdLogin = '/thirdLogin';
 
   ///注册推送
-  static const String registerNotification = baseUrl + '/registerNotification';
+  static const String registerNotification = '/registerNotification';
 
   ///发送消息
-  static const String sayHello = baseUrl + '/sayHello';
+  static const String sayHello = '/sayHello';
 
   ///检查更新
-  static const String checkUpdate = baseUrl + '/checkUpdate';
+  static const String checkUpdate = '/checkUpdate';
 
   ///获取消息列表
-  static const String getMessages = baseUrl + '/getMessages';
+  static const String getMessages = '/getMessages';
 
   ///删除消息
-  static const String deleteMessage = baseUrl + '/deleteMessage';
+  static const String deleteMessage = '/deleteMessage';
 
   ///添加收藏
-  static const String addFavorite = baseUrl + '/addFavorite';
+  static const String addFavorite = '/addFavorite';
 
   ///查询收藏
-  static const String getFavorite = baseUrl + '/getFavorite';
+  static const String getFavorite = '/getFavorite';
 
   ///删除收藏
-  static const String deleteFavorite = baseUrl + '/deleteFavorite';
+  static const String deleteFavorite = '/deleteFavorite';
 
   ///添加反馈
-  static const String addFeedback = baseUrl + '/addFeedback';
+  static const String addFeedback = '/addFeedback';
 
   ///获取启动页信息
-  static const String getLaunchInfo = baseUrl + '/getLaunchInfo';
+  static const String getLaunchInfo = '/getLaunchInfo';
 
   ///获取设置模块
-  static const String getSettingModule = baseUrl + '/getSettingModule';
+  static const String getSettingModule = '/getSettingModule';
 
   ///上传文件
-  static const String uploadFile = baseUrl + '/uploadFile';
+  static const String uploadFile = '/uploadFile';
 
   ///获取每日提示
-  static const String getTips = baseUrl + '/getTips';
+  static const String getTips = '/getTips';
 
   ///添加登录信息
-  static const String insertLaunchInfo = baseUrl + '/insertLaunchInfo';
+  static const String insertLaunchInfo = '/insertLaunchInfo';
 
   ///添加登录信息
-  static const String pushDeviceToken = baseUrl + '/pushDeviceToken';
+  static const String pushDeviceToken = '/pushDeviceToken';
 
   static const String tianApi = 'http://api.tianapi.com';
   static const String secretKey = 'e1d306002add9c529feaa829d3969766';

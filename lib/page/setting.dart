@@ -4,7 +4,7 @@
 //
 import 'package:nothing/public.dart';
 import 'package:nothing/widgets/content_white_bg.dart';
-import '../api/user_api.dart';
+import '/public.dart';
 import '../constants/singleton.dart';
 
 class SettingPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SettingPageState extends State<SettingPage> {
 
   Future<void> loadData() async {
     List<dynamic>? dataList =
-        await UserAPI.getSettingModule(accountType: currentUser.accountType);
+        await API.getSettingModule(accountType: currentUser.accountType);
     if (dataList == null) return;
     for (Map<String, dynamic> map in dataList) {
       _SettingModel model = _SettingModel.fromJson(map);

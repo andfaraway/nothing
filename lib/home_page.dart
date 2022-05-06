@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomePage> {
-
   Widget? homeWidget;
 
   final ValueNotifier _tipsStr = ValueNotifier(null);
@@ -36,11 +35,15 @@ class _HomeWidgetState extends State<HomePage> {
     String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
     print('homePage=$homePage');
     if (homePage != null) {
-      ServerTargetModel targetModel = ServerTargetModel.fromString(context, homePage);
-      if(targetModel.type == 0){
+      ServerTargetModel targetModel =
+          ServerTargetModel.fromString(context, homePage);
+      if (targetModel.type == 0) {
         homeWidget = targetModel.page;
-      }else{
-        homeWidget = AppWebView(url:targetModel.url,title: 'nothing',);
+      } else {
+        homeWidget = AppWebView(
+          url: targetModel.url,
+          title: 'nothing',
+        );
       }
     }
     homeWidget ??= const InformationPage();
@@ -59,7 +62,7 @@ class _HomeWidgetState extends State<HomePage> {
     // if (list != null) {
     //   favoriteList.addAll(list.cast<String>());
     // }
-    _todayTips.value = await UserAPI.getTips();
+    _todayTips.value = await API.getTips();
   }
 
   TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 32.sp);
@@ -72,7 +75,6 @@ class _HomeWidgetState extends State<HomePage> {
           valueListenable: _todayTips,
           builder: (context, Map<String, dynamic>? map, child) {
             if (map == null) return const SizedBox.shrink();
-
             String dayName1 = map['first_dic']['name'];
             int dayCount1 = map['first_dic']['days'];
             String dayStr1 = dayCount1.toString();
@@ -136,7 +138,7 @@ class _HomeWidgetState extends State<HomePage> {
         Constants.hideKeyboard(context);
         if (open) {
           _tipsStr.value ??= (await API.loadTips()).replaceAll('娶', '嫁');
-          _todayTips.value = await UserAPI.getTips();
+          _todayTips.value = await API.getTips();
         }
       },
       child: Container(
@@ -201,23 +203,12 @@ class _HomeWidgetState extends State<HomePage> {
                         bottom: kDrawerMarginLeft),
                     child: GestureDetector(
                       onDoubleTap: () async {
-                        var result = await UserAPI.addFavorite(
+                        var result = await API.addFavorite(
                             _tipsStr.value.trim().toString(),
                             source: '看着顺眼');
                         if (result != null) {
                           showToast('收藏成功！');
                         }
-                        // String text = _tipsStr.value.trim().toString();
-                        // if (!favoriteList.contains(text)) {
-                        //   favoriteList.add(text);
-                        //   bool s = await LocalDataUtils.setStringList(
-                        //       Constants.keyFavoriteList, favoriteList);
-                        //   if (s) {
-                        //     showToast('眼光不错哦！');
-                        //   } else {
-                        //     showToast('no~');
-                        //   }
-                        // } else {}
                       }.throttle(),
                       child: ValueListenableBuilder(
                         valueListenable: _tipsStr,
@@ -245,22 +236,82 @@ class _HomeWidgetState extends State<HomePage> {
                 child: todayTipsWidget(),
               ),
               Expanded(
-                child:
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  NormalCell(
-                    title: S.current.setting,
-                    onTap: () {
-                      AppRoutes.pushPage(context, const SettingPage());
-                    },
-                    showDivider: false,
-                  )
-                ]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    cellWidget(
+                      SvgPicture.asset(
+                        R.imagesZixun,
+                        width: 40.w,
+                        height: 40.w,
+                      ),
+                      S.current.information,
+                      () {
+                        AppRoutes.pushNamePage(
+                            context, informationRoute.routeName);
+                      },
+                    ),
+                    cellWidget(
+                      SvgPicture.asset(
+                        R.imagesMessage,
+                        width: 40.w,
+                        height: 40.w,
+                      ),
+                      S.current.message,
+                      () {
+                        AppRoutes.pushNamePage(context, messageRoute.routeName);
+                      },
+                    ),
+                    cellWidget(
+                      SvgPicture.asset(
+                        R.imagesSetUp,
+                        width: 40.w,
+                        height: 40.w,
+                      ),
+                      S.current.setting,
+                      () {
+                        AppRoutes.pushPage(context, const SettingPage());
+                      },
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: Screens.bottomSafeHeight,
               ),
             ],
           )),
+    );
+  }
+
+  /// 菜单设置栏
+  Widget cellWidget(Widget icon, String title, GestureTapCallback? onTap) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: SizedBox(
+        height: 85.h,
+        child: Padding(
+          padding: EdgeInsets.only(left: kDrawerMarginLeft, right: kDrawerMarginLeft),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icon,
+              30.wSizedBox,
+              Expanded(
+                  child: Text(
+                title,
+                style: themeTextStyle(fontSize: 32.sp),
+              )),
+              // const Icon(
+              //   Icons.keyboard_arrow_right,
+              //   size: 22,
+              //   color: Color(0xFFC8C8C8),
+              // )
+            ],
+          ),
+        ),
+      ),
     );
   }
 

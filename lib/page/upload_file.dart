@@ -84,7 +84,7 @@ class _UploadFileState extends State<UploadFile> {
   Future<void> upload() async {
     EasyLoading.show();
     // 上传文件
-    await UserAPI.uploadFile(file?.path ?? '', fileName ?? '');
+    await API.uploadFile(file?.path ?? '', fileName ?? '');
     EasyLoading.dismiss();
     showToast(S.current.success);
     setState(() {

@@ -4,7 +4,7 @@
 //
 
 import 'package:extended_text/extended_text.dart';
-import 'constants/constants.dart';
+import 'public.dart';
 
 typedef RequestCallback = Future<String> Function();
 
@@ -92,7 +92,7 @@ class _SimplePageState extends State<SimplePage>
                         bottom: Screens.navigationBarHeight),
                     child: GestureDetector(
                       onDoubleTap: () async {
-                        var result = await UserAPI.addFavorite(contentText.trim().toString(),source: widget.title);
+                        var result = await API.addFavorite(contentText.trim().toString(),source: widget.title);
                         if(result != null){
                            showToast('收藏成功！');
                         }

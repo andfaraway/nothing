@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "feedback": MessageLookupByLibrary.simpleMessage("意见与建议"),
         "forgot_password": MessageLookupByLibrary.simpleMessage("忘记密码"),
         "hi": MessageLookupByLibrary.simpleMessage("hi"),
+        "information": MessageLookupByLibrary.simpleMessage("资讯"),
         "login": MessageLookupByLibrary.simpleMessage("登录"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
         "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),

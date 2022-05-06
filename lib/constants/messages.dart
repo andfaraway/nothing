@@ -93,7 +93,7 @@
 // class M_WY_VERIFY_CHECKCODE implements MessageRequest {
 //   @override
 //   List<int> requestBody() {
-//     final List<int> result = MessageUtils.commonString(UserAPI.currentUser.sid);
+//     final List<int> result = MessageUtils.commonString(API.currentUser.sid);
 //     return result;
 //   }
 // }

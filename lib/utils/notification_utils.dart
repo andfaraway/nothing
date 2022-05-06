@@ -5,11 +5,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:nothing/page/message_page.dart';
+import '/public.dart';
 
 import '../constants/constants.dart' hide Message;
 
@@ -87,7 +86,7 @@ class NotificationUtils {
       var userId = Singleton.currentUser.userId;
       var registrationId = await jpush.getRegistrationID();
       String? identifierForVendor = Singleton.currentUser.openId;
-      UserAPI.registerNotification(
+      API.registerNotification(
           userId: userId,
           pushToken: null,
           alias: alias,

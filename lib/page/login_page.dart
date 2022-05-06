@@ -3,8 +3,7 @@
 //  [Date] 2022-01-07 09:48:35
 //
 
-import 'package:flutter/material.dart';
-import 'package:nothing/constants/constants.dart';
+import '/public.dart';
 import 'package:nothing/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
@@ -59,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loginButtonPressed() async {
     Map<String, dynamic>? map =
-        await UserAPI.login(_username.value, _password.value);
+        await API.login(_username.value, _password.value);
     if (map != null) {
       map['userId'] = map['id'];
       Singleton.currentUser = UserInfoModel.fromJson(map);
@@ -70,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           await NotificationUtils.setAlias(Singleton.currentUser.username);
 
       if (alias != null) {
-        UserAPI.registerNotification(
+        API.registerNotification(
             userId: Singleton.currentUser.userId,
             pushToken: null,
             alias: alias,
@@ -109,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     UMShareUserInfo info =
         await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
     if (info.error == null) {
-      Map<String, dynamic>? map = await UserAPI.thirdLogin(
+      Map<String, dynamic>? map = await API.thirdLogin(
           name: info.name,
           platform: 1,
           openId: info.openid,
@@ -123,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
             Singleton.currentUser.username,
             mustset: true);
         if (alias != null) {
-          UserAPI.registerNotification(
+          API.registerNotification(
               userId: Singleton.currentUser.userId,
               pushToken: null,
               alias: alias,

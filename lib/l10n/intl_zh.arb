@@ -27,5 +27,7 @@
   "upload": "上传",
 
   "success": "成功",
-  "fail": "失败"
+  "fail": "失败",
+
+  "information": "资讯"
 }

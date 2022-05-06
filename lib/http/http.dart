@@ -4,13 +4,14 @@
 //
 import 'package:dio/dio.dart';
 import 'package:nothing/constants/constants.dart';
+import 'api.dart';
 import 'interceptors.dart';
 
 class Http {
   static final BaseOptions _options = BaseOptions(
 
       ///Api地址
-      baseUrl: 'http://10.0.0.73:30080',
+      baseUrl: ConstUrl.baseUrl,
 
       ///打开超时时间
       connectTimeout: 20000,

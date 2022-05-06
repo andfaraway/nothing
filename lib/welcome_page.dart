@@ -4,21 +4,13 @@
 //
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:nothing/home_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
-import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/launch_widget.dart';
-import 'package:path_provider/path_provider.dart';
-import 'constants/constants.dart';
-
+import 'public.dart';
 const int secondCount = 5;
 
 class WelcomePage extends StatefulWidget {
@@ -78,7 +70,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Future<void> initData() async {
     LaunchProvider provider = context.read<LaunchProvider>();
-    Map<String, dynamic>? map = await UserAPI.getLaunchInfo();
+    Map<String, dynamic>? map = await API.getLaunchInfo();
     if (map != null) {
         String? image = provider.launchInfo?.image;
         String? imageBackground = provider.launchInfo?.backgroundImage;

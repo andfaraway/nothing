@@ -1,10 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:nothing/app_routes.dart';
-import 'package:nothing/constants/constants.dart';
 import 'package:nothing/utils/notification_utils.dart';
-
+import 'public.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
@@ -45,7 +43,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     platformChannel.setMethodCallHandler((MethodCall call) async {
       if(call.method == 'deviceToken'){
         String deviceToken = call.arguments.toString();
-        UserAPI.pushDeviceToken(Singleton.currentUser.userId, deviceToken);
+        API.pushDeviceToken(Singleton.currentUser.userId, deviceToken);
         print('deviceToken：${call.arguments.toString()}');
       }
     });

@@ -21,7 +21,7 @@ class ResponseInterceptor extends Interceptor {
     LogUtils.n(response.data, tag: 'response');
     if (response.statusCode == 200) {
       int code = response.data['code'];
-      if (code == 0) {
+      if (code == 200) {
         if (response.data['data'] != null) {
           response.data = response.data['data'];
         }

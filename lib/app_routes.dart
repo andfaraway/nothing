@@ -71,7 +71,7 @@ class AppRoutes {
     themeSettingRoute.routeName: (BuildContext context) =>
         themeSettingRoute.page,
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
-    informationPageRoute.routeName: (BuildContext context) => informationPageRoute.page,
+    informationRoute.routeName: (BuildContext context) => informationRoute.page,
   };
 }
 
@@ -86,7 +86,7 @@ const AppRoutes sayHiRoute = AppRoutes('/sayHiRoute', SayHi());
 const AppRoutes themeSettingRoute =
     AppRoutes('/themeSettingRoute', ThemeSettingPage());
 const AppRoutes uploadFileRoute = AppRoutes('/uploadFileRoute', UploadFile());
-const AppRoutes informationPageRoute = AppRoutes('/informationPageRoute',
+const AppRoutes informationRoute = AppRoutes('/informationRoute',
     InformationPage());
 
 

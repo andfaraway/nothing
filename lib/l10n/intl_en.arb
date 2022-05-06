@@ -27,5 +27,7 @@
   "upload": "upload",
 
   "success": "Success",
-  "fail": "Fail"
+  "fail": "Fail",
+
+  "information": "Information"
 }

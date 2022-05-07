@@ -98,11 +98,33 @@ class _InformationPageState extends State<InformationPage>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 12,
-      child: TabBarView(
-          controller: _tabController,
-          children: _interfaceList.map((e) => e.page!).toList()),
-    );;
+    return Stack(
+      children: [
+        DefaultTabController(
+          length: 12,
+          child: TabBarView(
+              controller: _tabController,
+              children: _interfaceList.map((e) => e.page!).toList()),
+        ),
+        Align(
+          child: Padding(
+            padding:
+            EdgeInsets.only(top: Screens.topSafeHeight + 5, left: 20),
+            child: Builder(builder: (context) {
+              return GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                child: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+              );
+            }),
+          ),
+          alignment: Alignment.topLeft,
+        )
+      ],
+    );
   }
 }

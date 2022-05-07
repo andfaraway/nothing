@@ -3,6 +3,7 @@
 //  [Date] 2021-11-04 18:13:56
 
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:nothing/page/information_page.dart';
 
 import 'package:nothing/page/login_page.dart';
@@ -43,6 +44,7 @@ class _HomeWidgetState extends State<HomePage> {
         homeWidget = AppWebView(
           url: targetModel.url,
           title: 'nothing',
+          withAppBar: false,
         );
       }
     }
@@ -320,29 +322,7 @@ class _HomeWidgetState extends State<HomePage> {
     Screens.init(context);
     return Scaffold(
       drawer: drawer(context),
-      body: Stack(
-        children: [
-          homeWidget!,
-          Align(
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: Screens.topSafeHeight + 5, left: 20),
-              child: Builder(builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: const Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                );
-              }),
-            ),
-            alignment: Alignment.topLeft,
-          )
-        ],
-      ),
+      body: homeWidget!,
     );
   }
 }

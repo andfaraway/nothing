@@ -34,8 +34,9 @@ class Screens {
 
   static double get safeHeight => height - topSafeHeight - bottomSafeHeight;
 
-  static void updateStatusBarStyle(SystemUiOverlayStyle style) {
-    SystemChrome.setSystemUIOverlayStyle(style);
+  static void updateStatusBarStyle({required bool dark}) {
+    SystemChrome.setSystemUIOverlayStyle(
+        dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light);
   }
 
   //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕

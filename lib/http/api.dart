@@ -157,7 +157,7 @@ class API {
   }
 
   //插入登录表
-  static Future<List<dynamic>?> insertLaunch(
+  static Future<Map<String, dynamic>?> insertLaunch(
       Map<String, dynamic>? param) async {
     var response = await Http.post(ConstUrl.insertLaunch, params: param);
     return response;

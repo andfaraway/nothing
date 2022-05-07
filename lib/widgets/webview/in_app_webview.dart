@@ -111,6 +111,7 @@ class _AppWebViewState extends State<AppWebView>
 
     _webView = newWebView;
 
+    print('web app init');
     // Instances.eventBus
     //     .on<CourseScheduleRefreshEvent>()
     //     .listen((CourseScheduleRefreshEvent event) {
@@ -169,9 +170,9 @@ class _AppWebViewState extends State<AppWebView>
         ),
       ),
       onCreateWindow: (
-          InAppWebViewController controller,
-          CreateWindowAction createWindowAction,
-          ) async {
+        InAppWebViewController controller,
+        CreateWindowAction createWindowAction,
+      ) async {
         if (createWindowAction.request.url != null) {
           await controller.loadUrl(urlRequest: createWindowAction.request);
           return true;
@@ -184,18 +185,18 @@ class _AppWebViewState extends State<AppWebView>
       onConsoleMessage: (_, ConsoleMessage consoleMessage) {
         LogUtils.d(
           'Console message: '
-              '${consoleMessage.messageLevel.toString()}'
-              ' - '
-              '${consoleMessage.message}',
+          '${consoleMessage.messageLevel.toString()}'
+          ' - '
+          '${consoleMessage.message}',
         );
       },
       onWebViewCreated: (InAppWebViewController controller) {
         _webViewController = controller;
       },
       shouldOverrideUrlLoading: (
-          InAppWebViewController controller,
-          NavigationAction navigationAction,
-          ) async {
+        InAppWebViewController controller,
+        NavigationAction navigationAction,
+      ) async {
         if (checkSchemeLoad(
           controller,
           navigationAction.request.url.toString(),
@@ -211,6 +212,7 @@ class _AppWebViewState extends State<AppWebView>
       },
     );
   }
+
   bool checkSchemeLoad(InAppWebViewController controller, String url) {
     final RegExp protocolRegExp = RegExp(r'(http|https):\/\/([\w.]+\/?)\S*');
     if (!url.startsWith(protocolRegExp) && url.contains('://')) {
@@ -246,10 +248,15 @@ class _AppWebViewState extends State<AppWebView>
         return true;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: widget.withAppBar
+            ? AppBar(
+                title: Text(widget.title ?? ''),
+              )
+            : null,
         body: Column(
           children: <Widget>[
-            if(widget.withAppBar)
-              AppBar(title: Text(widget.title??''),),
+            Container(height: Screens.topSafeHeight,color: Colors.white,),
             Expanded(child: _webView),
           ],
         ),

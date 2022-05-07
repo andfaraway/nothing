@@ -36,12 +36,13 @@ export 'colors.dart';
 
 export 'singleton.dart';
 
+const bool isDebug =  false;
+
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;
+
 ///主页两边宽度
 const double MARGIN_MAIN = 17;
-
-const bool isDebug =  true;
 
 //标记界面的context
 BuildContext? globalContext;

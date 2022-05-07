@@ -22,6 +22,7 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
+
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
@@ -83,7 +84,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
             900: const Color(0xFF0D47A1),
           },
         );
-
         return MaterialApp(
           navigatorKey: Instances.navigatorKey,
           theme: ThemeData(

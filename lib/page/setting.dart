@@ -19,9 +19,15 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadData();
+    Screens.updateStatusBarStyle(dark: false);
+  }
+
+  @override
+  void dispose() {
+    Screens.updateStatusBarStyle(dark: true);
+    super.dispose();
   }
 
   Future<void> loadData() async {

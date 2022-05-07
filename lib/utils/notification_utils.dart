@@ -49,6 +49,7 @@ class NotificationUtils {
 
     jpush.setBadge(0);
 
+    print('jpush registrationID = ${await jpush.getRegistrationID()}');
     return jpush;
   }
 

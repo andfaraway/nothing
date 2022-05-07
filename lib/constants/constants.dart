@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nothing/constants/instances.dart';
 import 'package:nothing/constants/singleton.dart';
+import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -110,11 +111,16 @@ class Constants {
   }
 
   static Future<void> insertLaunch() async{
+    bool isPhysicalDevice = await Constants.isPhysicalDevice();
+    if(Platform.isIOS && !isPhysicalDevice) return;
+
     Map<String,dynamic>? param = {};
     param['userid'] = Singleton.currentUser.userId;
     param['username'] = Singleton.currentUser.username;
     //推送别名
     param['alias'] = await LocalDataUtils.get(KEY_ALIAS);
+    //推送注册id
+    param['registrationID'] = await NotificationUtils.jpush.getRegistrationID();
     //电量
     param['battery'] = await DeviceUtils.battery();
     //设备信息

@@ -59,7 +59,7 @@ PODS:
     - UMCShare/Social/ReducedQQ
     - UMCShare/UI
   - UMAPM (1.6.3)
-  - UMCCommon (7.3.6):
+  - UMCCommon (7.3.7):
     - UMAPM
     - UMDevice
   - UMCCommonLog (2.0.2)
@@ -180,7 +180,7 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   um_share_plugin: 20e45db2fbf77af2f08851774e7c6c7837e249e2
   UMAPM: 76db9514ceb4c94c44cfa143498860626ca0dda5
-  UMCCommon: 67766370204f54467c2271a13397c403992ebeec
+  UMCCommon: aac337052f23b0e08c0f3cf021d3bb209f2c49bd
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571

@@ -64,18 +64,12 @@ class _LoginPageState extends State<LoginPage> {
       Singleton.currentUser = UserInfoModel.fromJson(map);
       LocalDataUtils.setMap(KEY_USER_INFO, map);
 
-      //注册通知
-      String? alias =
-          await NotificationUtils.setAlias(Singleton.currentUser.username);
-
-      if (alias != null) {
-        API.registerNotification(
+      String registrationId = await NotificationUtils.jpush.getRegistrationID();
+      API.registerNotification(
             userId: Singleton.currentUser.userId,
             pushToken: null,
-            alias: alias,
-            registrationId: '',
+            registrationId: registrationId,
             identifier: Singleton.currentUser.openId);
-      }
 
       if (mounted) {
         Navigator.pushAndRemoveUntil(
@@ -118,17 +112,12 @@ class _LoginPageState extends State<LoginPage> {
         Singleton.currentUser = UserInfoModel.fromJson(map);
         LocalDataUtils.setMap(KEY_USER_INFO, map);
         //注册通知
-        String? alias = await NotificationUtils.setAlias(
-            Singleton.currentUser.username,
-            mustset: true);
-        if (alias != null) {
-          API.registerNotification(
-              userId: Singleton.currentUser.userId,
-              pushToken: null,
-              alias: alias,
-              registrationId: '',
-              identifier: Singleton.currentUser.openId);
-        }
+        String registrationId = await NotificationUtils.jpush.getRegistrationID();
+        API.registerNotification(
+            userId: Singleton.currentUser.userId,
+            pushToken: null,
+            registrationId: registrationId,
+            identifier: Singleton.currentUser.openId);
 
         if (mounted) {
           Navigator.pushAndRemoveUntil(

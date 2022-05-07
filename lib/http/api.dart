@@ -104,7 +104,7 @@ class API {
   }
 
   //删除消息
-  static Future<List?> pushDeviceToken(
+  static Future<Map<String, dynamic>?> pushDeviceToken(
     String? userid,
     String? deviceToken,
   ) async {

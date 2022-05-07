@@ -140,6 +140,7 @@ class Constants {
   }
 
   static hideKeyboard(BuildContext context){
+    print('const context = $context');
     FocusScope.of(context).requestFocus(FocusNode());
   }
 }

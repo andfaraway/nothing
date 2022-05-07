@@ -102,7 +102,6 @@ class _WelcomePageState extends State<WelcomePage> {
         provider.updateHives();
       // provider.update();
     }
-    print('provider.launchInfo = ${provider.launchInfo}');
     print('document:${PathUtils.documentPath}');
   }
 
@@ -153,7 +152,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           dateDetailStr: provider.launchInfo?.dateDetailStr,
                           contentStr: provider.launchInfo?.contentStr,
                           author: provider.launchInfo?.authorStr,
-                          codeStr: provider.launchInfo?.contentStr,
+                          codeStr: provider.launchInfo?.codeStr,
                         ),
                       ),
                     ),

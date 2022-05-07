@@ -88,7 +88,7 @@ class _AppWebViewState extends State<AppWebView>
     with AutomaticKeepAliveClientMixin {
   final StreamController<double> progressController =
       StreamController<double>.broadcast();
-  late Timer _progressCancelTimer;
+  Timer? _progressCancelTimer;
 
   final ValueNotifier<String> title = ValueNotifier<String>('');
 
@@ -125,7 +125,7 @@ class _AppWebViewState extends State<AppWebView>
   void dispose() {
     SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
     progressController.close();
-    _progressCancelTimer.cancel();
+    _progressCancelTimer?.cancel();
     super.dispose();
   }
 
@@ -183,12 +183,12 @@ class _AppWebViewState extends State<AppWebView>
         progressController.add(progress / 100);
       },
       onConsoleMessage: (_, ConsoleMessage consoleMessage) {
-        LogUtils.d(
-          'Console message: '
-          '${consoleMessage.messageLevel.toString()}'
-          ' - '
-          '${consoleMessage.message}',
-        );
+        // LogUtils.d(
+        //   'Console message: '
+        //   '${consoleMessage.messageLevel.toString()}'
+        //   ' - '
+        //   '${consoleMessage.message}',
+        // );
       },
       onWebViewCreated: (InAppWebViewController controller) {
         _webViewController = controller;

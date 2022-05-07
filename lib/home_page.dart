@@ -54,21 +54,15 @@ class _HomeWidgetState extends State<HomePage> {
 
   @override
   void dispose() {
+    _tipsStr.dispose();
+    _todayTips.dispose();
     super.dispose();
   }
 
   /// 初始化数据
   Future<void> loadData() async {
-    // var list = await LocalDataUtils.get(Constants.keyFavoriteList);
-    // favoriteList.clear();
-    // if (list != null) {
-    //   favoriteList.addAll(list.cast<String>());
-    // }
     _todayTips.value = await API.getTips();
   }
-
-  TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 32.sp);
-  TextStyle vipStyle = TextStyle(color: Colors.red, fontSize: 32.sp);
 
   Widget todayTipsWidget() {
     return SizedBox(
@@ -125,6 +119,9 @@ class _HomeWidgetState extends State<HomePage> {
 
   Widget _holidayDistanceWidget(
       String holidayName, String days, String timeStr) {
+    TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 32.sp);
+    TextStyle vipStyle = TextStyle(color: Colors.red, fontSize: 32.sp);
+
     InlineSpan span = TextSpan(children: [
       TextSpan(text: '离$holidayName还有', style: defaultStyle),
       TextSpan(text: ' $days ', style: vipStyle),
@@ -134,7 +131,7 @@ class _HomeWidgetState extends State<HomePage> {
   }
 
   ///左侧菜单
-  Widget drawer(BuildContext context) {
+  Widget drawer() {
     return SmartDrawer(
       callback: (open) async {
         Constants.hideKeyboard(context);
@@ -321,7 +318,7 @@ class _HomeWidgetState extends State<HomePage> {
   Widget build(BuildContext context) {
     Screens.init(context);
     return Scaffold(
-      drawer: drawer(context),
+      drawer: drawer(),
       body: homeWidget!,
     );
   }

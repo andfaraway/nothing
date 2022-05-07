@@ -49,52 +49,53 @@ class NotificationUtils {
 
     jpush.setBadge(0);
 
-    //设置别名
-    var result = await setAlias(Singleton.currentUser.username);
-    print('setAlias = $result');
     return jpush;
   }
 
-  static Future<String?> setAlias(String? alias,{bool mustset = false}) async {
-    if (alias == null || alias == '') return null;
-    if (! await Constants.isPhysicalDevice()) return null;
-
-    //若本地有，表明设置成功过，无需再设置
-    String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
-    print('localAlias=$localAlias');
-    if(mustset == false){
-      if (localAlias != null ) return localAlias;
-    }
-    try {
-      String result = '';
-      for (int i = 0; i < alias.length; i++) {
-        String c = alias[i];
-        if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
-      }
-      alias = result;
-    } catch (error) {}
-
-    if (alias == null || alias.isEmpty) {
-      alias = 'all';
-    }
-
-    try {
-      await jpush.setAlias(alias);
-      // 设置成功，保存本地
-      await LocalDataUtils.setString(KEY_ALIAS, alias);
-      // 注册服务器
-      var userId = Singleton.currentUser.userId;
-      var registrationId = await jpush.getRegistrationID();
-      String? identifierForVendor = Singleton.currentUser.openId;
-      API.registerNotification(
-          userId: userId,
-          pushToken: null,
-          alias: alias,
-          registrationId: registrationId,
-          identifier: identifierForVendor);
-    } catch (error) {}
-    return alias;
-  }
+  // static Future<String?> setAlias(String? alias,{bool mustset = false}) async {
+  //   var a = await jpush.getRegistrationID();
+  //   print('***********${a}***********');
+  //   return '';
+  //
+  //   if (alias == null || alias == '') return null;
+  //   if (! await Constants.isPhysicalDevice()) return null;
+  //
+  //   //若本地有，表明设置成功过，无需再设置
+  //   String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
+  //   print('localAlias=$localAlias');
+  //   if(mustset == false){
+  //     if (localAlias != null ) return localAlias;
+  //   }
+  //   try {
+  //     String result = '';
+  //     for (int i = 0; i < alias.length; i++) {
+  //       String c = alias[i];
+  //       if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
+  //     }
+  //     alias = result;
+  //   } catch (error) {}
+  //
+  //   if (alias == null || alias.isEmpty) {
+  //     alias = 'all';
+  //   }
+  //
+  //   try {
+  //     await jpush.setAlias(alias);
+  //     // 设置成功，保存本地
+  //     await LocalDataUtils.setString(KEY_ALIAS, alias);
+  //     // 注册服务器
+  //     var userId = Singleton.currentUser.userId;
+  //     var registrationId = await jpush.getRegistrationID();
+  //     String? identifierForVendor = Singleton.currentUser.openId;
+  //     API.registerNotification(
+  //         userId: userId,
+  //         pushToken: null,
+  //         alias: alias,
+  //         registrationId: registrationId,
+  //         identifier: identifierForVendor);
+  //   } catch (error) {}
+  //   return alias;
+  // }
 
   static final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();

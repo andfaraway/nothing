@@ -4,12 +4,13 @@
 //
 import 'package:nothing/utils/device_utils.dart';
 import 'package:nothing/utils/toast_utils.dart';
+import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'public.dart';
 
-Function? functionWithString(String functionStr) {
+Function? functionWithString(BuildContext context, String functionStr) {
   String? url;
-  if('web:'.matchAsPrefix(functionStr) != null){
+  if ('web:'.matchAsPrefix(functionStr) != null) {
     url = functionStr.split('web:').last;
     functionStr = 'web';
   }
@@ -48,11 +49,19 @@ Function? functionWithString(String functionStr) {
       break;
     case 'web':
       f = () async {
-          if (await canLaunch(url!)) {
-            await launch(url);
-          } else {
-            throw 'Could not launch $url';
-          }
+        AppRoutes.pushPage(
+            context,
+            AppWebView(
+              url: url,
+              title: 'nothing',
+              withAppBar: true,
+            ));
+        return;
+        if (await canLaunch(url!)) {
+          await launch(url);
+        } else {
+          throw 'Could not launch $url';
+        }
       };
       break;
   }

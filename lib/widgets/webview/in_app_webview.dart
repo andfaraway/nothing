@@ -20,13 +20,10 @@ class AppWebView extends StatefulWidget {
     this.withCookie = true,
     this.withAppBar = true,
     this.withAction = true,
+    this.withBackBtn = false,
     this.withScaffold = true,
     this.keepAlive = false,
   })  : assert(url != null),
-        assert(withCookie != null),
-        assert(withAppBar != null),
-        assert(withAction != null),
-        assert(withScaffold != null),
         assert(keepAlive != null),
         super(key: key);
 
@@ -35,6 +32,7 @@ class AppWebView extends StatefulWidget {
   final WebApp? app;
   final bool withCookie;
   final bool withAppBar;
+  final bool withBackBtn;
   final bool withAction;
   final bool withScaffold;
   final bool? keepAlive;
@@ -91,6 +89,9 @@ class _AppWebViewState extends State<AppWebView>
   Timer? _progressCancelTimer;
 
   final ValueNotifier<String> title = ValueNotifier<String>('');
+
+  /// 页面是否可以返回
+  final ValueNotifier<bool> webCanGoBack = ValueNotifier(false);
 
   String url = 'about:blank';
 
@@ -183,12 +184,12 @@ class _AppWebViewState extends State<AppWebView>
         progressController.add(progress / 100);
       },
       onConsoleMessage: (_, ConsoleMessage consoleMessage) {
-        // LogUtils.d(
-        //   'Console message: '
-        //   '${consoleMessage.messageLevel.toString()}'
-        //   ' - '
-        //   '${consoleMessage.message}',
-        // );
+        LogUtils.d(
+          'Console message: '
+          '${consoleMessage.messageLevel.toString()}'
+          ' - '
+          '${consoleMessage.message}',
+        );
       },
       onWebViewCreated: (InAppWebViewController controller) {
         _webViewController = controller;
@@ -197,6 +198,7 @@ class _AppWebViewState extends State<AppWebView>
         InAppWebViewController controller,
         NavigationAction navigationAction,
       ) async {
+
         if (checkSchemeLoad(
           controller,
           navigationAction.request.url.toString(),
@@ -206,9 +208,16 @@ class _AppWebViewState extends State<AppWebView>
           return NavigationActionPolicy.ALLOW;
         }
       },
-      onUpdateVisitedHistory: (_, Uri? url, bool? androidIsReload) {
+      onUpdateVisitedHistory: (_, Uri? url, bool? androidIsReload) async {
         LogUtils.d('WebView onUpdateVisitedHistory: $url, $androidIsReload');
         // cancelProgress();
+      },
+      onLoadStop: (InAppWebViewController _, Uri? uri)async{
+        print('onLoadStop');
+        Future.delayed(const Duration(milliseconds: 200),()async{
+          webCanGoBack.value = await _webViewController.canGoBack();
+          print('webCanGoBack.value = ${webCanGoBack.value}');
+        });
       },
     );
   }
@@ -239,27 +248,53 @@ class _AppWebViewState extends State<AppWebView>
   @mustCallSuper
   Widget build(BuildContext context) {
     super.build(context);
-    return WillPopScope(
-      onWillPop: () async {
-        if (await _webViewController.canGoBack() == true) {
-          _webViewController.goBack();
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: widget.withAppBar
-            ? AppBar(
-                title: Text(widget.title ?? ''),
-              )
-            : null,
-        body: Column(
-          children: <Widget>[
-            Container(height: Screens.topSafeHeight,color: Colors.white,),
-            Expanded(child: _webView),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      // appBar: widget.withAppBar
+      //     ? AppBar(
+      //         title: Text(widget.title ?? ''),
+      //       )
+      //     : null,
+      body: Stack(
+        children: [
+          Column(
+            children: <Widget>[
+              Container(
+                height: Screens.topSafeHeight,
+                color: Colors.white,
+              ),
+              Expanded(child: _webView),
+            ],
+          ),
+          if(widget.withBackBtn) ValueListenableBuilder(
+            builder: (context, bool canGoBack, child) {
+              if(!canGoBack) return const SizedBox.shrink();
+              return Padding(
+                padding: EdgeInsets.only(
+                  top: Screens.topSafeHeight,
+                ),
+                child: Container(
+                  color: Colors.green,
+                  height: 25,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      if (await _webViewController.canGoBack()) {
+                        _webViewController.goBack();
+                      }
+                    },
+                  ),
+                ),
+              );
+            },
+            valueListenable: webCanGoBack,
+          )
+        ],
       ),
     );
   }

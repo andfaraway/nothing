@@ -45,6 +45,7 @@ class _HomeWidgetState extends State<HomePage> {
           url: targetModel.url,
           title: 'nothing',
           withAppBar: false,
+          withBackBtn: true,
         );
       }
     }
@@ -91,6 +92,8 @@ class _HomeWidgetState extends State<HomePage> {
               timeStr2 = '小时';
             }
 
+            String date1 = map['first_dic']['date'];
+            String date2 = map['second_dic']['date'];
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -108,9 +111,9 @@ class _HomeWidgetState extends State<HomePage> {
                 ),
                 if (map['week_distance'] != null)
                   _holidayDistanceWidget(
-                      '周末', map['week_distance'].toString(), '天'),
-                _holidayDistanceWidget(dayName1, dayStr1, timeStr1),
-                _holidayDistanceWidget(dayName2, dayStr2, timeStr2),
+                      '周末', '', map['week_distance'].toString(), '天'),
+                _holidayDistanceWidget(dayName1, date1, dayStr1, timeStr1),
+                _holidayDistanceWidget(dayName2, date2, dayStr2, timeStr2),
               ],
             );
           }),
@@ -118,12 +121,12 @@ class _HomeWidgetState extends State<HomePage> {
   }
 
   Widget _holidayDistanceWidget(
-      String holidayName, String days, String timeStr) {
+      String holidayName, String date, String days, String timeStr) {
     TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 32.sp);
     TextStyle vipStyle = TextStyle(color: Colors.red, fontSize: 32.sp);
 
     InlineSpan span = TextSpan(children: [
-      TextSpan(text: '离$holidayName还有', style: defaultStyle),
+      TextSpan(text: '离$holidayName$date还有', style: defaultStyle),
       TextSpan(text: ' $days ', style: vipStyle),
       TextSpan(text: timeStr, style: defaultStyle),
     ]);
@@ -291,7 +294,8 @@ class _HomeWidgetState extends State<HomePage> {
       child: SizedBox(
         height: 85.h,
         child: Padding(
-          padding: EdgeInsets.only(left: kDrawerMarginLeft, right: kDrawerMarginLeft),
+          padding: EdgeInsets.only(
+              left: kDrawerMarginLeft, right: kDrawerMarginLeft),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

@@ -55,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
                         title: e.module!,
                         onTap: e.onTap != null
                             ? () {
-                                functionWithString(e.onTap!)?.call();
+                                functionWithString(context,e.onTap!)?.call();
                               }
                             : () {
                                 AppRoutes.pushNamePage(
@@ -64,7 +64,7 @@ class _SettingPageState extends State<SettingPage> {
                         onLongPress: e.onLongPress == null
                             ? null
                             : () {
-                                functionWithString(e.onLongPress!)?.call();
+                                functionWithString(context,e.onLongPress!)?.call();
                               },
                       ))
                   .toList(),

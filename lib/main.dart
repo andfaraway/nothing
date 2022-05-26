@@ -18,6 +18,8 @@ void main() async {
     await NotificationUtils.jPushInit();
   }
 
+  await DeviceUtils.getDeviceUuid();
+
   Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey
       .welcomeLoad);
 

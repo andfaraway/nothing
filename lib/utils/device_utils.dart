@@ -60,16 +60,17 @@ class DeviceUtils {
   // }
 
   static Future<void> getDeviceUuid() async {
-    if (HiveFieldUtils.getDeviceUuid() != null) {
-      deviceUuid = HiveFieldUtils.getDeviceUuid();
-    } else {
+    // if (HiveFieldUtils.getDeviceUuid() != null) {
+    //   deviceUuid = HiveFieldUtils.getDeviceUuid();
+    // } else {
       if (Platform.isIOS) {
+        deviceInfo = await _deviceInfoPlugin.iosInfo;
         deviceUuid = (deviceInfo as IosDeviceInfo).identifierForVendor!;
       } else {
         deviceUuid = const Uuid().v4();
         // await HiveFieldUtils.setDeviceUuid(const Uuid().v4());
       }
-    }
+    // }
     LogUtils.d('deviceUuid: $deviceUuid');
   }
 

@@ -257,15 +257,7 @@ class _AppWebViewState extends State<AppWebView>
       //     : null,
       body: Stack(
         children: [
-          Column(
-            children: <Widget>[
-              Container(
-                height: Screens.topSafeHeight,
-                color: Colors.white,
-              ),
-              Expanded(child: _webView),
-            ],
-          ),
+          _webView,
           if(widget.withBackBtn) ValueListenableBuilder(
             builder: (context, bool canGoBack, child) {
               if(!canGoBack) return const SizedBox.shrink();

@@ -76,9 +76,11 @@ dependencies:
   build_runner: ^2.1.10
   hive_generator: ^1.1.2
   flutter_svg: ^1.0.3
+  wechat_assets_picker: ^6.3.1
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
-
+  images_to_live_photo:
+    path: /Users/libin/Desktop/my_plugins/images_to_live_photo
 
 
 dev_dependencies:

@@ -49,7 +49,7 @@ var channel: FlutterMethodChannel? = nil
         channel?.invokeMethod("remoteNotification", arguments: dic)
     }
     
-    func createLivePhoto(method:String,arguments:Any?,result: FlutterResult) ->  Void{
+    func createLivePhoto(method:String,arguments:Any?,result:@escaping FlutterResult) ->  Void{
         let width = UIScreen.main.bounds.size.width
         let height = UIScreen.main.bounds.size.height
         

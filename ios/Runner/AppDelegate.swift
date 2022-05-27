@@ -1,7 +1,7 @@
 import UIKit
 import Flutter
 import flutter_inappwebview
-import UIKit
+
 import AVFoundation
 
 var channel: FlutterMethodChannel? = nil
@@ -64,7 +64,6 @@ var channel: FlutterMethodChannel? = nil
                result(fileURL.absoluteString)
         }else if method == "create_live_photo" {
                  let pathList = arguments as! Array<String>
-
        //           let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
        //
        //           let photoURL = URL.init(fileURLWithPath: pathList.first!)

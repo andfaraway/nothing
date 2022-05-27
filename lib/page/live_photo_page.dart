@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:nothing/public.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:images_to_live_photo/images_to_live_photo.dart';
+// import 'package:images_to_live_photo/images_to_live_photo.dart';
 
 class LivePhotoPage extends StatefulWidget {
   const LivePhotoPage({Key? key}) : super(key: key);
@@ -109,18 +109,17 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
   }
 
   Future<void> create() async{
-    print('111');
     if(firstImage == null || secondImage == null){
       showToast('please select photo');
       return;
     }
 
-
+    print('start');
     String movPath = await platformChannel.invokeMethod("image_to_mov",
-        secondImage);
-
+        secondImage!.path);
+    print('movePath:$movPath');
     String result = await platformChannel.invokeMethod("create_live_photo",
-        [firstImage,movPath]);
+        [firstImage!.path,movPath]);
     // var result = await ImagesToLivePhoto.create(firstImage!.path, secondImage!
     //     .path);
     // var result = await platformChannel.invokeMethod(ChannelKey

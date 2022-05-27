@@ -602,13 +602,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.4"
-  images_to_live_photo:
-    dependency: "direct main"
-    description:
-      path: "/Users/libin/Desktop/my_plugins/images_to_live_photo"
-      relative: false
-    source: path
-    version: "0.0.1"
   intl:
     dependency: "direct main"
     description:
@@ -1217,5 +1210,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.16.2 <3.0.0"
+  dart: ">=2.16.0 <3.0.0"
   flutter: ">=2.10.0"

@@ -30,8 +30,6 @@ PODS:
     - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
-  - images_to_live_photo (0.0.1):
-    - Flutter
   - JCore (3.1.0)
   - JPush (4.4.0):
     - JCore (>= 2.0.0)
@@ -92,7 +90,6 @@ DEPENDENCIES:
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
-  - images_to_live_photo (from `.symlinks/plugins/images_to_live_photo/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -142,8 +139,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
-  images_to_live_photo:
-    :path: ".symlinks/plugins/images_to_live_photo/ios"
   jpush_flutter:
     :path: ".symlinks/plugins/jpush_flutter/ios"
   package_info:
@@ -176,7 +171,6 @@ SPEC CHECKSUMS:
   image_cropper: 60c2789d1f1a78c873235d4319ca0c34a69f2d98
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
-  images_to_live_photo: 8c62947743f067d1aac1b1f6ddb9635ee6523663
   JCore: 4029befb2497adc36b2496e2cfd6b24d9f671784
   JPush: b7d00f2cc78766e76c8abb30a5741fe94d21e5bc
   jpush_flutter: bc88cfa9a4ff4481031564b641c3fe24024bb2cb

@@ -262,8 +262,9 @@ class _AppWebViewState extends State<AppWebView>
             builder: (context, bool canGoBack, child) {
               if(!canGoBack) return const SizedBox.shrink();
               return Padding(
-                padding: EdgeInsets.only(
-                  top: Screens.topSafeHeight,
+                padding: const EdgeInsets.only(
+                  // top: Screens.topSafeHeight,
+                  top: 0
                 ),
                 child: Container(
                   color: Colors.green,

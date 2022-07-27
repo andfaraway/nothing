@@ -7,45 +7,48 @@ part of 'models.dart';
 
 /// 启动页model
 ///
-/// [title] 顶部标题, [image] 中间图片,  [localPath] 本地图片地址,
+/// [launchType] 0.带时间默认框  1.纯图片 [title] 顶部标题, [image] 中间图片,
+/// [localPath] 本地图片地址,
 /// [dayStr] 日期, [monthStr] 月份, [dateDetailStr] 日期详情,
 /// [contentStr] 内容, [authorStr] 作者, [codeStr] 二维码字符串,
 /// [date] 时间, [backgroundImage] 背景图片, [localBackgroundPath] 背景图片本地地址,
 
 @HiveType(typeId: HiveAdapterTypeIds.launchInfo)
 class LaunchInfo extends HiveObject {
-  LaunchInfo({
-    this.title,
-    this.image,
-    this.localPath,
-    this.dayStr,
-    this.monthStr,
-    this.dateDetailStr,
-    this.contentStr,
-    this.authorStr,
-    this.codeStr,
-    this.date,
-    this.backgroundImage,
-    this.localBackgroundPath,
-    this.homePage
-  });
+  LaunchInfo(
+      {this.launchType,
+      this.title,
+      this.image,
+      this.localPath,
+      this.dayStr,
+      this.monthStr,
+      this.dateDetailStr,
+      this.contentStr,
+      this.authorStr,
+      this.codeStr,
+      this.date,
+      this.backgroundImage,
+      this.localBackgroundPath,
+      this.homePage,
+      this.timeCount});
 
   factory LaunchInfo.fromJson(Map<String, dynamic> json) {
     return LaunchInfo(
-      title: json['title'],
-      image: json['image'],
-      localPath: json['localPath'],
-      dayStr: json['dayStr'],
-      monthStr: json['monthStr'],
-      dateDetailStr: json['dateDetailStr'],
-      contentStr: json['contentStr'],
-      authorStr: json['authorStr'],
-      codeStr: json['codeStr'],
-      date: json['date'],
-      backgroundImage: json['backgroundImage'],
-      localBackgroundPath: json['localBackgroundPath'],
-      homePage:json['homePage']
-    );
+        title: json['title'],
+        image: json['image'],
+        localPath: json['localPath'],
+        dayStr: json['dayStr'],
+        monthStr: json['monthStr'],
+        dateDetailStr: json['dateDetailStr'],
+        contentStr: json['contentStr'],
+        authorStr: json['authorStr'],
+        codeStr: json['codeStr'],
+        date: json['date'],
+        backgroundImage: json['backgroundImage'],
+        localBackgroundPath: json['localBackgroundPath'],
+        homePage: json['homePage'],
+        launchType: json['launchType'],
+        timeCount: json['timeCount']);
   }
 
   @HiveField(0)
@@ -74,6 +77,10 @@ class LaunchInfo extends HiveObject {
   String? localBackgroundPath;
   @HiveField(12)
   String? homePage;
+  @HiveField(13)
+  int? timeCount;
+  @HiveField(14)
+  int? launchType;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -90,6 +97,8 @@ class LaunchInfo extends HiveObject {
       'backgroundImage': backgroundImage,
       'localBackgroundPath': localBackgroundPath,
       'homePage': homePage,
+      'timeCount': timeCount,
+      'launchType': launchType
     };
   }
 

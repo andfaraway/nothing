@@ -6,7 +6,7 @@ part of 'providers.dart';
 
 class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
-    // initTheme();
+    initTheme();
   }
 
   ThemeGroup _currentThemeGroup = defaultThemeGroup;

@@ -39,7 +39,6 @@ class LaunchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('codeStr = $codeStr');
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(

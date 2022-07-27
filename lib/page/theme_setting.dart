@@ -73,6 +73,7 @@ class ThemeSettingPage extends StatelessWidget {
               return _ThemeContainer(
                 context: context,
                 themeGroup: supportThemeGroups[index],
+                themeIndex: index,
               );
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -95,10 +96,12 @@ class _ThemeContainer extends StatelessWidget {
     Key? key,
     required this.context,
     required this.themeGroup,
+    required this.themeIndex
   }) : super(key: key);
 
   final BuildContext context;
   final ThemeGroup themeGroup;
+  final int themeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +113,7 @@ class _ThemeContainer extends StatelessWidget {
         builder: (context, provider, child) => GestureDetector(
           onTap: () {
             provider.currentThemeGroup = themeGroup;
+            HiveFieldUtils.setColorTheme(themeIndex);
           },
           child: FlutterColorsBorder(
             available: themeGroup == provider.currentThemeGroup,

@@ -7,10 +7,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class LaunchWidget extends StatelessWidget {
   final String? title;
-  final String? image;
-  final String? localPath;
+  final String image;
   final String? backgroundImage;
-  final String? localBackgroundPath;
 
   final String? dayStr;
   final String? monthStr;
@@ -24,10 +22,8 @@ class LaunchWidget extends StatelessWidget {
 
   const LaunchWidget(
       {Key? key,
-      this.image,
-      this.localPath,
+      required this.image,
       this.backgroundImage,
-      this.localBackgroundPath,
       this.title,
       this.dayStr,
       this.monthStr,
@@ -43,21 +39,10 @@ class LaunchWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          localBackgroundPath != null
-              ? Image.asset(
-                  '${PathUtils.documentPath}/$localBackgroundPath',
-                  fit: BoxFit.fitHeight,
-                  width: double.infinity,
-                  height: double.infinity,
-                )
-              : (backgroundImage != null
-                  ? Image.network(
-                      backgroundImage!,
-                      fit: BoxFit.fitHeight,
-                      width: double.infinity,
-                      height: double.infinity,
-                    )
-                  : const SizedBox.shrink()),
+          CachedNetworkImage(imageUrl: backgroundImage ?? image,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
@@ -80,21 +65,11 @@ class LaunchWidget extends StatelessWidget {
                     SizedBox(
                       width: 556.w,
                       height: 548.h,
-                      child: localPath != null
-                          ? Image.asset(
-                              '${PathUtils.documentPath}/$localPath',
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                            )
-                          : (image != null
-                              ? Image.network(
-                                  image!,
-                                  fit: BoxFit.fitHeight,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                )
-                              : const SizedBox.shrink()),
+                      child: CachedNetworkImage(
+                        imageUrl:image,
+                        fit: BoxFit.fitHeight,
+                        width: double.infinity,
+                        height: double.infinity,)
                     ),
                     37.hSizedBox,
                     Row(

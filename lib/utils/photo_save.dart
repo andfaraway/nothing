@@ -187,13 +187,14 @@ Future<String?> saveToDocument(
   String localPath = PathUtils.documentPath + '/' + saveName;
   Response s = await NetUtils.download(urlPath: url, savePath: localPath,
       onReceiveProgress: (a,b){
-          print('$a----$b');
+
       });
 
   // 下载完成，记录状态
   if (s.statusCode == 200) {
     return saveName;
   } else {
+    LogUtils.d("download error ${s.toString()}");
     return null;
   }
 }

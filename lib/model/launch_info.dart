@@ -8,10 +8,9 @@ part of 'models.dart';
 /// 启动页model
 ///
 /// [launchType] 0.带时间默认框  1.纯图片 [title] 顶部标题, [image] 中间图片,
-/// [localPath] 本地图片地址,
 /// [dayStr] 日期, [monthStr] 月份, [dateDetailStr] 日期详情,
 /// [contentStr] 内容, [authorStr] 作者, [codeStr] 二维码字符串,
-/// [date] 时间, [backgroundImage] 背景图片, [localBackgroundPath] 背景图片本地地址,
+/// [date] 时间, [backgroundImage] 背景图片,
 
 @HiveType(typeId: HiveAdapterTypeIds.launchInfo)
 class LaunchInfo extends HiveObject {
@@ -19,7 +18,6 @@ class LaunchInfo extends HiveObject {
       {this.launchType,
       this.title,
       this.image,
-      this.localPath,
       this.dayStr,
       this.monthStr,
       this.dateDetailStr,
@@ -28,7 +26,6 @@ class LaunchInfo extends HiveObject {
       this.codeStr,
       this.date,
       this.backgroundImage,
-      this.localBackgroundPath,
       this.homePage,
       this.timeCount});
 
@@ -36,7 +33,6 @@ class LaunchInfo extends HiveObject {
     return LaunchInfo(
         title: json['title'],
         image: json['image'],
-        localPath: json['localPath'],
         dayStr: json['dayStr'],
         monthStr: json['monthStr'],
         dateDetailStr: json['dateDetailStr'],
@@ -45,7 +41,6 @@ class LaunchInfo extends HiveObject {
         codeStr: json['codeStr'],
         date: json['date'],
         backgroundImage: json['backgroundImage'],
-        localBackgroundPath: json['localBackgroundPath'],
         homePage: json['homePage'],
         launchType: json['launchType'],
         timeCount: json['timeCount']);
@@ -56,7 +51,7 @@ class LaunchInfo extends HiveObject {
   @HiveField(1)
   String? image;
   @HiveField(2)
-  String? localPath;
+  int? launchType;
   @HiveField(3)
   String? dayStr;
   @HiveField(4)
@@ -74,19 +69,14 @@ class LaunchInfo extends HiveObject {
   @HiveField(10)
   String? backgroundImage;
   @HiveField(11)
-  String? localBackgroundPath;
+  int? timeCount;
   @HiveField(12)
   String? homePage;
-  @HiveField(13)
-  int? timeCount;
-  @HiveField(14)
-  int? launchType;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'title': title,
       'image': image,
-      'localPath': localPath,
       'dayStr': dayStr,
       'monthStr': monthStr,
       'dateDetailStr': dateDetailStr,
@@ -95,7 +85,6 @@ class LaunchInfo extends HiveObject {
       'codeStr': codeStr,
       'date': date,
       'backgroundImage': backgroundImage,
-      'localBackgroundPath': localBackgroundPath,
       'homePage': homePage,
       'timeCount': timeCount,
       'launchType': launchType

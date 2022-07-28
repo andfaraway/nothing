@@ -23,6 +23,8 @@ class UploadFile extends StatefulWidget {
 class _UploadFileState extends State<UploadFile> {
   String? fileName;
   LaunchInfo launchInfo = LaunchInfo();
+  PickedFile? imageFile;
+  PickedFile? bgImageFile;
 
   /// 选择图片的类型 0.image 1.image_background
   int imageType = 0;
@@ -151,9 +153,7 @@ class _UploadFileState extends State<UploadFile> {
                       ),
                       width: 100.w,
                       height: 100.w,
-                      child: launchInfo.localPath == null
-                          ? null
-                          : Image.asset(launchInfo.localPath!),
+                      child: Image.asset(imageFile?.path ?? ''),
                     ),
                     10.hSizedBox,
                     const Text('image')
@@ -169,9 +169,7 @@ class _UploadFileState extends State<UploadFile> {
                       ),
                       width: 100.w,
                       height: 100.w,
-                      child: launchInfo.localBackgroundPath == null
-                          ? null
-                          : Image.asset(launchInfo.localPath!),
+                      child: Image.asset(bgImageFile?.path ?? ''),
                     ),
                     10.hSizedBox,
                     const Text('image_background')
@@ -277,6 +275,7 @@ class _UploadFileState extends State<UploadFile> {
           quality: 70,
           percentage: 70);
       PickedFile? file = PickedFile(compressedFile.path);
+      imageType ==
       upload(file);
     }
   }
@@ -289,10 +288,8 @@ class _UploadFileState extends State<UploadFile> {
     String url = data['url'];
     if (imageType == 0) {
       launchInfo.image = url;
-      launchInfo.localPath = file?.path;
     } else if (imageType == 1) {
       launchInfo.backgroundImage = url;
-      launchInfo.localBackgroundPath = file?.path;
     }
     setState(() {});
     EasyLoading.dismiss();

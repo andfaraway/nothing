@@ -28,6 +28,9 @@
 
   "success": "Success",
   "fail": "Fail",
+  "save": "Save",
+  "reset": "Reset",
+  "random": "Random",
 
   "information": "Information",
   "input_required": "Required",

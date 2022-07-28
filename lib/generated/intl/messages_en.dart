@@ -41,10 +41,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
         "photo_album": MessageLookupByLibrary.simpleMessage("Photo Album"),
+        "random": MessageLookupByLibrary.simpleMessage("Random"),
         "release_version":
             MessageLookupByLibrary.simpleMessage("Release Version"),
         "request_failed":
             MessageLookupByLibrary.simpleMessage("request failed"),
+        "reset": MessageLookupByLibrary.simpleMessage("Reset"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),

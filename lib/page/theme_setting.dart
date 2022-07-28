@@ -71,7 +71,6 @@ class ThemeSettingPage extends StatelessWidget {
           GridView.builder(
             itemBuilder: (BuildContext context, int index) {
               return _ThemeContainer(
-                context: context,
                 themeGroup: supportThemeGroups[index],
                 themeIndex: index,
               );
@@ -85,6 +84,7 @@ class ThemeSettingPage extends StatelessWidget {
             itemCount: supportThemeGroups.length,
             shrinkWrap: true,
           ),
+          _InformationContainer()
         ],
       ),
     );
@@ -92,14 +92,10 @@ class ThemeSettingPage extends StatelessWidget {
 }
 
 class _ThemeContainer extends StatelessWidget {
-  const _ThemeContainer({
-    Key? key,
-    required this.context,
-    required this.themeGroup,
-    required this.themeIndex
-  }) : super(key: key);
+  const _ThemeContainer(
+      {Key? key, required this.themeGroup, required this.themeIndex})
+      : super(key: key);
 
-  final BuildContext context;
   final ThemeGroup themeGroup;
   final int themeIndex;
 
@@ -132,6 +128,87 @@ class _ThemeContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _InformationContainer extends StatelessWidget {
+  const _InformationContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ThemesProvider provider = context.read<ThemesProvider>();
+    ValueNotifier<Color> colorNotifier =
+        ValueNotifier(provider.informationBgColor);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text("Information Background"),
+          10.hSizedBox,
+          ValueListenableBuilder(
+              valueListenable: colorNotifier,
+              builder: (context, Color color, child) {
+                print('rebuild');
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(2),
+                  child: Container(
+                    height: 90.h,
+                    color: color,
+                    child: TextField(
+                      controller: TextEditingController(
+                          text: "#" + color.value.toRadixString(16)),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        isDense:true,
+                      ),
+                      textAlign: TextAlign.center,
+                      onChanged: (value){
+                        print('textChange:$value');
+                        if(value.length == 9 && value.contains("#")){
+                           int c = int.parse(value.replaceAll("#", ""), radix: 16);
+                           colorNotifier.value = Color(c);
+                        }
+                      },
+                    ),
+                    alignment: Alignment.center,
+                  ),
+                );
+              }),
+          10.hSizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              resetButton(S.current.random, () {
+                colorNotifier.value = getRandomColor();
+              }),
+              resetButton(S.current.reset, () {
+                colorNotifier.value =
+                    context.read<ThemesProvider>().informationBgColor;
+              }),
+              resetButton(S.current.save, () {
+                context.read<ThemesProvider>().informationBgColor =
+                    colorNotifier.value;
+              })
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget resetButton(String title, VoidCallback? onPressed) {
+    return MaterialButton(
+      height: 55.h,
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+      onPressed: onPressed,
+      color: Colors.lightGreen,
     );
   }
 }

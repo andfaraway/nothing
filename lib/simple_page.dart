@@ -12,14 +12,12 @@ class SimplePage extends StatefulWidget {
   const SimplePage(
       {Key? key,
       this.title,
-      this.backgroundColor,
       this.requestCallback,
       this.justify = false,
       this.initialRefresh = true})
       : super(key: key);
 
   final String? title;
-  final Color? backgroundColor;
   final RequestCallback? requestCallback;
   final bool justify;
   final bool initialRefresh;
@@ -36,96 +34,87 @@ class _SimplePageState extends State<SimplePage>
   late final RefreshController _controller;
   final double marginWidth = 30;
   String contentText = '';
-  Color? backgroundColor;
 
   @override
   void initState() {
     super.initState();
     _controller = RefreshController(initialRefresh: widget.initialRefresh);
-    backgroundColor = widget.backgroundColor;
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: SmartRefresher(
-          onRefresh: () async {
-            String? str = await widget.requestCallback?.call();
-            if (mounted) {
-              setState(() {
-                contentText = str ?? '';
-                if (widget.justify && contentText.length > 15) {
-                  contentText = '        ' + contentText;
-                }
-              });
-            }
-            _controller.refreshCompleted();
-          },
-          controller: _controller,
-          child: Column(
-            children: [
-              GestureDetector(
-                onDoubleTap: () {
+    return Consumer<ThemesProvider>(
+      builder: (context, provider, child) {
+        return Scaffold(
+          backgroundColor: provider.informationBgColor,
+          body: SafeArea(
+            child: SmartRefresher(
+              onRefresh: () async {
+                String? str = await widget.requestCallback?.call();
+                if (mounted) {
                   setState(() {
-                    backgroundColor = getRandomColor();
+                    contentText = str ?? '';
+                    if (widget.justify && contentText.length > 15) {
+                      contentText = '        ' + contentText;
+                    }
                   });
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: Screens.navigationBarHeight,
-                  child: Text(
-                    widget.title ?? '',
-                    style: TextStyle(
-                        color: backgroundColor?.getAdaptiveColor, fontSize: 28),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: marginWidth,
-                        right: 10,
-                        bottom: Screens.navigationBarHeight),
-                    child: GestureDetector(
-                      onDoubleTap: () async {
-                        var result = await API.addFavorite(contentText.trim().toString(),source: widget.title);
-                        if(result != null){
-                           showToast('收藏成功！');
-                        }
-
-                        // String text = contentText.trim().toString();
-                        // if (!favoriteList.contains(text)) {
-                        //   favoriteList.add(text);
-                        //   bool s = await LocalDataUtils.setStringList(
-                        //       Constants.keyFavoriteList, favoriteList);
-                        //   if (s) {
-                        //     showToast('收藏成功！');
-                        //   } else {
-                        //     showToast('收藏失败！');
-                        //   }
-                        // } else {
-                        //   showToast('已收藏');
-                        // }
-                      },
-                      child: ExtendedText(
-                        contentText.isEmpty ? '' : contentText,
+                }
+                _controller.refreshCompleted();
+              },
+              controller: _controller,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onDoubleTap: () {
+                      provider.informationBgColor = getRandomColor();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: Screens.navigationBarHeight,
+                      child: Text(
+                        widget.title ?? '',
                         style: TextStyle(
-                            color: backgroundColor?.getAdaptiveColor,
-                            fontSize: 22),
-                        textAlign: TextAlign.justify,
+                            color:
+                                provider.informationBgColor.getAdaptiveColor,
+                            fontSize: 28),
                       ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: marginWidth,
+                            right: 10,
+                            bottom: Screens.navigationBarHeight),
+                        child: GestureDetector(
+                          onDoubleTap: () async {
+                            var result = await API.addFavorite(
+                                contentText.trim().toString(),
+                                source: widget.title);
+                            if (result != null) {
+                              showToast('收藏成功！');
+                            }
+                          },
+                          child: ExtendedText(
+                            contentText.isEmpty ? '' : contentText,
+                            style: TextStyle(
+                                color: provider
+                                    .informationBgColor.getAdaptiveColor,
+                                fontSize: 22),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -290,6 +290,36 @@ class S {
     );
   }
 
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get reset {
+    return Intl.message(
+      'Reset',
+      name: 'reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Random`
+  String get random {
+    return Intl.message(
+      'Random',
+      name: 'random',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Information`
   String get information {
     return Intl.message(

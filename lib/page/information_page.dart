@@ -55,7 +55,6 @@ class _InformationPageState extends State<InformationPage>
   Widget genericPage(String title, String url) {
     return SimplePage(
         title: title,
-        backgroundColor: getRandomColor(),
         justify: true,
         requestCallback: () async {
           var s = await Http.get(url);
@@ -63,7 +62,6 @@ class _InformationPageState extends State<InformationPage>
           if (dataStr is String) {
             return dataStr.replaceAll('XXX', '娜娜');
           }
-
           return s.data.toString();
         });
   }
@@ -73,7 +71,6 @@ class _InformationPageState extends State<InformationPage>
     print('黄历：$url');
     return SimplePage(
         title: title,
-        backgroundColor: getRandomColor(),
         requestCallback: () async {
           var s = await Http.get(url);
           Map map = s['newslist'].first;

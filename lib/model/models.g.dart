@@ -17,9 +17,9 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return LaunchInfo(
+      launchType: fields[2] as int?,
       title: fields[0] as String?,
       image: fields[1] as String?,
-      localPath: fields[2] as String?,
       dayStr: fields[3] as String?,
       monthStr: fields[4] as String?,
       dateDetailStr: fields[5] as String?,
@@ -28,8 +28,8 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       codeStr: fields[8] as String?,
       date: fields[9] as String?,
       backgroundImage: fields[10] as String?,
-      localBackgroundPath: fields[11] as String?,
       homePage: fields[12] as String?,
+      timeCount: fields[11] as int?,
     );
   }
 
@@ -42,7 +42,7 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       ..writeByte(1)
       ..write(obj.image)
       ..writeByte(2)
-      ..write(obj.localPath)
+      ..write(obj.launchType)
       ..writeByte(3)
       ..write(obj.dayStr)
       ..writeByte(4)
@@ -60,7 +60,7 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       ..writeByte(10)
       ..write(obj.backgroundImage)
       ..writeByte(11)
-      ..write(obj.localBackgroundPath)
+      ..write(obj.timeCount)
       ..writeByte(12)
       ..write(obj.homePage);
   }

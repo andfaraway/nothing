@@ -20,6 +20,7 @@ class HiveFieldUtils {
 
   static const String brightnessDark = 'theme_brightness';
   static const String colorThemeIndex = 'theme_colorThemeIndex';
+  static const String informationBgColor = 'theme_informationBgColor';
   static const String brightnessPlatform = 'theme_brightness_platform';
   static const String firstOpen = 'first_open_1.0';
 
@@ -34,10 +35,13 @@ class HiveFieldUtils {
   static const String devicePushToken = 'device_push_token';
 
   /// 获取设置的主题色
-  static int getColorThemeIndex() => _box.get(colorThemeIndex) as int;
+  static int getColorThemeIndex() => _box.get(colorThemeIndex) ?? 0;
 
   /// 获取设置的夜间模式
-  static bool getBrightnessDark() => _box.get(brightnessDark) as bool;
+  static bool getBrightnessDark() => _box.get(brightnessDark) ?? false;
+
+  /// 获取资讯背景色
+  static int getInformationBgColor() => _box.get(informationBgColor) ?? 0xffc5e6b1;
 
   /// 获取设置的跟随系统夜间模式
   static bool getBrightnessPlatform() {
@@ -58,13 +62,17 @@ class HiveFieldUtils {
         value = true;
       }
     }
-    value = _box.get(brightnessPlatform) as bool;
+    value = _box.get(brightnessPlatform) ?? false;
     return value;
   }
 
   /// 设置选择的主题色
   static Future<void>? setColorTheme(int value) =>
       _box.put(colorThemeIndex, value);
+
+  /// 设置资讯背景色
+  static Future<void>? setInformationBgColor(int value) =>
+      _box.put(informationBgColor, value);
 
   /// 设置选择的夜间模式
   static Future<void>? setBrightnessDark(bool value) =>

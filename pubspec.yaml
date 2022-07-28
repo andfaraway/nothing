@@ -77,6 +77,8 @@ dependencies:
   hive_generator: ^1.1.2
   flutter_svg: ^1.0.3
   wechat_assets_picker: ^6.3.1
+  # 网络图片缓存
+  cached_network_image: ^3.2.0
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 #  images_to_live_photo:

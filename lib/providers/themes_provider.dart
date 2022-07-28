@@ -7,6 +7,7 @@ part of 'providers.dart';
 class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
     initTheme();
+    _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
   }
 
   ThemeGroup _currentThemeGroup = defaultThemeGroup;
@@ -23,12 +24,22 @@ class ThemesProvider with ChangeNotifier {
   bool _dark = false;
   bool get dark => _dark;
   set dark(bool value) {
-    assert(value != null);
     if (_dark == value) {
       return;
     }
     // HiveFieldUtils.setBrightnessDark(value);
     _dark = value;
+    notifyListeners();
+  }
+
+  Color _informationBgColor = Colors.white;
+  Color get informationBgColor => _informationBgColor;
+  set informationBgColor(Color value) {
+    if (_informationBgColor == value) {
+      return;
+    }
+    _informationBgColor = value;
+    HiveFieldUtils.setInformationBgColor(value.value);
     notifyListeners();
   }
 

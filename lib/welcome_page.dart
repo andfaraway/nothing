@@ -4,6 +4,7 @@
 //
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:nothing/constants/constants.dart';
 import 'package:nothing/home_page.dart';
@@ -31,7 +32,6 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     initData();
-
   }
 
   // 跳转页面
@@ -64,36 +64,7 @@ class _WelcomePageState extends State<WelcomePage> {
     Map<String, dynamic>? map = await API.getLaunchInfo();
     LogUtils.i("map:" + map.toString());
     if (map != null) {
-      String? image = provider.launchInfo?.image;
-      String? imageBackground = provider.launchInfo?.backgroundImage;
-      String? localPath = provider.launchInfo?.localPath;
-      String? localBackgroundPath = provider.launchInfo?.localBackgroundPath;
       provider.launchInfo = LaunchInfo.fromJson(map);
-
-      provider.launchInfo?.localPath = localPath;
-      provider.launchInfo?.localBackgroundPath = localBackgroundPath;
-      if (map['image'] != image || localPath == null) {
-        String saveName = 'launchImage.jpg';
-        String? path = await saveToDocument(
-            url: provider.launchInfo?.image ?? '', saveName: saveName);
-        provider.launchInfo?.localPath = path;
-      }
-
-      if (map['backgroundImage'] == map['image']) {
-        provider.launchInfo?.localBackgroundPath =
-            provider.launchInfo?.localPath;
-      } else {
-        if (map['backgroundImage'] != imageBackground ||
-            localBackgroundPath == null) {
-          String saveName = 'launchImageBg.jpg';
-          String? path = await saveToDocument(
-              url: provider.launchInfo?.backgroundImage ?? '',
-              saveName: saveName);
-          provider.launchInfo?.localBackgroundPath = path;
-        }
-      }
-      provider.updateHives();
-      // provider.update();
     }
 
     timeCount.value = provider.launchInfo?.timeCount ?? timeCount.value;
@@ -103,12 +74,13 @@ class _WelcomePageState extends State<WelcomePage> {
           jumpPage();
         }
         timer.cancel();
-      }else{
+      } else {
         timeCount.value--;
       }
     });
 
     LogUtils.i('document:${PathUtils.documentPath}');
+    print('document:${PathUtils.documentPath}');
   }
 
   @override
@@ -125,7 +97,8 @@ class _WelcomePageState extends State<WelcomePage> {
         children: [
           Consumer<LaunchProvider>(
             builder: (context, provider, child) {
-              LogUtils.i("provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
+              LogUtils.i(
+                  "provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
               return provider.launchInfo == null
                   ? Center(
                       child: Text(
@@ -138,45 +111,41 @@ class _WelcomePageState extends State<WelcomePage> {
                     )
                   : provider.launchInfo?.launchType == 0
                       ? Container(
-                color: Colors.black,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onLongPress: () {
-                    saveLocalPhoto(
-                      saveName: 'launchImage.jpg',
-                      localPath:
-                      '${PathUtils.documentPath}/${provider.launchInfo?.localPath}',
-                    );
-                  },
-                  child: LaunchWidget(
-                    title: provider.launchInfo?.title,
-                    image: provider.launchInfo?.image,
-                    localPath: provider.launchInfo?.localPath,
-                    backgroundImage:
-                    provider.launchInfo?.backgroundImage,
-                    localBackgroundPath:
-                    provider.launchInfo?.localBackgroundPath,
-                    dayStr: provider.launchInfo?.dayStr,
-                    monthStr: provider.launchInfo?.monthStr,
-                    dateDetailStr: provider.launchInfo?.dateDetailStr,
-                    contentStr: provider.launchInfo?.contentStr,
-                    author: provider.launchInfo?.authorStr,
-                    codeStr: provider.launchInfo?.codeStr,
-                  ),
-                ),
-              )
-                      : Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: Image.network(provider.launchInfo?.image ?? '',fit:
-              BoxFit.fitWidth),
-                      );
+                          color: Colors.black,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onLongPress: () {
+                              // saveLocalPhoto(
+                              //   saveName: 'launchImage.jpg',
+                              //   localPath:
+                              //       '${PathUtils.documentPath}/${provider.launchInfo?.localPath}',
+                              // );
+                            },
+                            child: LaunchWidget(
+                              title: provider.launchInfo?.title,
+                              image: provider.launchInfo?.image ?? '',
+                              backgroundImage:
+                                  provider.launchInfo?.backgroundImage,
+                              dayStr: provider.launchInfo?.dayStr,
+                              monthStr: provider.launchInfo?.monthStr,
+                              dateDetailStr: provider.launchInfo?.dateDetailStr,
+                              contentStr: provider.launchInfo?.contentStr,
+                              author: provider.launchInfo?.authorStr,
+                              codeStr: provider.launchInfo?.codeStr,
+                            ),
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: provider.launchInfo?.image ?? '',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        );
             },
           ),
           ValueListenableBuilder(
             builder: (context, value, child) {
-              if(value == 0) return const SizedBox.shrink();
+              if (value == 0) return const SizedBox.shrink();
               return Align(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -187,7 +156,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-
                             Text(
                               '$value ',
                             ),
@@ -196,10 +164,10 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.black26),
+                              MaterialStateProperty.all(Colors.black26),
                           minimumSize: MaterialStateProperty.all(Size.zero),
                           foregroundColor:
-                          MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
                         ),
                         onPressed: () {
                           jumpPage();

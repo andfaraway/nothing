@@ -22,14 +22,7 @@ class LaunchProvider extends ChangeNotifier {
       return;
     }
     _launchInfo = value;
+    HiveBoxes.launchBox.put(launchKey, value);
     notifyListeners();
-  }
-
-  update() {
-    notifyListeners();
-  }
-
-  Future<void> updateHives() async {
-    await HiveBoxes.launchBox.put(launchKey, _launchInfo);
   }
 }

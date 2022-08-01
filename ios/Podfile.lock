@@ -64,7 +64,7 @@ PODS:
     - UMCCommonLog
     - UMCShare/Social/ReducedQQ
     - UMCShare/UI
-  - UMAPM (1.6.3)
+  - UMAPM (1.7.0)
   - UMCCommon (7.3.7):
     - UMAPM
     - UMDevice
@@ -196,7 +196,7 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   um_share_plugin: 20e45db2fbf77af2f08851774e7c6c7837e249e2
-  UMAPM: 76db9514ceb4c94c44cfa143498860626ca0dda5
+  UMAPM: e7674c15fd583c3d9bf2e469cf40002f61bf2b97
   UMCCommon: aac337052f23b0e08c0f3cf021d3bb209f2c49bd
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
@@ -204,6 +204,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
 
-PODFILE CHECKSUM: c6b59670bcdbf2e9a45d522f9fa42b25b46b6818
+PODFILE CHECKSUM: 6aefd6b8a8b36f106e08a53cea32e771c2f79542
 
 COCOAPODS: 1.11.3

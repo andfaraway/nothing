@@ -13,6 +13,7 @@ import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
+import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/welcome_page.dart';
 
@@ -74,6 +75,7 @@ class AppRoutes {
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
     informationRoute.routeName: (BuildContext context) => informationRoute.page,
     livePhotoPage.routeName: (BuildContext context) => livePhotoPage.page,
+    weddingAbout.routeName: (BuildContext context) => weddingAbout.page,
   };
 }
 
@@ -92,7 +94,8 @@ const AppRoutes informationRoute = AppRoutes('/informationRoute',
     InformationPage());
 const AppRoutes livePhotoPage = AppRoutes('/livePhotoPage',
     LivePhotoPage());
-
+const AppRoutes weddingAbout = AppRoutes('/weddingAbout',
+    WeddingAbout());
 
 
 /// 处理服务器目标页面
@@ -111,12 +114,23 @@ class ServerTargetModel {
   ///  [routeName]路由名称
   String? routeName;
 
+  /// 安全头部
+  bool safeTop = false;
+
   static ServerTargetModel fromString(BuildContext context, String targetStr) {
     ServerTargetModel model = ServerTargetModel();
     if ('web:'.matchAsPrefix(targetStr) != null) {
-      String url = targetStr.split('web:').last;
       model.type = 1;
-      model.url = url;
+      String content = targetStr.split('web:').last;
+      if(targetStr.contains("&")){
+        if(content.split('&').first.toString() == '1'){
+          model.safeTop = true;
+        }
+        model.url = content.split("&").last;
+      }else{
+        model.url = content;
+      }
+
     } else {
       model.type = 0;
       model.routeName = targetStr;

@@ -46,6 +46,7 @@ class _HomeWidgetState extends State<HomePage> {
           title: 'nothing',
           withAppBar: false,
           withBackBtn: true,
+          safeTop: targetModel.safeTop,
         );
       }
     }

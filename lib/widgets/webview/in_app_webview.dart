@@ -23,6 +23,7 @@ class AppWebView extends StatefulWidget {
     this.withBackBtn = false,
     this.withScaffold = true,
     this.keepAlive = false,
+    this.safeTop = false,
   })  : assert(url != null),
         assert(keepAlive != null),
         super(key: key);
@@ -36,6 +37,7 @@ class AppWebView extends StatefulWidget {
   final bool withAction;
   final bool withScaffold;
   final bool? keepAlive;
+  final bool safeTop;
 
   static final Tween<Offset> _positionTween = Tween<Offset>(
     begin: const Offset(0, 1),
@@ -255,39 +257,42 @@ class _AppWebViewState extends State<AppWebView>
       //         title: Text(widget.title ?? ''),
       //       )
       //     : null,
-      body: Stack(
-        children: [
-          _webView,
-          if(widget.withBackBtn) ValueListenableBuilder(
-            builder: (context, bool canGoBack, child) {
-              if(!canGoBack) return const SizedBox.shrink();
-              return Padding(
-                padding: const EdgeInsets.only(
-                  // top: Screens.topSafeHeight,
-                  top: 0
-                ),
-                child: Container(
-                  color: Colors.green,
-                  height: 25,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                    onPressed: () async {
-                      if (await _webViewController.canGoBack()) {
-                        _webViewController.goBack();
-                      }
-                    },
+      body: SafeArea(
+        top: widget.safeTop,
+        child: Stack(
+          children: [
+            _webView,
+            if(widget.withBackBtn) ValueListenableBuilder(
+              builder: (context, bool canGoBack, child) {
+                if(!canGoBack) return const SizedBox.shrink();
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    // top: Screens.topSafeHeight,
+                    top: 0
                   ),
-                ),
-              );
-            },
-            valueListenable: webCanGoBack,
-          )
-        ],
+                  child: Container(
+                    color: Colors.green,
+                    height: 25,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        if (await _webViewController.canGoBack()) {
+                          _webViewController.goBack();
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+              valueListenable: webCanGoBack,
+            )
+          ],
+        ),
       ),
     );
   }

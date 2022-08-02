@@ -93,8 +93,7 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
   Future<void> pickPhoto(int index) async {
     final List<AssetEntity>? result = await AssetPicker.pickAssets(
       context,
-      maxAssets: 1, requestType: RequestType.image,
-      // pickerConfig: const AssetPickerConfig(),
+      pickerConfig : const AssetPickerConfig(maxAssets: 1, requestType: RequestType.image,)
     );
     if(result != null){
       if(index == 0){

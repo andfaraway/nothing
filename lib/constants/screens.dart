@@ -42,10 +42,7 @@ class Screens {
   //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕
   static init(BuildContext context) {
     ScreenUtil.init(context,
-        deviceSize: Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height),
-        designSize: const Size(750, 1624),
-        orientation: Orientation.portrait);
+        designSize: const Size(750, 1624));
   }
 }
 

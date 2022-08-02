@@ -239,7 +239,7 @@ class _UploadFileState extends State<UploadFile> {
       openAppSettings();
     });
 
-    File? croppedFile = await ImageCropper().cropImage(
+    File? croppedFile = (await ImageCropper().cropImage(
         sourcePath: file?.path ?? '',
         aspectRatioPresets: Platform.isAndroid
             ? [
@@ -259,15 +259,18 @@ class _UploadFileState extends State<UploadFile> {
                 CropAspectRatioPreset.ratio7x5,
                 CropAspectRatioPreset.ratio16x9
               ],
-        androidUiSettings: const AndroidUiSettings(
-            toolbarTitle: 'Clip',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: const IOSUiSettings(
-          title: 'Clip',
-        ));
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Clip',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Clip',
+          )
+        ],
+       )) as File?;
 
     if (croppedFile != null) {
       File compressedFile = await FlutterNativeImage.compressImage(

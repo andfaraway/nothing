@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     // TODO: implement initState
     super.initState();
 
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     platformChannel.setMethodCallHandler((MethodCall call) async {
       if(call.method == 'deviceToken'){

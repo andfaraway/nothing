@@ -41,7 +41,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     controller: controller,
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: '请输入您的意见和建议，我们会恰当采纳~',
+                        hintText: '请输入您的意见和建议，我们也许会恰当采纳~',
                         hintStyle: TextStyle(
                             color: Color(0xFF999999), fontSize: 28.sp),
                         contentPadding: EdgeInsets.only(

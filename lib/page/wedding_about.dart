@@ -1,4 +1,6 @@
 import 'package:nothing/public.dart';
+import 'package:nothing/model/wedding_model.dart';
+import 'package:nothing/widgets/dialogs/toast_tips_dialog.dart';
 
 class WeddingAbout extends StatefulWidget {
   const WeddingAbout({Key? key}) : super(key: key);
@@ -8,33 +10,139 @@ class WeddingAbout extends StatefulWidget {
 }
 
 class _WeddingAboutState extends State<WeddingAbout> {
+  late final RefreshController _controller;
+  List<WeddingModel> weddings = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = RefreshController(initialRefresh: true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wedding'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                addOneThing();
-              },
-              icon: const Icon(Icons.add))
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('💑'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  addWedding();
+                },
+                icon: const Icon(Icons.add))
+          ],
+        ),
+        body: SmartRefresher(
+          onRefresh: () async {
+            await loadWeddings();
+            _controller.refreshCompleted();
+          },
+          controller: _controller,
+          child: ListView.builder(
+            itemBuilder: (context, i) {
+              WeddingModel model = weddings[i];
+              return checkCell(model);
+            },
+            itemCount: weddings.length,
+          ),
+        ),
+        floatingActionButton: IconButton(
+            onPressed: () {
+              AppRoutes.pushNamePage(context, feedbackRoute.routeName);
+            },
+            icon: Icon(Icons.feedback_outlined)),
       ),
-      body: ListView.builder(itemBuilder: (context,i){
-        return checkCell(true, 'title', (value) { });
-      },itemCount: 5,)
     );
   }
 
-  Widget checkCell(bool value,String title,ValueChanged<bool?>? onChanged){
-    return Row(
-      children: [
-        Checkbox(value: false, onChanged: (value){}),
-        Text(title)
-      ],
+  Widget checkCell(WeddingModel model) {
+    ValueNotifier<bool> notifier = ValueNotifier(model.done == '1');
+    TextEditingController _controller =
+        TextEditingController(text: model.title);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ValueListenableBuilder(
+        builder: (context, bool value, child) {
+          return Row(
+            children: [
+              Checkbox(
+                  value: notifier.value,
+                  onChanged: (value) async {
+                    notifier.value = !notifier.value;
+                    if (notifier.value) {
+                      model.done = '1';
+                    } else {
+                      model.done = '0';
+                    }
+                    await updateWedding(model);
+                  }),
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  enabled: model.done != '1',
+                  textInputAction: TextInputAction.done,
+                  onEditingComplete: () async {
+                    model.title = _controller.text;
+                    await updateWedding(model);
+                  },
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () {
+                    showConfirmToast(
+                        context: context,
+                        title: '删除${model.title}?',
+                        onConfirm: () async {
+                          await deleteWedding(model);
+                          await loadWeddings();
+                        });
+                  },
+                  icon: const Icon(Icons.restore_from_trash))
+            ],
+          );
+        },
+        valueListenable: notifier,
+      ),
     );
   }
 
-  Future<void> addOneThing() async {}
+  Future<void> addWedding() async {
+    await API.insertWedding(title: '代办事项');
+    await loadWeddings();
+  }
+
+  Future<void> loadWeddings() async {
+    List<dynamic> data = await API.getWeddings();
+    weddings.clear();
+    for (Map<String, dynamic> map in data) {
+      WeddingModel model = WeddingModel.fromJson(map);
+      weddings.add(model);
+    }
+    setState(() {});
+    print(data.toString());
+  }
+
+  Future<void> insertWedding() async {
+    var a = await API.getWeddings();
+    print(a.toString());
+  }
+
+  Future<void> updateWedding(WeddingModel model) async {
+    await API.updateWedding(
+        id: model.id,
+        title: model.title,
+        content: model.content,
+        done: model.done);
+  }
+
+  Future<void> deleteWedding(WeddingModel model) async {
+    await API.deleteWedding(model.id);
+  }
 }

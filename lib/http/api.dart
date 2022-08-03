@@ -192,6 +192,33 @@ class API {
     return response;
   }
 
+  /// 获取婚礼代办事件
+  static Future<dynamic> getWeddings() async {
+    List<dynamic> response = await Http.get('/getWeddings');
+    return response;
+  }
+
+  /// 插入婚礼代办事件
+  static Future<Map<String, dynamic>?> insertWedding({String? title,String? content, int? done}) async {
+    Map<String,dynamic> param = {'title':title,'content':content,'done':done};
+    var response = await Http.post('/insertWedding', params: param);
+    return response;
+  }
+
+  /// 删除婚礼代办事件
+  static Future<Map<String, dynamic>?> deleteWedding(String? id) async {
+    Map<String,dynamic> param = {'id':id};
+    var response = await Http.post('/deleteWedding', params: param);
+    return response;
+  }
+
+  /// 更新婚礼代办事件
+  static Future<Map<String, dynamic>?> updateWedding({String? id,String? title,String? content, String? done}) async {
+    Map<String,dynamic> param = {'id':id,'title':title,'content':content,'done':done,};
+    var response = await Http.post('/updateWedding', params: param);
+    return response;
+  }
+
   /// 上传文件
   static uploadFile(String imagePath, String fileName) async {
     List list = imagePath.split('.');
@@ -259,7 +286,7 @@ class ConstUrl {
   ConstUrl._();
 
   static const baseUrl =
-      isDebug ? 'http://10.0.21.53:5000' : 'http://1.14.252.115:5000';
+      isDebug ? 'http://10.0.21.219:5000' : 'http://1.14.252.115:5000';
 
   ///登录
   static const String login = '/login';

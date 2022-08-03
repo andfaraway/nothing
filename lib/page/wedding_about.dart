@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/model/wedding_model.dart';
 import 'package:nothing/widgets/dialogs/toast_tips_dialog.dart';
@@ -86,8 +87,11 @@ class _WeddingAboutState extends State<WeddingAbout> {
                   enabled: model.done != '1',
                   textInputAction: TextInputAction.done,
                   onEditingComplete: () async {
-                    model.title = _controller.text;
-                    await updateWedding(model);
+                    if(model.title != _controller.text){
+                      model.title = _controller.text;
+                      await updateWedding(model);
+                    }
+                    FocusScope.of(context).requestFocus(FocusNode());
                   },
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -114,11 +118,13 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> addWedding() async {
+    EasyLoading.show();
     await API.insertWedding(title: '代办事项');
     await loadWeddings();
   }
 
   Future<void> loadWeddings() async {
+
     List<dynamic> data = await API.getWeddings();
     weddings.clear();
     for (Map<String, dynamic> map in data) {
@@ -130,11 +136,13 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> insertWedding() async {
+    EasyLoading.show();
     var a = await API.getWeddings();
     print(a.toString());
   }
 
   Future<void> updateWedding(WeddingModel model) async {
+    EasyLoading.show();
     await API.updateWedding(
         id: model.id,
         title: model.title,
@@ -143,6 +151,7 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> deleteWedding(WeddingModel model) async {
+    EasyLoading.show();
     await API.deleteWedding(model.id);
   }
 }

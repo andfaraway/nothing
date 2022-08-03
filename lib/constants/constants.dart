@@ -37,7 +37,7 @@ export 'colors.dart';
 
 export 'singleton.dart';
 
-const bool isDebug =  true;
+const bool isDebug =  false;
 
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;

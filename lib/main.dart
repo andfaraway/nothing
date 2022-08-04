@@ -15,9 +15,9 @@ void main() async {
   await Singleton.loadData();
   //初始化推送信息
   if (await Constants.isPhysicalDevice() && !kIsWeb) {
+    print('zhenshishebei');
     await NotificationUtils.jPushInit();
   }
-
   await DeviceUtils.getDeviceUuid();
 
   Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey

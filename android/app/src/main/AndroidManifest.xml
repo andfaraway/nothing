@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.libin.nothing">
+
+    <permission
+        android:name="com.libin.nothing.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.libin.nothing.permission.JPUSH_MESSAGE" />
+
    <application
         android:label="nothing"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

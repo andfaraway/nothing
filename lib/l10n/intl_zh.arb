@@ -37,5 +37,10 @@
   "input_optional": "选填",
   "select": "选择",
 
-  "login_info": "登录信息"
+  "login_info": "登录信息",
+
+  "user_agreement": "用户协议",
+  "privacy_policy": "隐私政策",
+  "agree_continue": "同意，继续使用",
+  "disagree_quite": "不同意，退出"
 }

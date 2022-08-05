@@ -99,6 +99,12 @@ class HiveFieldUtils {
   static bool? getLaunchFromSystemBrowser() =>
       _box.get(settingLaunchFromSystemBrowser) as bool;
 
+  /// 是否同意用户协议
+  static bool? getAgreement() =>
+      _box.get('agreement');
+  static Future<void> setAgreement(bool agreement) =>
+      _box.put('agreement', agreement);
+
   // /// 设置是否启用新应用图标
   // static Future<void>? setEnabledNewAppsIcon(bool enable) {
   //   provider.newAppCenterIcon = enable;

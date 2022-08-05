@@ -22,9 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "agree_continue": MessageLookupByLibrary.simpleMessage("同意，继续使用"),
         "camera": MessageLookupByLibrary.simpleMessage("相机"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
+        "disagree_quite": MessageLookupByLibrary.simpleMessage("不同意，退出"),
         "fail": MessageLookupByLibrary.simpleMessage("失败"),
         "favorite": MessageLookupByLibrary.simpleMessage("收藏"),
         "feedback": MessageLookupByLibrary.simpleMessage("意见与建议"),
@@ -40,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),
         "photo_album": MessageLookupByLibrary.simpleMessage("相册"),
+        "privacy_policy": MessageLookupByLibrary.simpleMessage("隐私政策"),
         "random": MessageLookupByLibrary.simpleMessage("随机"),
         "release_version": MessageLookupByLibrary.simpleMessage("发布版本"),
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
@@ -52,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "upload_file": MessageLookupByLibrary.simpleMessage("上传文件"),
+        "user_agreement": MessageLookupByLibrary.simpleMessage("用户协议"),
         "username_hint": MessageLookupByLibrary.simpleMessage("请输入账号"),
         "version_update": MessageLookupByLibrary.simpleMessage("检查更新")
       };

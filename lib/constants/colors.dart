@@ -8,6 +8,8 @@ const Color colorRedSelect = Color(0xFFE6333F);
 
 const Color colorBlackDefault = Color(0xFF333333);
 
+const Color colorBlackDefaultLight = Color(0xFF989898);
+
 const Color colorBackground = Color(0xFFF2F4F7);
 
 Color colorDivider = const Color(0xFF010122).withOpacity(.06);

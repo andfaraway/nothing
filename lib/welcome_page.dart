@@ -11,6 +11,7 @@ import 'package:nothing/home_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/photo_save.dart';
+import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
 import 'public.dart';
 
@@ -28,10 +29,32 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    initData();
+    bool? agreement = HiveFieldUtils.getAgreement();
+    print('agreement = $agreement');
+    if(agreement ?? false){
+      initData();
+      // Future.delayed(const Duration(seconds: 1), () async{
+      //
+      // });
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        showDialog<bool>(
+            context: context,
+            useSafeArea: false,
+            barrierColor: Colors.black38,
+            barrierDismissible: true,
+            builder: (_) => PrivacyDiaLog(
+              userAgreementUrl: ConstUrl.netServer + '/userAgreement.html',
+              privacyPolicyUrl: ConstUrl.netServer + '/privacyPolicy.html',
+              continueCallback: () async{
+                await HiveFieldUtils.setAgreement(true);
+                initData();
+              },
+            ));
+      });
+    }
   }
 
   // 跳转页面

@@ -296,6 +296,8 @@ class ConstUrl {
   static const baseUrl =
       isDebug ? 'http://10.0.21.219:5000' : 'http://1.14.252.115:5000';
 
+  static const netServer =  'http://1.14.252.115';
+
   ///登录
   static const String login = '/login';
 

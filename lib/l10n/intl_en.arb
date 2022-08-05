@@ -37,5 +37,10 @@
   "input_optional": "Optional",
   "select": "Select",
 
-  "login_info": "Login Info"
+  "login_info": "Login Info",
+
+  "user_agreement": "User Agreement",
+  "privacy_policy": "Privacy Policy",
+  "agree_continue": "Agreement And Continue",
+  "disagree_quite": "Disagree And Quite"
 }

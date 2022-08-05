@@ -22,9 +22,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "agree_continue":
+            MessageLookupByLibrary.simpleMessage("Agreement And Continue"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "disagree_quite":
+            MessageLookupByLibrary.simpleMessage("Disagree And Quite"),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
@@ -42,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
         "photo_album": MessageLookupByLibrary.simpleMessage("Photo Album"),
+        "privacy_policy":
+            MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "random": MessageLookupByLibrary.simpleMessage("Random"),
         "release_version":
             MessageLookupByLibrary.simpleMessage("Release Version"),
@@ -56,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "upload": MessageLookupByLibrary.simpleMessage("upload"),
         "upload_file": MessageLookupByLibrary.simpleMessage("Upload File"),
+        "user_agreement":
+            MessageLookupByLibrary.simpleMessage("User Agreement"),
         "username_hint":
             MessageLookupByLibrary.simpleMessage("Please key in ID"),
         "version_update": MessageLookupByLibrary.simpleMessage("version update")

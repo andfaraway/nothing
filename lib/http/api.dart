@@ -219,6 +219,14 @@ class API {
     return response;
   }
 
+  /// 获取登录信息
+  static Future<List<dynamic>> getLogins(int page,int size) async {
+    Map<String,dynamic> params = {"page":page,"size":size};
+    List<dynamic> response = await Http.get('/getLogins',params: params);
+    return response;
+  }
+
+
   /// 上传文件
   static uploadFile(String imagePath, String fileName) async {
     List list = imagePath.split('.');

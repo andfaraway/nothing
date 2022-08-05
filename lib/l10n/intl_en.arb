@@ -35,5 +35,7 @@
   "information": "Information",
   "input_required": "Required",
   "input_optional": "Optional",
-  "select": "Select"
+  "select": "Select",
+
+  "login_info": "Login Info"
 }

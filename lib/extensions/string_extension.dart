@@ -14,7 +14,7 @@ extension StringExtension on String {
   /// 根据时间戳格式化时间
   ///
   /// [format] 格式化方式
-  String dataFormat(String? format) {
+  String dataFormat({String? format}) {
     late DateTime date;
     try {
       date = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
@@ -22,12 +22,11 @@ extension StringExtension on String {
       return '';
     }
     //format 不为空 返回格式化字符串
-    if (format == null) {
+    if (format != null) {
       return DateFormat(format).format(date);
     }
 
     //format 为空，返回距离当前时间
-    DateTime now = DateTime.now();
     int nowInt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     int dateInt = toInt();
     int secondsValue = nowInt - dateInt;

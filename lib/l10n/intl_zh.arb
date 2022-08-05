@@ -35,5 +35,7 @@
   "information": "资讯",
   "input_required": "必填",
   "input_optional": "选填",
-  "select": "选择"
+  "select": "选择",
+
+  "login_info": "登录信息"
 }

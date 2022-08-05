@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "input_required": MessageLookupByLibrary.simpleMessage("Required"),
         "launch_screen": MessageLookupByLibrary.simpleMessage("Launch Screen"),
         "login": MessageLookupByLibrary.simpleMessage("login"),
+        "login_info": MessageLookupByLibrary.simpleMessage("Login Info"),
         "message": MessageLookupByLibrary.simpleMessage("Message"),
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
         "password_hint":

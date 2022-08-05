@@ -20,8 +20,8 @@ void main() async {
   }
   await DeviceUtils.getDeviceUuid();
 
-  Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey
-      .welcomeLoad);
+  Singleton.welcomeLoadResult =
+      await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
@@ -36,7 +36,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     WidgetsBinding.instance.addObserver(this);
 
     platformChannel.setMethodCallHandler((MethodCall call) async {
-      if(call.method == 'deviceToken'){
+      if (call.method == 'deviceToken') {
         String deviceToken = call.arguments.toString();
         API.pushDeviceToken(Singleton.currentUser.userId, deviceToken);
         print('deviceToken：${call.arguments.toString()}');
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     Constants.isDark = context.theme.brightness == Brightness.dark;
     Constants.context = context;
 
-    Future.delayed(const Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 3), () {
       Constants.checkUpdate();
       Constants.insertLaunch();
     });
@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         ),
         waterDropColor: Theme.of(context).backgroundColor,
       ),
+      footerBuilder: () => const ClassicFooter(),
       child: Consumer<ThemesProvider>(builder: (context, provider, child) {
         MaterialColor primarySwatch = MaterialColor(
           provider.currentThemeGroup.themeColor.value,
@@ -114,7 +115,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     switch (state) {
       case AppLifecycleState.inactive: // 处于这种状态的应用程序应该假设它们可能在任何时候暂停。
         break;
-      case AppLifecycleState.resumed:// 应用程序可见，前台
+      case AppLifecycleState.resumed: // 应用程序可见，前台
         NotificationUtils.jpush.setBadge(0);
         // Constants.insertLaunch();
         break;
@@ -124,8 +125,4 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         break;
     }
   }
-
-
 }
-
-

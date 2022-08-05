@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "input_required": MessageLookupByLibrary.simpleMessage("必填"),
         "launch_screen": MessageLookupByLibrary.simpleMessage("启动页"),
         "login": MessageLookupByLibrary.simpleMessage("登录"),
+        "login_info": MessageLookupByLibrary.simpleMessage("登录信息"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
         "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),

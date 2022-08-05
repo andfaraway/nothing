@@ -109,7 +109,7 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                     ),
                     Text(
-                      model.date?.dataFormat('yyyy-MM-dd hh-mm-ss') ?? '',
+                      model.date?.dataFormat() ?? '',
                       style: TextStyle(
                         color: const Color(0xff888888),
                         fontSize: 28.sp,

@@ -86,6 +86,17 @@ dependencies:
 #  images_to_live_photo:
 #    path: /Users/libin/Desktop/my_plugins/images_to_live_photo
 
+flutter_assets_generator:
+  # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated
+  output_dir: generated
+  # Optional. Sets whether utomatic monitoring of file changes. Default: true
+  auto_detection: true
+  # Optional. Sets file name conversion rules. Default: true
+  named_with_parent: true
+  # Optional. Sets the name for the generated localization file. Default: assets
+  output_filename: assets
+  # Optional. Sets the name for the generated localization class. Default: Assets
+  class_name: R
 
 dev_dependencies:
   flutter_test:
@@ -96,7 +107,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.po
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

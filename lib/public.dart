@@ -3,6 +3,11 @@
 //  [Date] 2022-04-24 13:56:20
 //
 export 'package:flutter/material.dart';
+
+export 'base/base_page.dart';
+export 'base/base_state.dart';
+export 'base/base_vm.dart';
+
 export 'app_routes.dart';
 export  '../generated/l10n.dart';
 export 'package:flutter_svg/svg.dart';

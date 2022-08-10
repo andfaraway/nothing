@@ -31,6 +31,7 @@
   "save": "Save",
   "reset": "Reset",
   "random": "Random",
+  "delete": "Delete",
 
   "information": "Information",
   "input_required": "Required",

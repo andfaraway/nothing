@@ -104,7 +104,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       return null;
     }
     Constants.hideKeyboard(context);
-    List? result = await API.addFeedback(content, nickname);
+    var result = await API.addFeedback(content, nickname);
     if (result == null) {
       showToast('反馈失败');
     } else {

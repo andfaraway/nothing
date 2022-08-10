@@ -89,7 +89,7 @@ class ToastTipsDialog extends StatelessWidget {
                         child: Text(
                           confirmLabel ?? S.current.confirm,
                           style: TextStyle(
-                              color: colorRedSelect,
+                              color: themeColorRed,
                               fontSize: 32.sp
                           ),
                         ),

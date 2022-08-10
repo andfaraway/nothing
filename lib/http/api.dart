@@ -146,7 +146,7 @@ class API {
   }
 
   /// 添加反馈
-  static Future<List?> addFeedback(String content, String? nickname) async {
+  static Future<dynamic> addFeedback(String content, String? nickname) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
       'content': content,

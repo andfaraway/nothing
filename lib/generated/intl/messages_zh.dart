@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "camera": MessageLookupByLibrary.simpleMessage("相机"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
+        "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "disagree_quite": MessageLookupByLibrary.simpleMessage("不同意，退出"),
         "fail": MessageLookupByLibrary.simpleMessage("失败"),
         "favorite": MessageLookupByLibrary.simpleMessage("收藏"),

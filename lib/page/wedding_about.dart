@@ -1,4 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nothing/page/wedding_detail.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/model/wedding_model.dart';
 import 'package:nothing/widgets/dialogs/toast_tips_dialog.dart';
@@ -82,33 +83,33 @@ class _WeddingAboutState extends State<WeddingAbout> {
                     await updateWedding(model);
                   }),
               Expanded(
-                child: TextField(
-                  controller: _controller,
-                  enabled: model.done != '1',
-                  textInputAction: TextInputAction.done,
-                  onEditingComplete: () async {
-                    if(model.title != _controller.text){
-                      model.title = _controller.text;
-                      await updateWedding(model);
-                    }
-                    FocusScope.of(context).requestFocus(FocusNode());
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async {
+                    var s = await AppRoutes.pushPage(
+                        context,
+                        WeddingDetailPage(
+                          model: model,
+                        ));
+                    if(s != null) loadWeddings();
                   },
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+                  child: TextField(
+                    controller: _controller,
+                    enabled: false,
+                    textInputAction: TextInputAction.done,
+                    onEditingComplete: () async {
+                      if (model.title != _controller.text) {
+                        model.title = _controller.text;
+                        await updateWedding(model);
+                      }
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    showConfirmToast(
-                        context: context,
-                        title: '删除${model.title}?',
-                        onConfirm: () async {
-                          await deleteWedding(model);
-                          await loadWeddings();
-                        });
-                  },
-                  icon: const Icon(Icons.restore_from_trash))
             ],
           );
         },
@@ -124,7 +125,6 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> loadWeddings() async {
-
     List<dynamic> data = await API.getWeddings();
     weddings.clear();
     for (Map<String, dynamic> map in data) {

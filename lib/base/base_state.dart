@@ -144,50 +144,49 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   ///带标题的Appbar
   createTitleAppBar() {
     return AppBar(
-        backgroundColor: appBarBackgroundColor,
-        title: pageWidget ??
-            Text(
-              pageTitle ?? '',
-              style: themeTextStyle(fontSize: 12),
-            ),
-        centerTitle: true,
-        elevation: 0,
-        bottom: PreferredSize(
-          child: Container(
-            height: appBarLineHeight,
-            color: colorBackground,
+      title: pageWidget ??
+          Text(
+            pageTitle ?? '',
           ),
-          preferredSize: Size(double.infinity, 0),
+      centerTitle: true,
+      elevation: 0,
+      bottom: PreferredSize(
+        child: Container(
+          height: appBarLineHeight,
+          color: colorBackground,
         ),
-        shadowColor: Color(0xFF010122).withOpacity(0.3),
-        actions: appBarActions(),
-        leading: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            if (onWillPop == null) {
-              FocusScope.of(context).requestFocus(FocusNode());
-              Navigator.pop(context);
-            } else {
-              onWillPop?.call();
-            }
-          },
-          child: SizedBox(
-              width: 44,
-              height: 44,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: MARGIN_MAIN),
-                    child: backBtn ??
-                        SvgPicture.asset(
-                          R.iconsBtnBack,
-                          width: 18.w,
-                          height: 36.h,
-                        ),
-                  ),
-                ],
-              )),
-        ));
+        preferredSize: Size(double.infinity, 0),
+      ),
+      shadowColor: Color(0xFF010122).withOpacity(0.3),
+      actions: appBarActions(),
+      // leading: GestureDetector(
+      //   behavior: HitTestBehavior.opaque,
+      //   onTap: () {
+      //     if (onWillPop == null) {
+      //       FocusScope.of(context).requestFocus(FocusNode());
+      //       Navigator.pop(context);
+      //     } else {
+      //       onWillPop?.call();
+      //     }
+      //   },
+      //   child: SizedBox(
+      //       width: 44,
+      //       height: 44,
+      //       child: Row(
+      //         children: [
+      //           Padding(
+      //             padding: const EdgeInsets.only(left: MARGIN_MAIN),
+      //             child: backBtn ??
+      //                 SvgPicture.asset(
+      //                   R.iconsBtnBack,
+      //                   width: 18.w,
+      //                   height: 36.h,
+      //                 ),
+      //           ),
+      //         ],
+      //       )),
+      // ),
+    );
   }
 
   Widget createContentWidget();
@@ -243,7 +242,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   Widget defaultAppBarActions(
       {required String text,
       required Function()? onPressed,
-      TextStyle? textStyle}) {
+      TextStyle? textStyle = const TextStyle(color: Colors.white)}) {
     return Center(
         child: SizedBox(
       height: 25,
@@ -254,7 +253,10 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
           alignment: Alignment.centerRight,
         ),
         onPressed: onPressed,
-        child: Text(text,style: textStyle,),
+        child: Text(
+          text,
+          style: textStyle,
+        ),
       ),
     ));
   }

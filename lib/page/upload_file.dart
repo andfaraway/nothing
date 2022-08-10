@@ -197,13 +197,13 @@ class _UploadFileState extends State<UploadFile> {
             decoration: InputDecoration(
                 labelText: title,
                 labelStyle: TextStyle(
-                    color: required ? colorRedSelect : colorBlackDefault),
+                    color: required ? themeColorRed : colorBlackDefault),
                 hintText: required
                     ? S.current.input_required
                     : S.current.input_optional,
                 hintStyle: TextStyle(
                     color: required
-                        ? colorRedSelect.withOpacity(.5)
+                        ? themeColorRed.withOpacity(.5)
                         : colorBlackDefault.withOpacity(.2))),
             onChanged: onChanged),
         trailing: trailing);

@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "disagree_quite":
             MessageLookupByLibrary.simpleMessage("Disagree And Quite"),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),

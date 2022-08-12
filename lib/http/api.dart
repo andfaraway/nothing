@@ -4,9 +4,11 @@
 //
 
 import 'dart:core';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nothing/model/version_update_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/constants.dart';
@@ -56,6 +58,53 @@ class API {
       'version': version,
     };
     var response = await Http.post(ConstUrl.checkUpdate, params: param);
+    return response;
+  }
+
+  // 新增版本信息
+  static Future<dynamic> addVersionInfo(VersionUpdateModel model) async {
+    Map<String, dynamic> param = {
+      'id': model.id,
+      'platform': model.platform,
+      'version': model.version,
+      'path': model.path,
+      'title': model.title,
+      'content': model.content,
+      'date': model.date,
+    };
+    var response = await Http.post("/addVersionInfo", params: param);
+    return response;
+  }
+
+
+  // 更新版本信息
+  static Future<dynamic> updateVersionInfo(VersionUpdateModel model) async {
+    Map<String, dynamic> param = {
+      'id': model.id,
+      'platform': model.platform,
+      'version': model.version,
+      'path': model.path,
+      'title': model.title,
+      'content': model.content,
+      'date': model.date,
+    };
+    var response = await Http.post("/updateVersionInfo", params: param);
+    return response;
+  }
+
+  // 发布版本更新推送
+  static Future<dynamic> versionUpdateNotification(VersionUpdateModel model)
+  async {
+    Map<String, dynamic> param = {
+      'id': model.id,
+      'platform': model.platform,
+      'version': model.version,
+      'path': model.path,
+      'title': model.title,
+      'content': model.content,
+      'date': model.date,
+    };
+    var response = await Http.post("/versionUpdateNotification", params: param);
     return response;
   }
 
@@ -294,7 +343,7 @@ class ConstUrl {
   ConstUrl._();
 
   static const baseUrl =
-      isDebug ? 'http://10.0.21.219:5000' : 'http://1.14.252.115:5000';
+      isDebug ? localUrl : 'http://1.14.252.115:5000';
 
   static const netServer =  'http://1.14.252.115';
 

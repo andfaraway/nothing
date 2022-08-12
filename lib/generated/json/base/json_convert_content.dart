@@ -8,6 +8,7 @@ import 'package:nothing/model/favorite_model.dart';
 import 'package:nothing/model/login_model.dart';
 import 'package:nothing/model/message_model.dart';
 import 'package:nothing/model/user_info_model.dart';
+import 'package:nothing/model/version_update_model.dart';
 import 'package:nothing/model/wedding_model.dart';
 
 JsonConvert jsonConvert = JsonConvert();
@@ -19,6 +20,7 @@ class JsonConvert {
 		(LoginModel).toString(): LoginModel.fromJson,
 		(MessageModel).toString(): MessageModel.fromJson,
 		(UserInfoModel).toString(): UserInfoModel.fromJson,
+		(VersionUpdateModel).toString(): VersionUpdateModel.fromJson,
 		(WeddingModel).toString(): WeddingModel.fromJson,
 	};
 
@@ -106,6 +108,9 @@ class JsonConvert {
 		}
 		if(<UserInfoModel>[] is M){
 			return data.map<UserInfoModel>((Map<String, dynamic> e) => UserInfoModel.fromJson(e)).toList() as M;
+		}
+		if(<VersionUpdateModel>[] is M){
+			return data.map<VersionUpdateModel>((Map<String, dynamic> e) => VersionUpdateModel.fromJson(e)).toList() as M;
 		}
 		if(<WeddingModel>[] is M){
 			return data.map<WeddingModel>((Map<String, dynamic> e) => WeddingModel.fromJson(e)).toList() as M;

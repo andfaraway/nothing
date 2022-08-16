@@ -102,7 +102,9 @@ class _WeddingAboutState extends State<WeddingAbout> {
                         model.title = _controller.text;
                         await updateWedding(model);
                       }
-                      FocusScope.of(context).requestFocus(FocusNode());
+                      if(mounted){
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      }
                     },
                     decoration: const InputDecoration(
                       border: InputBorder.none,

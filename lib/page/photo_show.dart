@@ -23,21 +23,26 @@ class _PhotoShowState extends State<PhotoShow> {
     _requestData();
   }
 
+  String baseImageUrl = 'http://1.14.252.115/src/wedding_photo/';
+
   _requestData() async {
-    Response response = await NetUtils.get('http://1.14.252.115:5000/images');
-    Map data = response.data['data'];
-    String baseImageUrl = 'http://1.14.252.115/src/';
-    print(data);
-    for (String key in data.keys) {
-      if (data[key] is List) {
-        List<String> list = data[key].cast<String>();
-        List<String> urls = [];
-        for (String url in list) {
-          urls.add(baseImageUrl + key + '/' + url);
-        }
-        urlsList.add(urls);
-      }
+    Response response = await NetUtils.get('http://1.14.252.115:5000/images',
+        queryParameters: {"catalog":"wedding_photo/"});
+    List data = response.data['data'];
+    for(String url in data){
+      urlsList.add(urls);
     }
+    // print(data);
+    // for (String key in data.keys) {
+    //   if (data[key] is List) {
+    //     List<String> list = data[key].cast<String>();
+    //     List<String> urls = [];
+    //     for (String url in list) {
+    //       urls.add(baseImageUrl + key + '/' + url);
+    //     }
+    //     urlsList.add(urls);
+    //   }
+    // }
     setState(() {});
   }
 

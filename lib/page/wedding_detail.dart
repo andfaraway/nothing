@@ -31,6 +31,7 @@ class _WeddingDetailState
       defaultAppBarActions(
           text: S.current.save,
           onPressed: () async {
+            Utils.hideKeyboard(context);
             await vm.updateWedding(widget.model);
           })
     ];
@@ -76,11 +77,13 @@ class _WeddingDetailState
                 width: double.infinity,
                 height: 36,
                 child: MaterialButton(
-                  onPressed: () async{
-                    await vm.deleteWedding(widget.model);
-                    if(mounted){
-                      Navigator.of(context).pop("refresh");
-                    }
+                  onPressed: () {
+                    showConfirmToast(context: context, title: "${S.current.delete}?", onConfirm: ()async{
+                      await vm.deleteWedding(widget.model);
+                      if(mounted){
+                        Navigator.of(context).pop('refresh');
+                      }
+                    });
                   },
                   color: themeColorRed,
                   child: Text(

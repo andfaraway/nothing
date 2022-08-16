@@ -7,6 +7,8 @@ import 'package:flutter/rendering.dart';
 import 'package:nothing/constants/screens.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
+import '../public.dart';
+
 class PhotoShowWidget extends StatefulWidget {
   const PhotoShowWidget(this.urls, {Key? key}) : super(key: key);
   final List urls;
@@ -33,12 +35,14 @@ class _PhotoShowWidgetState extends State<PhotoShowWidget>
               width: Screens.width,
               height: Screens.height,
               child: Center(
-                  child: Image.network(
-                widget.urls[i],
-                errorBuilder: (context, Object, _) {
-                  return const Text('这张保密');
-                },
-              )));
+                  child: CachedNetworkImage(
+                      imageUrl: widget.urls[i],
+                      fit: BoxFit.fitHeight,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorWidget: (context, object, _) {
+                        return const Text('这张保密');
+                      })));
         },
         itemCount: widget.urls.length,
       ),

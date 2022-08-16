@@ -10,6 +10,7 @@ import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/logins_page.dart';
 import 'package:nothing/page/message_page.dart';
+import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/theme_setting.dart';
@@ -78,6 +79,7 @@ class AppRoutes {
     livePhotoRoute.routeName: (BuildContext context) => livePhotoRoute.page,
     weddingAboutRoute.routeName: (BuildContext context) => weddingAboutRoute.page,
     loginsRoute.routeName: (BuildContext context) => loginsRoute.page,
+    photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
   };
 }
 
@@ -100,6 +102,8 @@ const AppRoutes weddingAboutRoute = AppRoutes('/weddingAboutRoute',
     WeddingAbout());
 const AppRoutes loginsRoute = AppRoutes('/loginsRoute',
     LoginsPage());
+const AppRoutes photoShowRoute = AppRoutes('/photoShowRoute',
+    PhotoShow());
 
 
 /// 处理服务器目标页面

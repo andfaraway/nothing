@@ -30,10 +30,11 @@ class WeddingDetailVM extends BaseVM {
         title: model.title,
         content: model.content,
         done: model.done);
+    showToast(S.current.success);
   }
 
-  Future<void> deleteWedding(WeddingModel model) async {
+  Future<dynamic> deleteWedding(WeddingModel model) async {
     EasyLoading.show();
-    await API.deleteWedding(model.id);
+    return API.deleteWedding(model.id);
   }
 }

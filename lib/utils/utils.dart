@@ -114,3 +114,9 @@ Future<Uint8List?> compressEntity(
   }
   return data;
 }
+
+class Utils{
+  static void hideKeyboard(BuildContext context){
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+}

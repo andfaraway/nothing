@@ -10,6 +10,7 @@ import 'package:nothing/utils/notification_utils.dart';
 import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../generated/l10n.dart';
 import '../http/api.dart';
 import '../utils/local_data_utils.dart';
 import '../utils/utils.dart';
@@ -88,6 +89,26 @@ class Constants {
       data = await API.checkUpdate('ios', version);
       print('data = $data');
     }
+
+    if (data != null && data['update'] == true) {
+      showIOSAlert(context: context,
+          title: S.current.version_update,
+          content:
+          data['content'],
+          cancelOnPressed: () {
+            Navigator.pop(context);
+          },
+          confirmOnPressed: () async {
+            String url = data!['path'];
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          });
+    }
+    return;
+
     if (data != null && data['update'] == true) {
       showDialog(
           context: context,

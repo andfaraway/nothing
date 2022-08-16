@@ -32,6 +32,8 @@ class ToastTipsDialog extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
+          width: 690.w,
+          height: height ?? 294.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -100,8 +102,6 @@ class ToastTipsDialog extends StatelessWidget {
               )
             ],
           ),
-          width: 690.w,
-          height: height ?? 294.h,
         ),
       ),
     );

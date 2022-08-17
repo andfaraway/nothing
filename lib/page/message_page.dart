@@ -46,7 +46,7 @@ class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorBackground,
+      backgroundColor: ThemeColor.background,
       appBar: AppBar(
         title: Text(S.current.message),
       ),

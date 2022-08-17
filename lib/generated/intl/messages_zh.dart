@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "request_failed": MessageLookupByLibrary.simpleMessage("请求失败"),
         "reset": MessageLookupByLibrary.simpleMessage("重置"),
         "save": MessageLookupByLibrary.simpleMessage("保存"),
+        "save_to_album": MessageLookupByLibrary.simpleMessage("保存到相册"),
         "select": MessageLookupByLibrary.simpleMessage("选择"),
         "setting": MessageLookupByLibrary.simpleMessage("设置"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),

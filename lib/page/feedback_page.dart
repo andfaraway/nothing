@@ -27,7 +27,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         appBar: AppBar(
           title: Text(S.current.feedback),
         ),
-        backgroundColor: colorBackground,
+        backgroundColor: ThemeColor.background,
         body: Padding(
           padding:
               EdgeInsets.only(left: 24.w, right: 24.w, top: 80.h, bottom: 80.h),

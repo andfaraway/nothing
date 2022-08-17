@@ -419,6 +419,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Save to album`
+  String get save_to_album {
+    return Intl.message(
+      'Save to album',
+      name: 'save_to_album',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

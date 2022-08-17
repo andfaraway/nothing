@@ -4,27 +4,22 @@
 //
 import 'package:nothing/public.dart';
 
-const Color colorBlackDefault = Color(0xFF333333);
+class ThemeColor {
+  static const Color black = Color(0xFF333333);
 
-const Color colorBlackDefaultLight = Color(0xFF989898);
+  static const Color blackLight = Color(0xFF989898);
 
-const Color colorBackground = Color(0xFFF2F4F7);
+  static const Color background = Color(0xFFF2F4F7);
 
-const Color themeColorRed = Color(0xFFE6333F);
+  static const Color red = Color(0xFFE6333F);
+}
 
 Color colorDivider = const Color(0xFF010122).withOpacity(.06);
 
 TextStyle themeTextStyle(
-    {required double fontSize,
+    {double? fontSize,
     Color? color = const Color(0xFF333333),
     FontWeight fontWeight = FontWeight.normal}) {
   return TextStyle(
-      fontWeight: FontWeight.normal, fontSize: fontSize, color: color);
-}
-
-TextStyle textStyleTitle(){
-  return TextStyle(
-    color: colorBlackDefault,
-    fontSize: 32.sp
-  );
+      fontWeight: FontWeight.normal, fontSize: fontSize ?? 32.sp, color: color);
 }

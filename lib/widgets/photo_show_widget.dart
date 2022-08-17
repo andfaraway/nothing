@@ -2,11 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-12-02 17:22:00
 //
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:nothing/constants/screens.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-
+import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 import '../public.dart';
 
 class PhotoShowWidget extends StatefulWidget {

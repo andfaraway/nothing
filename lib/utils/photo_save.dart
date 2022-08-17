@@ -198,3 +198,19 @@ Future<String?> saveToDocument(
     return null;
   }
 }
+
+// 保存网络图片
+saveNetworkImg({required String imgUrl,ProgressCallback? progressCallback})
+async {
+  var response = await Dio()
+      .get(imgUrl, options: Options(responseType: ResponseType.bytes),
+      onReceiveProgress:progressCallback);
+  final result = await ImageGallerySaver.saveImage(
+      Uint8List.fromList(response.data),
+      quality: 100);
+  if (result['isSuccess']) {
+    EasyLoading.showToast(S.current.success);
+  } else {
+    EasyLoading.showToast(S.current.fail);
+  }
+}

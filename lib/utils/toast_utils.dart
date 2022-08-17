@@ -53,13 +53,12 @@ void hideHttpLoading() {
 }
 
 void showIOSAlert(
-{required BuildContext context,
-  String? title,
-  String? content,
-  String? confirmText,
-  VoidCallback? cancelOnPressed,
-  VoidCallback? confirmOnPressed}
-) {
+    {required BuildContext context,
+    String? title,
+    String? content,
+    String? confirmText,
+    VoidCallback? cancelOnPressed,
+    VoidCallback? confirmOnPressed}) {
   showDialog<bool>(
       context: context,
       useSafeArea: false,
@@ -67,10 +66,12 @@ void showIOSAlert(
       barrierDismissible: true,
       builder: (_) => CupertinoAlertDialog(
               title: title == null ? null : Text(title),
-              content: content == null ? null : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(content),
-              ),
+              content: content == null
+                  ? null
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(content),
+                    ),
               actions: <Widget>[
                 if (cancelOnPressed != null)
                   CupertinoDialogAction(
@@ -80,9 +81,10 @@ void showIOSAlert(
                 if (confirmOnPressed != null)
                   CupertinoDialogAction(
                     onPressed: confirmOnPressed,
-                    child: Text(confirmText ?? S.current.confirm,style: const
-                    TextStyle
-                      (color:themeColorRed),),
+                    child: Text(
+                      confirmText ?? S.current.confirm,
+                      style: const TextStyle(color: ThemeColor.red),
+                    ),
                   )
               ]));
 }
@@ -143,36 +145,35 @@ class ModalFit extends StatelessWidget {
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         Navigator.pop(context);
-                        if (e.onTap != null) {
-                          e.onTap();
-                        }
+                        e.onTap?.call();
                       },
                       child: Stack(
                         children: [
                           Align(
+                            alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: const EdgeInsets.only(left: MARGIN_MAIN),
                               child: e.icon,
                             ),
-                            alignment: Alignment.centerLeft,
                           ),
                           Align(
+                            alignment: Alignment.center,
                             child: Text(e.title,
                                 style: e.textStyle ??
                                     themeTextStyle(fontSize: 16)),
-                            alignment: Alignment.center,
                           )
                         ],
                       ),
                     ),
                   ),
-                  const Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: colorBackground,
-                    indent: MARGIN_MAIN,
-                    endIndent: MARGIN_MAIN,
-                  )
+                  if (e.bottomLine)
+                    const Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: ThemeColor.background,
+                      indent: MARGIN_MAIN,
+                      endIndent: MARGIN_MAIN,
+                    )
                 ],
               ),
             );
@@ -184,9 +185,14 @@ class ModalFit extends StatelessWidget {
 class SheetButtonModel {
   final String title;
   final Widget? icon;
-  final Function onTap;
+  final Function? onTap;
   final TextStyle? textStyle;
+  final bool bottomLine;
 
   SheetButtonModel(
-      {required this.title, required this.onTap, this.icon, this.textStyle});
+      {required this.title,
+      this.onTap,
+      this.icon,
+      this.textStyle,
+      this.bottomLine = true});
 }

@@ -300,6 +300,13 @@ class API {
     });
   }
 
+  /// 获取图片
+  static Future<dynamic> getImages(String catalog) async {
+    List<dynamic> response = await Http.get('http://1.14.252.115:5000/images',
+      params: {"catalog": "/$catalog/"},);
+    return response;
+  }
+
   static Future<String> loadTips() async {
     var response = await Http.get(ConstUrl.sayLove);
     return response['newslist'].first['content'];

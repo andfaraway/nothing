@@ -149,7 +149,7 @@ class _UploadFileState extends State<UploadFile> {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: colorBlackDefault.withOpacity(.2)),
+                            width: 1, color: ThemeColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
@@ -165,7 +165,7 @@ class _UploadFileState extends State<UploadFile> {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: colorBlackDefault.withOpacity(.2)),
+                            width: 1, color: ThemeColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
@@ -197,14 +197,14 @@ class _UploadFileState extends State<UploadFile> {
             decoration: InputDecoration(
                 labelText: title,
                 labelStyle: TextStyle(
-                    color: required ? themeColorRed : colorBlackDefault),
+                    color: required ? ThemeColor.red : ThemeColor.black),
                 hintText: required
                     ? S.current.input_required
                     : S.current.input_optional,
                 hintStyle: TextStyle(
                     color: required
-                        ? themeColorRed.withOpacity(.5)
-                        : colorBlackDefault.withOpacity(.2))),
+                        ? ThemeColor.red.withOpacity(.5)
+                        : ThemeColor.black.withOpacity(.2))),
             onChanged: onChanged),
         trailing: trailing);
   }

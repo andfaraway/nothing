@@ -50,7 +50,7 @@ class _WeddingDetailState
               controller: TextEditingController(text: widget.model.title),
               decoration: const InputDecoration(
                   border: InputBorder.none, hintText: '标题'),
-              style: TextStyle(color: colorBlackDefault, fontSize: 42.sp),
+              style: TextStyle(color: ThemeColor.black, fontSize: 42.sp),
               onChanged: (value) {
                 widget.model.title = value;
               },
@@ -85,7 +85,7 @@ class _WeddingDetailState
                       }
                     });
                   },
-                  color: themeColorRed,
+                  color: ThemeColor.red,
                   child: Text(
                     S.current.delete,
                     style: const TextStyle(color: Colors.white),

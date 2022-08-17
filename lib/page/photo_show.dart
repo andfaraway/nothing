@@ -2,63 +2,87 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-12-02 15:42:01
 //
-import 'package:dio/dio.dart';
-import 'package:nothing/constants/constants.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:nothing/widgets/photo_show_widget.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
+import 'package:nothing/model/server_image_model.dart';
+import 'package:nothing/public.dart';
+import 'package:nothing/utils/photo_save.dart';
+import 'package:nothing/widgets/picture_viewer.dart';
+import 'photo_show_vm.dart';
+import 'package:photo_view/photo_view.dart';
 
-class PhotoShow extends StatefulWidget {
+class PhotoShow extends BasePage<_PhotoShowState> {
   const PhotoShow({Key? key}) : super(key: key);
 
   @override
-  _PhotoShowState createState() => _PhotoShowState();
+  _PhotoShowState createBaseState() => _PhotoShowState();
 }
 
-class _PhotoShowState extends State<PhotoShow> {
-  List urlsList = [];
+class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
+  @override
+  PhotoShowVM createVM() => PhotoShowVM(context);
+
+  final ValueNotifier<bool> photoEidt = ValueNotifier(false);
+
+  ServerImageModel currentModel = ServerImageModel();
 
   @override
-  void initState() {
-    super.initState();
-    _requestData();
-  }
-
-  String baseImageUrl = 'http://1.14.252.115/src/wedding_photo/';
-
-  _requestData() async {
-    Response response = await NetUtils.get('http://1.14.252.115:5000/images',
-        queryParameters: {"catalog":"wedding_photo/"});
-    List data = response.data['data'];
-    for(String url in data){
-      urlsList.add(urls);
-    }
-    // print(data);
-    // for (String key in data.keys) {
-    //   if (data[key] is List) {
-    //     List<String> list = data[key].cast<String>();
-    //     List<String> urls = [];
-    //     for (String url in list) {
-    //       urls.add(baseImageUrl + key + '/' + url);
-    //     }
-    //     urlsList.add(urls);
-    //   }
-    // }
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget createContentWidget() {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: urlsList.isEmpty
-          ? const Center(child: Text('wait'))
-          : PageView(
-              children: urlsList.map((urls) => PhotoShowWidget(urls)).toList(),
+      body: vm.data.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Stack(
+              children: [
+                SizedBox(
+                  child: Swiper(
+                    index: vm.initIndex,
+                    itemHeight: 200,
+                    layout: SwiperLayout.DEFAULT,
+                    scrollDirection: Axis.vertical,
+                    onTap: (index) {
+                      currentModel = vm.data[index];
+                      photoEidt.value = true;
+                    },
+                    itemBuilder: (context, i) {
+                      ServerImageModel model = vm.data[i];
+                      return CachedNetworkImage(
+                        imageUrl: model.imageUrl ?? '',
+                        fit: BoxFit.contain,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fadeInDuration: const Duration(milliseconds: 100),
+                        fadeOutDuration: const Duration(milliseconds: 100),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) {
+                          double progress =
+                              downloadProgress.downloaded / (model.size ?? 1);
+                          return Center(
+                            child: CircularProgressIndicator(value: progress),
+                          );
+                        },
+                        errorWidget: (context, object, _) {
+                          return const Text('这张保密');
+                        },
+                      );
+                    },
+                    itemCount: vm.data.length,
+                  ),
+                ),
+                ValueListenableBuilder(
+                    valueListenable: photoEidt,
+                    builder: (context, bool edit, child) {
+                      return edit
+                          ? PictureViewer(
+                              imageUrl: currentModel.imageUrl ?? '',
+                              imageSize: currentModel.size,
+                              onTap: () {
+                                photoEidt.value = false;
+                              },
+                            )
+                          : const SizedBox.shrink();
+                    })
+              ],
             ),
     );
   }

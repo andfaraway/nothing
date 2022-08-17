@@ -41,7 +41,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   Widget? pageWidget;
 
   ///背景颜色
-  Color backgroundColor = colorBackground;
+  Color backgroundColor = ThemeColor.background;
   Color appBarBackgroundColor = Colors.white;
 
   ///点击空白是否收起键盘
@@ -153,7 +153,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       bottom: PreferredSize(
         child: Container(
           height: appBarLineHeight,
-          color: colorBackground,
+          color: ThemeColor.background,
         ),
         preferredSize: Size(double.infinity, 0),
       ),

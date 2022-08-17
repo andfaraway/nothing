@@ -43,5 +43,7 @@
   "user_agreement": "User Agreement",
   "privacy_policy": "Privacy Policy",
   "agree_continue": "Agreement And Continue",
-  "disagree_quite": "Disagree And Quite"
+  "disagree_quite": "Disagree And Quite",
+
+  "save_to_album": "Save to album"
 }

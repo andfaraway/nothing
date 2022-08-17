@@ -2,6 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-24 13:51:09
 //
+import 'package:nothing/model/setting_config_model.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/widgets/content_white_bg.dart';
 import '/public.dart';
@@ -15,7 +16,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  final List<_SettingModel> _settingList = [];
+  final List<SettingConfigModel> _settingList = [];
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _SettingPageState extends State<SettingPage> {
         await API.getSettingModule(accountType: currentUser.accountType);
     if (dataList == null) return;
     for (Map<String, dynamic> map in dataList) {
-      _SettingModel model = _SettingModel.fromJson(map);
+      SettingConfigModel model = SettingConfigModel.fromJson(map);
       _settingList.add(model);
     }
     setState(() {});
@@ -74,22 +75,3 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-class _SettingModel {
-  final String? id;
-  final String? module;
-  final String? routeName;
-  final String? onTap;
-  final String? onLongPress;
-
-  _SettingModel(
-      {this.id, this.module, this.routeName, this.onTap, this.onLongPress});
-
-  static _SettingModel fromJson(Map map) {
-    return _SettingModel(
-        id: map['id'].toString(),
-        module: map['module'],
-        routeName: map['route_name'],
-        onTap: map['onTap'],
-        onLongPress: map['onLongPress']);
-  }
-}

@@ -12,6 +12,7 @@ import 'package:nothing/widgets/smart_drawer.dart';
 import 'package:nothing/model/interface_model.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 
+import 'model/setting_config_model.dart';
 import 'simple_page.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,8 +28,12 @@ class HomePage extends StatefulWidget {
 class _HomeWidgetState extends State<HomePage> {
   Widget? homeWidget;
 
-  final ValueNotifier _tipsStr = ValueNotifier(null);
+  final ValueNotifier<String?> _tipsStr = ValueNotifier(null);
   final ValueNotifier<Map<String, dynamic>?> _todayTips = ValueNotifier(null);
+
+  // 菜单快捷配置
+  final ValueNotifier<List<SettingConfigModel>> drawerConfigList =
+      ValueNotifier([]);
 
   @override
   void initState() {
@@ -64,6 +69,17 @@ class _HomeWidgetState extends State<HomePage> {
   /// 初始化数据
   Future<void> loadData() async {
     _todayTips.value = await API.getTips();
+
+    List<dynamic> dataList =
+        await API.getSettingModule(accountType: currentUser.accountType) ?? [];
+    List<SettingConfigModel> settingList = [];
+    for (Map<String, dynamic> map in dataList) {
+      SettingConfigModel model = SettingConfigModel.fromJson(map);
+      if (model.drawer == null) continue;
+      settingList.add(model);
+    }
+    settingList.sort((a, b) => a.drawer!.compareTo(b.drawer!));
+    drawerConfigList.value = settingList;
   }
 
   Widget todayTipsWidget() {
@@ -138,7 +154,9 @@ class _HomeWidgetState extends State<HomePage> {
   Widget drawer() {
     return SmartDrawer(
       callback: (open) async {
-        Constants.hideKeyboard(context);
+        if (mounted) {
+          Constants.hideKeyboard(context);
+        }
         if (open) {
           _tipsStr.value ??= (await API.loadTips()).replaceAll('娶', '嫁');
           _todayTips.value = await API.getTips();
@@ -182,7 +200,7 @@ class _HomeWidgetState extends State<HomePage> {
                           ? Padding(
                               padding: const EdgeInsets.only(top: 20),
                               child: SpinKitSpinningLines(
-                                duration: Duration(seconds: 5),
+                                duration: const Duration(seconds: 5),
                                 color: Colors.white.withOpacity(0.5),
                                 size: 50,
                               ),
@@ -199,6 +217,9 @@ class _HomeWidgetState extends State<HomePage> {
               }),
               Consumer<ThemesProvider>(builder: (context, provider, child) {
                 return Container(
+                  color: provider.currentThemeGroup.themeColor,
+                  height: 150,
+                  alignment: Alignment.bottomLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: kDrawerMarginLeft,
@@ -207,7 +228,7 @@ class _HomeWidgetState extends State<HomePage> {
                     child: GestureDetector(
                       onDoubleTap: () async {
                         var result = await API.addFavorite(
-                            _tipsStr.value.trim().toString(),
+                            _tipsStr.value.toString().trim(),
                             source: '看着顺眼');
                         if (result != null) {
                           showToast('收藏成功！');
@@ -226,9 +247,6 @@ class _HomeWidgetState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  color: provider.currentThemeGroup.themeColor,
-                  height: 150,
-                  alignment: Alignment.bottomLeft,
                 );
               }),
               Padding(
@@ -242,29 +260,29 @@ class _HomeWidgetState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    cellWidget(
-                      SvgPicture.asset(
-                        R.imagesZixun,
-                        width: 40.w,
-                        height: 40.w,
-                      ),
-                      S.current.information,
-                      () {
-                        AppRoutes.pushNamePage(
-                            context, informationRoute.routeName);
-                      },
-                    ),
-                    cellWidget(
-                      SvgPicture.asset(
-                        R.imagesMessage,
-                        width: 40.w,
-                        height: 40.w,
-                      ),
-                      S.current.message,
-                      () {
-                        AppRoutes.pushNamePage(context, messageRoute.routeName);
-                      },
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: drawerConfigList,
+                        builder:
+                            (context, List<SettingConfigModel> list, child) {
+                          return Column(
+                            children: list.map((e) {
+                              return cellWidget(
+                                  e.icon == null
+                                      ? null
+                                      : CachedNetworkImage(imageUrl: e.icon!),
+                                  e.module ?? '',
+                                  e.onTap != null
+                                      ? () {
+                                          functionWithString(context, e.onTap!)
+                                              ?.call();
+                                        }
+                                      : () {
+                                          AppRoutes.pushNamePage(
+                                              context, e.routeName ?? '');
+                                        });
+                            }).toList(),
+                          );
+                        }),
                     cellWidget(
                       SvgPicture.asset(
                         R.imagesSetUp,
@@ -288,7 +306,7 @@ class _HomeWidgetState extends State<HomePage> {
   }
 
   /// 菜单设置栏
-  Widget cellWidget(Widget icon, String title, GestureTapCallback? onTap) {
+  Widget cellWidget(Widget? icon, String? title, GestureTapCallback? onTap) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -300,11 +318,11 @@ class _HomeWidgetState extends State<HomePage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              icon,
+              SizedBox(width: 44.w, height: 44.w, child: icon),
               30.wSizedBox,
               Expanded(
                   child: Text(
-                title,
+                title ?? '',
                 style: themeTextStyle(fontSize: 32.sp),
               )),
               // const Icon(

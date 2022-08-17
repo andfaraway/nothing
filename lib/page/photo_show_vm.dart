@@ -10,7 +10,7 @@ class PhotoShowVM extends BaseVM {
 
   List<ServerImageModel> data = [];
 
-  int initIndex = 0;
+  int initIndex = 3;
   @override
   void init() {
     getImages();
@@ -24,7 +24,7 @@ class PhotoShowVM extends BaseVM {
       model.imageUrl = '${model.prefix}${model.name}';
       data.add(model);
     }
-    initIndex = Random().nextInt(data.length);
+    // initIndex = Random().nextInt(data.length);
     widgetSetState();
   }
 }

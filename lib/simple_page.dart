@@ -32,7 +32,6 @@ class _SimplePageState extends State<SimplePage>
   bool get wantKeepAlive => true;
 
   late final RefreshController _controller;
-  final double marginWidth = 30;
   String contentText = '';
 
   @override
@@ -56,7 +55,7 @@ class _SimplePageState extends State<SimplePage>
                   setState(() {
                     contentText = str ?? '';
                     if (widget.justify && contentText.length > 15) {
-                      contentText = '        ' + contentText;
+                      contentText = '      $contentText';
                     }
                   });
                 }
@@ -85,8 +84,8 @@ class _SimplePageState extends State<SimplePage>
                     child: Center(
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: marginWidth,
-                            right: 10,
+                            left: 30,
+                            right: 30,
                             bottom: Screens.navigationBarHeight),
                         child: GestureDetector(
                           onDoubleTap: () async {

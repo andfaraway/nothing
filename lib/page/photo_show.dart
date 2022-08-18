@@ -2,14 +2,11 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-12-02 15:42:01
 //
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 import 'package:nothing/model/server_image_model.dart';
 import 'package:nothing/public.dart';
-import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/picture_viewer.dart';
 import 'photo_show_vm.dart';
-import 'package:photo_view/photo_view.dart';
 
 class PhotoShow extends BasePage<_PhotoShowState> {
   const PhotoShow({Key? key}) : super(key: key);

@@ -17,7 +17,7 @@ class PhotoShowVM extends BaseVM {
   }
 
   Future<void> getImages() async{
-    var response = await API.getImages('wedding_photo');
+    var response = await API.getImages('wedding_photo_z');
     data.clear();
     for(Map<String,dynamic> map in response){
       ServerImageModel model = ServerImageModel.fromJson(map);

@@ -30,15 +30,25 @@ class PictureViewer extends StatelessWidget {
         onLongPress: () {
           showSheet(context, [
             SheetButtonModel(
-                title: S.current.save_to_album,
+                title: S.current.save,
                 textStyle: themeTextStyle(color: ThemeColor.red),
                 onTap: () async {
                   await saveNetworkImg(
                       imgUrl: imageUrl,
                       progressCallback: (current, total) {
-                        if (total == -1) {}
                         EasyLoading.showProgress(
                             current / (imageSize ?? total));
+                      });
+                  EasyLoading.dismiss();
+                }),
+            SheetButtonModel(
+                title: '保存原图',
+                textStyle: themeTextStyle(color: ThemeColor.black),
+                onTap: () async {
+                  EasyLoading.show();
+                  await saveNetworkImg(
+                      imgUrl: imageUrl.replaceAll("_z", ""),
+                      progressCallback: (current, total) {
                       });
                   EasyLoading.dismiss();
                 }),

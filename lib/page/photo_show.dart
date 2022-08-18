@@ -33,6 +33,9 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
               children: [
                 SizedBox(
                   child: Swiper(
+                    onIndexChanged: (index) async{
+                      await LocalDataUtils.setInt('initIndex', index);
+                    },
                     index: vm.initIndex,
                     itemHeight: 200,
                     layout: SwiperLayout.DEFAULT,

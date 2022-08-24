@@ -45,5 +45,6 @@
   "agree_continue": "同意，继续使用",
   "disagree_quite": "不同意，退出",
 
-  "save_to_album": "保存到相册"
+  "save_original_image": "保存原图",
+  "original_image": "原图"
 }

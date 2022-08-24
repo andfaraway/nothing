@@ -82,6 +82,7 @@ dependencies:
   # 网络图片缓存
   cached_network_image: ^3.2.1
   photo_view: ^0.14.0
+  flutter_cache_manager: ^3.3.0
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 #  images_to_live_photo:

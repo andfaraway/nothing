@@ -45,5 +45,6 @@
   "agree_continue": "Agreement And Continue",
   "disagree_quite": "Disagree And Quite",
 
-  "save_to_album": "Save to album"
+  "save_original_image": "Save Original Image",
+  "original_image": "Original_Image"
 }

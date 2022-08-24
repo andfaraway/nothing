@@ -420,11 +420,21 @@ class S {
     );
   }
 
-  /// `Save to album`
-  String get save_to_album {
+  /// `Save Original Image`
+  String get save_original_image {
     return Intl.message(
-      'Save to album',
-      name: 'save_to_album',
+      'Save Original Image',
+      name: 'save_original_image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Original_Image`
+  String get original_image {
+    return Intl.message(
+      'Original_Image',
+      name: 'original_image',
       desc: '',
       args: [],
     );

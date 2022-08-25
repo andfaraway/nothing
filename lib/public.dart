@@ -24,3 +24,4 @@ export 'widgets/content_white_bg.dart';
 export 'app_function.dart';
 
 export 'package:cached_network_image/cached_network_image.dart';
+export 'package:flutter_easyloading/flutter_easyloading.dart';

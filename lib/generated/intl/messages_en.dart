@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_info": MessageLookupByLibrary.simpleMessage("Login Info"),
         "message": MessageLookupByLibrary.simpleMessage("Message"),
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
+        "original_image":
+            MessageLookupByLibrary.simpleMessage("Original_Image"),
         "password_hint":
             MessageLookupByLibrary.simpleMessage("Please key in password"),
         "photo_album": MessageLookupByLibrary.simpleMessage("Photo Album"),
@@ -56,7 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("request failed"),
         "reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "save_to_album": MessageLookupByLibrary.simpleMessage("Save to album"),
+        "save_original_image":
+            MessageLookupByLibrary.simpleMessage("Save Original Image"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),

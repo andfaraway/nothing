@@ -309,7 +309,7 @@ class API {
 
   /// 获取图片
   static Future<dynamic> getImages(String catalog) async {
-    List<dynamic> response = await Http.get('http://1.14.252.115:5000/images',
+    List<dynamic> response = await Http.get('/images',
       params: {"catalog": "/$catalog/"},);
     return response;
   }

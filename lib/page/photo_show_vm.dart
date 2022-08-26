@@ -6,7 +6,9 @@ import '../model/server_image_model.dart';
 
 class PhotoShowVM extends BaseVM {
 
-  PhotoShowVM(BuildContext context) : super(context);
+  final String catalog;
+
+  PhotoShowVM(BuildContext context,this.catalog) : super(context);
 
   List<ServerImageModel> data = [];
 
@@ -17,7 +19,7 @@ class PhotoShowVM extends BaseVM {
   }
 
   Future<void> getImages() async{
-    var response = await API.getImages('wedding_photo_z');
+    var response = await API.getImages(catalog);
     data.clear();
     for(Map<String,dynamic> map in response){
       ServerImageModel model = ServerImageModel.fromJson(map);

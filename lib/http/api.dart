@@ -268,6 +268,13 @@ class API {
     return response;
   }
 
+  /// 更新婚礼代办事件排序
+  static Future<Map<String, dynamic>?> updateWeddingSort({required String? id,required int sort}) async {
+    Map<String,dynamic> param = {'id':id,'sort':sort,};
+    var response = await Http.post('/updateWeddingSort', params: param);
+    return response;
+  }
+
   /// 获取登录信息
   static Future<List<dynamic>> getLogins(int page,int size) async {
     Map<String,dynamic> params = {"page":page,"size":size};

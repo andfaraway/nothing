@@ -9,6 +9,7 @@ class WeddingModel {
 	String? title;
 	String? content;
 	String? done;
+  int sort = 0;
   
   WeddingModel();
 

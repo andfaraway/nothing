@@ -44,6 +44,13 @@ class WeddingAboutVM extends BaseVM {
         done: model.done);
   }
 
+  Future<void> updateWeddingSort(WeddingModel model,int sort) async {
+    await API.updateWeddingSort(
+        id: model.id,
+        sort: sort,
+       );
+  }
+
   Future<void> deleteWedding(WeddingModel model) async {
     EasyLoading.show();
     await API.deleteWedding(model.id);

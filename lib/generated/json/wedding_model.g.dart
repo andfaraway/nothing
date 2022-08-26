@@ -19,6 +19,10 @@ WeddingModel $WeddingModelFromJson(Map<String, dynamic> json) {
 	if (done != null) {
 		weddingModel.done = done;
 	}
+	final int? sort = jsonConvert.convert<int>(json['sort']);
+	if (sort != null) {
+		weddingModel.sort = sort;
+	}
 	return weddingModel;
 }
 
@@ -28,5 +32,6 @@ Map<String, dynamic> $WeddingModelToJson(WeddingModel entity) {
 	data['title'] = entity.title;
 	data['content'] = entity.content;
 	data['done'] = entity.done;
+	data['sort'] = entity.sort;
 	return data;
 }

@@ -54,17 +54,49 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
         _controller.refreshCompleted();
       },
       controller: _controller,
-      child: ReorderableListView.builder(
-
-        itemBuilder: (context, i) {
-          WeddingModel model = vm.todoList[i];
-          return checkCell(model);
-        },
-        itemCount: vm.todoList.length, onReorder: (int oldIndex, int newIndex) {
-        print("old:$oldIndex,new:$newIndex");
-      },
+      child: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: ReorderableListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    WeddingModel model = vm.todoList[i];
+                    return checkCell(model);
+                  },
+                  itemCount: vm.todoList.length,
+                  onReorder: onReorder),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> onReorder(int oldIndex, int newIndex) async {
+
+    bool sortUp = true;
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+      sortUp = false;
+    }
+    int markSort = vm.todoList[newIndex].sort;
+    final WeddingModel element = vm.todoList.removeAt(oldIndex);
+    setState(() {
+      vm.todoList.insert(newIndex, element);
+    });
+
+    //请求服务器
+    // 排序下降
+    int sort = markSort - 1;
+    if(sortUp){
+      sort = markSort + 1;
+    }
+    element.sort = sort;
+    await vm.updateWeddingSort(element, sort);
   }
 
   Widget checkCell(WeddingModel model) {

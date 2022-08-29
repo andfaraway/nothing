@@ -9,7 +9,8 @@ import 'package:nothing/widgets/picture_viewer.dart';
 import 'photo_show_vm.dart';
 
 class PhotoShow extends BasePage<_PhotoShowState> {
-  const PhotoShow({Key? key}) : super(key: key);
+  final String catalog;
+  const PhotoShow({Key? key,this.catalog = 'wedding_photo_z'}) : super(key: key);
 
   @override
   _PhotoShowState createBaseState() => _PhotoShowState();
@@ -17,7 +18,7 @@ class PhotoShow extends BasePage<_PhotoShowState> {
 
 class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
   @override
-  PhotoShowVM createVM() => PhotoShowVM(context);
+  PhotoShowVM createVM() => PhotoShowVM(context,widget.catalog);
 
   final ValueNotifier<bool> photoEidt = ValueNotifier(false);
 
@@ -76,6 +77,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                           ? PictureViewer(
                               imageUrl: currentModel.imageUrl ?? '',
                               imageSize: currentModel.size,
+                              imageName: currentModel.name,
                               onTap: () {
                                 photoEidt.value = false;
                               },

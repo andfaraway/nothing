@@ -39,7 +39,7 @@ export 'colors.dart';
 export 'singleton.dart';
 
 const bool isDebug =  false;
-const String localUrl = 'http://10.0.21.194:5000';
+const String localUrl = 'http://10.0.21.199:5000';
 
 const double kAppBarHeight = 86.0;
 const double kDrawerMarginLeft = 16.0;

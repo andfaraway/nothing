@@ -6,12 +6,17 @@ import 'package:photo_view/photo_view.dart';
 import '../utils/photo_save.dart';
 
 class PictureViewer extends StatefulWidget {
+  final String? imageName;
   final String imageUrl;
   final int? imageSize;
   final GestureTapCallback? onTap;
 
   const PictureViewer(
-      {Key? key, required this.imageUrl, this.imageSize, this.onTap})
+      {Key? key,
+      required this.imageUrl,
+      this.imageName,
+      this.imageSize,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -20,35 +25,42 @@ class PictureViewer extends StatefulWidget {
 
 class _PictureViewerState extends State<PictureViewer> {
   late String imageUrl;
-  bool orangeBtnShow = true;
+  late String originalImageUrl;
+
+  ValueNotifier<bool> btnShow = ValueNotifier(true);
 
   @override
   void initState() {
     super.initState();
     imageUrl = widget.imageUrl;
+    originalImageUrl = widget.imageUrl.replaceAll("_z", "");
+    showOriginalBtn();
   }
 
-  Future<void> originalBtnClick() async {
-    LogUtils.d("btn click");
-    String originalImageUrl = getOriginalImage(widget.imageUrl);
+  Future<void> showOriginalBtn() async {
     try {
-      var file = await DefaultCacheManager().getSingleFile(originalImageUrl);
-      orangeBtnShow = false;
+      await DefaultCacheManager().getSingleFile(originalImageUrl);
+      btnShow.value = false;
+      LogUtils.d("image cache");
     } catch (e) {
-      LogUtils.d("load original image");
+      LogUtils.d("no cache");
+      btnShow.value = true;
     }
+  }
+
+  void originalBtnClick() {
     setState(() {
       imageUrl = originalImageUrl;
+      btnShow.value = false;
     });
   }
 
-  String getOriginalImage(String url){
+  String getOriginalImage(String url) {
     return url.replaceAll("_z", "");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("build");
     return Stack(
       children: [
         PhotoView.customChild(
@@ -102,8 +114,10 @@ class _PictureViewerState extends State<PictureViewer> {
                 fadeInDuration: const Duration(milliseconds: 100),
                 fadeOutDuration: const Duration(milliseconds: 100),
                 progressIndicatorBuilder: (context, url, downloadProgress) {
-                  print('downloadProgress:${downloadProgress.progress}');
-                  double progress =
+                  if (imageUrl == originalImageUrl) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  double? progress =
                       downloadProgress.downloaded / (widget.imageSize ?? 1);
                   return Center(
                     child: CircularProgressIndicator(value: progress),
@@ -114,20 +128,35 @@ class _PictureViewerState extends State<PictureViewer> {
                 }),
           ),
         ),
-        if (orangeBtnShow)
-          Align(
-            alignment: Alignment.topRight,
-            child: SafeArea(
-              child: MaterialButton(
-                color: ThemeColor.blackLight,
-                onPressed: originalBtnClick,
-                child: Text(
-                  S.current.original_image,
-                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+        ValueListenableBuilder(
+          builder: (context, bool show, child) {
+            if (!show) return const SizedBox.shrink();
+            return Align(
+              alignment: Alignment.bottomLeft,
+              child: SafeArea(
+                child: TextButton(
+                  onPressed: () {
+                    originalBtnClick();
+                  },
+                  child: Text(
+                    "原图",
+                    style: TextStyle(color: Colors.white, fontSize: 22.sp),
+                  ),
                 ),
               ),
+            );
+          },
+          valueListenable: btnShow,
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: SafeArea(
+            child: Text(
+              widget.imageName ?? '',
+              style: const TextStyle(color: Colors.white),
             ),
-          )
+          ),
+        )
       ],
     );
   }

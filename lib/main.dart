@@ -16,7 +16,6 @@ void main() async {
   await Singleton.loadData();
   //初始化推送信息
   if (await Constants.isPhysicalDevice() && !kIsWeb) {
-    print('zhenshishebei');
     await NotificationUtils.jPushInit();
   }
   await DeviceUtils.getDeviceUuid();
@@ -55,9 +54,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     Constants.isDark = context.theme.brightness == Brightness.dark;
     Constants.context = context;
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Constants.checkUpdate();
-      Constants.insertLaunch();
+    Future.delayed(const Duration(seconds: 1), () async{
+      await Constants.insertLaunch();
+    });
+
+    Future.delayed(const Duration(seconds: 8), () async{
+      //检查更新
+      await Constants.checkUpdate(context);
     });
   }
 

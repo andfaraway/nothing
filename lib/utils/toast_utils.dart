@@ -63,7 +63,7 @@ void showIOSAlert(
       context: context,
       useSafeArea: false,
       barrierColor: Colors.black38,
-      barrierDismissible: true,
+      barrierDismissible: false,
       builder: (_) => CupertinoAlertDialog(
               title: title == null ? null : Text(title),
               content: content == null

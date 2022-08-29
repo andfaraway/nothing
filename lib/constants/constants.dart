@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +39,7 @@ export 'colors.dart';
 
 export 'singleton.dart';
 
-const bool isDebug =  false;
+const bool isDebug = false;
 const String localUrl = 'http://10.0.21.199:5000';
 
 const double kAppBarHeight = 86.0;
@@ -71,7 +72,8 @@ class Constants {
   static late BuildContext context;
 
   /// 中文
-  static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true :false;
+  static final bool isChinese =
+      (Intl.getCurrentLocale() == 'zh') ? true : false;
 
   static const String endLineTag = '没有更多了';
 
@@ -80,63 +82,61 @@ class Constants {
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
   static final String deviceType = Platform.isIOS ? 'iPhone' : 'Android';
 
-
   /// 检查更新
-  static Future<void> checkUpdate({Map? data}) async {
-    BuildContext context = navigatorState.overlay!.context;
+  static Future<dynamic> checkUpdate(BuildContext context,{Map? data}) async {
+    context = navigatorState.overlay!.context;
     if (data == null) {
       String version = await DeviceUtils.version();
       data = await API.checkUpdate('ios', version);
-      print('data = $data');
     }
 
     if (data != null && data['update'] == true) {
-      showIOSAlert(context: context,
-          title: S.current.version_update,
-          content:
-          data['content'],
-          cancelOnPressed: () {
-            Navigator.pop(context);
-          },
-          confirmOnPressed: () async {
-            String url = data!['path'];
-            if (await canLaunch(url)) {
-              await launch(url);
-            } else {
-              throw 'Could not launch $url';
-            }
-          });
+      showIOSAlert(
+        context: context,
+        title: S.current.version_update,
+        content: data['content'],
+        cancelOnPressed: () {
+          Navigator.pop(context);
+        },
+        confirmOnPressed: () async {
+          String url = data!['path'];
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
+        },
+      );
     }
-    return;
 
-    if (data != null && data['update'] == true) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return CheckUpdateWidget(
-              title: data!['title'],
-              content: data['content'],
-              updateOnTap: () async {
-                String url = data!['path'];
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              },
-              cancelOnTap: () {
-                Navigator.pop(context);
-              },
-            );
-          });
-    } else {}
+    // if (data != null && data['update'] == true) {
+    //   showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return CheckUpdateWidget(
+    //           title: data!['title'],
+    //           content: data['content'],
+    //           updateOnTap: () async {
+    //             String url = data!['path'];
+    //             if (await canLaunch(url)) {
+    //               await launch(url);
+    //             } else {
+    //               throw 'Could not launch $url';
+    //             }
+    //           },
+    //           cancelOnTap: () {
+    //             Navigator.pop(context);
+    //           },
+    //         );
+    //       });
+    // } else {}
   }
 
-  static Future<void> insertLaunch() async{
+  static Future<void> insertLaunch() async {
     bool isPhysicalDevice = await Constants.isPhysicalDevice();
-    if(Platform.isIOS && !isPhysicalDevice) return;
+    if (Platform.isIOS && !isPhysicalDevice) return;
 
-    Map<String,dynamic>? param = {};
+    Map<String, dynamic>? param = {};
     param['userid'] = Singleton.currentUser.userId;
     param['username'] = Singleton.currentUser.username;
     //推送别名
@@ -167,7 +167,7 @@ class Constants {
     }
   }
 
-  static hideKeyboard(BuildContext context){
+  static hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
   }
 }

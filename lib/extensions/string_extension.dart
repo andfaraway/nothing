@@ -27,9 +27,11 @@ extension StringExtension on String {
     }
 
     //format 为空，返回距离当前时间
-    int nowInt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    int nowInt = DateTime.now().millisecondsSinceEpoch;
     int dateInt = toInt();
     int secondsValue = nowInt - dateInt;
+    //转换为秒计算
+    secondsValue = secondsValue~/1000;
     if (secondsValue < 60) {
       //1分钟内显示为“刚刚”
       return "刚刚";

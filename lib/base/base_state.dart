@@ -38,8 +38,6 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   ///标题
   String? pageTitle;
 
-  Widget? pageWidget;
-
   ///背景颜色
   Color backgroundColor = ThemeColor.background;
   Color appBarBackgroundColor = Colors.white;
@@ -60,6 +58,11 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
 
   blankPage() {
     return Container();
+  }
+
+  // 标题widget
+  Widget? getPageWidget() {
+    return null;
   }
 
   ///右边按钮
@@ -144,7 +147,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   ///带标题的Appbar
   createTitleAppBar() {
     return AppBar(
-      title: pageWidget ??
+      title: getPageWidget() ??
           Text(
             pageTitle ?? '',
           ),
@@ -198,7 +201,9 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       backgroundColor: backgroundColor,
       //防止因键盘弹出造成bottom overlowed by X pixels
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      appBar: pageTitle == null ? createAppBar() : createTitleAppBar(),
+      appBar: pageTitle == null && getPageWidget() == null
+          ? createAppBar()
+          : createTitleAppBar(),
       body: WillPopScope(
         onWillPop: onWillPop,
         child: BaseWidget(

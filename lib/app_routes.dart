@@ -8,11 +8,11 @@ import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
-import 'package:nothing/page/logins_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
+import 'package:nothing/page/some_things.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/wedding_about.dart';
@@ -78,8 +78,8 @@ class AppRoutes {
     informationRoute.routeName: (BuildContext context) => informationRoute.page,
     livePhotoRoute.routeName: (BuildContext context) => livePhotoRoute.page,
     weddingAboutRoute.routeName: (BuildContext context) => weddingAboutRoute.page,
-    loginsRoute.routeName: (BuildContext context) => loginsRoute.page,
     photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
+    someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
   };
 }
 
@@ -100,11 +100,10 @@ const AppRoutes livePhotoRoute = AppRoutes('/livePhotoRoute',
     LivePhotoPage());
 const AppRoutes weddingAboutRoute = AppRoutes('/weddingAboutRoute',
     WeddingAbout());
-const AppRoutes loginsRoute = AppRoutes('/loginsRoute',
-    LoginsPage());
 const AppRoutes photoShowRoute = AppRoutes('/photoShowRoute',
     PhotoShow());
-
+const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute',
+    SomeThings());
 
 /// 处理服务器目标页面
 class ServerTargetModel {

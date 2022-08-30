@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "select": MessageLookupByLibrary.simpleMessage("Select"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "some_things": MessageLookupByLibrary.simpleMessage("Some Things"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "upload": MessageLookupByLibrary.simpleMessage("upload"),

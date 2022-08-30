@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "select": MessageLookupByLibrary.simpleMessage("选择"),
         "setting": MessageLookupByLibrary.simpleMessage("设置"),
         "sign_up": MessageLookupByLibrary.simpleMessage("注册"),
+        "some_things": MessageLookupByLibrary.simpleMessage("很多东西"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "theme": MessageLookupByLibrary.simpleMessage("主题"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),

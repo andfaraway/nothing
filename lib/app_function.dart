@@ -2,10 +2,13 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-29 16:43:59
 //
+import 'dart:io';
+
 import 'package:nothing/utils/device_utils.dart';
 import 'package:nothing/utils/toast_utils.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'public.dart';
 
 Function? functionWithString(BuildContext context, String functionStr) {
@@ -20,11 +23,11 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'checkUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate('ios', version);
+        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null && data['update'] == true) {
           String url = data['path'];
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrlString(url)) {
+            await launchUrlString(url);
           } else {
             throw 'Could not launch $url';
           }
@@ -36,11 +39,11 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'goUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate('ios', version);
+        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null) {
           String url = data['path'];
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrlString(url)) {
+            await launchUrlString(url);
           } else {
             throw 'Could not launch $url';
           }

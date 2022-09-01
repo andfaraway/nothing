@@ -26,14 +26,15 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
 
   @override
   Widget? getPageWidget() {
-    return Container(
-      // color: Colors.green,
+    return SizedBox(
       width: 200,
       height: 50,
       child: LDropdownButton(
-        items: [CustomMenuItem(text: S.current.some_things)],
-        onChanged: (value){
-          print(value);
+        items: vm.pagesName.map((e) => CustomMenuItem(text: e)).toList(),
+        initText: vm.currentPage,
+        onChanged: (value) async{
+          vm.currentPage = value ?? '';
+          _controller.requestRefresh();
         },
       ),
     );
@@ -49,16 +50,17 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
         controller: _controller,
         child: ListView.builder(
           itemBuilder: (context, i) {
-            Map<String, dynamic> map = vm.dataList[i];
-            LoginModel model = LoginModel.fromJson(map);
-            return ListTile(
-              title: Text(
-                model.username.toString(),
-                style: Theme.of(context).textTheme.titleMedium,
+            RecordModel model = vm.dataList[i];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text(
+                  model.title.toString(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                subtitle: Text(model.subTitle.toString()),
+                trailing: Text(model.trailingText.toString()),
               ),
-              subtitle: Text('${model.date?.dataFormat(format: 'HH:mm:ss '
-                  'yyyy/MM/dd')} ${model.network} ${model.battery}'),
-              trailing: Text(model.version.toString()),
             );
           },
           itemCount: vm.dataList.length,
@@ -69,7 +71,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
 
   Future<void> _onRefresh() async {
     pageIndex = 0;
-    await vm.getData(pageIndex, pageSize);
+    await vm.getData(pageIndex, pageSize,clean: true);
     setState(() {
       _controller.refreshCompleted();
     });

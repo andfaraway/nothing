@@ -7,14 +7,16 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:nothing/public.dart';
 
 class LDropdownButton extends StatelessWidget {
-  final Widget? icon;
   final List<CustomMenuItem> items;
+  final String initText;
+  final Widget? icon;
   final List<CustomMenuItem> secondItems;
   final ValueChanged<String?>? onChanged;
 
   LDropdownButton(
       {Key? key,
       required this.items,
+      required this.initText,
       this.secondItems = const [],
       this.icon,
       this.onChanged})
@@ -24,7 +26,7 @@ class LDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    currentValue.value = items.first.text;
+    currentValue.value = initText;
     items.last.divider = false;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(

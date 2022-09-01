@@ -76,7 +76,6 @@ class API {
     return response;
   }
 
-
   // 更新版本信息
   static Future<dynamic> updateVersionInfo(VersionUpdateModel model) async {
     Map<String, dynamic> param = {
@@ -93,8 +92,8 @@ class API {
   }
 
   // 发布版本更新推送
-  static Future<dynamic> versionUpdateNotification(VersionUpdateModel model)
-  async {
+  static Future<dynamic> versionUpdateNotification(
+      VersionUpdateModel model) async {
     Map<String, dynamic> param = {
       'id': model.id,
       'platform': model.platform,
@@ -194,12 +193,24 @@ class API {
     return response;
   }
 
+  /// 获取反馈
+  static Future<dynamic> getFeedback(int pageIndex, int pageSize) async {
+    Map<String, dynamic> param = {
+      'userid': Singleton.currentUser.userId,
+      'pageIndex': pageIndex,
+      'pageSize': pageSize
+    };
+    var response = await Http.post(ConstUrl.getFeedback, params: param);
+    return response;
+  }
+
   /// 添加反馈
   static Future<dynamic> addFeedback(String content, String? nickname) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
       'content': content,
-      'nickname': nickname
+      'nickname': nickname,
+      'version': await DeviceUtils.version()
     };
     var response = await Http.post(ConstUrl.addFeedback, params: param);
     return response;
@@ -220,7 +231,8 @@ class API {
   }
 
   /// 插入启动页信息
-  static Future<Map<String, dynamic>?> insertLaunchInfo(Map<String, dynamic>? param) async {
+  static Future<Map<String, dynamic>?> insertLaunchInfo(
+      Map<String, dynamic>? param) async {
     var response = await Http.post(ConstUrl.insertLaunchInfo, params: param);
     return response;
   }
@@ -248,40 +260,54 @@ class API {
   }
 
   /// 插入婚礼代办事件
-  static Future<Map<String, dynamic>?> insertWedding({String? title,String? content, int? done}) async {
-    Map<String,dynamic> param = {'title':title,'content':content,'done':done};
+  static Future<Map<String, dynamic>?> insertWedding(
+      {String? title, String? content, int? done}) async {
+    Map<String, dynamic> param = {
+      'title': title,
+      'content': content,
+      'done': done
+    };
     var response = await Http.post('/insertWedding', params: param);
     return response;
   }
 
   /// 删除婚礼代办事件
   static Future<Map<String, dynamic>?> deleteWedding(String? id) async {
-    Map<String,dynamic> param = {'id':id};
+    Map<String, dynamic> param = {'id': id};
     var response = await Http.post('/deleteWedding', params: param);
     return response;
   }
 
   /// 更新婚礼代办事件
-  static Future<Map<String, dynamic>?> updateWedding({String? id,String? title,String? content, String? done}) async {
-    Map<String,dynamic> param = {'id':id,'title':title,'content':content,'done':done,};
+  static Future<Map<String, dynamic>?> updateWedding(
+      {String? id, String? title, String? content, String? done}) async {
+    Map<String, dynamic> param = {
+      'id': id,
+      'title': title,
+      'content': content,
+      'done': done,
+    };
     var response = await Http.post('/updateWedding', params: param);
     return response;
   }
 
   /// 更新婚礼代办事件排序
-  static Future<Map<String, dynamic>?> updateWeddingSort({required String? id,required int sort}) async {
-    Map<String,dynamic> param = {'id':id,'sort':sort,};
+  static Future<Map<String, dynamic>?> updateWeddingSort(
+      {required String? id, required int sort}) async {
+    Map<String, dynamic> param = {
+      'id': id,
+      'sort': sort,
+    };
     var response = await Http.post('/updateWeddingSort', params: param);
     return response;
   }
 
   /// 获取登录信息
-  static Future<List<dynamic>> getLogins(int page,int size) async {
-    Map<String,dynamic> params = {"page":page,"size":size};
-    List<dynamic> response = await Http.get('/getLogins',params: params);
+  static Future<List<dynamic>> getLogins(int page, int size) async {
+    Map<String, dynamic> params = {"page": page, "size": size};
+    List<dynamic> response = await Http.get('/getLogins', params: params);
     return response;
   }
-
 
   /// 上传文件
   static uploadFile(String imagePath, String fileName) async {
@@ -309,8 +335,10 @@ class API {
 
   /// 获取图片
   static Future<dynamic> getImages(String catalog) async {
-    List<dynamic> response = await Http.get('/images',
-      params: {"catalog": "/$catalog/"},);
+    List<dynamic> response = await Http.get(
+      '/images',
+      params: {"catalog": "/$catalog/"},
+    );
     return response;
   }
 
@@ -356,10 +384,9 @@ class API {
 class ConstUrl {
   ConstUrl._();
 
-  static const baseUrl =
-      isDebug ? localUrl : 'http://1.14.252.115:5000';
+  static const baseUrl = isDebug ? localUrl : 'http://1.14.252.115:5000';
 
-  static const netServer =  'http://1.14.252.115';
+  static const netServer = 'http://1.14.252.115';
 
   ///登录
   static const String login = '/login';
@@ -390,6 +417,9 @@ class ConstUrl {
 
   ///删除收藏
   static const String deleteFavorite = '/deleteFavorite';
+
+  ///添加反馈
+  static const String getFeedback = '/getFeedback';
 
   ///添加反馈
   static const String addFeedback = '/addFeedback';

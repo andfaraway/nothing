@@ -22,7 +22,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
 
   final RefreshController _controller = RefreshController(initialRefresh: true);
   int pageIndex = 0;
-  int pageSize = 50;
+  int pageSize = 10;
 
   @override
   Widget? getPageWidget() {
@@ -32,7 +32,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
       child: LDropdownButton(
         items: vm.pagesName.map((e) => CustomMenuItem(text: e)).toList(),
         initText: vm.currentPage,
-        onChanged: (value) async{
+        onChanged: (value) async {
           vm.currentPage = value ?? '';
           _controller.requestRefresh();
         },
@@ -48,22 +48,27 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
         onRefresh: _onRefresh,
         onLoading: _onLoad,
         controller: _controller,
-        child: ListView.builder(
+        child: ListView.separated(
+          padding: const EdgeInsets.only(top: 10),
           itemBuilder: (context, i) {
             RecordModel model = vm.dataList[i];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text(
-                  model.title.toString(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                subtitle: Text(model.subTitle.toString()),
-                trailing: Text(model.trailingText.toString()),
-              ),
+            return ListTile(
+              title: model.title == null
+                  ? null
+                  : Text(
+                      model.title!,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+              subtitle: model.subTitle == null ? null : Text(model.subTitle!),
+              trailing: model.trailingText == null
+                  ? null
+                  : Text(
+                      model.trailingText!,
+                      textAlign: TextAlign.center,
+                    ),
             );
           },
-          itemCount: vm.dataList.length,
+          itemCount: vm.dataList.length, separatorBuilder: (BuildContext context, int index) { return Divider(); },
         ),
       ),
     );
@@ -71,7 +76,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
 
   Future<void> _onRefresh() async {
     pageIndex = 0;
-    await vm.getData(pageIndex, pageSize,clean: true);
+    await vm.getData(pageIndex, pageSize, clean: true);
     setState(() {
       _controller.refreshCompleted();
     });

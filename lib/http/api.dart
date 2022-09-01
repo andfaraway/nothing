@@ -197,8 +197,8 @@ class API {
   static Future<dynamic> getFeedback(int pageIndex, int pageSize) async {
     Map<String, dynamic> param = {
       'userid': Singleton.currentUser.userId,
-      'pageIndex': pageIndex,
-      'pageSize': pageSize
+      'page': pageIndex,
+      'size': pageSize
     };
     var response = await Http.post(ConstUrl.getFeedback, params: param);
     return response;

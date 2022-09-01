@@ -50,7 +50,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     style: TextStyle(fontSize: 28.sp, color: Colors.black),
                     onChanged: (value) {
                       content = value;
-                      feedback1();
                     },
                     // maxLines: 10,
                   ),
@@ -66,20 +65,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         const Text('昵称:'),
                         10.wSizedBox,
                         Expanded(
-                          child: Container(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: Singleton.currentUser.username,
-                                  hintStyle: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 28.sp),
-                                  contentPadding: EdgeInsets.zero,
-                                  isDense: true),
-                              onChanged: (value) {
-                                nickname = value;
-                              },
-                            ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: Singleton.currentUser.username,
+                                hintStyle: TextStyle(
+                                    color: Color(0xFF999999),
+                                    fontSize: 28.sp),
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true),
+                            onChanged: (value) {
+                              nickname = value;
+                            },
                           ),
                         ),
                       ],
@@ -104,6 +101,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       return null;
     }
     Constants.hideKeyboard(context);
+    EasyLoading.show();
     var result = await API.addFeedback(content, nickname);
     if (result == null) {
       showToast('反馈失败');
@@ -114,11 +112,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         controller.text = content;
       });
     }
-  }
-
-  feedback1() async {
-    if (content.isEmpty) return;
-    await API.addFeedback(content, nickname);
+    EasyLoading.dismiss();
   }
 
   @override

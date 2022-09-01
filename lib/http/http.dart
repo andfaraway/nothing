@@ -35,7 +35,7 @@ class Http {
     ..interceptors.add(ResponseInterceptor());
 
   // _request所有的请求都会走这里
-  static Future<T> _request<T>(String path,
+  static Future<dynamic> _request<T>(String path,
       {String method = 'GET',
       Map<String, dynamic>? params,
       dynamic data,
@@ -47,15 +47,16 @@ class Http {
           data: data, queryParameters: params, onSendProgress: onSendProgress);
       return response.data;
     } catch (error) {
+      return null;
       return Future.error(error);
     }
   }
 
-  static Future<T> get<T>(String path, {Map<String, dynamic>? params}) {
+  static Future get<T>(String path, {Map<String, dynamic>? params}) {
     return _request(path, method: 'GET', params: params);
   }
 
-  static Future<T> post<T>(String path,
+  static Future<dynamic> post<T>(String path,
       {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
     return _request(path,
         method: 'POST',

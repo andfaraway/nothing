@@ -39,6 +39,10 @@ SettingConfigModel $SettingConfigModelFromJson(Map<String, dynamic> json) {
 	if (icon != null) {
 		settingConfigModel.icon = icon;
 	}
+	final String? arguments = jsonConvert.convert<String>(json['arguments']);
+	if (arguments != null) {
+		settingConfigModel.arguments = arguments;
+	}
 	return settingConfigModel;
 }
 
@@ -53,5 +57,6 @@ Map<String, dynamic> $SettingConfigModelToJson(SettingConfigModel entity) {
 	data['sort'] = entity.sort;
 	data['drawer'] = entity.drawer;
 	data['icon'] = entity.icon;
+	data['arguments'] = entity.arguments;
 	return data;
 }

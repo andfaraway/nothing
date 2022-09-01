@@ -5,6 +5,7 @@
 import 'package:nothing/model/setting_config_model.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/widgets/content_white_bg.dart';
+import '../constants/hive_boxes.dart';
 import '/public.dart';
 import '../constants/singleton.dart';
 
@@ -37,6 +38,10 @@ class _SettingPageState extends State<SettingPage> {
     if (dataList == null) return;
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
+      print('key:${model.routeName},value:${model.arguments}');
+      if(model.arguments != null){
+        HiveBoxes.settingsBox.put(model.routeName, model.arguments);
+      }
       _settingList.add(model);
     }
     setState(() {});

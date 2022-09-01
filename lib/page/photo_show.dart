@@ -9,8 +9,7 @@ import 'package:nothing/widgets/picture_viewer.dart';
 import 'photo_show_vm.dart';
 
 class PhotoShow extends BasePage<_PhotoShowState> {
-  final String catalog;
-  const PhotoShow({Key? key,this.catalog = 'wedding_photo_z'}) : super(key: key);
+  const PhotoShow({Key? key}) : super(key: key);
 
   @override
   _PhotoShowState createBaseState() => _PhotoShowState();
@@ -18,9 +17,9 @@ class PhotoShow extends BasePage<_PhotoShowState> {
 
 class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
   @override
-  PhotoShowVM createVM() => PhotoShowVM(context,widget.catalog);
+  PhotoShowVM createVM() => PhotoShowVM(context);
 
-  final ValueNotifier<bool> photoEidt = ValueNotifier(false);
+  final ValueNotifier<bool> photoEdit = ValueNotifier(false);
 
   ServerImageModel currentModel = ServerImageModel();
 
@@ -43,7 +42,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                     scrollDirection: Axis.vertical,
                     onTap: (index) {
                       currentModel = vm.data[index];
-                      photoEidt.value = true;
+                      photoEdit.value = true;
                     },
                     itemBuilder: (context, i) {
                       ServerImageModel model = vm.data[i];
@@ -71,7 +70,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                   ),
                 ),
                 ValueListenableBuilder(
-                    valueListenable: photoEidt,
+                    valueListenable: photoEdit,
                     builder: (context, bool edit, child) {
                       return edit
                           ? PictureViewer(
@@ -79,7 +78,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                               imageSize: currentModel.size,
                               imageName: currentModel.name,
                               onTap: () {
-                                photoEidt.value = false;
+                                photoEdit.value = false;
                               },
                             )
                           : const SizedBox.shrink();

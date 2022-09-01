@@ -114,6 +114,41 @@ void showConfirmToast(
           ));
 }
 
+showEdit(BuildContext context,{required ValueChanged? commitPressed,VoidCallback? cancelPressed,String? text}) {
+  showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('请输入相册名称'),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: CupertinoTextField(
+              controller: TextEditingController(text: text),
+              onChanged: (value){
+                text = value;
+              },
+            ),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                cancelPressed?.call();
+                Navigator.pop(context);
+              },
+              child: Text('取消',style: TextStyle(color: ThemeColor.blackLight),),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                commitPressed?.call(text);
+                Navigator.pop(context);
+              },
+              child: Text('确定'),
+            ),
+          ],
+        );
+      });
+}
+
 showSheet(BuildContext context, List<SheetButtonModel> list) {
   showMaterialModalBottomSheet(
     expand: false,

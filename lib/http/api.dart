@@ -334,10 +334,10 @@ class API {
   }
 
   /// 获取图片
-  static Future<dynamic> getImages(String catalog) async {
-    List<dynamic> response = await Http.get(
+  static Future<dynamic> getImages(String? catalog) async {
+    List<dynamic>? response = await Http.get(
       '/images',
-      params: {"catalog": "/$catalog/"},
+      params: {"catalog": catalog == null ? '' : "/$catalog/"},
     );
     return response;
   }

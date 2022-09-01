@@ -4,8 +4,6 @@
 //
 import 'dart:io';
 
-import 'package:nothing/utils/device_utils.dart';
-import 'package:nothing/utils/toast_utils.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -23,7 +21,8 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'checkUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
+        Map<String, dynamic>? data =
+            await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null && data['update'] == true) {
           String url = data['path'];
           if (await canLaunchUrlString(url)) {
@@ -39,7 +38,8 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'goUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
+        Map<String, dynamic>? data =
+            await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null) {
           String url = data['path'];
           if (await canLaunchUrlString(url)) {
@@ -60,11 +60,16 @@ Function? functionWithString(BuildContext context, String functionStr) {
               withAppBar: true,
             ));
         return;
-        if (await canLaunch(url!)) {
-          await launch(url);
-        } else {
-          throw 'Could not launch $url';
-        }
+      };
+      break;
+    case 'photoSetting':
+      f = (){
+        showEdit(context,text:'wedding_photo_z',commitPressed: (value){
+          if(value == null) return;
+          HiveBoxes.settingsBox.put(functionStr, value);
+        },cancelPressed: (){
+          HiveBoxes.settingsBox.delete(functionStr);
+        });
       };
       break;
   }

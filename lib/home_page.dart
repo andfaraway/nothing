@@ -267,30 +267,38 @@ class _HomeWidgetState extends State<HomePage> {
                           return Column(
                             children: list.map((e) {
                               return cellWidget(
-                                  e.icon == null
-                                      ? null
-                                      : CachedNetworkImage(imageUrl: e.icon!),
-                                  e.module ?? '',
-                                  e.onTap != null
-                                      ? () {
-                                          functionWithString(context, e.onTap!)
-                                              ?.call();
-                                        }
-                                      : () {
-                                          AppRoutes.pushNamePage(
-                                              context, e.routeName ?? '');
-                                        });
+                                icon: e.icon == null
+                                    ? null
+                                    : CachedNetworkImage(imageUrl: e.icon!),
+                                title: e.module ?? '',
+                                onTap: e.onTap != null
+                                    ? () {
+                                        functionWithString(context, e.onTap!)
+                                            ?.call();
+                                      }
+                                    : () {
+                                        AppRoutes.pushNamePage(
+                                            context, e.routeName ?? '');
+                                      },
+                                onLongPress: e.onLongPress == null
+                                    ? null
+                                    : () {
+                                        functionWithString(
+                                                context, e.onLongPress!)
+                                            ?.call();
+                                      },
+                              );
                             }).toList(),
                           );
                         }),
                     cellWidget(
-                      SvgPicture.asset(
+                      icon: SvgPicture.asset(
                         R.imagesSetUp,
                         width: 40.w,
                         height: 40.w,
                       ),
-                      S.current.setting,
-                      () {
+                      title: S.current.setting,
+                      onTap: () {
                         AppRoutes.pushPage(context, const SettingPage());
                       },
                     ),
@@ -306,10 +314,15 @@ class _HomeWidgetState extends State<HomePage> {
   }
 
   /// 菜单设置栏
-  Widget cellWidget(Widget? icon, String? title, GestureTapCallback? onTap) {
+  Widget cellWidget(
+      {Widget? icon,
+      String? title,
+      GestureTapCallback? onTap,
+      GestureLongPressCallback? onLongPress}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
+      onLongPress: onLongPress,
       child: SizedBox(
         height: 85.h,
         child: Padding(

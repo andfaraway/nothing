@@ -23,6 +23,10 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
 
   ServerImageModel currentModel = ServerImageModel();
 
+  final ValueNotifier<String> imageName = ValueNotifier('');
+
+  bool loadError = false;
+
   @override
   Widget createContentWidget() {
     return Scaffold(
@@ -31,43 +35,59 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
           ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
-                SizedBox(
-                  child: Swiper(
-                    onIndexChanged: (index) async{
-                      await LocalDataUtils.setInt('initIndex', index);
-                    },
-                    index: vm.initIndex,
-                    itemHeight: 200,
-                    layout: SwiperLayout.DEFAULT,
-                    scrollDirection: Axis.vertical,
-                    onTap: (index) {
-                      currentModel = vm.data[index];
+                Swiper(
+                  onIndexChanged: (index) async{
+                    currentModel = vm.data[index];
+                    await LocalDataUtils.setInt('initIndex', index);
+                  },
+                  index: vm.initIndex,
+                  itemHeight: 200,
+                  layout: SwiperLayout.DEFAULT,
+                  scrollDirection: Axis.vertical,
+                  onTap: (index) {
+                    currentModel = vm.data[index];
+                    if(!loadError){
                       photoEdit.value = true;
-                    },
-                    itemBuilder: (context, i) {
-                      ServerImageModel model = vm.data[i];
-                      return CachedNetworkImage(
-                        imageUrl: model.imageUrl ?? '',
-                        fit: BoxFit.contain,
-                        width: double.infinity,
-                        height: double.infinity,
-                        fadeInDuration: const Duration(milliseconds: 100),
-                        fadeOutDuration: const Duration(milliseconds: 100),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) {
-                          double progress =
-                              downloadProgress.downloaded / (model.size ?? 1);
-                          return Center(
-                            child: CircularProgressIndicator(value: progress),
-                          );
-                        },
-                        errorWidget: (context, object, _) {
-                          return const Text('这张保密');
-                        },
-                      );
-                    },
-                    itemCount: vm.data.length,
-                  ),
+                    }
+                  },
+                  itemBuilder: (context, i) {
+                    ServerImageModel model = vm.data[i];
+                    return Stack(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: model.imageUrl ?? '',
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fadeInDuration: const Duration(milliseconds: 100),
+                          fadeOutDuration: const Duration(milliseconds: 100),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) {
+                            loadError = false;
+                            double progress =
+                                downloadProgress.downloaded / (model.size ?? 1);
+                            return Center(
+                              child: CircularProgressIndicator(value: progress),
+                            );
+                          },
+                          errorWidget: (context, object, _) {
+                            loadError = true;
+                            return const LoadErrorWidget();
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: SafeArea(
+                            child: Text(
+                              model.name ?? '',
+                              style: const TextStyle(color: ThemeColor.black),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                  itemCount: vm.data.length,
                 ),
                 ValueListenableBuilder(
                     valueListenable: photoEdit,
@@ -82,7 +102,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                               },
                             )
                           : const SizedBox.shrink();
-                    })
+                    }),
               ],
             ),
     );

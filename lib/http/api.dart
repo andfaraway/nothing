@@ -337,7 +337,7 @@ class API {
   static Future<dynamic> getImages(String? catalog) async {
     List<dynamic>? response = await Http.get(
       '/images',
-      params: {"catalog": catalog == null ? '' : "/$catalog/"},
+      params: {"catalog": catalog == null ? null : "/$catalog/"},
     );
     return response;
   }

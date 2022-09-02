@@ -124,7 +124,7 @@ class _PictureViewerState extends State<PictureViewer> {
                   );
                 },
                 errorWidget: (context, object, _) {
-                  return const Center(child: Text('这张保密'));
+                  return const LoadErrorWidget();
                 }),
           ),
         ),

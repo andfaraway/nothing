@@ -9,6 +9,7 @@ class R {
   static const String imagesAvatar = 'images/avatar.png';
   static const String imagesHelp = 'images/help.svg';
   static const String imagesIconQq = 'images/icon_qq.png';
+  static const String imagesLoadError = 'images/load_error.png';
   static const String imagesMessage = 'images/message.svg';
   static const String imagesNothingToDo = 'images/nothing_to_do.png';
   static const String imagesSetUp = 'images/set_up.svg';

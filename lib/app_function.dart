@@ -63,12 +63,17 @@ Function? functionWithString(BuildContext context, String functionStr) {
       };
       break;
     case 'photoSetting':
-      f = (){
-        showEdit(context,text:'wedding_photo_z',commitPressed: (value){
-          if(value == null) return;
-          HiveBoxes.settingsBox.put(functionStr, value);
-        },cancelPressed: (){
-          HiveBoxes.settingsBox.delete(functionStr);
+      f = () {
+        String text = HiveBoxes.settingsBox.get(functionStr) ?? 'wedding_photo_z';
+
+        showEdit(context, text: text, commitPressed: (value) {
+          if (value == null) {
+            HiveBoxes.settingsBox.delete(functionStr);
+          }else{
+            HiveBoxes.settingsBox.put(functionStr, value);
+          }
+          showToast('操作成功');
+        }, cancelPressed: () {
         });
       };
       break;

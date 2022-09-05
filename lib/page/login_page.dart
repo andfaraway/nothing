@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             S.current.login,
             style: TextStyle(
-                fontSize: 38.sp,
+                fontSize: 38.h,
                 fontWeight: FontWeight.bold,
                 color: Colors.white),
           ),
@@ -276,13 +276,13 @@ class _LoginPageState extends State<LoginPage> {
                                     Text(
                                       S.current.sign_up,
                                       style: TextStyle(
-                                          color: textColor1, fontSize: 28.sp),
+                                          color: textColor1, fontSize: 28.h),
                                     ),
                                     Expanded(child: Container()),
                                     Text(
                                       S.current.forgot_password,
                                       style: TextStyle(
-                                          color: textColor1, fontSize: 28.sp),
+                                          color: textColor1, fontSize: 28.h),
                                     )
                                   ],
                                 ),

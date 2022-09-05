@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:nothing/constants/constants.dart';
 import 'package:nothing/utils/notification_utils.dart';
-import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'public.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

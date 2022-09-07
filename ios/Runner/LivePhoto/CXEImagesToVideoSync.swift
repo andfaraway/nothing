@@ -45,9 +45,10 @@ class CXEImageToVideoSync: NSObject{
         
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         var tempPath:String
-        repeat{
-            tempPath = paths[0] + "/second.mov"
-        }while(FileManager.default.fileExists(atPath: tempPath))
+        tempPath = paths[0] + "/second.mov"
+//        repeat{
+//            tempPath = paths[0] + "/second.mov"
+//        }while(FileManager.default.fileExists(atPath: tempPath))
         
         self.fileURL = URL(fileURLWithPath: tempPath)
         self.assetWriter = try! AVAssetWriter(url: self.fileURL, fileType: AVFileType.mov)
@@ -89,13 +90,12 @@ class CXEImageToVideoSync: NSObject{
     private func createMovieFromSource(images: [AnyObject], extractor: @escaping CXEMovieMakerUIImageExtractor) -> URL{
         
         self.assetWriter.startWriting()
-        //        self.assetWriter.startSession(atSourceTime: kCMTimeZero)
+//        self.assetWriter.startSession(atSourceTime: CMTime.zero)
         let zeroTime = CMTimeMake(value:Int64(0), timescale: self.frameTime.timescale)
         self.assetWriter.startSession(atSourceTime: zeroTime)
         
         var i = 0
         let frameNumber = images.count
-        
         while !self.writeInput.isReadyForMoreMediaData {}
         
         while(true){

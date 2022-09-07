@@ -18,6 +18,8 @@ class LivePhotoPage extends StatefulWidget {
 class _LivePhotoPageState extends State<LivePhotoPage> {
   File? firstImage;
   File? secondImage;
+  late int movWidth;
+  late int movHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +42,13 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                         ? Image.file(firstImage!)
                         : Container(
                             color: Colors.green,
+                            height: double.infinity,
                             child: const Center(
                               child: Text(
                                 'first photo',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            height: double.infinity,
                           ),
                   ),
                 ),
@@ -100,6 +102,8 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
         firstImage = await result.first.originFile;
       }else{
         secondImage = await result.first.originFile;
+        movWidth = result.first.width;
+        movHeight = result.first.height;
       }
       setState(() {
 
@@ -113,16 +117,10 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
       return;
     }
 
-    print('start');
     String movPath = await platformChannel.invokeMethod("image_to_mov",
-        secondImage!.path);
-    print('movePath:$movPath');
+        [secondImage!.path,movWidth.toString(),movHeight.toString()]);
     String result = await platformChannel.invokeMethod("create_live_photo",
         [firstImage!.path,movPath]);
-    // var result = await ImagesToLivePhoto.create(firstImage!.path, secondImage!
-    //     .path);
-    // var result = await platformChannel.invokeMethod(ChannelKey
-    //     .createLivePhoto,[firstImage!.path,secondImage!.path]);
-    print('result = $result');
+    showToast(result);
   }
 }

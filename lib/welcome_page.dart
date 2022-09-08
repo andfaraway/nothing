@@ -164,7 +164,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 errorWidget: (context, string, child) {
                   return Image.asset(R.imagesHandsomeman, fit: BoxFit.cover,
                     width: double.infinity,
-                    height: double.infinity,)
+                    height: double.infinity,);
                 },
               );
             },

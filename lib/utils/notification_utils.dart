@@ -21,19 +21,22 @@ class NotificationUtils {
     jpush.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {
-        print("flutter onReceiveNotification: ${message}");
+        LogUtils.d("flutter onReceiveNotification: ${message}");
       },
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
-        print("flutter onOpenNotification: ${message}");
+        LogUtils.d("flutter onOpenNotification: ${message}");
         if (globalContext?.widget.toString() != 'MessagePage') {
           BuildContext context = navigatorState.overlay!.context;
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const MessagePage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const MessagePage()));
         }
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {
-        print("flutter onReceiveMessage: $message");
+        LogUtils.d("flutter onReceiveMessage: $message");
       },
     );
 
@@ -49,54 +52,30 @@ class NotificationUtils {
 
     jpush.setBadge(0);
 
-    print('jpush registrationID = ${await jpush.getRegistrationID()}');
+    LogUtils.d('jpush registrationID = ${await jpush.getRegistrationID()}');
     return jpush;
   }
 
-  // static Future<String?> setAlias(String? alias,{bool mustset = false}) async {
-  //   var a = await jpush.getRegistrationID();
-  //   print('***********${a}***********');
-  //   return '';
-  //
-  //   if (alias == null || alias == '') return null;
-  //   if (! await Constants.isPhysicalDevice()) return null;
-  //
-  //   //若本地有，表明设置成功过，无需再设置
-  //   String? localAlias = await LocalDataUtils.get(KEY_ALIAS);
-  //   print('localAlias=$localAlias');
-  //   if(mustset == false){
-  //     if (localAlias != null ) return localAlias;
-  //   }
-  //   try {
-  //     String result = '';
-  //     for (int i = 0; i < alias.length; i++) {
-  //       String c = alias[i];
-  //       if (RegExp('[0-9a-zA-z]').hasMatch(c)) result = result + c;
-  //     }
-  //     alias = result;
-  //   } catch (error) {}
-  //
-  //   if (alias == null || alias.isEmpty) {
-  //     alias = 'all';
-  //   }
-  //
-  //   try {
-  //     await jpush.setAlias(alias);
-  //     // 设置成功，保存本地
-  //     await LocalDataUtils.setString(KEY_ALIAS, alias);
-  //     // 注册服务器
-  //     var userId = Singleton.currentUser.userId;
-  //     var registrationId = await jpush.getRegistrationID();
-  //     String? identifierForVendor = Singleton.currentUser.openId;
-  //     API.registerNotification(
-  //         userId: userId,
-  //         pushToken: null,
-  //         alias: alias,
-  //         registrationId: registrationId,
-  //         identifier: identifierForVendor);
-  //   } catch (error) {}
-  //   return alias;
-  // }
+  static String? setAlias(String? alias){
+    if(alias == null) return null;
+    if(alias.isEmpty) return null;
+    String? str = HiveBoxes.settingsBox.get(KEY_ALIAS);
+    if (str == null) {
+      str = '';
+      for (int i = 0; i < alias.length; i++) {
+        String c = alias[i];
+        if (RegExp('[0-9a-zA-z]').hasMatch(c)) str = str! + c;
+      }
+      try{
+        jpush.setAlias(str!);
+        HiveBoxes.settingsBox.put(KEY_ALIAS, str);
+        LogUtils.d('setAlias success');
+      }catch(e){
+        LogUtils.d('setAlias error: $e');
+      }
+    }
+    return str;
+  }
 
   static final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();
@@ -136,45 +115,6 @@ class NotificationUtils {
     );
     await NotificationUtils.plugin.show(0, title, body, _details);
   }
-
-  // static Future<void> showAppMessage(
-  //   WebApp app,
-  //   String body,
-  // ) async {
-  //   final Color color = currentThemeColor;
-  //   final WebAppIcon icon = WebAppIcon(app: app);
-  //   final Person p = Person(
-  //     name: app.name,
-  //     key: app.appId.toString(),
-  //     icon: await icon.exist
-  //         ? FlutterBitmapAssetAndroidIcon(icon.iconPath)
-  //         : null,
-  //   );
-  //   final List<Message> messages = <Message>[Message(body, DateTime.now(), p)];
-  //   final MessagingStyleInformation messagingStyle = MessagingStyleInformation(
-  //     p,
-  //     conversationTitle: app.name,
-  //     groupConversation: false,
-  //     messages: messages,
-  //   );
-  //   final AndroidNotificationDetails androidDetails =
-  //       AndroidNotificationDetails(
-  //     'openjmu_message_channel',
-  //     '推送消息',
-  //     channelDescription: '通知接收到的消息',
-  //     category: 'msg',
-  //     color: color,
-  //     importance: Importance.high,
-  //     priority: Priority.high,
-  //     ticker: app.name,
-  //     styleInformation: messagingStyle,
-  //   );
-  //   final NotificationDetails _details = NotificationDetails(
-  //     android: androidDetails,
-  //     iOS: const IOSNotificationDetails(),
-  //   );
-  //   await NotificationUtils.plugin.show(0, app.name, body, _details);
-  // }
 
   static Future<void> cancelAll() {
     return NotificationUtils.plugin.cancelAll();

@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
       API.registerNotification(
             userId: Singleton.currentUser.userId,
             pushToken: null,
+            alias: NotificationUtils.setAlias(Singleton.currentUser.username),
             registrationId: registrationId,
             identifier: Singleton.currentUser.openId);
 
@@ -116,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
         API.registerNotification(
             userId: Singleton.currentUser.userId,
             pushToken: null,
+            alias: NotificationUtils.setAlias(Singleton.currentUser.username),
             registrationId: registrationId,
             identifier: Singleton.currentUser.openId);
 

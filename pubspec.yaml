@@ -88,10 +88,6 @@ dependencies:
   extended_image: ^6.3.0
   image_editor: ^1.1.0
   image: ^3.2.0
-#  um_share_plugin:
-#    path: /Users/libin/Desktop/my_plugins/um_share_plugin
-#  images_to_live_photo:
-#    path: /Users/libin/Desktop/my_plugins/images_to_live_photo
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated

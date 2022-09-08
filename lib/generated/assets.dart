@@ -6,7 +6,6 @@ class R {
   static const String iconsEyeClose = 'images/icons/eye_close.svg';
   static const String iconsEyeOpen = 'images/icons/eye_open.svg';
   static const String iconsMenu = 'images/icons/menu.svg';
-  static const String imagesAvatar = 'images/avatar.png';
   static const String imagesHelp = 'images/help.svg';
   static const String imagesIconQq = 'images/icon_qq.png';
   static const String imagesLoadError = 'images/load_error.png';

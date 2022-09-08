@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:nothing/public.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+
+import 'image_editor_widget.dart';
 // import 'package:images_to_live_photo/images_to_live_photo.dart';
 
 class LivePhotoPage extends StatefulWidget {
@@ -61,15 +63,15 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                     child: secondImage != null
                         ? Image.file(secondImage!)
                         : Container(
-                      color: Colors.cyan,
-                      child: const Center(
-                        child: Text(
-                          'second photo',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      height: double.infinity,
-                    ),
+                            color: Colors.cyan,
+                            height: double.infinity,
+                            child: const Center(
+                              child: Text(
+                                'second photo',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ],
@@ -78,7 +80,7 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
           Expanded(
             child: Center(
               child: TextButton(
-                onPressed: () async{
+                onPressed: () async {
                   await create();
                 },
                 child: const Text(
@@ -93,34 +95,41 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
   }
 
   Future<void> pickPhoto(int index) async {
-    final List<AssetEntity>? result = await AssetPicker.pickAssets(
-      context,
-      pickerConfig : const AssetPickerConfig(maxAssets: 1, requestType: RequestType.image,)
-    );
-    if(result != null){
-      if(index == 0){
-        firstImage = await result.first.originFile;
-      }else{
-        secondImage = await result.first.originFile;
-        movWidth = result.first.width;
-        movHeight = result.first.height;
-      }
-      setState(() {
-
-      });
-    }
-  }
-
-  Future<void> create() async{
-    if(firstImage == null || secondImage == null){
-      showToast('please select photo');
+    final List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        pickerConfig: const AssetPickerConfig(
+          maxAssets: 1,
+          requestType: RequestType.image,
+        ));
+    if (result == null) {
       return;
     }
 
+    File? imageFile = await result.first.originFile;
+    if (!mounted) return;
+    File? file =
+        await AppRoutes.pushPage(context, SimpleImageEditor(imageFile!));
+
+    if (index == 0) {
+      firstImage = file;
+    } else {
+      secondImage = file;
+      movWidth = result.first.width;
+      movHeight = result.first.height;
+    }
+    setState(() {});
+  }
+
+  Future<void> create() async {
+    if (firstImage == null || secondImage == null) {
+      showToast('please select photo');
+      return;
+    }
+    EasyLoading.show(dismissOnTap: false);
     String movPath = await platformChannel.invokeMethod("image_to_mov",
-        [secondImage!.path,movWidth.toString(),movHeight.toString()]);
-    String result = await platformChannel.invokeMethod("create_live_photo",
-        [firstImage!.path,movPath]);
+        [secondImage!.path, movWidth.toString(), movHeight.toString()]);
+    String result = await platformChannel
+        .invokeMethod("create_live_photo", [firstImage!.path, movPath]);
     showToast(result);
+    EasyLoading.dismiss();
   }
 }

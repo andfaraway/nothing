@@ -85,6 +85,9 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   adaptive_dialog: ^1.8.0
   dropdown_button2: ^1.7.2
+  extended_image: ^6.3.0
+  image_editor: ^1.1.0
+  image: ^3.2.0
 #  um_share_plugin:
 #    path: /Users/libin/Desktop/my_plugins/um_share_plugin
 #  images_to_live_photo:

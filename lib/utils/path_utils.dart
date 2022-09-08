@@ -6,12 +6,14 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-class PathUtils{
+class PathUtils {
   PathUtils._();
 
-  static Future<void> init()async{
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    PathUtils.documentPath = appDocDir.path;
+  static Future<void> init() async {
+    documentPath = (await getApplicationDocumentsDirectory()).path;
+    tempPath = (await getTemporaryDirectory()).path;
   }
+
   static late String documentPath;
+  static late String tempPath;
 }

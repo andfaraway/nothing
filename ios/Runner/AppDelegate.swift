@@ -55,10 +55,13 @@ var channel: FlutterMethodChannel? = nil
                let argList = arguments as! Array<String>
                let imageURL = URL.init(fileURLWithPath: argList[0])
               var width:Int = Int(argList[1])!
+              var height:Int = Int(argList[2])!
+              let scale:Double = Double(width) / Double(height)
                while(width % 16 != 0){
-                  width += 1;
+                  width -= 1;
                }
-               let height:Int = Int(argList[2])!
+               height = Int(Double(width) / scale)
+                print("\(width)+\(height)")
                let videoSettings = CXEImageToVideoSync.videoSettings(codec: AVVideoCodecType.h264.rawValue, width: width, height: height)
                let sync = CXEImageToVideoSync(videoSettings: videoSettings)
                let fileURL = sync.createMovieFrom(url: imageURL, duration: 4)

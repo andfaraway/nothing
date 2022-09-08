@@ -46,9 +46,10 @@ class CXEImageToVideoSync: NSObject{
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         var tempPath:String
         tempPath = paths[0] + "/second.mov"
-//        repeat{
-//            tempPath = paths[0] + "/second.mov"
-//        }while(FileManager.default.fileExists(atPath: tempPath))
+
+        if(FileManager.default.fileExists(atPath: tempPath)){
+            try! FileManager.default.removeItem(atPath: tempPath)
+        }
         
         self.fileURL = URL(fileURLWithPath: tempPath)
         self.assetWriter = try! AVAssetWriter(url: self.fileURL, fileType: AVFileType.mov)

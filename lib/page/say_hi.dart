@@ -13,18 +13,11 @@ class SayHi extends StatefulWidget {
 }
 
 class _SayHiState extends State<SayHi> {
-  String user = 'biubiubiu';
-  String text = '😘';
+  late String user;
+  late String text;
 
   ///是否允许发送
   final ValueNotifier<bool> _canSend = ValueNotifier(true);
-
-  loadData() async {
-    String? u = await LocalDataUtils.get(KEY_TO_USER);
-    user = u ?? 'biubiubiu';
-    userCtl = TextEditingController(text: user);
-    setState(() {});
-  }
 
   late TextEditingController userCtl;
   late TextEditingController contentCtl;
@@ -33,8 +26,10 @@ class _SayHiState extends State<SayHi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData();
+    user = HiveBoxes.get(HiveKey.hiToUser, defaultValue: 'biubiubiu');
     userCtl = TextEditingController(text: user);
+
+    text = '😘';
     contentCtl = TextEditingController(text: text);
   }
 
@@ -59,6 +54,7 @@ class _SayHiState extends State<SayHi> {
               controller: userCtl,
               onChanged: (value) {
                 user = value;
+                HiveBoxes.put(HiveKey.hiToUser, value);
               },
             ),
           ),
@@ -82,13 +78,13 @@ class _SayHiState extends State<SayHi> {
                 valueListenable: _canSend,
                 builder: (context, bool canSend, Widget? child) =>
                     MaterialButton(
+                  color:
+                      canSend ? currentThemeGroup.themeColor : Colors.black54,
+                  onPressed: sendBtnOnPressed,
                   child: const Text(
                     'send',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color:
-                      canSend ? currentThemeGroup.themeColor : Colors.black54,
-                  onPressed: sendBtnOnPressed,
                 ),
               )
             ],

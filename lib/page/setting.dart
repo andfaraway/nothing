@@ -5,7 +5,7 @@
 import 'package:nothing/model/setting_config_model.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/widgets/content_white_bg.dart';
-import '../constants/hive_boxes.dart';
+import '../utils/hive_boxes.dart';
 import '/public.dart';
 import '../constants/singleton.dart';
 

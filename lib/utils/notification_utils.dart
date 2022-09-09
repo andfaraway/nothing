@@ -51,7 +51,7 @@ class NotificationUtils {
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     jpush.setBadge(0);
-
+    
     LogUtils.d('jpush registrationID = ${await jpush.getRegistrationID()}');
     return jpush;
   }
@@ -59,16 +59,15 @@ class NotificationUtils {
   static String? setAlias(String? alias){
     if(alias == null) return null;
     if(alias.isEmpty) return null;
-    String? str = HiveBoxes.get(KEY_ALIAS);
-    if (str == null) {
-      str = '';
+    String str = HiveBoxes.get(HiveKey.pushAlias,defaultValue: '');
+    if (str == '') {
       for (int i = 0; i < alias.length; i++) {
         String c = alias[i];
-        if (RegExp('[0-9a-zA-z]').hasMatch(c)) str = str! + c;
+        if (RegExp('[0-9a-zA-z]').hasMatch(c)) str = str + c;
       }
       try{
-        jpush.setAlias(str!);
-        HiveBoxes.put(KEY_ALIAS, str);
+        jpush.setAlias(str);
+        HiveBoxes.put(HiveKey.pushAlias, str);
         LogUtils.d('setAlias success');
       }catch(e){
         LogUtils.d('setAlias error: $e');

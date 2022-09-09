@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../model/models.dart';
-import '../utils/log_utils.dart';
+import 'log_utils.dart';
 import '../widgets/dialogs/confirmation_dialog.dart';
 
 class HiveBoxes {
@@ -51,7 +51,7 @@ class HiveBoxes {
     );
   }
 
-  static Future<void> clearCacheBoxes(BuildContext context) async {
+  static Future<void> _clearCacheBoxes(BuildContext context) async {
     if (await ConfirmationDialog.show(
       context,
       title: '清除缓存数据',
@@ -65,12 +65,7 @@ class HiveBoxes {
         content: '清除的数据无法恢复，请确认操作',
       )) {
         LogUtils.d('Clearing Hive Cache Boxes...');
-        await Future.wait<void>(<Future<dynamic>>[
-          // coursesBox.clear(),
-          // courseRemarkBox.clear(),
-          // scoresBox.clear(),
-          // startWeekBox.clear(),
-        ]);
+        await clearData();
         LogUtils.d('Cache boxes cleared.');
         if (kReleaseMode) {
           SystemNavigator.pop();
@@ -79,7 +74,7 @@ class HiveBoxes {
     }
   }
 
-  static Future<void> clearAllBoxes(BuildContext context) async {
+  static Future<void> _clearAllBoxes(BuildContext context) async {
     if (await ConfirmationDialog.show(
       context,
       title: '重置应用',
@@ -93,17 +88,19 @@ class HiveBoxes {
         content: '清除的内容无法恢复，请确认操作',
       )) {
         LogUtils.d('Clearing Hive Boxes...');
-        await Future.wait<void>(<Future<dynamic>>[
-          launchBox.clear(),
-          settingsBox.clear(),
-          _dataBox.clear(),
-        ]);
+        await clearData();
         LogUtils.d('Boxes cleared.');
         if (kReleaseMode) {
           SystemNavigator.pop();
         }
       }
     }
+  }
+
+  static Future<void> clearData()async {
+      await launchBox.clear();
+      await settingsBox.clear();
+      await _dataBox.clear();
   }
 
   static put(dynamic key, dynamic value) {

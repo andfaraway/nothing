@@ -2,16 +2,14 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-12 16:14:52
 //
-//   本地数据存储
+
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-const String KEY_USER_INFO = 'USER_INFO';
-const String KEY_TO_USER = 'HI_TO_USER';
-const String KEY_ALIAS = 'KEY_ALIAS';
-
+///  本地数据存储,现使用HiveBox，弃用
+///
 class LocalDataUtils {
   LocalDataUtils._();
 

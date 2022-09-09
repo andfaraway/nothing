@@ -31,6 +31,6 @@ class Singleton {
   static Map<dynamic, dynamic>? welcomeLoadResult;
 
   static cleanData() async {
-    LocalDataUtils.cleanData();
+    HiveBoxes.clearData();
   }
 }

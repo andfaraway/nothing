@@ -16,8 +16,6 @@ class PhotoShowVM extends BaseVM {
   void init() {
     // 优先设置的值，然后服务器获取的值
     String? catalog = HiveBoxes.get(HiveKey.photoSetting) ?? HiveBoxes.get(photoShowRoute.routeName);
-    print(catalog);
-    // String catalog = 'wedding_photo_z';
     getImages(catalog);
   }
 
@@ -32,7 +30,7 @@ class PhotoShowVM extends BaseVM {
     data.sort((a, b){
       return a.name!.compareTo(b.name!);
     });
-    initIndex = await LocalDataUtils.get(HiveKey.photoShowIndex) ?? 3;
+    initIndex = HiveBoxes.get(HiveKey.photoShowIndex,defaultValue: 0);
     widgetSetState();
   }
 }

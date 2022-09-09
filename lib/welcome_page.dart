@@ -6,7 +6,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:nothing/constants/constants.dart';
 import 'package:nothing/home_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
@@ -32,12 +31,9 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     bool? agreement = HiveFieldUtils.getAgreement();
-    print('agreement = $agreement');
+
     if (agreement ?? false) {
       initData();
-      // Future.delayed(const Duration(seconds: 1), () async{
-      //
-      // });
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog<bool>(
@@ -47,8 +43,8 @@ class _WelcomePageState extends State<WelcomePage> {
             barrierDismissible: true,
             builder: (_) =>
                 PrivacyDiaLog(
-                  userAgreementUrl: ConstUrl.netServer + '/userAgreement.html',
-                  privacyPolicyUrl: ConstUrl.netServer + '/privacyPolicy.html',
+                  userAgreementUrl: '${ConstUrl.netServer}/userAgreement.html',
+                  privacyPolicyUrl: '${ConstUrl.netServer}/privacyPolicy.html',
                   continueCallback: () async {
                     await HiveFieldUtils.setAgreement(true);
                     initData();
@@ -86,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> initData() async {
     LaunchProvider provider = context.read<LaunchProvider>();
     Map<String, dynamic>? map = await API.getLaunchInfo();
-    LogUtils.i("map:" + map.toString());
+    LogUtils.i("launchInfo:$map");
     if (map != null) {
       provider.launchInfo = LaunchInfo.fromJson(map);
     }

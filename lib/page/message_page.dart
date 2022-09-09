@@ -25,8 +25,8 @@ class _MessagePageState extends State<MessagePage> {
     globalContext = context;
   }
 
-  Future<void> loadData() async {
-    String? alias = await LocalDataUtils.get(KEY_ALIAS);
+  Future<void> loadData() async{
+    String? alias = HiveBoxes.get(HiveKey.pushAlias);
     List? list = await API.getMessages(alias);
     if (list == null) {
       showToast(S.current.request_failed);

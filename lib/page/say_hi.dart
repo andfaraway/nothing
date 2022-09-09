@@ -98,7 +98,6 @@ class _SayHiState extends State<SayHi> {
     if (_canSend.value) {
       _canSend.value = false;
       await API.sayHello(user, text);
-      await LocalDataUtils.setString(KEY_TO_USER, user);
     }
     _canSend.value = true;
     showToast('发送成功');

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:nothing/public.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ export '../model/models.dart';
 export '../providers/providers.dart';
 export 'enums.dart';
 export 'events.dart';
-export 'hive_boxes.dart';
+export '../utils/hive_boxes.dart';
 export 'instances.dart';
 export 'messages.dart';
 export 'screens.dart';
@@ -140,7 +141,7 @@ class Constants {
     param['userid'] = Singleton().currentUser.userId;
     param['username'] = Singleton().currentUser.username;
     //推送别名
-    param['alias'] = await LocalDataUtils.get(KEY_ALIAS);
+    param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
     //推送注册id
     param['registrationID'] = await NotificationUtils.jpush.getRegistrationID();
     //电量

@@ -181,7 +181,7 @@ class _HomeWidgetState extends State<HomePage> {
                       onLongPressEnd: (details) {
                         setState(() {
                           showToast("${Singleton().currentUser.username} bye");
-                          LocalDataUtils.cleanData();
+                          HiveBoxes.clearData();
                           if (mounted) {
                             Navigator.pushAndRemoveUntil(
                                 context,

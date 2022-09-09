@@ -14,7 +14,7 @@ class FeedbackPage extends StatefulWidget {
 
 class _FeedbackPageState extends State<FeedbackPage> {
   String content = '';
-  String? nickname = Singleton.currentUser.username;
+  String? nickname = Singleton().currentUser.username;
   TextEditingController controller = TextEditingController();
 
   @override
@@ -68,7 +68,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: Singleton.currentUser.username,
+                                hintText: Singleton().currentUser.username,
                                 hintStyle: TextStyle(
                                     color: Color(0xFF999999),
                                     fontSize: 28.sp),

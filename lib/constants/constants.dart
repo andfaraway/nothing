@@ -137,8 +137,8 @@ class Constants {
     if (Platform.isIOS && !isPhysicalDevice) return;
 
     Map<String, dynamic>? param = {};
-    param['userid'] = Singleton.currentUser.userId;
-    param['username'] = Singleton.currentUser.username;
+    param['userid'] = Singleton().currentUser.userId;
+    param['username'] = Singleton().currentUser.username;
     //推送别名
     param['alias'] = await LocalDataUtils.get(KEY_ALIAS);
     //推送注册id

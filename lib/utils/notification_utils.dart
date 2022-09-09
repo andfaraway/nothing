@@ -59,7 +59,7 @@ class NotificationUtils {
   static String? setAlias(String? alias){
     if(alias == null) return null;
     if(alias.isEmpty) return null;
-    String? str = HiveBoxes.settingsBox.get(KEY_ALIAS);
+    String? str = HiveBoxes.get(KEY_ALIAS);
     if (str == null) {
       str = '';
       for (int i = 0; i < alias.length; i++) {
@@ -68,7 +68,7 @@ class NotificationUtils {
       }
       try{
         jpush.setAlias(str!);
-        HiveBoxes.settingsBox.put(KEY_ALIAS, str);
+        HiveBoxes.put(KEY_ALIAS, str);
         LogUtils.d('setAlias success');
       }catch(e){
         LogUtils.d('setAlias error: $e');

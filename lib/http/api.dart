@@ -168,7 +168,7 @@ class API {
   /// 添加收藏
   static Future<List?> addFavorite(String content, {String? source}) async {
     Map<String, dynamic> param = {
-      'userid': Singleton.currentUser.userId,
+      'userid': Singleton().currentUser.userId,
       'content': content,
       'source': source
     };
@@ -178,7 +178,7 @@ class API {
 
   /// 查询收藏
   static Future<List?> getFavorite() async {
-    Map<String, dynamic> param = {'userid': Singleton.currentUser.userId};
+    Map<String, dynamic> param = {'userid': Singleton().currentUser.userId};
     var response = await Http.post(ConstUrl.getFavorite, params: param);
     return response;
   }
@@ -186,7 +186,7 @@ class API {
   /// 删除收藏
   static Future<List?> deleteFavorite(String favoriteId) async {
     Map<String, dynamic> param = {
-      'userid': Singleton.currentUser.userId,
+      'userid': Singleton().currentUser.userId,
       'favoriteId': favoriteId
     };
     var response = await Http.post(ConstUrl.deleteFavorite, params: param);
@@ -196,7 +196,7 @@ class API {
   /// 获取反馈
   static Future<dynamic> getFeedback(int pageIndex, int pageSize) async {
     Map<String, dynamic> param = {
-      'userid': Singleton.currentUser.userId,
+      'userid': Singleton().currentUser.userId,
       'page': pageIndex,
       'size': pageSize
     };
@@ -207,7 +207,7 @@ class API {
   /// 添加反馈
   static Future<dynamic> addFeedback(String content, String? nickname) async {
     Map<String, dynamic> param = {
-      'userid': Singleton.currentUser.userId,
+      'userid': Singleton().currentUser.userId,
       'content': content,
       'nickname': nickname,
       'version': await DeviceUtils.version()

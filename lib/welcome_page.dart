@@ -61,7 +61,7 @@ class _WelcomePageState extends State<WelcomePage> {
   // 跳转页面
   Future<void> jumpPage() async {
     //判断是否登录
-    if (Singleton.currentUser.userId != null) {
+    if (Singleton().currentUser.userId != null) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),

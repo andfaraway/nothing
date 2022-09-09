@@ -71,7 +71,7 @@ class _HomeWidgetState extends State<HomePage> {
     _todayTips.value = await API.getTips();
 
     List<dynamic> dataList =
-        await API.getSettingModule(accountType: currentUser.accountType) ?? [];
+        await API.getSettingModule(accountType: Singleton().currentUser.accountType) ?? [];
     List<SettingConfigModel> settingList = [];
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
@@ -180,7 +180,7 @@ class _HomeWidgetState extends State<HomePage> {
                     child: GestureDetector(
                       onLongPressEnd: (details) {
                         setState(() {
-                          showToast("${Singleton.currentUser.username} bye");
+                          showToast("${Singleton().currentUser.username} bye");
                           LocalDataUtils.cleanData();
                           if (mounted) {
                             Navigator.pushAndRemoveUntil(
@@ -192,11 +192,11 @@ class _HomeWidgetState extends State<HomePage> {
                         });
                       },
                       onTap: () async {
-                        if (Singleton.currentUser.username != null) {
-                          showToast("hello ${Singleton.currentUser.username}");
+                        if (Singleton().currentUser.username != null) {
+                          showToast("hello ${Singleton().currentUser.username}");
                         }
                       },
-                      child: Singleton.currentUser.avatar == null
+                      child: Singleton().currentUser.avatar == null
                           ? Padding(
                               padding: const EdgeInsets.only(top: 20),
                               child: SpinKitSpinningLines(
@@ -207,7 +207,7 @@ class _HomeWidgetState extends State<HomePage> {
                             )
                           : CircleAvatar(
                               backgroundImage:
-                                  NetworkImage(Singleton.currentUser.avatar!),
+                                  NetworkImage(Singleton().currentUser.avatar!),
                               backgroundColor:
                                   provider.currentThemeGroup.themeColor,
                               radius: 25),

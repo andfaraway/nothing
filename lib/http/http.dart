@@ -42,7 +42,7 @@ class Http {
       ProgressCallback? onSendProgress}) async {
     try {
       _dio.options.method = method;
-      _dio.options.headers['AuthToken'] = Singleton.currentUser.token;
+      _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
       Response response = await _dio.request(path,
           data: data, queryParameters: params, onSendProgress: onSendProgress);
       return response.data;
@@ -67,7 +67,7 @@ class Http {
 
   static Future<Object?> uploadFile<T>(String url,
       {dynamic data, ProgressCallback? onSendProgress}) {
-    _dio.options.headers['AuthToken'] = Singleton.currentUser.token;
+    _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
     return _dio.post(url, data: data, onSendProgress: onSendProgress);
   }
 }

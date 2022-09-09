@@ -38,7 +38,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                 Swiper(
                   onIndexChanged: (index) async{
                     currentModel = vm.data[index];
-                    await LocalDataUtils.setInt('initIndex', index);
+                    await LocalDataUtils.setInt(HiveKey.photoShowIndex, index);
                   },
                   index: vm.initIndex,
                   itemHeight: 200,

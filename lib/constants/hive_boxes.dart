@@ -12,18 +12,11 @@ import '../model/models.dart';
 import '../utils/log_utils.dart';
 import '../widgets/dialogs/confirmation_dialog.dart';
 
-const String boxPrefix = 'nothing';
-
 class HiveBoxes {
   const HiveBoxes._();
 
   static Future<void> init() async {
     await Hive.initFlutter();
-
-    // if (!Hi.containsKey(currentUser.uid)) {
-    //   await appBox.put(currentUser.uid, <int, List<AppMessage>>{});
-    // }
-
     await openBoxes();
   }
 
@@ -33,8 +26,14 @@ class HiveBoxes {
   /// 设置表
   static late Box<dynamic> settingsBox;
 
+  /// 通用信息表(默认存储)
+  static late Box<dynamic> _dataBox;
+
   static Future<void> openBoxes() async {
     Hive.registerAdapter(LaunchInfoAdapter());
+    Hive.registerAdapter(UserInfoModelAdapter());
+
+    const String boxPrefix = 'nothing';
 
     await Future.wait(
       <Future<void>>[
@@ -44,6 +43,9 @@ class HiveBoxes {
         }(),
         () async {
           launchBox = await Hive.openBox<dynamic>('${boxPrefix}_app_launch');
+        }(),
+        () async {
+          _dataBox = await Hive.openBox<dynamic>('${boxPrefix}_data');
         }(),
       ],
     );
@@ -94,6 +96,7 @@ class HiveBoxes {
         await Future.wait<void>(<Future<dynamic>>[
           launchBox.clear(),
           settingsBox.clear(),
+          _dataBox.clear(),
         ]);
         LogUtils.d('Boxes cleared.');
         if (kReleaseMode) {
@@ -102,17 +105,38 @@ class HiveBoxes {
       }
     }
   }
+
+  static put(dynamic key, dynamic value) {
+    _dataBox.put(key, value);
+  }
+
+  static dynamic get(dynamic key, {dynamic defaultValue}) {
+    return _dataBox.get(key, defaultValue: defaultValue);
+  }
+
+  static delete(dynamic key) {
+    _dataBox.delete(key);
+  }
+
+  static Future<int> clear() {
+    return _dataBox.clear();
+  }
 }
 
 class HiveAdapterTypeIds {
   const HiveAdapterTypeIds._();
 
   static const int launchInfo = 0;
-  static const int message = 1;
-  static const int course = 2;
-  static const int score = 3;
-  static const int webapp = 4;
-  static const int changelog = 5;
-  static const int emoji = 6;
-  static const int up = 7;
+  static const int userInfo = 1;
+}
+
+class HiveKey {
+  const HiveKey._();
+
+  static const String photoSetting = "photoSetting";
+  static const String photoShowIndex = "photoShowIndex";
+
+  static const String userInfo = 'userInfo';
+  static const String hiToUser = 'hiToUser';
+  static const String pushAlias = 'pushAlias';
 }

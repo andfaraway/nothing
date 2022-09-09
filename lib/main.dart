@@ -9,8 +9,7 @@ void main() async {
 
   await PathUtils.init();
   await HiveBoxes.init();
-  //读取本地信息
-  await Singleton.loadData();
+
   //初始化推送信息
   if (await Constants.isPhysicalDevice() && !kIsWeb) {
     await NotificationUtils.jPushInit();
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     platformChannel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'deviceToken') {
         String deviceToken = call.arguments.toString();
-        API.pushDeviceToken(Singleton.currentUser.userId, deviceToken);
+        API.pushDeviceToken(Singleton().currentUser.userId, deviceToken);
         print('deviceToken：${call.arguments.toString()}');
       }
     });

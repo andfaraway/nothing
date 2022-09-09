@@ -29,7 +29,7 @@ class NetUtils {
         data: data,
         options: (options ?? Options()).copyWith(
           headers:
-              headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
+              headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
         ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress
@@ -55,7 +55,7 @@ class NetUtils {
         cancelToken: cancelToken,
         options: (options ?? Options()).copyWith(
           headers:
-              headers ?? _buildPostHeaders(Singleton.currentUser.token ?? ''),
+              headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
         ),
       );
 

@@ -61,23 +61,22 @@ class _LoginPageState extends State<LoginPage> {
         await API.login(_username.value, _password.value);
     if (map != null) {
       map['userId'] = map['id'];
-      Singleton.currentUser = UserInfoModel.fromJson(map);
-      LocalDataUtils.setMap(KEY_USER_INFO, map);
+      Singleton().currentUser = UserInfoModel.fromJson(map);
 
       String registrationId = await NotificationUtils.jpush.getRegistrationID();
       API.registerNotification(
-            userId: Singleton.currentUser.userId,
+            userId: Singleton().currentUser.userId,
             pushToken: null,
-            alias: NotificationUtils.setAlias(Singleton.currentUser.username),
+            alias: NotificationUtils.setAlias(Singleton().currentUser.username),
             registrationId: registrationId,
-            identifier: Singleton.currentUser.openId);
+            identifier: Singleton().currentUser.openId);
 
       if (mounted) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
             (_) => false);
-        showToast("hello ${Singleton.currentUser.username}");
+        showToast("hello ${Singleton().currentUser.username}");
       }
     } else {
       showToast("登录失败");
@@ -110,23 +109,22 @@ class _LoginPageState extends State<LoginPage> {
           icon: info.iconurl);
       print('第三方登录：$map');
       if (map != null) {
-        Singleton.currentUser = UserInfoModel.fromJson(map);
-        LocalDataUtils.setMap(KEY_USER_INFO, map);
+        Singleton().currentUser = UserInfoModel.fromJson(map);
         //注册通知
         String registrationId = await NotificationUtils.jpush.getRegistrationID();
         API.registerNotification(
-            userId: Singleton.currentUser.userId,
+            userId: Singleton().currentUser.userId,
             pushToken: null,
-            alias: NotificationUtils.setAlias(Singleton.currentUser.username),
+            alias: NotificationUtils.setAlias(Singleton().currentUser.username),
             registrationId: registrationId,
-            identifier: Singleton.currentUser.openId);
+            identifier: Singleton().currentUser.openId);
 
         if (mounted) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
               (_) => false);
-          showToast("hello ${Singleton.currentUser.username}");
+          showToast("hello ${Singleton().currentUser.username}");
         }
       } else {
         showToast("登录失败");

@@ -8,7 +8,7 @@ import 'package:nothing/public.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import 'image_editor_widget.dart';
-// import 'package:images_to_live_photo/images_to_live_photo.dart';
+import 'package:live_photo_maker/live_photo_maker.dart';
 
 class LivePhotoPage extends StatefulWidget {
   const LivePhotoPage({Key? key}) : super(key: key);
@@ -125,11 +125,12 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
       return;
     }
     EasyLoading.show(dismissOnTap: false);
-    String movPath = await platformChannel.invokeMethod("image_to_mov",
-        [secondImage!.path, movWidth.toString(), movHeight.toString()]);
-    String result = await platformChannel
-        .invokeMethod("create_live_photo", [firstImage!.path, movPath]);
-    showToast(result);
+    bool success = await LivePhotoMaker.create(firstImagePath: firstImage!.path, secondImagePath: secondImage!.path, width: movWidth, height: movHeight);
     EasyLoading.dismiss();
+    if(success){
+      showToast(S.current.success);
+    }else{
+      showToast(S.current.fail);
+    }
   }
 }

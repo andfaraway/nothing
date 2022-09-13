@@ -742,6 +742,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  live_photo_maker:
+    dependency: "direct main"
+    description:
+      name: live_photo_maker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   logging:
     dependency: "direct main"
     description:

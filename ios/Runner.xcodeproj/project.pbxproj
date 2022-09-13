@@ -13,8 +13,6 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		9844B5E2D12FEA7EC29355BB /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E5705C6238F310321E96FD /* libPods-Runner.a */; };
-		DA23FBA5283F87C600E7BF52 /* CXEImagesToVideoSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA23FBA3283F87C600E7BF52 /* CXEImagesToVideoSync.swift */; };
-		DA23FBA6283F87C600E7BF52 /* LivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA23FBA4283F87C600E7BF52 /* LivePhoto.swift */; };
 		DAFE23382812566A0028C05A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFE23372812566A0028C05A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +46,6 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0E5705C6238F310321E96FD /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0A25A12744AA9F00E24440 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		DA23FBA3283F87C600E7BF52 /* CXEImagesToVideoSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXEImagesToVideoSync.swift; sourceTree = "<group>"; };
-		DA23FBA4283F87C600E7BF52 /* LivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePhoto.swift; sourceTree = "<group>"; };
 		DAFE23372812566A0028C05A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DBAEF2C0B5A7C8334787573A /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,7 +101,6 @@
 				DAFE23372812566A0028C05A /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
-				DA23FBA2283F879900E7BF52 /* LivePhoto */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
@@ -119,15 +114,6 @@
 				D0E5705C6238F310321E96FD /* libPods-Runner.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DA23FBA2283F879900E7BF52 /* LivePhoto */ = {
-			isa = PBXGroup;
-			children = (
-				DA23FBA3283F87C600E7BF52 /* CXEImagesToVideoSync.swift */,
-				DA23FBA4283F87C600E7BF52 /* LivePhoto.swift */,
-			);
-			path = LivePhoto;
 			sourceTree = "<group>";
 		};
 		F7BE9EC8FC675BCC79818DAF /* Pods */ = {
@@ -287,10 +273,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA23FBA6283F87C600E7BF52 /* LivePhoto.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
-				DA23FBA5283F87C600E7BF52 /* CXEImagesToVideoSync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

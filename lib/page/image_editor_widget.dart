@@ -34,7 +34,6 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
       ),
       body: ExtendedImage.file(
         widget.image,
-
         fit: BoxFit.contain,
         mode: ExtendedImageMode.editor,
         enableLoadState: true,

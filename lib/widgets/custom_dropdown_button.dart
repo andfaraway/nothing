@@ -47,8 +47,6 @@ class LDropdownButton extends StatelessWidget {
         ),
         // style: const TextStyle(color: Colors.white, fontSize: 24),
         icon: const SizedBox.shrink(),
-        customItemsIndexes: [items.length + secondItems.length],
-        // customItemsHeight: 8,
         items: [
           ...items.map(
             (item) => DropdownMenuItem<CustomMenuItem>(

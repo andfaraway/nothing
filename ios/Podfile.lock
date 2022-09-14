@@ -42,7 +42,7 @@ PODS:
     - Flutter
     - JCore (= 3.2.5)
     - JPush (= 4.8.1)
-  - live_photo_maker (0.0.1):
+  - live_photo_maker (0.0.3):
     - Flutter
   - OrderedSet (5.0.0)
   - package_info (0.0.1):
@@ -196,7 +196,7 @@ SPEC CHECKSUMS:
   JCore: 4c9febdfdb1a5675ab361bc1f06c0905391d7b23
   JPush: 2caabdb6d62d009bc07a9bd115d03c7c42512b5e
   jpush_flutter: 3badd7fb60be478508730b46a701430be4d13c48
-  live_photo_maker: fca4369730c8308fc775eeb27c523b88fbccab46
+  live_photo_maker: 7d57bfc70a120b4673c10871f354f4b1b6fde5fd
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02

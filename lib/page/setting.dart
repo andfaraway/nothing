@@ -39,8 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
       if(model.arguments != null){
-        print('key:${model.routeName},value:${model.arguments}');
-        HiveBoxes.settingsBox.put(model.routeName, model.arguments);
+        HiveBoxes.put(model.routeName, model.arguments);
       }
       _settingList.add(model);
     }

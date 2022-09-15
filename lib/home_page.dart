@@ -70,8 +70,9 @@ class _HomeWidgetState extends State<HomePage> {
   Future<void> loadData() async {
     _todayTips.value = await API.getTips();
 
-    List<dynamic> dataList =
-        await API.getSettingModule(accountType: Singleton().currentUser.accountType) ?? [];
+    List<dynamic> dataList = await API.getSettingModule(
+            accountType: Singleton().currentUser.accountType) ??
+        [];
     List<SettingConfigModel> settingList = [];
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
@@ -162,114 +163,116 @@ class _HomeWidgetState extends State<HomePage> {
           _todayTips.value = await API.getTips();
         }
       },
+      widthPercent: 0.69,
       child: Container(
-          color: Colors.white,
-          width: Screens.width * 0.8,
-          child: Column(
-            children: [
-              Consumer<ThemesProvider>(builder: (context, provider, child) {
-                return Container(
-                  height: Screens.topSafeHeight + 70,
-                  color: provider.currentThemeGroup.themeColor,
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: kDrawerMarginLeft,
-                      right: kDrawerMarginLeft,
-                    ),
-                    child: GestureDetector(
-                      onLongPressEnd: (details) {
-                        setState(() {
-                          showToast("${Singleton().currentUser.username} bye");
-                          HiveBoxes.clearData();
-                          if (mounted) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
-                                (_) => false);
-                          }
-                        });
-                      },
-                      onTap: () async {
-                        if (Singleton().currentUser.username != null) {
-                          showToast("hello ${Singleton().currentUser.username}");
-                        }
-                      },
-                      child: Singleton().currentUser.avatar == null
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: SpinKitSpinningLines(
-                                duration: const Duration(seconds: 5),
-                                color: Colors.white.withOpacity(0.5),
-                                size: 50,
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(Singleton().currentUser.avatar!),
-                              backgroundColor:
-                                  provider.currentThemeGroup.themeColor,
-                              radius: 25),
-                    ),
-                  ),
-                );
-              }),
-              Consumer<ThemesProvider>(builder: (context, provider, child) {
-                return Container(
-                  color: provider.currentThemeGroup.themeColor,
-                  height: 150,
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: kDrawerMarginLeft,
-                        right: kDrawerMarginLeft,
-                        bottom: kDrawerMarginLeft),
-                    child: GestureDetector(
-                      onDoubleTap: () async {
-                        var result = await API.addFavorite(
-                            _tipsStr.value.toString().trim(),
-                            source: '看着顺眼');
-                        if (result != null) {
-                          showToast('收藏成功！');
-                        }
-                      }.throttle(),
-                      child: ValueListenableBuilder(
-                        valueListenable: _tipsStr,
-                        builder: (context, value, child) {
-                          return Text(
-                            _tipsStr.value ?? '',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 22),
-                            textAlign: TextAlign.start,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                );
-              }),
-              Padding(
-                padding: const EdgeInsets.only(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Consumer<ThemesProvider>(builder: (context, provider, child) {
+              return Container(
+                height: Screens.topSafeHeight + 70,
+                color: provider.currentThemeGroup.themeColor,
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(
                     left: kDrawerMarginLeft,
                     right: kDrawerMarginLeft,
-                    top: kDrawerMarginLeft),
-                child: todayTipsWidget(),
-              ),
-              Expanded(
+                  ),
+                  child: GestureDetector(
+                    onLongPressEnd: (details) {
+                      setState(() {
+                        showToast("${Singleton().currentUser.username} bye");
+                        HiveBoxes.clearData();
+                        if (mounted) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                              (_) => false);
+                        }
+                      });
+                    },
+                    onTap: () async {
+                      if (Singleton().currentUser.username != null) {
+                        showToast("hello ${Singleton().currentUser.username}");
+                      }
+                    },
+                    child: Singleton().currentUser.avatar == null
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: SpinKitSpinningLines(
+                              duration: const Duration(seconds: 5),
+                              color: Colors.white.withOpacity(0.5),
+                              size: 50,
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(Singleton().currentUser.avatar!),
+                            backgroundColor:
+                                provider.currentThemeGroup.themeColor,
+                            radius: 25),
+                  ),
+                ),
+              );
+            }),
+            Consumer<ThemesProvider>(builder: (context, provider, child) {
+              return Container(
+                color: provider.currentThemeGroup.themeColor,
+                height: 150,
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: kDrawerMarginLeft,
+                      right: kDrawerMarginLeft,
+                      bottom: kDrawerMarginLeft),
+                  child: GestureDetector(
+                    onDoubleTap: () async {
+                      var result = await API.addFavorite(
+                          _tipsStr.value.toString().trim(),
+                          source: '看着顺眼');
+                      if (result != null) {
+                        showToast('收藏成功！');
+                      }
+                    }.throttle(),
+                    child: ValueListenableBuilder(
+                      valueListenable: _tipsStr,
+                      builder: (context, value, child) {
+                        return Text(
+                          _tipsStr.value ?? '',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 22),
+                          textAlign: TextAlign.start,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: kDrawerMarginLeft,
+                  right: kDrawerMarginLeft,
+                  top: kDrawerMarginLeft,
+              bottom: kDrawerMarginLeft),
+              child: todayTipsWidget(),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                reverse: true,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ValueListenableBuilder(
                         valueListenable: drawerConfigList,
-                        builder:
-                            (context, List<SettingConfigModel> list, child) {
+                        builder: (context, List<SettingConfigModel> list, child) {
                           return Column(
                             children: list.map((e) {
                               return cellWidget(
                                 icon: e.icon == null
                                     ? null
-                                    : CachedNetworkImage(imageUrl: e.icon!),
+                                    : CachedNetworkImage(imageUrl: e.icon!,errorWidget: (context,string,child)=> const SizedBox.shrink(),),
                                 title: e.module ?? '',
                                 onTap: e.onTap != null
                                     ? () {
@@ -305,11 +308,13 @@ class _HomeWidgetState extends State<HomePage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: Screens.bottomSafeHeight,
-              ),
-            ],
-          )),
+            ),
+            SizedBox(
+              height: Screens.bottomSafeHeight,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -318,31 +323,28 @@ class _HomeWidgetState extends State<HomePage> {
       {Widget? icon,
       String? title,
       GestureTapCallback? onTap,
+        double? height,
       GestureLongPressCallback? onLongPress}) {
+    height ??= 85.h;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       onLongPress: onLongPress,
-      child: SizedBox(
-        height: 85.h,
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: kDrawerMarginLeft, right: kDrawerMarginLeft),
+      child: Padding(
+        padding: const EdgeInsets.only(
+            left: kDrawerMarginLeft, right: kDrawerMarginLeft,),
+        child: SizedBox(
+          height: height,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 44.w, height: 44.w, child: icon),
-              30.wSizedBox,
+              SizedBox(width: 24, height: 24, child: icon),
+              const SizedBox(width: 12,),
               Expanded(
                   child: Text(
                 title ?? '',
                 style: themeTextStyle(fontSize: 32.sp),
               )),
-              // const Icon(
-              //   Icons.keyboard_arrow_right,
-              //   size: 22,
-              //   color: Color(0xFFC8C8C8),
-              // )
             ],
           ),
         ),

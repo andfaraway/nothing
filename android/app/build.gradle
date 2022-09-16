@@ -64,6 +64,12 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Nothing" + ".apk"
+        }
+    }
 }
 
 flutter {

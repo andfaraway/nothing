@@ -40,7 +40,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   child: TextField(
                     controller: controller,
                     decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
                         hintText: '请输入您的意见和建议，我们也许会恰当采纳~',
                         hintStyle: TextStyle(
                             color: Color(0xFF999999), fontSize: 28.sp),
@@ -58,7 +60,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 SizedBox(
                   height: 80.h,
                   child: Padding(
-                    padding: EdgeInsets.all(24.w),
+                    padding: EdgeInsets.only(left: 24.w,right: 24.w),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -67,7 +69,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         Expanded(
                           child: TextField(
                             decoration: InputDecoration(
-                                border: InputBorder.none,
+                                border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
                                 hintText: Singleton().currentUser.username,
                                 hintStyle: TextStyle(
                                     color: Color(0xFF999999),

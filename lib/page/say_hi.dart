@@ -47,7 +47,9 @@ class _SayHiState extends State<SayHi> {
             width: 200,
             child: TextField(
               decoration: const InputDecoration(
-                border: InputBorder.none,
+                border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
               ),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20, color: Colors.white),

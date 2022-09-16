@@ -162,7 +162,9 @@ class _InformationContainer extends StatelessWidget {
                       controller: TextEditingController(
                           text: "#" + color.value.toRadixString(16)),
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
+                        border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
                         isDense:true,
                       ),
                       textAlign: TextAlign.center,

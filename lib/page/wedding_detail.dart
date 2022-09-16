@@ -49,7 +49,9 @@ class _WeddingDetailState
             TextField(
               controller: TextEditingController(text: widget.model.title),
               decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: '标题'),
+                  border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ), hintText: '标题'),
               style: TextStyle(color: ThemeColor.black, fontSize: 42.sp),
               onChanged: (value) {
                 widget.model.title = value;
@@ -63,7 +65,9 @@ class _WeddingDetailState
                     text: widget.model.content,
                   ),
                   decoration: const InputDecoration(
-                      border: InputBorder.none, hintText: '详细信息'),
+                      border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ), hintText: '详细信息'),
                   maxLines: 50,
                   onChanged: (value) {
                     widget.model.content = value;

@@ -103,7 +103,9 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
         TextField(
           controller: TextEditingController(text: content),
           decoration: const InputDecoration(
-            border: InputBorder.none,
+            border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
           ),
           onChanged: onChanged,
         ),

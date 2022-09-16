@@ -231,7 +231,9 @@ class _LoginPageState extends State<LoginPage> {
                                       Expanded(
                                         child: TextField(
                                           decoration: InputDecoration(
-                                            border: InputBorder.none,
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
                                             hintText: S.current.username_hint,
                                             contentPadding:
                                                 EdgeInsets.only(left: 0.w),
@@ -256,7 +258,9 @@ class _LoginPageState extends State<LoginPage> {
                                           BorderRadius.circular(44.h)),
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      border: InputBorder.none,
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide.none
+                                      ),
                                       hintText: S.current.password_hint,
                                       contentPadding:
                                           EdgeInsets.only(left: 0.w),

@@ -170,83 +170,86 @@ class _HomeWidgetState extends State<HomePage> {
           children: [
             Consumer<ThemesProvider>(builder: (context, provider, child) {
               return Container(
-                height: Screens.topSafeHeight + 70,
                 color: provider.currentThemeGroup.themeColor,
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: kDrawerMarginLeft,
-                    right: kDrawerMarginLeft,
-                  ),
-                  child: GestureDetector(
-                    onLongPressEnd: (details) {
-                      setState(() {
-                        showToast("${Singleton().currentUser.username} bye");
-                        HiveBoxes.clearData();
-                        if (mounted) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()),
-                              (_) => false);
-                        }
-                      });
-                    },
-                    onTap: () async {
-                      if (Singleton().currentUser.username != null) {
-                        showToast("hello ${Singleton().currentUser.username}");
-                      }
-                    },
-                    child: Singleton().currentUser.avatar == null
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: SpinKitSpinningLines(
-                              duration: const Duration(seconds: 5),
-                              color: Colors.white.withOpacity(0.5),
-                              size: 50,
-                            ),
-                          )
-                        : CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(Singleton().currentUser.avatar!),
-                            backgroundColor:
-                                provider.currentThemeGroup.themeColor,
-                            radius: 25),
-                  ),
-                ),
-              );
-            }),
-            Consumer<ThemesProvider>(builder: (context, provider, child) {
-              return Container(
-                color: provider.currentThemeGroup.themeColor,
-                height: 150,
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: kDrawerMarginLeft,
-                      right: kDrawerMarginLeft,
-                      bottom: kDrawerMarginLeft),
-                  child: GestureDetector(
-                    onDoubleTap: () async {
-                      var result = await API.addFavorite(
-                          _tipsStr.value.toString().trim(),
-                          source: '看着顺眼');
-                      if (result != null) {
-                        showToast('收藏成功！');
-                      }
-                    }.throttle(),
-                    child: ValueListenableBuilder(
-                      valueListenable: _tipsStr,
-                      builder: (context, value, child) {
-                        return Text(
-                          _tipsStr.value ?? '',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 22),
-                          textAlign: TextAlign.start,
-                        );
-                      },
+                child: Column(
+                  children: [
+                    Container(
+                      height: Screens.topSafeHeight + 70,
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: kDrawerMarginLeft,
+                          right: kDrawerMarginLeft,
+                        ),
+                        child: GestureDetector(
+                          onLongPressEnd: (details) {
+                            setState(() {
+                              showToast("${Singleton().currentUser.username} bye");
+                              HiveBoxes.clearData();
+                              if (mounted) {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const LoginPage()),
+                                    (_) => false);
+                              }
+                            });
+                          },
+                          onTap: () async {
+                            if (Singleton().currentUser.username != null) {
+                              showToast("hello ${Singleton().currentUser.username}");
+                            }
+                          },
+                          child: Singleton().currentUser.avatar == null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: SpinKitSpinningLines(
+                                    duration: const Duration(seconds: 5),
+                                    color: Colors.white.withOpacity(0.5),
+                                    size: 50,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(Singleton().currentUser.avatar!),
+                                  backgroundColor:
+                                      provider.currentThemeGroup.themeColor,
+                                  radius: 25),
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      height: 150,
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: kDrawerMarginLeft,
+                            right: kDrawerMarginLeft,
+                            bottom: kDrawerMarginLeft),
+                        child: GestureDetector(
+                          onDoubleTap: () async {
+                            var result = await API.addFavorite(
+                                _tipsStr.value.toString().trim(),
+                                source: '看着顺眼');
+                            if (result != null) {
+                              showToast('收藏成功！');
+                            }
+                          }.throttle(),
+                          child: ValueListenableBuilder(
+                            valueListenable: _tipsStr,
+                            builder: (context, value, child) {
+                              return Text(
+                                _tipsStr.value ?? '',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 22),
+                                textAlign: TextAlign.start,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               );
             }),

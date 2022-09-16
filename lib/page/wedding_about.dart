@@ -150,7 +150,9 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                       }
                     },
                     decoration: const InputDecoration(
-                      border: InputBorder.none,
+                      border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none
+                                            ),
                     ),
                   ),
                 ),

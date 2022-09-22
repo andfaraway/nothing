@@ -15,6 +15,7 @@ import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/some_things.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
+import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/welcome_page.dart';
@@ -80,6 +81,7 @@ class AppRoutes {
     weddingAboutRoute.routeName: (BuildContext context) => weddingAboutRoute.page,
     photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
+    videoPlayPageRoute.routeName: (BuildContext context) => videoPlayPageRoute.page,
   };
 }
 
@@ -104,6 +106,7 @@ const AppRoutes photoShowRoute = AppRoutes('/photoShowRoute',
     PhotoShow());
 const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute',
     SomeThings());
+const AppRoutes videoPlayPageRoute = AppRoutes('/videoPlayPageRoute', VideoPlayPage());
 
 /// 处理服务器目标页面
 class ServerTargetModel {

@@ -92,6 +92,7 @@ dependencies:
   image: ^3.2.0
   live_photo_maker: ^0.0.3
   video_player: ^2.4.7
+  flutter_tencentplayer: ^2.0.1
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated

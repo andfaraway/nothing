@@ -13,7 +13,7 @@ class VideoPlayPage extends BasePage<_VideoPlayState> {
 
 class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
   late VideoPlayerController _controller;
-  String url = 'http://1.14.252.115/something/1.mp4';
+  String url = 'http://1.14.252.115/something/1/1.mp4';
   int quarterTurns = 0;
 
   @override
@@ -25,7 +25,10 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
     pageTitle = "Video Play";
     _controller = VideoPlayerController.network(url)
       ..initialize().then((_) {
+        print('load success');
         setState(() {});
+      }).catchError((error) {
+        print('load error:${error.toString()}');
       });
   }
 
@@ -35,6 +38,7 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         FloatingActionButton(
+          heroTag: '1',
           onPressed: () {
             setState(() {
               _controller.value.isPlaying
@@ -42,7 +46,7 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
                   : _controller.play();
               pageTitle = null;
               backgroundColor = Colors.black;
-              quarterTurns = 1
+              quarterTurns = 1;
             });
           },
           child: Icon(
@@ -53,10 +57,16 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
           height: 20,
         ),
         FloatingActionButton(
+          heroTag: '2',
           onPressed: () {
-            setState(() {
-
-            });
+            _controller = VideoPlayerController.network(url)
+              ..initialize().then((_) {
+                print('load success');
+                setState(() {});
+              }).catchError((error) {
+                print('load error:${error.toString()}');
+              });
+            setState(() {});
           },
           child: const Icon(Icons.rotate_left),
         ),
@@ -69,10 +79,10 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if(!_controller.value.isPlaying)
+        if (!_controller.value.isPlaying)
           TextField(
             controller: TextEditingController(text: url),
-            onChanged: (value){
+            onChanged: (value) {
               url = value;
             },
           ),

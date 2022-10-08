@@ -1,10 +1,14 @@
 PODS:
+  - BIJKPlayer (0.7.16)
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
   - device_info (0.0.1):
     - Flutter
   - device_info_plus (0.0.1):
+    - Flutter
+  - fijkplayer (0.10.1):
+    - BIJKPlayer (~> 0.7.16)
     - Flutter
   - Flutter (1.0.0)
   - flutter_colors_border (0.0.1):
@@ -96,6 +100,7 @@ DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - fijkplayer (from `.symlinks/plugins/fijkplayer/ios`)
   - Flutter (from `Flutter`)
   - flutter_colors_border (from `.symlinks/plugins/flutter_colors_border/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
@@ -121,6 +126,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - BIJKPlayer
     - FMDB
     - JCore
     - JPush
@@ -143,6 +149,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/device_info/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  fijkplayer:
+    :path: ".symlinks/plugins/fijkplayer/ios"
   Flutter:
     :path: Flutter
   flutter_colors_border:
@@ -187,9 +195,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/ios"
 
 SPEC CHECKSUMS:
+  BIJKPlayer: 4c5d66e5cb99ae5bade6f22a4fcc031722a81c64
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  fijkplayer: 5ecf78e80cb97eed64cc170b094a4f691d9b9691
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_colors_border: 9d0e38876c41081d638d9f25990751517e48b222
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721

@@ -9,6 +9,7 @@ import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
+import 'package:nothing/page/music_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/say_hi.dart';
@@ -82,6 +83,7 @@ class AppRoutes {
     photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
     videoPlayPageRoute.routeName: (BuildContext context) => videoPlayPageRoute.page,
+    musicPageRoute.routeName: (BuildContext context) => musicPageRoute.page,
   };
 }
 
@@ -107,6 +109,7 @@ const AppRoutes photoShowRoute = AppRoutes('/photoShowRoute',
 const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute',
     SomeThings());
 const AppRoutes videoPlayPageRoute = AppRoutes('/videoPlayPageRoute', VideoPlayPage());
+const AppRoutes musicPageRoute = AppRoutes('/musicPageRoute', MusicPage());
 
 /// 处理服务器目标页面
 class ServerTargetModel {

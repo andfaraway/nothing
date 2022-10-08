@@ -34,7 +34,7 @@ class _VideoScreenState extends State<VideoScreen> {
         child: Container(
           alignment: Alignment.center,
           child: FijkView(
-            fit: quarterTurns == 0 ? FijkFit.contain,
+            fit: quarterTurns == 0 ? FijkFit.contain : FijkFit.contain,
             player: player,
             color: Colors.black,
           ),

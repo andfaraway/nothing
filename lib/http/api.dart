@@ -384,9 +384,9 @@ class API {
 class ConstUrl {
   ConstUrl._();
 
-  static const baseUrl = isDebug ? localUrl : 'http://1.14.252.115:5000';
-
   static const netServer = 'http://1.14.252.115';
+
+  static const baseUrl = isDebug ? localUrl : '$netServer:5000';
 
   ///登录
   static const String login = '/login';

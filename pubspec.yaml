@@ -95,6 +95,8 @@ dependencies:
   fijkplayer: ^0.10.1
   just_audio: ^0.9.29
   just_audio_background: ^0.0.1-beta.7
+  audio_session: ^0.1.10
+  rxdart: ^0.27.5
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated

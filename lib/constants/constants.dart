@@ -76,6 +76,9 @@ class Constants {
   static final bool isChinese =
       (Intl.getCurrentLocale() == 'zh') ? true : false;
 
+  // 初始化音频播放
+  static bool justAudioBackgroundInit = false;
+
   static const String endLineTag = '没有更多了';
 
   /// Fow news list.

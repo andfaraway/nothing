@@ -1,9 +1,12 @@
 package com.libin.nothing;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
 
 import androidx.annotation.NonNull;
+
+import com.ryanheise.audioservice.AudioServicePlugin;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
@@ -14,9 +17,18 @@ public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "com.libin.nothing";
     private static MethodChannel channel;
 
+
+    @Override
+    public FlutterEngine provideFlutterEngine(@NonNull Context context) {
+        System.out.println("1111111");
+        return AudioServicePlugin.getFlutterEngine(context);
+    }
+
     ///接受消息
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+        System.out.println("11111112");
+
         GeneratedPluginRegistrant.registerWith(flutterEngine);
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL);
         channel.setMethodCallHandler(
@@ -32,11 +44,9 @@ public class MainActivity extends FlutterActivity {
                         BatteryManager manager = (BatteryManager) getSystemService(BATTERY_SERVICE);
                         int battery =
                                 manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);///当前电量百分比
-                        result.success(battery+"");
+                        result.success(battery + "");
                     }
                 }
         );
     }
-
-
 }

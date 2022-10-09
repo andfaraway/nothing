@@ -13,7 +13,7 @@ class VideoPlayPage extends BasePage<_VideoPlayState> {
 }
 
 class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
-  String url = 'http://1.14.252.115/something/1.mp4';
+  String url = '${ConstUrl.netServer}/something/1.mp4';
 
   @override
   VideoPlayVM createVM() => VideoPlayVM(context);

@@ -72,7 +72,7 @@ packages:
     source: hosted
     version: "0.1.1"
   audio_session:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: audio_session
       url: "https://pub.flutter-io.cn"
@@ -1104,7 +1104,7 @@ packages:
     source: hosted
     version: "4.0.0"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       url: "https://pub.flutter-io.cn"

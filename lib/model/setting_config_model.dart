@@ -16,7 +16,7 @@ class SettingConfigModel {
 	String? sort;
 	String? drawer;
 	String? icon;
-	String? arguments;
+	dynamic arguments;
   SettingConfigModel();
 
   factory SettingConfigModel.fromJson(Map<String, dynamic> json) => $SettingConfigModelFromJson(json);

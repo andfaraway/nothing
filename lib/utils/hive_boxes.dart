@@ -130,7 +130,6 @@ class HiveAdapterTypeIds {
 class HiveKey {
   const HiveKey._();
 
-  static const String photoSetting = "photoSetting";
   static const String photoShowIndex = "photoShowIndex";
 
   static const String userInfo = 'userInfo';

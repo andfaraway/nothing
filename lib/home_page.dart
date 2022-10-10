@@ -283,8 +283,9 @@ class _HomeWidgetState extends State<HomePage> {
                                             ?.call();
                                       }
                                     : () {
+                                        print('e.argu = ${e.arguments}');
                                         AppRoutes.pushNamePage(
-                                            context, e.routeName ?? '');
+                                            context, e.routeName ?? '',arguments: e.arguments);
                                       },
                                 onLongPress: e.onLongPress == null
                                     ? null

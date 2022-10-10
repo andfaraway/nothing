@@ -38,9 +38,6 @@ class _SettingPageState extends State<SettingPage> {
     if (dataList == null) return;
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
-      if(model.arguments != null){
-        HiveBoxes.put(model.routeName, model.arguments);
-      }
       _settingList.add(model);
     }
     setState(() {});
@@ -64,7 +61,7 @@ class _SettingPageState extends State<SettingPage> {
                               }
                             : () {
                                 AppRoutes.pushNamePage(
-                                    context, e.routeName ?? '');
+                                    context, e.routeName ?? '',arguments: e.arguments);
                               },
                         onLongPress: e.onLongPress == null
                             ? null

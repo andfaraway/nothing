@@ -62,21 +62,6 @@ Function? functionWithString(BuildContext context, String functionStr) {
         return;
       };
       break;
-    case HiveKey.photoSetting:
-      f = () {
-        String text = HiveBoxes.get(functionStr) ?? 'wedding_photo_z';
-
-        showEdit(context, text: text, commitPressed: (value) {
-          if (value == null) {
-            HiveBoxes.delete(functionStr);
-          }else{
-            HiveBoxes.put(functionStr, value);
-          }
-          showToast('操作成功');
-        }, cancelPressed: () {
-        });
-      };
-      break;
   }
   return f;
 }

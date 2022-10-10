@@ -1,38 +1,54 @@
 import 'dart:math';
 
+import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/public.dart';
 
 import '../model/server_image_model.dart';
 
 class PhotoShowVM extends BaseVM {
-  
   PhotoShowVM(BuildContext context) : super(context);
-
 
   List<ServerImageModel> data = [];
 
   late int initIndex = 3;
+
+  late String catalog = (widget as PhotoShow).arguments ?? '';
+
   @override
   void init() {
-    // 优先设置的值，然后服务器获取的值
-    String? catalog = HiveBoxes.get(HiveKey.photoSetting) ?? HiveBoxes.get(photoShowRoute.routeName);
-    catalog ??= '';
     getImages(catalog);
   }
 
-  Future<void> getImages(String? catalog) async{
+  Future<void> getImages(String? catalog) async {
     var response = await API.getImages(catalog) ?? [];
     data.clear();
-    for(Map<String,dynamic> map in response){
+    for (Map<String, dynamic> map in response) {
       ServerImageModel model = ServerImageModel.fromJson(map);
       model.imageUrl = '${model.prefix}${model.name}';
-      data.add(model);
+      if (model.imageUrl!.contains('.')) {
+        data.add(model);
+      }
     }
-    data.sort((a, b){
+    data.sort((a, b) {
       return a.name!.compareTo(b.name!);
     });
-    initIndex = HiveBoxes.get(HiveKey.photoShowIndex,defaultValue: 0);
+    initIndex = HiveBoxes.get(HiveKey.photoShowIndex, defaultValue: 0);
     widgetSetState();
   }
-}
 
+  void changeCatalog() {
+    showEdit(context, text: catalog, commitPressed: (value) {
+      if (value != null || value != '') {
+        if(catalog.contains(value) || value.toString().contains(catalog)){
+          HiveBoxes.put(HiveKey.photoShowIndex, 0);
+        }
+        if(value == '~'){
+          value = '';
+        }
+        getImages(value);
+      }
+    }, cancelPressed: () {
+
+    });
+  }
+}

@@ -9,8 +9,9 @@ import 'package:nothing/widgets/picture_viewer.dart';
 import 'photo_show_vm.dart';
 
 class PhotoShow extends BasePage<_PhotoShowState> {
-  final Map<String,dynamic>? arguments;
-  const PhotoShow({Key? key,this.arguments}) : super(key: key);
+  final dynamic arguments;
+
+  const PhotoShow({Key? key, this.arguments}) : super(key: key);
 
   @override
   _PhotoShowState createBaseState() => _PhotoShowState();
@@ -28,84 +29,99 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
 
   bool loadError = false;
 
+  /// 长按3秒弹出选择目录
+  int _lastWantToPop = 0;
+
   @override
   Widget createContentWidget() {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: vm.data.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : Stack(
-              children: [
-                Swiper(
-                  onIndexChanged: (index) {
-                    currentModel = vm.data[index];
-                    HiveBoxes.put(HiveKey.photoShowIndex, index);
-                  },
-                  index: vm.initIndex,
-                  itemHeight: 200,
-                  layout: SwiperLayout.DEFAULT,
-                  scrollDirection: Axis.vertical,
-                  onTap: (index) {
-                    currentModel = vm.data[index];
-                    if(!loadError){
-                      photoEdit.value = true;
-                    }
-                  },
-                  itemBuilder: (context, i) {
-                    ServerImageModel model = vm.data[i];
-                    return Stack(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: model.imageUrl ?? '',
-                          fit: BoxFit.contain,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fadeInDuration: const Duration(milliseconds: 100),
-                          fadeOutDuration: const Duration(milliseconds: 100),
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) {
-                            loadError = false;
-                            double progress =
-                                downloadProgress.downloaded / (model.size ?? 1);
-                            return Center(
-                              child: CircularProgressIndicator(value: progress),
-                            );
-                          },
-                          errorWidget: (context, object, _) {
-                            loadError = true;
-                            return const LoadErrorWidget();
-                          },
-                        ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: SafeArea(
-                            child: Text(
-                              model.name ?? '',
-                              style: const TextStyle(color: ThemeColor.black),
-                            ),
+    return GestureDetector(
+      onLongPressStart: (detail) {
+        _lastWantToPop = DateTime.now().millisecondsSinceEpoch;
+      },
+      onLongPressEnd: (detail) {
+        final int now = DateTime.now().millisecondsSinceEpoch;
+        if (now - _lastWantToPop > 3000) {
+          vm.changeCatalog();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: vm.data.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Stack(
+                children: [
+                  Swiper(
+                    onIndexChanged: (index) {
+                      currentModel = vm.data[index];
+                      HiveBoxes.put(HiveKey.photoShowIndex, index);
+                    },
+                    index: vm.initIndex,
+                    itemHeight: 200,
+                    layout: SwiperLayout.DEFAULT,
+                    scrollDirection: Axis.vertical,
+                    onTap: (index) {
+                      currentModel = vm.data[index];
+                      if (!loadError) {
+                        photoEdit.value = true;
+                      }
+                    },
+                    itemBuilder: (context, i) {
+                      ServerImageModel model = vm.data[i];
+                      return Stack(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: model.imageUrl ?? '',
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fadeInDuration: const Duration(milliseconds: 100),
+                            fadeOutDuration: const Duration(milliseconds: 100),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) {
+                              loadError = false;
+                              double progress = downloadProgress.downloaded /
+                                  (model.size ?? 1);
+                              return Center(
+                                child:
+                                    CircularProgressIndicator(value: progress),
+                              );
+                            },
+                            errorWidget: (context, object, _) {
+                              loadError = true;
+                              return const LoadErrorWidget();
+                            },
                           ),
-                        )
-                      ],
-                    );
-                  },
-                  itemCount: vm.data.length,
-                ),
-                ValueListenableBuilder(
-                    valueListenable: photoEdit,
-                    builder: (context, bool edit, child) {
-                      return edit
-                          ? PictureViewer(
-                              imageUrl: currentModel.imageUrl ?? '',
-                              imageSize: currentModel.size,
-                              imageName: currentModel.name,
-                              onTap: () {
-                                photoEdit.value = false;
-                              },
-                            )
-                          : const SizedBox.shrink();
-                    }),
-              ],
-            ),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: SafeArea(
+                              child: Text(
+                                model.name ?? '',
+                                style: const TextStyle(color: ThemeColor.black),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                    itemCount: vm.data.length,
+                  ),
+                  ValueListenableBuilder(
+                      valueListenable: photoEdit,
+                      builder: (context, bool edit, child) {
+                        return edit
+                            ? PictureViewer(
+                                imageUrl: currentModel.imageUrl ?? '',
+                                imageSize: currentModel.size,
+                                imageName: currentModel.name,
+                                onTap: () {
+                                  photoEdit.value = false;
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      }),
+                ],
+              ),
+      ),
     );
   }
 }

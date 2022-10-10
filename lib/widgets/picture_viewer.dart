@@ -1,5 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:nothing/public.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -28,18 +29,27 @@ class _PictureViewerState extends State<PictureViewer> {
   late String originalImageUrl;
 
   ValueNotifier<bool> btnShow = ValueNotifier(true);
+  /// 原图是否缓存
+  bool _imageCached = false;
 
   @override
   void initState() {
     super.initState();
     imageUrl = widget.imageUrl;
-    originalImageUrl = widget.imageUrl.replaceAll("_z", "");
-    showOriginalBtn();
+    originalImageUrl = widget.imageUrl.replaceAll("s/", "");
+
+    // 若不含压缩标记，不显示原图按钮
+    if(imageUrl == originalImageUrl){
+      btnShow.value = false;
+    }else{
+      showOriginalBtn();
+    }
   }
 
   Future<void> showOriginalBtn() async {
     try {
       await DefaultCacheManager().getSingleFile(originalImageUrl);
+      _imageCached = true;
       btnShow.value = false;
       LogUtils.d("image cache");
     } catch (e) {
@@ -53,10 +63,6 @@ class _PictureViewerState extends State<PictureViewer> {
       imageUrl = originalImageUrl;
       btnShow.value = false;
     });
-  }
-
-  String getOriginalImage(String url) {
-    return url.replaceAll("_z", "");
   }
 
   @override
@@ -95,7 +101,7 @@ class _PictureViewerState extends State<PictureViewer> {
                     onTap: () async {
                       EasyLoading.show();
                       await saveNetworkImg(
-                          imgUrl: imageUrl.replaceAll("_z", ""),
+                          imgUrl: imageUrl.replaceAll("s/", ""),
                           progressCallback: (current, total) {});
                       EasyLoading.dismiss();
                     }),
@@ -106,7 +112,7 @@ class _PictureViewerState extends State<PictureViewer> {
               ]);
             },
             child: CachedNetworkImage(
-                imageUrl: imageUrl,
+                imageUrl: _imageCached ? originalImageUrl : imageUrl,
                 httpHeaders: const {"Connection": "keep-alive"},
                 fit: BoxFit.contain,
                 width: double.infinity,

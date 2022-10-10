@@ -5,7 +5,7 @@ import 'package:nothing/public.dart';
 import 'wedding_about_vm.dart';
 
 class WeddingAbout extends BasePage<_WeddingAboutState> {
-  final Map<String,dynamic>? arguments;
+  final dynamic arguments;
   const WeddingAbout({Key? key,this.arguments}) : super(key: key);
 
   @override
@@ -102,7 +102,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
 
   Widget checkCell(WeddingModel model) {
     ValueNotifier<bool> notifier = ValueNotifier(model.done == '1');
-    TextEditingController _controller =
+    TextEditingController controller =
         TextEditingController(text: model.title);
     return Padding(
       key: ValueKey(model.id),
@@ -138,12 +138,12 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                     }
                   },
                   child: TextField(
-                    controller: _controller,
+                    controller: controller,
                     enabled: false,
                     textInputAction: TextInputAction.done,
                     onEditingComplete: () async {
-                      if (model.title != _controller.text) {
-                        model.title = _controller.text;
+                      if (model.title != controller.text) {
+                        model.title = controller.text;
                         await vm.updateWedding(model);
                       }
                       if (mounted) {
@@ -151,7 +151,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                       }
                     },
                     decoration: const InputDecoration(
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                                                 borderSide: BorderSide.none
                                             ),
                     ),

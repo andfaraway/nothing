@@ -117,6 +117,7 @@ void showConfirmToast(
 showEdit(BuildContext context,{required ValueChanged? commitPressed,VoidCallback? cancelPressed,String? text}) {
   showCupertinoDialog(
       context: context,
+      barrierDismissible:false,
       builder: (context) {
         return CupertinoAlertDialog(
           title: const Text('请输入相册名称'),

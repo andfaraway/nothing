@@ -21,8 +21,7 @@ import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/welcome_page.dart';
 
-typedef ArgumentsWidgetBuilder = Widget Function(
-    Map<String, dynamic>? arguments);
+typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
 class AppRoutes {
   final String routeName;
@@ -43,7 +42,7 @@ class AppRoutes {
   }
 
   static Future<dynamic> pushNamePage(BuildContext context, String routeName,
-      {Map<String, dynamic>? arguments}) async {
+      {Object? arguments}) async {
     dynamic value =
         await Navigator.pushNamed(context, routeName, arguments: arguments);
     return value;
@@ -51,7 +50,7 @@ class AppRoutes {
 
   static Future<dynamic> pushNamedAndRemoveUntil(
       BuildContext context, String newRouteName,
-      {Map<String, dynamic>? arguments}) async {
+      {Object? arguments}) async {
     dynamic value = await Navigator.pushNamedAndRemoveUntil(
         context, newRouteName, (route) => false,
         arguments: arguments);
@@ -82,14 +81,18 @@ class AppRoutes {
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
     informationRoute.routeName: (BuildContext context) => informationRoute.page,
     livePhotoRoute.routeName: (BuildContext context) => livePhotoRoute.page,
-    weddingAboutRoute.routeName: (BuildContext context, {arguments}) =>
-        weddingAboutRoute.argumentsPage!(arguments),
-    photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
+    weddingAboutRoute.routeName: (BuildContext context) =>
+        weddingAboutRoute.page,
+    photoShowRoute.routeName: (BuildContext context)=>photoShowRoute.argumentsPage!(argumentsWithContext(context)),
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
     videoPlayPageRoute.routeName: (BuildContext context) =>
         videoPlayPageRoute.page,
     musicPageRoute.routeName: (BuildContext context) => musicPageRoute.page,
   };
+}
+
+dynamic argumentsWithContext(BuildContext context){
+  return ModalRoute.of(context)?.settings.arguments;
 }
 
 const AppRoutes welcomeRoute = AppRoutes('/welcomeRoute', WelcomePage());
@@ -106,12 +109,9 @@ const AppRoutes uploadFileRoute = AppRoutes('/uploadFileRoute', UploadFile());
 const AppRoutes informationRoute =
     AppRoutes('/informationRoute', InformationPage());
 const AppRoutes livePhotoRoute = AppRoutes('/livePhotoRoute', LivePhotoPage());
-AppRoutes weddingAboutRoute =
-    AppRoutes('/weddingAboutRoute', const WeddingAbout(),
-        argumentsPage: (arguments) => WeddingAbout(
-              arguments: arguments,
-            ));
-AppRoutes photoShowRoute = AppRoutes('/photoShowRoute', PhotoShow(),
+const AppRoutes weddingAboutRoute =
+    AppRoutes('/weddingAboutRoute', const WeddingAbout());
+AppRoutes photoShowRoute = AppRoutes('/photoShowRoute', const PhotoShow(),
     argumentsPage: (arguments) => PhotoShow(arguments: arguments));
 const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute', SomeThings());
 const AppRoutes videoPlayPageRoute =

@@ -117,6 +117,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
     super.initState();
     _vm = createVM()
       ..setupContract(this)
+      ..setWidget(widget)
       ..setWidgetSetState(() {
         setState(() {});
       })

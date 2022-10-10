@@ -5,7 +5,8 @@ import 'package:nothing/public.dart';
 import 'wedding_about_vm.dart';
 
 class WeddingAbout extends BasePage<_WeddingAboutState> {
-  const WeddingAbout({Key? key}) : super(key: key);
+  final Map<String,dynamic>? arguments;
+  const WeddingAbout({Key? key,this.arguments}) : super(key: key);
 
   @override
   _WeddingAboutState createBaseState() => _WeddingAboutState();

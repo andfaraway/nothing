@@ -21,18 +21,18 @@ import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/welcome_page.dart';
 
+typedef ArgumentsWidgetBuilder = Widget Function(
+    Map<String, dynamic>? arguments);
+
 class AppRoutes {
   final String routeName;
   final Widget page;
+  final ArgumentsWidgetBuilder? argumentsPage;
   final String? pageTitle;
   final String? pageType;
 
-  const AppRoutes(
-    this.routeName,
-    this.page, {
-    this.pageTitle,
-    this.pageType,
-  });
+  const AppRoutes(this.routeName, this.page,
+      {this.pageTitle, this.pageType, this.argumentsPage});
 
   static Future<dynamic> pushPage(BuildContext context, Widget page) async {
     dynamic value =
@@ -42,16 +42,19 @@ class AppRoutes {
     return value;
   }
 
-  static Future<dynamic> pushNamePage(
-      BuildContext context, String routeName) async {
-    dynamic value = await Navigator.pushNamed(context, routeName);
+  static Future<dynamic> pushNamePage(BuildContext context, String routeName,
+      {Map<String, dynamic>? arguments}) async {
+    dynamic value =
+        await Navigator.pushNamed(context, routeName, arguments: arguments);
     return value;
   }
 
   static Future<dynamic> pushNamedAndRemoveUntil(
-      BuildContext context, String newRouteName) async {
+      BuildContext context, String newRouteName,
+      {Map<String, dynamic>? arguments}) async {
     dynamic value = await Navigator.pushNamedAndRemoveUntil(
-        context, newRouteName, (route) => false);
+        context, newRouteName, (route) => false,
+        arguments: arguments);
     return value;
   }
 
@@ -79,10 +82,12 @@ class AppRoutes {
     uploadFileRoute.routeName: (BuildContext context) => uploadFileRoute.page,
     informationRoute.routeName: (BuildContext context) => informationRoute.page,
     livePhotoRoute.routeName: (BuildContext context) => livePhotoRoute.page,
-    weddingAboutRoute.routeName: (BuildContext context) => weddingAboutRoute.page,
+    weddingAboutRoute.routeName: (BuildContext context, {arguments}) =>
+        weddingAboutRoute.argumentsPage!(arguments),
     photoShowRoute.routeName: (BuildContext context) => photoShowRoute.page,
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
-    videoPlayPageRoute.routeName: (BuildContext context) => videoPlayPageRoute.page,
+    videoPlayPageRoute.routeName: (BuildContext context) =>
+        videoPlayPageRoute.page,
     musicPageRoute.routeName: (BuildContext context) => musicPageRoute.page,
   };
 }
@@ -98,17 +103,19 @@ const AppRoutes sayHiRoute = AppRoutes('/sayHiRoute', SayHi());
 const AppRoutes themeSettingRoute =
     AppRoutes('/themeSettingRoute', ThemeSettingPage());
 const AppRoutes uploadFileRoute = AppRoutes('/uploadFileRoute', UploadFile());
-const AppRoutes informationRoute = AppRoutes('/informationRoute',
-    InformationPage());
-const AppRoutes livePhotoRoute = AppRoutes('/livePhotoRoute',
-    LivePhotoPage());
-const AppRoutes weddingAboutRoute = AppRoutes('/weddingAboutRoute',
-    WeddingAbout());
-const AppRoutes photoShowRoute = AppRoutes('/photoShowRoute',
-    PhotoShow());
-const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute',
-    SomeThings());
-const AppRoutes videoPlayPageRoute = AppRoutes('/videoPlayPageRoute', VideoPlayPage());
+const AppRoutes informationRoute =
+    AppRoutes('/informationRoute', InformationPage());
+const AppRoutes livePhotoRoute = AppRoutes('/livePhotoRoute', LivePhotoPage());
+AppRoutes weddingAboutRoute =
+    AppRoutes('/weddingAboutRoute', const WeddingAbout(),
+        argumentsPage: (arguments) => WeddingAbout(
+              arguments: arguments,
+            ));
+AppRoutes photoShowRoute = AppRoutes('/photoShowRoute', PhotoShow(),
+    argumentsPage: (arguments) => PhotoShow(arguments: arguments));
+const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute', SomeThings());
+const AppRoutes videoPlayPageRoute =
+    AppRoutes('/videoPlayPageRoute', VideoPlayPage());
 const AppRoutes musicPageRoute = AppRoutes('/musicPageRoute', MusicPage());
 
 /// 处理服务器目标页面
@@ -135,15 +142,14 @@ class ServerTargetModel {
     if ('web:'.matchAsPrefix(targetStr) != null) {
       model.type = 1;
       String content = targetStr.split('web:').last;
-      if(targetStr.contains("&")){
-        if(content.split('&').first.toString() == '1'){
+      if (targetStr.contains("&")) {
+        if (content.split('&').first.toString() == '1') {
           model.safeTop = true;
         }
         model.url = content.split("&").last;
-      }else{
+      } else {
         model.url = content;
       }
-
     } else {
       model.type = 0;
       model.routeName = targetStr;

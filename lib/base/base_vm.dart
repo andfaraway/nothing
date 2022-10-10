@@ -25,6 +25,11 @@ abstract class BaseVM {
 
   VoidCallback? get notifyStateChanged => _notifyStateChanged;
 
+  late StatefulWidget widget;
+  void setWidget(StatefulWidget s){
+    widget = s;
+  }
+
   void setWidgetSetState(Function fun) {
     widgetSetState = fun;
   }
@@ -39,7 +44,9 @@ abstract class BaseVM {
 
   void init();
 
-  void dispose() {}
+  void dispose() {
+    // print('${this.context} vm dispose');
+  }
 
   void didChangeDependencies() {}
 

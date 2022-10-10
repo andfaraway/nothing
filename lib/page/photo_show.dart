@@ -9,7 +9,8 @@ import 'package:nothing/widgets/picture_viewer.dart';
 import 'photo_show_vm.dart';
 
 class PhotoShow extends BasePage<_PhotoShowState> {
-  const PhotoShow({Key? key}) : super(key: key);
+  final Map<String,dynamic>? arguments;
+  const PhotoShow({Key? key,this.arguments}) : super(key: key);
 
   @override
   _PhotoShowState createBaseState() => _PhotoShowState();

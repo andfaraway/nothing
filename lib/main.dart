@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+import 'package:nothing/main_test.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'public.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  mainTest();
 
   await PathUtils.init();
   await HiveBoxes.init();

@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
+import 'package:nothing/page/file_management.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
@@ -83,7 +84,10 @@ class AppRoutes {
     livePhotoRoute.routeName: (BuildContext context) => livePhotoRoute.page,
     weddingAboutRoute.routeName: (BuildContext context) =>
         weddingAboutRoute.page,
-    photoShowRoute.routeName: (BuildContext context)=>photoShowRoute.argumentsPage!(argumentsWithContext(context)),
+    photoShowRoute.routeName: (BuildContext context) =>
+        photoShowRoute.argumentsPage!(argumentsWithContext(context)),
+    fileManagementRoute.routeName: (BuildContext context) =>
+        fileManagementRoute.argumentsPage!(argumentsWithContext(context)),
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
     videoPlayPageRoute.routeName: (BuildContext context) =>
         videoPlayPageRoute.page,
@@ -91,7 +95,7 @@ class AppRoutes {
   };
 }
 
-dynamic argumentsWithContext(BuildContext context){
+dynamic argumentsWithContext(BuildContext context) {
   return ModalRoute.of(context)?.settings.arguments;
 }
 
@@ -110,9 +114,12 @@ const AppRoutes informationRoute =
     AppRoutes('/informationRoute', InformationPage());
 const AppRoutes livePhotoRoute = AppRoutes('/livePhotoRoute', LivePhotoPage());
 const AppRoutes weddingAboutRoute =
-    AppRoutes('/weddingAboutRoute', const WeddingAbout());
+    AppRoutes('/weddingAboutRoute', WeddingAbout());
 AppRoutes photoShowRoute = AppRoutes('/photoShowRoute', const PhotoShow(),
     argumentsPage: (arguments) => PhotoShow(arguments: arguments));
+AppRoutes fileManagementRoute = AppRoutes(
+    '/FileManagementRoute', const FileManagement(),
+    argumentsPage: (arguments) => FileManagement(arguments: arguments));
 const AppRoutes someThingsRoute = AppRoutes('/someThingsRoute', SomeThings());
 const AppRoutes videoPlayPageRoute =
     AppRoutes('/videoPlayPageRoute', VideoPlayPage());

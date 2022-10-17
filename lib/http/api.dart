@@ -333,6 +333,21 @@ class API {
     });
   }
 
+  static const String _secret = 'lalalala';
+
+  /// 获取文件
+  static Future<dynamic> getFiles(String? catalog) async {
+    Map<String, dynamic>? params = {"secret": _secret, 'catalog': catalog};
+    if (catalog == null || catalog == '') {
+      params.remove('catalog');
+    }
+    List<dynamic>? response = await Http.get(
+      '/getFiles',
+      params: params,
+    );
+    return response;
+  }
+
   /// 获取图片
   static Future<dynamic> getImages(String? catalog) async {
     List<dynamic>? response = await Http.get(

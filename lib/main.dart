@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/main_test.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'public.dart';
@@ -104,8 +105,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           supportedLocales: S.delegate.supportedLocales,
           routes: AppRoutes.routes,
           initialRoute: welcomeRoute.routeName,
+          navigatorObservers: [FlutterSmartDialog.observer],
           // home: const HomePage(),
-          builder: EasyLoading.init(),
+          builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
         );
       }),
     );

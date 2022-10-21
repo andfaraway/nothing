@@ -348,6 +348,27 @@ class API {
     return response;
   }
 
+  /// 更改文件/文件夹名称
+  static Future<dynamic> changeFileName(String? catalog,String oldName,String newName) async {
+    Map<String, dynamic>? params = {"secret": _secret, 'path': catalog,'oldName': oldName,'newName': newName,};
+    List<dynamic>? response = await Http.post(
+      '/changeFileName',
+      params: params,
+    );
+    return response;
+  }
+
+  /// 删除文件/文件夹
+  static Future<dynamic> deleteFile(String? path,String name) async {
+    Map<String, dynamic>? params = {"secret": _secret, 'path': path,'name': name};
+    var response = await Http.post(
+      '/deleteFile',
+      params: params,
+    );
+    return response;
+  }
+
+
   /// 获取图片
   static Future<dynamic> getImages(String? catalog) async {
     List<dynamic>? response = await Http.get(

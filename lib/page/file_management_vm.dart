@@ -45,4 +45,15 @@ class FileManagementVM extends BaseVM {
       }
     }
   }
+
+  Future<void> changeFile(FileModel model,String newName) async{
+    await API.changeFileName(model.catalog, model.name!, newName);
+    await loadFiles(model.catalog);
+  }
+
+  Future<void> deleteFile(FileModel model) async{
+    await API.deleteFile(model.catalog, model.name!);
+    print('object');
+    await loadFiles(model.catalog);
+  }
 }

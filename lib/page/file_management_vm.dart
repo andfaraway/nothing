@@ -9,7 +9,7 @@ class FileManagementVM extends BaseVM {
   List<FileModel> files = [];
 
   //当前目录
-  String path = '';
+  String? currentCatalog;
 
   @override
   void init() {
@@ -19,7 +19,7 @@ class FileManagementVM extends BaseVM {
   Future<void> loadFiles(String? catalog) async {
     var s = await API.getFiles(catalog);
     if(s == null) return;
-    path = catalog ?? '';
+    currentCatalog = catalog;
     files.clear();
     for (Map<String, dynamic> map in s) {
       FileModel model = FileModel.fromJson(map);
@@ -49,11 +49,12 @@ class FileManagementVM extends BaseVM {
   Future<void> changeFile(FileModel model,String newName) async{
     await API.changeFileName(model.catalog, model.name!, newName);
     await loadFiles(model.catalog);
+    showToast(S.current.success);
   }
 
   Future<void> deleteFile(FileModel model) async{
     await API.deleteFile(model.catalog, model.name!);
-    print('object');
     await loadFiles(model.catalog);
+    showToast(S.current.success);
   }
 }

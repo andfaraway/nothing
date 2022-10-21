@@ -15,16 +15,17 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
   @override
   FileManagementVM createVM() => FileManagementVM(context);
 
+  final RefreshController _refreshController = RefreshController();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget? getPageWidget() {
     return Text(
-      vm.path.isEmpty ? 'File Management' : vm.path,
+      vm.currentCatalog ?? 'File Management',
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
     );
@@ -32,34 +33,41 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
 
   @override
   Widget createContentWidget() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SmartRefresher(
+      controller: _refreshController,
+      onRefresh: () async {
+        await vm.loadFiles(vm.currentCatalog);
+        _refreshController.refreshCompleted();
+      },
+      child: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: vm.files
             .map((model) => InkWell(
                   onTap: () {
                     vm.onTap(model);
                   },
                   onLongPress: () {
+                    if (model.name == '...') return;
                     showSheet(context, [
                       SheetButtonModel(
                           icon: const Icon(Icons.delete_forever),
-                          title: 'delete',
-                          textStyle: TextStyle(color: Colors.red),
+                          title: S.current.delete,
+                          textStyle: const TextStyle(color: Colors.red),
                           onTap: () async {
                             showConfirmToast(
                                 context: context,
-                                title: 'Delete ${model.name}',
+                                title: '${S.current.delete} ${model.name} ?',
                                 onConfirm: () async {
-                                  await API.deleteFile(
-                                      model.catalog, model.name!);
+                                  vm.deleteFile(model);
                                 });
                           }),
                       SheetButtonModel(
-                          icon: Icon(Icons.edit_note),
-                          title: 'change name',
+                          icon: const Icon(Icons.edit_outlined),
+                          title: S.current.rename,
                           onTap: () async {
-                            showEdit(context, commitPressed: (value) async {
+                            showEdit(context, title: S.current.rename,
+                                text: model.name,
+                                commitPressed: (value) async {
                               await vm.changeFile(model, value);
                             });
                           }),

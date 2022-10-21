@@ -210,10 +210,10 @@ class S {
     );
   }
 
-  /// `version update`
+  /// `Version update`
   String get version_update {
     return Intl.message(
-      'version update',
+      'Version update',
       name: 'version_update',
       desc: '',
       args: [],
@@ -260,11 +260,21 @@ class S {
     );
   }
 
-  /// `upload`
+  /// `Upload`
   String get upload {
     return Intl.message(
-      'upload',
+      'Upload',
       name: 'upload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of Album`
+  String get album_name {
+    return Intl.message(
+      'Name of Album',
+      name: 'album_name',
       desc: '',
       args: [],
     );
@@ -445,6 +455,16 @@ class S {
     return Intl.message(
       'Some Things',
       name: 'some_things',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename`
+  String get rename {
+    return Intl.message(
+      'Rename',
+      name: 'rename',
       desc: '',
       args: [],
     );

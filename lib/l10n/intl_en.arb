@@ -17,14 +17,15 @@
   "hi": "Hi",
   "upload_file": "Upload File",
   "release_version": "Release Version",
-  "version_update": "version update",
+  "version_update": "Version update",
 
   "confirm": "Confirm",
   "cancel": "Cancel",
 
   "camera": "Camera",
   "photo_album": "Photo Album",
-  "upload": "upload",
+  "upload": "Upload",
+  "album_name": "Name of Album",
 
   "success": "Success",
   "fail": "Fail",
@@ -48,5 +49,6 @@
   "save_original_image": "Save Original Image",
   "original_image": "Original_Image",
 
-  "some_things": "Some Things"
+  "some_things": "Some Things",
+  "rename": "Rename"
 }

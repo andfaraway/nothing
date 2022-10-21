@@ -25,6 +25,7 @@
   "camera": "相机",
   "photo_album": "相册",
   "upload": "上传",
+  "album_name": "请输入相册名",
 
   "success": "成功",
   "fail": "失败",
@@ -48,5 +49,6 @@
   "save_original_image": "保存原图",
   "original_image": "原图",
 
-  "some_things": "很多东西"
+  "some_things": "一些东西",
+  "rename": "重命名"
 }

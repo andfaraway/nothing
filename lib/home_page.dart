@@ -38,24 +38,6 @@ class _HomeWidgetState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
-    print('homePage=$homePage');
-    if (homePage != null) {
-      ServerTargetModel targetModel =
-          ServerTargetModel.fromString(context, homePage);
-      if (targetModel.type == 0) {
-        homeWidget = targetModel.page;
-      } else {
-        homeWidget = AppWebView(
-          url: targetModel.url,
-          title: 'nothing',
-          withAppBar: false,
-          withBackBtn: true,
-          safeTop: targetModel.safeTop,
-        );
-      }
-    }
-    homeWidget ??= const InformationPage();
     loadData();
   }
 
@@ -359,6 +341,25 @@ class _HomeWidgetState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Screens.init(context);
+    String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
+    // 初始界面
+    print('homePage=$homePage');
+    if (homePage != null) {
+      ServerTargetModel targetModel =
+      ServerTargetModel.fromString(context, homePage);
+      if (targetModel.type == 0) {
+        homeWidget = targetModel.page;
+      } else {
+        homeWidget = AppWebView(
+          url: targetModel.url,
+          title: 'nothing',
+          withAppBar: false,
+          withBackBtn: true,
+          safeTop: targetModel.safeTop,
+        );
+      }
+    }
+    homeWidget ??= const InformationPage();
     return Scaffold(
       drawer: drawer(),
       body: homeWidget!,

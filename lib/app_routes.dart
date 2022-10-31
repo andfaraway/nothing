@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/file_management.dart';
+import 'package:nothing/page/file_preview_page.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
@@ -86,6 +87,8 @@ class AppRoutes {
         weddingAboutRoute.page,
     photoShowRoute.routeName: (BuildContext context) =>
         photoShowRoute.argumentsPage!(argumentsWithContext(context)),
+    filePreviewPageRoute.routeName: (BuildContext context) =>
+        filePreviewPageRoute.argumentsPage!(argumentsWithContext(context)),
     fileManagementRoute.routeName: (BuildContext context) =>
         fileManagementRoute.argumentsPage!(argumentsWithContext(context)),
     someThingsRoute.routeName: (BuildContext context) => someThingsRoute.page,
@@ -117,6 +120,8 @@ const AppRoutes weddingAboutRoute =
     AppRoutes('/weddingAboutRoute', WeddingAbout());
 AppRoutes photoShowRoute = AppRoutes('/photoShowRoute', const PhotoShow(),
     argumentsPage: (arguments) => PhotoShow(arguments: arguments));
+AppRoutes filePreviewPageRoute = AppRoutes('/filePreviewPageRoute', const FilePreviewPage(),
+    argumentsPage: (arguments) => FilePreviewPage(arguments: arguments));
 AppRoutes fileManagementRoute = AppRoutes(
     '/FileManagementRoute', const FileManagement(),
     argumentsPage: (arguments) => FileManagement(arguments: arguments));

@@ -46,29 +46,26 @@ class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
   @override
   Widget createContentWidget() {
     if(url == null) return Center(child: Text('open error:$url'),);
-    return SafeArea(
-      child: ValueListenableBuilder(
-        builder: (context1,bool init,child) {
-          if(init == false){
-            return const Center(child: CircularProgressIndicator());
-          }
-          print('MediaQuery.of(context).padding.bottom=${MediaQuery.of(context).padding.top}');
-          return FilePreviewWidget(
-            controller: controller,
-            width: Screens.width,
-            height: Screens.height-kAppBarHeight-MediaQuery.of(context).padding.bottom,
-            //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
-            path: url!,
-            callBack: FilePreviewCallBack(onShow: () {
-              print("文件打开成功");
-            }, onDownload: (progress) {
-              print("文件下载进度$progress");
-            }, onFail: (code, msg) {
-              print("文件打开失败 $code  $msg");
-            }),
-          );
-        }, valueListenable: _tbsInit,
-      ),
+    return ValueListenableBuilder(
+      builder: (context1,bool init,child) {
+        if(init == false){
+          return const Center(child: CircularProgressIndicator());
+        }
+        return FilePreviewWidget(
+          controller: controller,
+          width: Screens.width,
+          height: Screens.height-kAppBarHeight,
+          //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
+          path: url!,
+          callBack: FilePreviewCallBack(onShow: () {
+            print("文件打开成功");
+          }, onDownload: (progress) {
+            print("文件下载进度$progress");
+          }, onFail: (code, msg) {
+            print("文件打开失败 $code  $msg");
+          }),
+        );
+      }, valueListenable: _tbsInit,
     );
   }
 }

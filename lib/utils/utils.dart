@@ -117,4 +117,25 @@ class Utils{
   static void hideKeyboard(BuildContext context){
     FocusScope.of(context).requestFocus(FocusNode());
   }
+
+  static const List<String> _imageTypes = ['JPEG','JPG','PNG','GIF','BMP','WEBP'];
+  static const List<String> _videoTypes = ['MP4','MOV','WMV','FLV','AVI','AVCHD','WebM','MKV'];
+
+  static bool isImage(String? type){
+    if(type == null) return false;
+    if(_imageTypes.contains(type.toUpperCase())){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  static bool isVideo(String? type){
+    if(type == null) return false;
+    if(_videoTypes.contains(type.toUpperCase())){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

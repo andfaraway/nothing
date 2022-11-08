@@ -10,6 +10,7 @@ class PictureViewer extends StatefulWidget {
   final String? imageName;
   final String imageUrl;
   final int? imageSize;
+  final int? originalImageSize;
   final GestureTapCallback? onTap;
 
   const PictureViewer(
@@ -17,6 +18,7 @@ class PictureViewer extends StatefulWidget {
       required this.imageUrl,
       this.imageName,
       this.imageSize,
+        this.originalImageSize,
       this.onTap})
       : super(key: key);
 
@@ -120,14 +122,21 @@ class _PictureViewerState extends State<PictureViewer> {
                 fadeInDuration: const Duration(milliseconds: 100),
                 fadeOutDuration: const Duration(milliseconds: 100),
                 progressIndicatorBuilder: (context, url, downloadProgress) {
-                  if (imageUrl == originalImageUrl) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
                   double? progress =
                       downloadProgress.downloaded / (widget.imageSize ?? 1);
-                  return Center(
-                    child: CircularProgressIndicator(value: progress),
-                  );
+                  if (imageUrl == originalImageUrl) {
+                    if(widget.originalImageSize == null){
+                      return const Center(child: CircularProgressIndicator());
+                    }else{
+                      progress =
+                          downloadProgress.downloaded / (widget.originalImageSize ?? 1);
+                      return Center(child: CircularProgressIndicator(value:progress));
+                    }
+                  }else{
+                    return Center(
+                      child: CircularProgressIndicator(value: progress),
+                    );
+                  }
                 },
                 errorWidget: (context, object, _) {
                   return const LoadErrorWidget();

@@ -33,6 +33,7 @@
   "reset": "Reset",
   "random": "Random",
   "delete": "Delete",
+  "open": "Open",
 
   "information": "Information",
   "input_required": "Required",

@@ -50,6 +50,22 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                     if (model.name == '...') return;
                     showSheet(context, [
                       SheetButtonModel(
+                          icon: const Icon(Icons.open_in_new_outlined),
+                          title: S.current.open,
+                          onTap: () async {
+                            vm.open(model);
+                          }),
+                      SheetButtonModel(
+                          icon: const Icon(Icons.edit_outlined),
+                          title: S.current.rename,
+                          onTap: () async {
+                            showEdit(context, title: S.current.rename,
+                                text: model.name,
+                                commitPressed: (value) async {
+                                  await vm.changeFile(model, value);
+                                });
+                          }),
+                      SheetButtonModel(
                           icon: const Icon(Icons.delete_forever),
                           title: S.current.delete,
                           textStyle: const TextStyle(color: Colors.red),
@@ -61,16 +77,7 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                                   vm.deleteFile(model);
                                 });
                           }),
-                      SheetButtonModel(
-                          icon: const Icon(Icons.edit_outlined),
-                          title: S.current.rename,
-                          onTap: () async {
-                            showEdit(context, title: S.current.rename,
-                                text: model.name,
-                                commitPressed: (value) async {
-                              await vm.changeFile(model, value);
-                            });
-                          }),
+
                     ]);
                   },
                   child: Padding(

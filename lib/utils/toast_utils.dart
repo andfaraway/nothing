@@ -114,10 +114,26 @@ void showConfirmToast(
           ));
 }
 
-showEdit(BuildContext context,{required String title,required ValueChanged? commitPressed,VoidCallback? cancelPressed,String? text}) {
+void showCustomWidget({
+  required BuildContext context,
+  required Widget child,
+}) {
+  showDialog<bool>(
+      context: context,
+      useSafeArea: false,
+      barrierColor: Colors.black38,
+      barrierDismissible: true,
+      builder: (_) => child);
+}
+
+showEdit(BuildContext context,
+    {required String title,
+    required ValueChanged? commitPressed,
+    VoidCallback? cancelPressed,
+    String? text}) {
   showCupertinoDialog(
       context: context,
-      barrierDismissible:false,
+      barrierDismissible: false,
       builder: (context) {
         return CupertinoAlertDialog(
           title: Text(title),
@@ -125,7 +141,7 @@ showEdit(BuildContext context,{required String title,required ValueChanged? comm
             padding: const EdgeInsets.only(top: 10),
             child: CupertinoTextField(
               controller: TextEditingController(text: text),
-              onChanged: (value){
+              onChanged: (value) {
                 text = value;
               },
             ),
@@ -136,7 +152,10 @@ showEdit(BuildContext context,{required String title,required ValueChanged? comm
                 cancelPressed?.call();
                 Navigator.pop(context);
               },
-              child: Text('取消',style: TextStyle(color: ThemeColor.blackLight),),
+              child: Text(
+                '取消',
+                style: TextStyle(color: ThemeColor.blackLight),
+              ),
             ),
             CupertinoDialogAction(
               onPressed: () {

@@ -1,5 +1,6 @@
-import 'package:nothing/page/file_management.dart';
+import 'package:nothing/page/video_screen.dart';
 import 'package:nothing/public.dart';
+import 'package:nothing/widgets/picture_viewer.dart';
 
 import '../model/file_model.dart';
 
@@ -18,7 +19,7 @@ class FileManagementVM extends BaseVM {
 
   Future<void> loadFiles(String? catalog) async {
     var s = await API.getFiles(catalog);
-    if(s == null) return;
+    if (s == null) return;
     currentCatalog = catalog;
     files.clear();
     for (Map<String, dynamic> map in s) {
@@ -35,26 +36,46 @@ class FileManagementVM extends BaseVM {
         //返回上层
         if (catalog.contains('/')) {
           //去除反斜杠
-          catalog = catalog.replaceRange(catalog.length-1, catalog.length, '');
+          catalog =
+              catalog.replaceRange(catalog.length - 1, catalog.length, '');
           //去除上一层目录
           catalog = catalog.replaceAll(catalog.split('/').last, '');
         }
         await loadFiles(catalog);
       } else {
-        await loadFiles('${model.catalog??''}${model.name}/');
+        await loadFiles('${model.catalog ?? ''}${model.name}/');
       }
     }
   }
 
-  Future<void> changeFile(FileModel model,String newName) async{
+  Future<void> changeFile(FileModel model, String newName) async {
     await API.changeFileName(model.catalog, model.name!, newName);
     await loadFiles(model.catalog);
     showToast(S.current.success);
   }
 
-  Future<void> deleteFile(FileModel model) async{
+  Future<void> deleteFile(FileModel model) async {
     await API.deleteFile(model.catalog, model.name!);
     await loadFiles(model.catalog);
     showToast(S.current.success);
+  }
+
+  Future<void> open(FileModel model) async {
+    String url = "${model.prefix}${model.catalog ?? ''}${model.name}";
+    print(url);
+    if (Utils.isImage(model.type)) {
+      PictureViewer pictureViewer = PictureViewer(
+        imageUrl: url,
+        originalImageSize: model.size,
+        onTap: () {
+          Navigator.pop(context);
+        },
+      );
+      showCustomWidget(context: context, child: pictureViewer);
+    } else if (Utils.isVideo(model.type)) {
+      AppRoutes.pushPage(context, VideoScreen(url: url));
+    } else{
+      showToast("unknown type");
+    }
   }
 }

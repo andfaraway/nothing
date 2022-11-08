@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_info": MessageLookupByLibrary.simpleMessage("登录信息"),
         "message": MessageLookupByLibrary.simpleMessage("消息"),
         "no_message": MessageLookupByLibrary.simpleMessage("没有消息"),
+        "open": MessageLookupByLibrary.simpleMessage("打开"),
         "original_image": MessageLookupByLibrary.simpleMessage("原图"),
         "password_hint": MessageLookupByLibrary.simpleMessage("请输入密码"),
         "photo_album": MessageLookupByLibrary.simpleMessage("相册"),

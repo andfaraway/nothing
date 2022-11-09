@@ -1,5 +1,3 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:nothing/model/version_update_model.dart';
 import 'package:nothing/public.dart';
 import 'release_version_vm.dart';
 
@@ -20,7 +18,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
   @override
   void initState() {
     super.initState();
-    pageTitle = "ReleaseVersion";
+    pageTitle = "Release Version";
   }
 
   @override
@@ -46,7 +44,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
       },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
+        child: ListView(
           children: [
             Row(
               children: [
@@ -103,9 +101,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
         TextField(
           controller: TextEditingController(text: content),
           decoration: const InputDecoration(
-            border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
+            border: OutlineInputBorder(borderSide: BorderSide.none),
           ),
           onChanged: onChanged,
         ),

@@ -1,6 +1,7 @@
 import 'package:nothing/page/video_screen.dart';
 import 'package:nothing/public.dart';
 import 'package:nothing/widgets/picture_viewer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../model/file_model.dart';
 
@@ -75,7 +76,11 @@ class FileManagementVM extends BaseVM {
     } else if (Utils.isVideo(model.type)) {
       AppRoutes.pushPage(context, VideoScreen(url: url));
     } else{
-      showToast("unknown type");
+      if (await canLaunchUrlString(url)) {
+        await launchUrlString(url);
+      }else{
+        showToast("unknown type");
+      }
     }
   }
 }

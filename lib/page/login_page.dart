@@ -4,7 +4,7 @@
 //
 
 import '/public.dart';
-import 'package:nothing/home_page.dart';
+import 'package:nothing/page/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 

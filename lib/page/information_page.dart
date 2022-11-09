@@ -7,7 +7,7 @@ import 'package:nothing/public.dart';
 
 import '../http/http.dart';
 import '../model/interface_model.dart';
-import '../simple_page.dart';
+import 'simple_page.dart';
 
 class InformationPage extends StatefulWidget {
   const InformationPage({Key? key}) : super(key: key);

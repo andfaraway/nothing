@@ -21,7 +21,7 @@ import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/public.dart';
-import 'package:nothing/welcome_page.dart';
+import 'package:nothing/page/welcome_page.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 

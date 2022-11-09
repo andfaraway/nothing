@@ -6,13 +6,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:nothing/home_page.dart';
+import 'package:nothing/page/home_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
-import 'public.dart';
+import '../public.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, String? localPath}) : super(key: key);
@@ -153,7 +153,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               )
                   : CachedNetworkImage(
-                imageUrl: provider.launchInfo?.image ?? '',
+                imageUrl: provider.launchInfo!.image!,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,

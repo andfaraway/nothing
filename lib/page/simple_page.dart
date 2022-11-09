@@ -4,7 +4,7 @@
 //
 
 import 'package:extended_text/extended_text.dart';
-import 'public.dart';
+import '../public.dart';
 
 typedef RequestCallback = Future<String> Function();
 

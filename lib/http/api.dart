@@ -166,7 +166,7 @@ class API {
   }
 
   /// 添加收藏
-  static Future<List?> addFavorite(String content, {String? source}) async {
+  static Future<Map<String,dynamic>?> addFavorite(String content, {String? source}) async {
     Map<String, dynamic> param = {
       'userid': Singleton().currentUser.userId,
       'content': content,

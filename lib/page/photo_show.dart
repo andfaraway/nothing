@@ -70,7 +70,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                       return Stack(
                         children: [
                           CachedNetworkImage(
-                            imageUrl: model.imageUrl ?? '',
+                            imageUrl: model.imageUrl ?? '1',
                             fit: BoxFit.contain,
                             width: double.infinity,
                             height: double.infinity,

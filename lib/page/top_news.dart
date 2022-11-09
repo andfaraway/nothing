@@ -4,7 +4,7 @@
 
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'constants/constants.dart';
+import '../constants/constants.dart';
 
 typedef RequestCallback = Future Function();
 

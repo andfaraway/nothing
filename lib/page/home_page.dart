@@ -12,11 +12,11 @@ import 'package:nothing/widgets/smart_drawer.dart';
 import 'package:nothing/model/interface_model.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 
-import 'model/setting_config_model.dart';
+import '../model/setting_config_model.dart';
 import 'simple_page.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'public.dart';
+import '../public.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -255,7 +255,7 @@ class _HomeWidgetState extends State<HomePage> {
                           return Column(
                             children: list.map((e) {
                               return cellWidget(
-                                icon: e.icon == null
+                                icon: (e.icon?.isEmpty == null || e.icon?.isEmpty == true)
                                     ? null
                                     : CachedNetworkImage(imageUrl: e.icon!,errorWidget: (context,string,child)=> const SizedBox.shrink(),),
                                 title: e.module ?? '',

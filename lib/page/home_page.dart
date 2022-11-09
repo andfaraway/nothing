@@ -39,6 +39,25 @@ class _HomeWidgetState extends State<HomePage> {
   void initState() {
     super.initState();
     loadData();
+
+    // 初始界面
+    String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
+    if (homePage != null) {
+      ServerTargetModel targetModel =
+      ServerTargetModel.fromString(context, homePage);
+      if (targetModel.type == 0) {
+        homeWidget = targetModel.page;
+      } else {
+        homeWidget = AppWebView(
+          url: targetModel.url,
+          title: 'nothing',
+          withAppBar: false,
+          withBackBtn: true,
+          safeTop: targetModel.safeTop,
+        );
+      }
+    }
+    homeWidget ??= const InformationPage();
   }
 
   @override
@@ -265,7 +284,6 @@ class _HomeWidgetState extends State<HomePage> {
                                             ?.call();
                                       }
                                     : () {
-                                        print('e.argu = ${e.arguments}');
                                         AppRoutes.pushNamePage(
                                             context, e.routeName ?? '',arguments: e.arguments);
                                       },
@@ -341,25 +359,6 @@ class _HomeWidgetState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Screens.init(context);
-    String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
-    // 初始界面
-    print('homePage=$homePage');
-    if (homePage != null) {
-      ServerTargetModel targetModel =
-      ServerTargetModel.fromString(context, homePage);
-      if (targetModel.type == 0) {
-        homeWidget = targetModel.page;
-      } else {
-        homeWidget = AppWebView(
-          url: targetModel.url,
-          title: 'nothing',
-          withAppBar: false,
-          withBackBtn: true,
-          safeTop: targetModel.safeTop,
-        );
-      }
-    }
-    homeWidget ??= const InformationPage();
     return Scaffold(
       drawer: drawer(),
       body: homeWidget!,

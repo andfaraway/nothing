@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/utils/notification_utils.dart';
+
 import 'public.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,12 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
 
-  runApp(MultiProvider(providers: providers, child: const MyApp()));
+  bool grayTheme = false;
+  runApp(grayTheme
+      ? ColorFiltered(
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.color),
+          child: MultiProvider(providers: providers, child: const MyApp()))
+      : MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -51,11 +57,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     Constants.isDark = context.theme.brightness == Brightness.dark;
     Constants.context = context;
 
-    Future.delayed(const Duration(seconds: 1), () async{
+    Future.delayed(const Duration(seconds: 1), () async {
       await Constants.insertLaunch();
     });
 
-    Future.delayed(const Duration(seconds: 8), () async{
+    Future.delayed(const Duration(seconds: 8), () async {
       //检查更新
       await Constants.checkUpdate(context);
     });

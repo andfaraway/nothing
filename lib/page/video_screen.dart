@@ -28,7 +28,7 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: quarterTurns != 0 ? null : AppBar(title: const Text("Video play")),
+      appBar: null,
       body: RotatedBox(
         quarterTurns: quarterTurns,
         child: Container(

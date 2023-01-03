@@ -1,5 +1,5 @@
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/public.dart';
+
 import 'file_management_vm.dart';
 
 class FileManagement extends BasePage<_FileManagementState> {
@@ -42,7 +42,10 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
       child: ListView(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: vm.files
-            .map((model) => InkWell(
+            .asMap()
+            .map((index, model) => MapEntry(
+                index,
+                InkWell(
                   onTap: () {
                     vm.onTap(model);
                   },
@@ -53,17 +56,17 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                           icon: const Icon(Icons.open_in_new_outlined),
                           title: S.current.open,
                           onTap: () async {
-                            vm.open(model);
+                            vm.open(model,index);
                           }),
                       SheetButtonModel(
                           icon: const Icon(Icons.edit_outlined),
                           title: S.current.rename,
                           onTap: () async {
-                            showEdit(context, title: S.current.rename,
-                                text: model.name,
-                                commitPressed: (value) async {
-                                  await vm.changeFile(model, value);
-                                });
+                            showEdit(context,
+                                title: S.current.rename,
+                                text: model.name, commitPressed: (value) async {
+                              await vm.changeFile(model, value);
+                            });
                           }),
                       SheetButtonModel(
                           icon: const Icon(Icons.delete_forever),
@@ -77,7 +80,6 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                                   vm.deleteFile(model);
                                 });
                           }),
-
                     ]);
                   },
                   child: Padding(
@@ -109,7 +111,8 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                       ],
                     ),
                   ),
-                ))
+                )))
+            .values
             .toList(),
       ),
     );

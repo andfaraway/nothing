@@ -61,7 +61,7 @@ class FileManagementVM extends BaseVM {
     showToast(S.current.success);
   }
 
-  Future<void> open(FileModel model) async {
+  Future<void> open(FileModel model,int index) async {
     String url = "${model.prefix}${model.catalog ?? ''}${model.name}";
     print(url);
     if (Utils.isImage(model.type)) {
@@ -74,6 +74,8 @@ class FileManagementVM extends BaseVM {
       );
       showCustomWidget(context: context, child: pictureViewer);
     } else if (Utils.isVideo(model.type)) {
+      AppRoutes.pushPage(context, VideoScreen(url: url,files: files,index: index,));return;
+
       AppRoutes.pushPage(context, VideoScreen(url: url));
     } else{
       if (await canLaunchUrlString(url)) {

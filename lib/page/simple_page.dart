@@ -64,22 +64,22 @@ class _SimplePageState extends State<SimplePage>
               controller: _controller,
               child: Column(
                 children: [
-                  GestureDetector(
-                    onDoubleTap: () {
-                      provider.informationBgColor = getRandomColor();
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: Screens.navigationBarHeight,
-                      child: Text(
-                        widget.title ?? '',
-                        style: TextStyle(
-                            color:
-                                provider.informationBgColor.getAdaptiveColor,
-                            fontSize: 28),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onDoubleTap: () {
+                  //     provider.informationBgColor = getRandomColor();
+                  //   },
+                  //   child: Container(
+                  //     alignment: Alignment.center,
+                  //     height: Screens.navigationBarHeight,
+                  //     child: Text(
+                  //       widget.title ?? '',
+                  //       style: TextStyle(
+                  //           color:
+                  //               provider.informationBgColor.getAdaptiveColor,
+                  //           fontSize: 28),
+                  //     ),
+                  //   ),
+                  // ),
                   Expanded(
                     child: Center(
                       child: Padding(

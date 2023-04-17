@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:ybjf/common/utils/prefix_header.dart';
 
 final OverlayEntry _entry = OverlayEntry(builder: (_) {
   return const GridWidget();
@@ -11,12 +10,10 @@ class GridWidget extends StatelessWidget {
   const GridWidget({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
-    print('show');
     Overlay.of(context).insert(_entry);
   }
 
   static void hide() {
-    print('hide');
     _entry.remove();
   }
 

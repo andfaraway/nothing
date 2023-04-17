@@ -43,11 +43,11 @@ Color get buttonColorBlue => const Color(0xff5459FA);
 
 Color get activateColor => const Color(0xffACD68E);
 
-class YBJFTheme {
+class AppTheme {
   static ThemeData defaultThemeData = ThemeData(
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     appBarTheme: AppBarTheme(
-      systemOverlayStyle: YBJFOverlayStyle.dark,
+      systemOverlayStyle: OverlayStyle.dark,
       color: Colors.white,
       elevation: 0.5,
       centerTitle: true,
@@ -103,13 +103,13 @@ class YBJFTheme {
   );
 }
 
-class YBJFOverlayStyle {
+class OverlayStyle {
   static SystemUiOverlayStyle light = SystemUiOverlayStyle(
     systemNavigationBarColor: Platform.isAndroid ? null : Colors.black,
     systemNavigationBarDividerColor: null,
     statusBarColor: Colors.transparent,
     systemNavigationBarIconBrightness:
-        Platform.isAndroid ? null : Brightness.dark,
+    Platform.isAndroid ? null : Brightness.dark,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark,
   );
@@ -119,7 +119,7 @@ class YBJFOverlayStyle {
     systemNavigationBarDividerColor: null,
     statusBarColor: Colors.transparent,
     systemNavigationBarIconBrightness:
-        Platform.isAndroid ? null : Brightness.light,
+    Platform.isAndroid ? null : Brightness.light,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.light,
   );
@@ -210,3 +210,5 @@ class TS {
         letterSpacing: 1.sp,
       );
 }
+
+

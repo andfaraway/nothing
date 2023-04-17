@@ -445,18 +445,18 @@ packages:
     dependency: "direct main"
     description:
       name: extended_text
-      sha256: d3fc3c3b13d134d3183fc653a5cf1e66a88c41ab3f2648024ba38052e0e38419
+      sha256: "3f555a60f63ff51d5080f5eed89e65bc18f17b69e01f4e16cadfd0cb3b49f42a"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "9.1.2"
+    version: "10.0.1"
   extended_text_library:
     dependency: transitive
     description:
       name: extended_text_library
-      sha256: "3538b6ab1c177071b7897bc059d666ba289a042d2142e9f647b7ccbc3e65496b"
+      sha256: "6d06b0ac53a09989e9864549f133c19c676d1456c5ee9470e2483f3cb1900f6e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "9.1.1"
+    version: "10.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -482,21 +482,21 @@ packages:
     source: hosted
     version: "0.10.1"
   file:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: file
-      sha256: b69516f2c26a5bcac4eee2e32512e1a5205ab312b3536c1c1227b2b942b5f9ad
+      sha256: "1b92bec4fc2a72f59a8e15af5f52cd441e4a7860b49499d69dfa817af20e925d"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   file_preview:
     dependency: "direct main"
     description:
       name: file_preview
-      sha256: "2c145d9a804b767a776abee1b2c3f84898fcad792b2292a100838b380d62f054"
+      sha256: "31b8fecc473c5c4733bb19f629e3865d4dc94e58be20a895f150aefce92baa9b"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.5"
   fixnum:
     dependency: transitive
     description:
@@ -1002,10 +1002,10 @@ packages:
     dependency: "direct main"
     description:
       name: modal_bottom_sheet
-      sha256: ef533916a2c3089571c32bd34e410faca77a6849a3f28f748e0794525c5658a0
+      sha256: "3bba63c62d35c931bce7f8ae23a47f9a05836d8cb3c11122ada64e0b2f3d718f"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.2"
+    version: "3.0.0-pre"
   nested:
     dependency: transitive
     description:
@@ -1702,4 +1702,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.0-0 <3.0.0"
-  flutter: ">=3.7.0-0"
+  flutter: ">=3.7.0"

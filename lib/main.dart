@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:nothing/constants/theme.dart';
 import 'package:nothing/utils/notification_utils.dart';
 
 import 'public.dart';
@@ -23,6 +24,7 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
+  SystemChrome.setSystemUIOverlayStyle(OverlayStyle.dark);
 
   bool grayTheme = false;
   runApp(grayTheme

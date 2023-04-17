@@ -8,6 +8,7 @@ class R {
   static const String iconsFile = 'images/icons/file.png';
   static const String iconsFolder = 'images/icons/folder.png';
   static const String iconsMenu = 'images/icons/menu.svg';
+  static const String imagesArrowRight = 'images/arrow_right.svg';
   static const String imagesHandsomeman = 'images/handsomeman.jpeg';
   static const String imagesHelp = 'images/help.svg';
   static const String imagesIconQq = 'images/icon_qq.png';
@@ -17,5 +18,4 @@ class R {
   static const String imagesSetUp = 'images/set_up.svg';
   static const String imagesVersionUpdate = 'images/version_update.png';
   static const String imagesZixun = 'images/zixun.svg';
-
 }

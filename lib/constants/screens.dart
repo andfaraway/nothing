@@ -66,6 +66,8 @@ extension SizeExtension on num {
 
   double get h => ScreenUtil().setHeight(this);
 
+  double get r => ScreenUtil().radius(this);
+
   double get sp => ScreenUtil().setHeight(this);
 
   double get ssp => ScreenUtil().setSp(this);

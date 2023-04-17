@@ -103,7 +103,7 @@ struct WebImageExample: View {
                 .resizable()
                 .onSuccess(perform: { _, _, _ in
                     print("Success")
-                    SDWebImageManager.shared.imageCache.clear(with: .all, completion: nil)//清除图片缓存
+                    //SDWebImageManager.shared.imageCache.clear(with: .all, completion: nil)//清除图片缓存
                 })
                 .onFailure(perform: { _ in
                     print("Failure")

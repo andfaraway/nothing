@@ -38,7 +38,7 @@ class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
         ),
         TextButton(
           onPressed: () {
-            AppRoutes.pushPage(context, VideoScreen(url: url));
+            Routes.pushPage(context, VideoScreen(url: url));
           },
           child: const Padding(
             padding: EdgeInsets.all(30.0),

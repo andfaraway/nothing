@@ -25,8 +25,6 @@ export 'package:nothing/generated/l10n.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
-export 'enums.dart';
-export 'events.dart';
 export '../utils/hive_boxes.dart';
 export 'instances.dart';
 export 'messages.dart';

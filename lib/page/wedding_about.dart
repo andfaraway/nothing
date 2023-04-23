@@ -42,7 +42,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   Widget? floatingActionButton() {
     return IconButton(
         onPressed: () {
-          AppRoutes.pushNamePage(context, feedbackRoute.routeName);
+          Routes.pushNamePage(context, Routes.feedback.name);
         },
         icon: const Icon(Icons.feedback_outlined));
   }
@@ -126,7 +126,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () async {
-                    var s = await AppRoutes.pushPage(
+                    var s = await Routes.pushPage(
                         context,
                         WeddingDetailPage(
                           model: model,

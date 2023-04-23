@@ -60,7 +60,7 @@ class _SettingPageState extends State<SettingPage> {
                                 functionWithString(context,e.onTap!)?.call();
                               }
                             : () {
-                                AppRoutes.pushNamePage(
+                                Routes.pushNamePage(
                                     context, e.routeName ?? '',arguments: e.arguments);
                               },
                         onLongPress: e.onLongPress == null

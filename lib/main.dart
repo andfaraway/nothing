@@ -105,8 +105,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               GlobalWidgetsLocalizations.delegate
             ],
             supportedLocales: S.delegate.supportedLocales,
-            routes: AppRoutes.routes,
-            initialRoute: welcomeRoute.routeName,
+            onGenerateRoute: onGenerateRoute,
+            initialRoute: Routes.welcome.name,
             navigatorObservers: [FlutterSmartDialog.observer,AppNavigatorObserver()],
             // home: const HomePage(),
             builder: EasyLoading.init(builder: FlutterSmartDialog.init()),

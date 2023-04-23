@@ -284,7 +284,7 @@ class _HomeWidgetState extends State<HomePage> {
                                             ?.call();
                                       }
                                     : () {
-                                        AppRoutes.pushNamePage(
+                                        Routes.pushNamePage(
                                             context, e.routeName ?? '',arguments: e.arguments);
                                       },
                                 onLongPress: e.onLongPress == null
@@ -306,7 +306,7 @@ class _HomeWidgetState extends State<HomePage> {
                       ),
                       title: S.current.setting,
                       onTap: () {
-                        AppRoutes.pushPage(context, const SettingPage());
+                        Routes.pushPage(context, const SettingPage());
                       },
                     ),
                   ],

@@ -26,12 +26,7 @@ void main() async {
       overlays: [SystemUiOverlay.top]);
   SystemChrome.setSystemUIOverlayStyle(OverlayStyle.dark);
 
-  bool grayTheme = false;
-  runApp(grayTheme
-      ? ColorFiltered(
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.color),
-          child: MultiProvider(providers: providers, child: const MyApp()))
-      : MultiProvider(providers: providers, child: const MyApp()));
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -96,23 +91,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             900: const Color(0xFF0D47A1),
           },
         );
-        return MaterialApp(
-          navigatorKey: Instances.navigatorKey,
-          theme: ThemeData(
-            primarySwatch: primarySwatch,
+        return ColorFiltered(
+          colorFilter: ColorFilter.mode(provider.filterColor, BlendMode.color),
+          child: MaterialApp(
+            navigatorKey: Instances.navigatorKey,
+            theme: ThemeData(
+              primarySwatch: primarySwatch,
+            ),
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            routes: AppRoutes.routes,
+            initialRoute: welcomeRoute.routeName,
+            navigatorObservers: [FlutterSmartDialog.observer,AppNavigatorObserver()],
+            // home: const HomePage(),
+            builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
           ),
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          routes: AppRoutes.routes,
-          initialRoute: welcomeRoute.routeName,
-          navigatorObservers: [FlutterSmartDialog.observer],
-          // home: const HomePage(),
-          builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
         );
       }),
     );

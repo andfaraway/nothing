@@ -24,9 +24,11 @@ class ThemeSettingPage extends StatelessWidget {
             builder: (context, provider, child) {
               return Container(
                 height: 200,
+                alignment: Alignment.center,
                 child: Stack(
                   children: [
                     Align(
+                      alignment: Alignment.center,
                       child: Text(
                         provider.currentThemeGroup.name,
                         style: TextStyle(
@@ -35,36 +37,71 @@ class ThemeSettingPage extends StatelessWidget {
                                 : provider.currentThemeGroup.lightThemeColor,
                             fontSize: 25),
                       ),
-                      alignment: Alignment.center,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        children: [
+                          Transform(
+                            transform: Matrix4.identity()..scale(1.2),
+                            alignment: Alignment.center,
+                            child: Consumer<ThemesProvider>(
+                                builder: (context, provider, child) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Switch(
+                                  value: provider.filterColor !=
+                                      Colors.transparent,
+                                  activeColor: Colors.black,
+                                  inactiveThumbColor: Constants.isDark
+                                      ? Colors.white.withOpacity(0.5)
+                                      : Colors.white,
+                                  onChanged: (isDark) {
+                                    provider.filterColor == Colors.transparent
+                                        ? provider.filterColor = Colors.white
+                                        : provider.filterColor =
+                                            Colors.transparent;
+                                  },
+                                ),
+                              );
+                            }),
+                          ),
+                          const Text('置灰')
+                        ],
+                      ),
                     ),
                     child ?? const SizedBox.shrink()
                   ],
                 ),
-                alignment: Alignment.center,
               );
             },
             child: Align(
               alignment: Alignment.topRight,
-              child: Transform(
-                transform: Matrix4.identity()..scale(1.2),
-                alignment: Alignment.center,
-                child: Consumer<ThemesProvider>(
-                    builder: (context, provider, child) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Switch(
-                      value: Constants.isDark,
-                      activeColor: Colors.black,
-                      inactiveThumbColor: Constants.isDark
-                          ? Colors.white.withOpacity(0.5)
-                          : Colors.white,
-                      onChanged: (isDark) {
-                        provider.dark = isDark;
-                        Constants.isDark = isDark;
-                      },
-                    ),
-                  );
-                }),
+              child: Column(
+                children: [
+                  Transform(
+                    transform: Matrix4.identity()..scale(1.2),
+                    alignment: Alignment.center,
+                    child: Consumer<ThemesProvider>(
+                        builder: (context, provider, child) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Switch(
+                          value: Constants.isDark,
+                          activeColor: Colors.black,
+                          inactiveThumbColor: Constants.isDark
+                              ? Colors.white.withOpacity(0.5)
+                              : Colors.white,
+                          onChanged: (isDark) {
+                            provider.dark = isDark;
+                            Constants.isDark = isDark;
+                          },
+                        ),
+                      );
+                    }),
+                  ),
+                  const Text('深色')
+                ],
               ),
             ),
           ),
@@ -84,7 +121,7 @@ class ThemeSettingPage extends StatelessWidget {
             itemCount: supportThemeGroups.length,
             shrinkWrap: true,
           ),
-          _InformationContainer()
+          const _InformationContainer()
         ],
       ),
     );
@@ -121,8 +158,8 @@ class _ThemeContainer extends StatelessWidget {
                 color: Constants.isDark
                     ? themeGroup.darkThemeColor
                     : themeGroup.lightThemeColor,
-                child: Text(themeGroup.name),
                 alignment: Alignment.center,
+                child: Text(themeGroup.name),
               ),
             ),
           ),
@@ -163,16 +200,16 @@ class _InformationContainer extends StatelessWidget {
                           text: "#" + color.value.toRadixString(16)),
                       decoration: const InputDecoration(
                         border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
-                        isDense:true,
+                            borderSide: BorderSide.none),
+                        isDense: true,
                       ),
                       textAlign: TextAlign.center,
-                      onChanged: (value){
+                      onChanged: (value) {
                         print('textChange:$value');
-                        if(value.length == 9 && value.contains("#")){
-                           int c = int.parse(value.replaceAll("#", ""), radix: 16);
-                           colorNotifier.value = Color(c);
+                        if (value.length == 9 && value.contains("#")) {
+                          int c =
+                              int.parse(value.replaceAll("#", ""), radix: 16);
+                          colorNotifier.value = Color(c);
                         }
                       },
                     ),

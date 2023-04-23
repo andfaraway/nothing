@@ -31,9 +31,11 @@ class AppRoutes {
   final ArgumentsWidgetBuilder? argumentsPage;
   final String? pageTitle;
   final String? pageType;
+  final Middleware? middleware;
+
 
   const AppRoutes(this.routeName, this.page,
-      {this.pageTitle, this.pageType, this.argumentsPage});
+      {this.pageTitle, this.pageType, this.argumentsPage,this.middleware});
 
   static Future<dynamic> pushPage(BuildContext context, Widget page) async {
     dynamic value =
@@ -169,4 +171,86 @@ class ServerTargetModel {
     }
     return model;
   }
+
 }
+
+abstract class Middleware {
+  RouteSettings? redirect(String? route) {
+    return RouteSettings(name: route);
+  }
+}
+
+class LoginMiddleware extends Middleware {
+  @override
+  RouteSettings? redirect(String? route) {
+    if (!Handler.isUserLogin) {
+      return  RouteSettings(name: loginRoute.routeName);
+    }
+    return super.redirect(route);
+  }
+}
+
+RouteFactory? onGenerateRoute = (RouteSettings settings) {
+  RouteSettings? routeSettings = settings;
+  int index =
+  routes.indexWhere((element) => element.name == routeSettings?.name);
+  if (index >= 0) {
+    RoutePage routePage = routePages[index];
+    if (routePage.middleware != null) {
+      RouteSettings? redirectRouteSettings =
+      routePage.middleware?.redirect(routeSettings.name);
+      int redirectIndex = routePages
+          .indexWhere((element) => element.name == redirectRouteSettings?.name);
+      if (redirectIndex >= 0) {
+        routeSettings = redirectRouteSettings;
+        routePage = routePages[redirectIndex];
+      }
+    }
+    return MaterialPageRoute(
+      builder: (BuildContext context) => routePage.page(
+        arguments: routeSettings?.arguments,
+      ),
+      settings: routeSettings,
+    );
+  }
+  return null;
+};
+
+
+class AppNavigatorObserver extends RouteObserver {
+  static final List<Route> routeList = [];
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+
+    routeList.add(route);
+  }
+
+  @override
+  void didRemove(Route route, Route? previousRoute) {
+    super.didRemove(route, previousRoute);
+
+    routeList.remove(route);
+  }
+
+  @override
+  void didReplace({Route? newRoute, Route? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+
+    if (newRoute != null) {
+      int index = routeList.indexWhere((element) => element == oldRoute);
+      if (index >= 0) {
+        routeList.replaceRange(index, index + 1, [newRoute]);
+      }
+    }
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    super.didPop(route, previousRoute);
+
+    routeList.remove(route);
+  }
+}
+

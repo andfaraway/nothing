@@ -8,7 +8,23 @@ class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
     initTheme();
     _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
+    _filterColor = HiveBoxes.get(HiveKey.filterColor,defaultValue: Colors.transparent);
   }
+
+
+  /// 滤镜颜色
+  Color _filterColor = Colors.transparent;
+  Color get filterColor => _filterColor;
+  set filterColor(Color value) {
+    if (_filterColor == value) {
+      return;
+    }
+    _filterColor = value;
+    HiveBoxes.put(HiveKey.filterColor, value);
+    notifyListeners();
+  }
+
+  get isFilterColor => HiveBoxes.get(HiveKey.filterColor) == Colors.transparent;
 
   ThemeGroup _currentThemeGroup = defaultThemeGroup;
 
@@ -48,7 +64,6 @@ class ThemesProvider with ChangeNotifier {
   bool get platformBrightness => _platformBrightness;
 
   set platformBrightness(bool value) {
-    assert(value != null);
     if (_platformBrightness == value) {
       return;
     }

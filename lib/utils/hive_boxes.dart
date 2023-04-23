@@ -135,4 +135,6 @@ class HiveKey {
   static const String userInfo = 'userInfo';
   static const String hiToUser = 'hiToUser';
   static const String pushAlias = 'pushAlias';
+
+  static const String filterColor = 'filterColor';
 }

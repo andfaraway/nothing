@@ -34,3 +34,21 @@ class Singleton {
     HiveBoxes.clearData();
   }
 }
+
+
+class Handler {
+  static String? get accessToken =>
+      'Bearer ${Singleton().currentUser.token}';
+
+  static bool get isUserLogin {
+    String? accessToken = Singleton().currentUser.token;
+    return accessToken != null && accessToken.isNotEmpty;
+  }
+
+  static void userLogin() {}
+
+  static void userLogout() {
+    HiveBoxes.clearData();
+    Singleton().currentUser = null;
+  }
+}

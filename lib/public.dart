@@ -21,6 +21,7 @@ export 'http/api.dart';
 export 'widgets/normal_cell.dart';
 export 'widgets/content_white_bg.dart';
 export 'widgets/load_error_widget.dart';
+export 'common/theme.dart';
 
 export 'app_function.dart';
 

@@ -3,7 +3,8 @@
 /// [Date] 2020-01-22 14:47
 ///
 import 'package:extended_text/extended_text.dart';
-import '/public.dart';
+
+import '../../prefix_header.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   const ConfirmationDialog({

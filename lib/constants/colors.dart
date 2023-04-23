@@ -2,7 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-25 16:21:30
 //
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 class ThemeColor {
   static const Color black = Color(0xFF333333);

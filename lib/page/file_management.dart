@@ -1,4 +1,4 @@
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 import 'file_management_vm.dart';
 
@@ -15,12 +15,8 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
   @override
   FileManagementVM createVM() => FileManagementVM(context);
 
-  final RefreshController _refreshController = RefreshController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final AppRefreshController _refreshController =
+      AppRefreshController(autoRefresh: true);
 
   @override
   Widget? getPageWidget() {
@@ -33,7 +29,7 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
 
   @override
   Widget createContentWidget() {
-    return SmartRefresher(
+    return AppRefresher(
       controller: _refreshController,
       onRefresh: () async {
         await vm.loadFiles(vm.currentCatalog);

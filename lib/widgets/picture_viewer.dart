@@ -1,7 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../utils/photo_save.dart';

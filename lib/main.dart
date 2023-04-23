@@ -5,7 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/constants/theme.dart';
 import 'package:nothing/utils/notification_utils.dart';
 
-import 'public.dart';
+import 'prefix_header.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,6 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
   SystemChrome.setSystemUIOverlayStyle(OverlayStyle.dark);
-
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
@@ -40,9 +39,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addObserver(this);
-
     platformChannel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'deviceToken') {
         String deviceToken = call.arguments.toString();
@@ -51,68 +48,65 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       }
     });
 
-    Constants.isDark = context.theme.brightness == Brightness.dark;
-    Constants.context = context;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Constants.context = context;
+      Constants.isDark = context.theme.brightness == Brightness.dark;
 
-    Future.delayed(const Duration(seconds: 1), () async {
-      await Constants.insertLaunch();
-    });
+      Future.delayed(const Duration(seconds: 1), () async {
+        await Constants.insertLaunch();
+      });
 
-    Future.delayed(const Duration(seconds: 8), () async {
-      //检查更新
-      await Constants.checkUpdate(context);
+      Future.delayed(const Duration(seconds: 8), () async {
+        //检查更新
+        await Constants.checkUpdate(context);
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshConfiguration(
-      headerBuilder: () => WaterDropHeader(
-        complete: const Icon(
-          Icons.done,
-          color: Colors.grey,
-        ),
-        waterDropColor: Theme.of(context).backgroundColor,
-      ),
-      footerBuilder: () => const ClassicFooter(),
-      child: Consumer<ThemesProvider>(builder: (context, provider, child) {
-        MaterialColor primarySwatch = MaterialColor(
-          provider.currentThemeGroup.themeColor.value,
-          <int, Color>{
-            50: const Color(0xFFE3F2FD),
-            100: const Color(0xFFBBDEFB),
-            200: const Color(0xFF90CAF9),
-            300: const Color(0xFF64B5F6),
-            400: const Color(0xFF42A5F5),
-            500: Color(provider.currentThemeGroup.themeColor.value),
-            600: const Color(0xFF1E88E5),
-            700: const Color(0xFF1976D2),
-            800: const Color(0xFF1565C0),
-            900: const Color(0xFF0D47A1),
-          },
-        );
-        return ColorFiltered(
-          colorFilter: ColorFilter.mode(provider.filterColor, BlendMode.color),
-          child: MaterialApp(
-            navigatorKey: Instances.navigatorKey,
-            theme: ThemeData(
-              primarySwatch: primarySwatch,
+    return AppScreenUtilInit(
+      builder: (context, child) => AppRefreshConfiguration(
+        child: Consumer<ThemesProvider>(builder: (context, provider, child) {
+          MaterialColor primarySwatch = MaterialColor(
+            provider.currentThemeGroup.themeColor.value,
+            <int, Color>{
+              50: const Color(0xFFE3F2FD),
+              100: const Color(0xFFBBDEFB),
+              200: const Color(0xFF90CAF9),
+              300: const Color(0xFF64B5F6),
+              400: const Color(0xFF42A5F5),
+              500: Color(provider.currentThemeGroup.themeColor.value),
+              600: const Color(0xFF1E88E5),
+              700: const Color(0xFF1976D2),
+              800: const Color(0xFF1565C0),
+              900: const Color(0xFF0D47A1),
+            },
+          );
+          return ColorFiltered(
+            colorFilter:
+                ColorFilter.mode(provider.filterColor, BlendMode.color),
+            child: MaterialApp(
+              navigatorKey: Instances.navigatorKey,
+              theme: ThemeData(
+                primarySwatch: primarySwatch,
+              ),
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              initialRoute: Routes.welcome.name,
+              onGenerateRoute: onGenerateRoute,
+              // navigatorObservers: [FlutterSmartDialog.observer,AppNavigatorObserver()],
+              // home: const HomePage(),
+              builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
             ),
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            onGenerateRoute: onGenerateRoute,
-            initialRoute: Routes.welcome.name,
-            navigatorObservers: [FlutterSmartDialog.observer,AppNavigatorObserver()],
-            // home: const HomePage(),
-            builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 

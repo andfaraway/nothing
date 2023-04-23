@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:nothing/page/video_screen.dart';
-import 'package:nothing/public.dart';
-import 'package:video_player/video_player.dart';
+import 'package:nothing/prefix_header.dart';
+
 import 'video_play_vm.dart';
 
 class VideoPlayPage extends BasePage<_VideoPlayState> {

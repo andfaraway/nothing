@@ -38,12 +38,16 @@ class Screens {
     SystemChrome.setSystemUIOverlayStyle(
         dark ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light);
   }
+}
 
-  //设置尺寸（填写设计中设备的屏幕尺寸）如果设计基于360dp * 690dp的屏幕
-  static init(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: const Size(750, 1624));
-  }
+class AppScreenUtilInit extends ScreenUtilInit {
+  const AppScreenUtilInit({Key? key, required ScreenUtilInitBuilder builder})
+      : super(
+            key: key,
+            designSize: const Size(750, 1624),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: builder);
 }
 
 /// Screen capability method.
@@ -92,5 +96,4 @@ extension SizeExtension on num {
 //
 // double get ssp =>
 //     _sizeCapable(ScreenUtil().setSp(this) * 2);
-
 }

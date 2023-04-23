@@ -4,7 +4,6 @@
 //
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:nothing/page/home_page.dart';
 import 'package:nothing/page/login_page.dart';
@@ -12,7 +11,8 @@ import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
-import '../public.dart';
+
+import '../prefix_header.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, String? localPath}) : super(key: key);
@@ -111,7 +111,6 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Screens.init(context);
     return Scaffold(
       body: Stack(
         children: [

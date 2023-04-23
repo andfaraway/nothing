@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:file_preview/file_preview.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 import 'file_preview_vm.dart';
 

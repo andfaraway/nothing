@@ -4,14 +4,11 @@
 //
 import 'dart:io';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:nothing/public.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:image_cropper/image_cropper.dart';
-
-import '../public.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nothing/prefix_header.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UploadFile extends StatefulWidget {
   const UploadFile({Key? key}) : super(key: key);

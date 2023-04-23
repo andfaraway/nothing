@@ -4,11 +4,11 @@
 //
 import 'dart:io';
 
-import 'package:nothing/public.dart';
+import 'package:live_photo_maker/live_photo_maker.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import 'image_editor_widget.dart';
-import 'package:live_photo_maker/live_photo_maker.dart';
 
 class LivePhotoPage extends StatefulWidget {
   const LivePhotoPage({Key? key}) : super(key: key);

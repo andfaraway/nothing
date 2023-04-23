@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:nothing/public.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/foundation.dart';
+import 'package:nothing/prefix_header.dart';
+
 import '../utils/crop_editor_helper.dart';
 
 class SimpleImageEditor extends StatefulWidget {

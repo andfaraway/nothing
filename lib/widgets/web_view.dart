@@ -1,7 +1,6 @@
+import 'package:nothing/prefix_header.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:nothing/public.dart';
 
-import '../common/theme.dart';
 import '../generated/json/base/json_convert_content.dart';
 import 'button.dart';
 

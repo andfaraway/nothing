@@ -1,7 +1,6 @@
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:nothing/widgets/custom_dropdown_button.dart';
-import '../model/login_model.dart';
+
 import 'some_things_vm.dart';
 
 class SomeThings extends BasePage<_SomeThingsState> {
@@ -20,9 +19,16 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
     super.initState();
   }
 
-  final RefreshController _controller = RefreshController(initialRefresh: true);
+  final AppRefreshController _controller =
+      AppRefreshController(autoRefresh: true);
   int pageIndex = 0;
   int pageSize = 10;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget? getPageWidget() {
@@ -43,8 +49,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
   @override
   Widget createContentWidget() {
     return SafeArea(
-      child: SmartRefresher(
-        enablePullUp: true,
+      child: AppRefresher(
         onRefresh: _onRefresh,
         onLoading: _onLoad,
         controller: _controller,
@@ -68,7 +73,10 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
                     ),
             );
           },
-          itemCount: vm.dataList.length, separatorBuilder: (BuildContext context, int index) { return Divider(); },
+          itemCount: vm.dataList.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider();
+          },
         ),
       ),
     );
@@ -78,20 +86,15 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
     pageIndex = 0;
     await vm.getData(pageIndex, pageSize, clean: true);
     setState(() {
-      _controller.refreshCompleted();
+      _controller.completed(success: true, resetFooterState: true);
     });
   }
 
   Future<void> _onLoad() async {
     pageIndex += 1;
     List<dynamic> data = await vm.getData(pageIndex, pageSize, clean: false);
-    if (data.isEmpty) {
-      _controller.loadNoData();
-      return;
-    } else {
-      setState(() {
-        _controller.loadComplete();
-      });
-    }
+
+    _controller.completed(success: true, noMore: data.isEmpty);
+    setState(() {});
   }
 }

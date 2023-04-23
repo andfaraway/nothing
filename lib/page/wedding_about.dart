@@ -1,12 +1,13 @@
-import 'package:nothing/page/wedding_detail.dart';
 import 'package:nothing/model/wedding_model.dart';
+import 'package:nothing/page/wedding_detail.dart';
+import 'package:nothing/prefix_header.dart';
 
-import 'package:nothing/public.dart';
 import 'wedding_about_vm.dart';
 
 class WeddingAbout extends BasePage<_WeddingAboutState> {
   final dynamic arguments;
-  const WeddingAbout({Key? key,this.arguments}) : super(key: key);
+
+  const WeddingAbout({Key? key, this.arguments}) : super(key: key);
 
   @override
   _WeddingAboutState createBaseState() => _WeddingAboutState();
@@ -16,14 +17,14 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   @override
   WeddingAboutVM createVM() => WeddingAboutVM(context);
 
-  late final RefreshController _controller;
+  late final AppRefreshController _controller =
+      AppRefreshController(autoRefresh: true);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pageTitle = "💑 婚礼待办 💑";
-    _controller = RefreshController(initialRefresh: true);
     needHidKeyboard = true;
   }
 
@@ -49,10 +50,10 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
 
   @override
   Widget createContentWidget() {
-    return SmartRefresher(
+    return AppRefresher(
       onRefresh: () async {
         await vm.loadWeddings();
-        _controller.refreshCompleted();
+        _controller.completed();
       },
       controller: _controller,
       child: SafeArea(

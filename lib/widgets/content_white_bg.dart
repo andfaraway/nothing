@@ -1,5 +1,5 @@
 
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 class ContentWhiteBg extends StatelessWidget {
   final Widget? child;

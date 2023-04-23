@@ -2,7 +2,6 @@
 //  [Author] libin (https://www.imin.sg)
 //  [Date] 2022-02-16 18:49:44
 //
-import 'package:flutter/material.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/file_management.dart';
@@ -20,8 +19,8 @@ import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
-import 'package:nothing/public.dart';
 import 'package:nothing/page/welcome_page.dart';
+import 'package:nothing/prefix_header.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
@@ -48,6 +47,10 @@ class Routes {
     Routes.videoPlayPage,
     Routes.musicPage,
   ];
+
+  static final navKey = GlobalKey<NavigatorState>();
+
+  static BuildContext? get context => navKey.currentState?.context;
 
   static final RoutePage welcome = RoutePage(
       name: '/welcomeRoute',
@@ -126,13 +129,20 @@ class Routes {
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(
-      BuildContext context, String newRouteName,
+  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext context,
+      String newRouteName,
       {Object? arguments}) async {
     dynamic value = await Navigator.pushNamedAndRemoveUntil(
         context, newRouteName, (route) => false,
         arguments: arguments);
     return value;
+  }
+
+  static Future<dynamic> pop(
+      {BuildContext? buildContext, dynamic arguments}) async {
+    buildContext ??= context;
+    if (buildContext == null) return Future.value(null);
+    Navigator.maybePop(buildContext, arguments);
   }
 
   static Future<void> popUntil(BuildContext context, String routeName) async {
@@ -143,10 +153,6 @@ class Routes {
       return false;
     });
   }
-}
-
-dynamic argumentsWithContext(BuildContext context) {
-  return ModalRoute.of(context)?.settings.arguments;
 }
 
 /// 处理服务器目标页面
@@ -187,11 +193,11 @@ class ServerTargetModel {
       model.routeName = splitList.first;
       print('targetStr = $splitList');
 
-      if(splitList.isEmpty) {
+      if (splitList.isEmpty) {
         model.page = Routes.routePages
             .firstWhere((element) => element.name == splitList.first)
             .page(arguments: splitList.length > 1 ? splitList.last : null);
-      }else{
+      } else {
         model.page = null;
       }
     }

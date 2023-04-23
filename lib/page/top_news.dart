@@ -2,9 +2,9 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-08 18:11:32
 
+import 'package:nothing/prefix_header.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../constants/constants.dart';
 
 typedef RequestCallback = Future Function();
 
@@ -29,13 +29,20 @@ class _TopNewsPageState extends State<TopNewsPage>
   @override
   bool get wantKeepAlive => true;
 
-  final RefreshController _controller = RefreshController(initialRefresh: true);
+  final AppRefreshController _controller =
+      AppRefreshController(autoRefresh: true);
   final double marginWidth = 30;
   List<TopNewsModel> newsList = [];
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -57,7 +64,7 @@ class _TopNewsPageState extends State<TopNewsPage>
               ),
             ),
             Expanded(
-              child: SmartRefresher(
+              child: AppRefresher(
                 onRefresh: () async {
                   var list = await widget.requestCallback?.call();
                   newsList.clear();
@@ -66,7 +73,7 @@ class _TopNewsPageState extends State<TopNewsPage>
                   if (mounted) {
                     setState(() {});
                   }
-                  _controller.refreshCompleted();
+                  _controller.completed();
                 },
                 controller: _controller,
                 child: ListView.builder(

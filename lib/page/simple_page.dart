@@ -4,7 +4,8 @@
 //
 
 import 'package:extended_text/extended_text.dart';
-import '../public.dart';
+
+import '../prefix_header.dart';
 
 typedef RequestCallback = Future<String> Function();
 
@@ -31,13 +32,20 @@ class _SimplePageState extends State<SimplePage>
   @override
   bool get wantKeepAlive => true;
 
-  late final RefreshController _controller;
+  late final AppRefreshController _controller;
   String contentText = '';
 
   @override
   void initState() {
     super.initState();
-    _controller = RefreshController(initialRefresh: widget.initialRefresh);
+    _controller = AppRefreshController(autoRefresh: widget.initialRefresh);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -48,7 +56,7 @@ class _SimplePageState extends State<SimplePage>
         return Scaffold(
           backgroundColor: provider.informationBgColor,
           body: SafeArea(
-            child: SmartRefresher(
+            child: AppRefresher(
               onRefresh: () async {
                 String? str = await widget.requestCallback?.call();
                 if (mounted) {
@@ -59,7 +67,7 @@ class _SimplePageState extends State<SimplePage>
                     }
                   });
                 }
-                _controller.refreshCompleted();
+                _controller.completed();
               },
               controller: _controller,
               child: Column(

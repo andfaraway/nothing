@@ -3,14 +3,13 @@
 /// [Date] 2019-12-13 14:11
 ///
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:nothing/page/message_page.dart';
-import '/public.dart';
 
 import '../constants/constants.dart' hide Message;
+import '../prefix_header.dart';
 
 class NotificationUtils {
   static final JPush jpush = JPush();

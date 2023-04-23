@@ -1,42 +1,29 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:nothing/public.dart';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:device_info/device_info.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nothing/constants/instances.dart';
-import 'package:nothing/constants/singleton.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:nothing/utils/notification_utils.dart';
-import 'package:nothing/widgets/check_update_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../generated/l10n.dart';
-import '../http/api.dart';
-import '../utils/local_data_utils.dart';
-import '../utils/utils.dart';
 
 export 'package:flutter/material.dart';
 export 'package:intl/intl.dart' show DateFormat;
-export 'package:pull_to_refresh/pull_to_refresh.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
 export 'package:nothing/generated/l10n.dart';
+export 'package:nothing/utils/utils.dart';
+
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
 export '../utils/hive_boxes.dart';
+export '../utils/local_data_utils.dart';
+export 'colors.dart';
 export 'instances.dart';
 export 'messages.dart';
-export 'screens.dart';
-export 'widgets.dart';
-export '../utils/local_data_utils.dart';
 export 'platform_channel.dart';
-export 'package:nothing/utils/utils.dart';
-
-export 'colors.dart';
-
+export 'screens.dart';
 export 'singleton.dart';
+export 'widgets.dart';
 
 const bool isDebug = false;
 const String localUrl = 'http://10.0.21.146:5000';

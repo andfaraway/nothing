@@ -3,10 +3,11 @@
 //  [Date] 2022-01-07 09:48:35
 //
 
-import '/public.dart';
 import 'package:nothing/page/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
+
+import '../prefix_header.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -164,8 +165,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Screens.init(context);
-
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
     UMSharePlugin.setPlatform(

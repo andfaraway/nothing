@@ -4,6 +4,7 @@
 //
 import 'package:dio/dio.dart';
 import 'package:nothing/constants/constants.dart';
+
 import 'api.dart';
 import 'interceptors.dart';
 
@@ -70,4 +71,26 @@ class Http {
     _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
     return _dio.post(url, data: data, onSendProgress: onSendProgress);
   }
+}
+
+class ResponseCode {
+  static const int normal = 0;
+  static const int networkError = -1;
+  static const int serverError = -2;
+  static const int fileError = -3;
+  static const int tokenError = 401;
+}
+
+class HttpResponse {
+  int? code;
+  Object? data;
+  String? errorMessage;
+
+  bool get isSuccess => code == ResponseCode.normal;
+
+  HttpResponse({
+    this.code,
+    this.data,
+    this.errorMessage,
+  });
 }

@@ -1,6 +1,6 @@
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
-import '../common/theme.dart';
+import '../http/http.dart';
 import '../utils/image.dart';
 
 enum StatusPlaceholderType {
@@ -13,9 +13,9 @@ enum StatusPlaceholderType {
 extension StatusPlaceholderTypeEnumExt on StatusPlaceholderType {
   static Map<StatusPlaceholderType, String> rootTabTypeIconMap = {
     StatusPlaceholderType.custom: '',
-    // StatusPlaceholderType.empty: R.businessFailure,
-    // StatusPlaceholderType.networkError: R.businessFailure,
-    // StatusPlaceholderType.serverError: R.businessFailure,
+    StatusPlaceholderType.empty: R.iconsFailure,
+    StatusPlaceholderType.networkError: R.iconsFailure,
+    StatusPlaceholderType.serverError: R.iconsFailure,
   };
   static Map<StatusPlaceholderType, Size> rootTabTypeIconSizeMap = {
     StatusPlaceholderType.custom: Size.zero,
@@ -46,11 +46,11 @@ StatusPlaceholderType? codeToStatusType(int? code, bool hasData) {
   if (hasData) {
     return null;
   }
-  // if (code == ResponseCode.normal) {
-  //   return StatusPlaceholderType.empty;
-  // } else if (code == ResponseCode.networkError) {
-  //   return StatusPlaceholderType.networkError;
-  // }
+  if (code == ResponseCode.normal) {
+    return StatusPlaceholderType.empty;
+  } else if (code == ResponseCode.networkError) {
+    return StatusPlaceholderType.networkError;
+  }
   return StatusPlaceholderType.serverError;
 }
 

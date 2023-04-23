@@ -5,9 +5,9 @@
 import 'dart:io';
 
 import 'package:nothing/widgets/webview/in_app_webview.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'public.dart';
+
+import 'prefix_header.dart';
 
 Function? functionWithString(BuildContext context, String functionStr) {
   String? url;

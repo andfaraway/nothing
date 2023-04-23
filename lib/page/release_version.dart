@@ -1,4 +1,5 @@
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
+
 import 'release_version_vm.dart';
 
 class ReleaseVersion extends BasePage<_ReleaseVersionState> {
@@ -12,13 +13,21 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
   @override
   ReleaseVersionVM createVM() => ReleaseVersionVM(context);
 
-  final RefreshController _controller = RefreshController();
+  final AppRefreshController _controller =
+      AppRefreshController(autoRefresh: true);
   final ValueNotifier<bool> sendNotification = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
     pageTitle = "Release Version";
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -36,11 +45,11 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
 
   @override
   Widget createContentWidget() {
-    return SmartRefresher(
+    return AppRefresher(
       controller: _controller,
       onRefresh: () async {
         await vm.getLastVersionInfo();
-        _controller.refreshCompleted();
+        _controller.completed();
       },
       child: Padding(
         padding: const EdgeInsets.all(20.0),

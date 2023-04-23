@@ -3,9 +3,9 @@
 //  [Date] 2022-02-16 18:49:44
 //
 
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
+
 import '../constants/notification_center.dart';
-import 'base_vm.dart';
 import 'base_widget.dart';
 import 'vm_s_contract.dart';
 

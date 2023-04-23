@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:nothing/page/photo_show.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 import '../model/server_image_model.dart';
 

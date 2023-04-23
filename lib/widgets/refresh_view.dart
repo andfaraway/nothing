@@ -6,39 +6,39 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../common/theme.dart';
 import 'status_placeholder.dart';
 
-class YBJFRefresher extends StatefulWidget {
-  const YBJFRefresher({
+class AppRefresher extends StatefulWidget {
+  const AppRefresher({
     Key? key,
     this.controller,
     this.onRefresh,
-    this.onLoad,
+    this.onLoading,
     this.onRefreshTap,
     this.child,
   }) : super(key: key);
 
-  final YBJFRefreshController? controller;
+  final AppRefreshController? controller;
   final VoidCallback? onRefresh;
-  final VoidCallback? onLoad;
+  final VoidCallback? onLoading;
   final VoidCallback? onRefreshTap;
   final Widget? child;
 
   @override
-  State<YBJFRefresher> createState() => _NineURefreshState();
+  State<AppRefresher> createState() => _NineURefreshState();
 }
 
-class _NineURefreshState extends State<YBJFRefresher> {
-  YBJFRefreshController? _refreshController;
+class _NineURefreshState extends State<AppRefresher> {
+  AppRefreshController? _refreshController;
   bool _enablePullDown = true;
   bool _enablePullUp = false;
   bool _footerHidden = false;
   StatusPlaceholderType? _statusType;
 
-  YBJFRefreshController? get _effectiveController =>
+  AppRefreshController? get _effectiveController =>
       widget.controller ?? _refreshController;
 
   void _config() {
     if (widget.controller == null) {
-      _refreshController = YBJFRefreshController();
+      _refreshController = AppRefreshController();
     }
     _effectiveController?.headerMode?.addListener(() {
       if (_effectiveController?.isRefresh == true) {
@@ -52,7 +52,7 @@ class _NineURefreshState extends State<YBJFRefresher> {
         }
       }
       if (_effectiveController?.headerMode?.value == RefreshStatus.completed) {
-        if (widget.onLoad != null && !_enablePullUp && _statusType == null) {
+        if (widget.onLoading != null && !_enablePullUp && _statusType == null) {
           if (mounted) {
             setState(() {
               _enablePullUp = true;
@@ -212,7 +212,7 @@ class _NineURefreshState extends State<YBJFRefresher> {
             ),
           ),
           onRefresh: widget.onRefresh,
-          onLoading: widget.onLoad,
+          onLoading: widget.onLoading,
           child: _statusType != null
               ? CustomScrollView(
                   slivers: <Widget>[
@@ -232,7 +232,25 @@ class _NineURefreshState extends State<YBJFRefresher> {
   }
 }
 
-class YBJFRefreshController extends RefreshController {
+class AppRefreshConfiguration extends RefreshConfiguration {
+  AppRefreshConfiguration({Key? key, required Widget child})
+      : super(
+          key: key,
+          child: child,
+          headerBuilder: () => WaterDropHeader(
+            complete: const Icon(
+              Icons.done,
+              color: Colors.grey,
+            ),
+            waterDropColor: specialColor,
+          ),
+          footerBuilder: () => const ClassicFooter(),
+          // headerTriggerDistance: 75.0.h,
+          // footerTriggerDistance: 15.0.h,
+        );
+}
+
+class AppRefreshController extends RefreshController {
   final bool autoRefresh;
   final ValueNotifier<bool> footerHidden = ValueNotifier<bool>(false);
   final ValueNotifier<StatusPlaceholderType?> statusType =
@@ -305,7 +323,7 @@ class YBJFRefreshController extends RefreshController {
     statusType.dispose();
   }
 
-  YBJFRefreshController({
+  AppRefreshController({
     this.autoRefresh = false,
   });
 }

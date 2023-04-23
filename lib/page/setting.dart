@@ -3,11 +3,7 @@
 //  [Date] 2022-04-24 13:51:09
 //
 import 'package:nothing/model/setting_config_model.dart';
-import 'package:nothing/public.dart';
-import 'package:nothing/widgets/content_white_bg.dart';
-import '../utils/hive_boxes.dart';
-import '/public.dart';
-import '../constants/singleton.dart';
+import 'package:nothing/prefix_header.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);

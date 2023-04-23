@@ -1,6 +1,5 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nothing/model/wedding_model.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 class WeddingDetailVM extends BaseVM {
   WeddingDetailVM(BuildContext context) : super(context);

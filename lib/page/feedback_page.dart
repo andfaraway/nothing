@@ -2,8 +2,9 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-17 16:09:34
 //
-import '/public.dart';
 import 'package:nothing/widgets/login_button.dart';
+
+import '../prefix_header.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:nothing/page/video_screen.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:nothing/widgets/picture_viewer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

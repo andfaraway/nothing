@@ -2,21 +2,15 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-04 18:13:56
 
-import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nothing/page/information_page.dart';
-
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/setting.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
-import 'package:nothing/model/interface_model.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 
 import '../model/setting_config_model.dart';
-import 'simple_page.dart';
-
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../public.dart';
+import '../prefix_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -358,7 +352,6 @@ class _HomeWidgetState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Screens.init(context);
     return Scaffold(
       drawer: drawer(),
       body: homeWidget!,

@@ -3,8 +3,8 @@
 //  [Date] 2021-11-12 18:04:14
 //
 
-import 'package:nothing/public.dart';
 import 'package:nothing/model/favorite_model.dart';
+import 'package:nothing/prefix_header.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -14,23 +14,21 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  late final RefreshController _refreshController;
+  late final AppRefreshController _refreshController =
+      AppRefreshController(autoRefresh: true);
 
   List<FavoriteModel> dataList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _refreshController = RefreshController();
-    loadData();
   }
 
   Future<void> loadData() async {
     List? list = await API.getFavorite();
+    _refreshController.completed(success: true);
     if (list == null) {
       showToast(S.current.request_failed);
-      _refreshController.refreshCompleted();
       return;
     }
 
@@ -39,7 +37,6 @@ class _FavoritePageState extends State<FavoritePage> {
       FavoriteModel model = FavoriteModel.fromJson(map);
       dataList.add(model);
     }
-    _refreshController.refreshCompleted();
     setState(() {});
   }
 
@@ -50,7 +47,7 @@ class _FavoritePageState extends State<FavoritePage> {
       appBar: AppBar(
         title: Text(S.current.favorite),
       ),
-      body: SmartRefresher(
+      body: AppRefresher(
         onRefresh: () {
           loadData();
         },

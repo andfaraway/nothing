@@ -4,8 +4,10 @@
 //
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import '/constants/constants.dart';
-import '/app_routes.dart';
+import '../common/app_routes.dart';
+
+part 'cache_interceptors.dart';
 
 part 'response_interceptor.dart';
-part 'cache_interceptors.dart';

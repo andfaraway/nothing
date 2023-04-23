@@ -1,8 +1,9 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:nothing/prefix_header.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:nothing/public.dart';
+
 import 'music_common.dart';
 import 'music_vm.dart';
 

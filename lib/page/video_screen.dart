@@ -1,6 +1,5 @@
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:flutter/material.dart';
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 import '../model/file_model.dart';
 

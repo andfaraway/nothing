@@ -1,7 +1,7 @@
-import 'package:nothing/constants/constants.dart';
 import 'package:nothing/model/message_model.dart';
-import '/public.dart';
 import 'package:nothing/widgets/request_loading_widget.dart';
+
+import '../prefix_header.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -11,7 +11,8 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  late final RefreshController _refreshController;
+  late final AppRefreshController _refreshController =
+      AppRefreshController(autoRefresh: true);
 
   List<MessageModel> dataList = [];
 
@@ -19,7 +20,6 @@ class _MessagePageState extends State<MessagePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _refreshController = RefreshController();
     loadData();
 
     globalContext = context;
@@ -50,7 +50,7 @@ class _MessagePageState extends State<MessagePage> {
       appBar: AppBar(
         title: Text(S.current.message),
       ),
-      body: SmartRefresher(
+      body: AppRefresher(
         onRefresh: () {
           loadData();
         },

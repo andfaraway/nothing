@@ -1,4 +1,4 @@
-import 'package:nothing/public.dart';
+import 'package:nothing/prefix_header.dart';
 
 import '../utils/image.dart';
 
@@ -112,7 +112,7 @@ class YBJFButton {
               vertical: 6.0.h,
             ),
         child: ImageSvg.asset(
-          R.navClose,
+          R.iconsClose,
           width: 14.0.w,
           height: 14.0.w,
           color: color,
@@ -138,7 +138,7 @@ class YBJFButton {
               vertical: 10.0.h,
             ),
         child: ImageSvg.asset(
-          R.navBack,
+          R.iconsBtnBack,
           width: 18.0.w,
           height: 6.0.w,
           color: color,
@@ -146,7 +146,7 @@ class YBJFButton {
       ),
       onTap: onTap ??
           () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           },
     );
   }

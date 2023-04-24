@@ -1,8 +1,3 @@
-/*
- * [Author] libin (libin@ybjf.wecom.work)
- * [Date] 2023-03-31 14:45:32
- */
-
 import 'package:flutter/cupertino.dart';
 
 typedef CustomHeaderBuilder = Widget Function(

@@ -13,6 +13,7 @@ import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/music_page.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/release_version.dart';
+import 'package:nothing/page/root_page.dart';
 import 'package:nothing/page/say_hi.dart';
 import 'package:nothing/page/some_things.dart';
 import 'package:nothing/page/theme_setting.dart';
@@ -29,6 +30,7 @@ class Routes {
 
   static List<RoutePage> routePages = [
     Routes.welcome,
+    Routes.root,
     Routes.login,
     Routes.favorite,
     Routes.feedback,
@@ -48,10 +50,18 @@ class Routes {
     Routes.musicPage,
   ];
 
+  static Widget pageWithRouteName(String routeName, {Object? arguments}) {
+    RoutePage routePage =
+        Routes.routePages.firstWhere((element) => element.name == routeName);
+    return routePage.page.call(arguments: arguments);
+  }
+
   static final navKey = GlobalKey<NavigatorState>();
 
   static BuildContext? get context => navKey.currentState?.context;
 
+  static final RoutePage root =
+      RoutePage(name: '/root', page: ({Object? arguments}) => const RootPage());
   static final RoutePage welcome = RoutePage(
       name: '/welcomeRoute',
       page: ({Object? arguments}) => const WelcomePage());
@@ -129,8 +139,8 @@ class Routes {
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext context,
-      String newRouteName,
+  static Future<dynamic> pushNamedAndRemoveUntil(
+      BuildContext context, String newRouteName,
       {Object? arguments}) async {
     dynamic value = await Navigator.pushNamedAndRemoveUntil(
         context, newRouteName, (route) => false,

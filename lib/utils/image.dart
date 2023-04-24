@@ -10,7 +10,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:nothing/utils/permission_helper.dart';
 import 'package:nothing/utils/toast_utils.dart';
 
-import '../constants/theme.dart';
+import '../common/theme.dart';
 import 'log_utils.dart';
 
 class ImageSvg {

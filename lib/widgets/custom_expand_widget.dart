@@ -1,15 +1,7 @@
-/*
- * [Author] libin (libin@ybjf.wecom.work)
- * [Date] 2023-03-27 15:19:58
- */
-
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:nothing/prefix_header.dart';
 
-import '../constants/screens.dart';
-import '../constants/theme.dart';
-import '../generated/assets.dart';
 import '../utils/image.dart';
 
 class CustomExpandWidget extends StatefulWidget {

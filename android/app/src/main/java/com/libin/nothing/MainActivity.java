@@ -20,15 +20,12 @@ public class MainActivity extends FlutterActivity {
 
     @Override
     public FlutterEngine provideFlutterEngine(@NonNull Context context) {
-        System.out.println("1111111");
         return AudioServicePlugin.getFlutterEngine(context);
     }
 
     ///接受消息
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
-        System.out.println("11111112");
-
         GeneratedPluginRegistrant.registerWith(flutterEngine);
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL);
         channel.setMethodCallHandler(

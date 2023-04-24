@@ -1,7 +1,3 @@
-/*
- * [Author] libin (libin@ybjf.wecom.work)
- * [Date] 2023-03-31 16:55:59
- */
 import 'package:flutter/material.dart';
 
 class NoScrollBehaviorWidget extends ScrollBehavior {

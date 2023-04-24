@@ -57,7 +57,7 @@ class AppTheme {
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     primaryColor: specialColor,
     appBarTheme: AppBarTheme(
-      systemOverlayStyle: YBJFOverlayStyle.dark,
+      systemOverlayStyle: OverlayStyle.dark,
       color: Colors.white,
       elevation: 0.5,
       centerTitle: true,
@@ -126,7 +126,7 @@ class AppTheme {
   );
 }
 
-class YBJFOverlayStyle {
+class OverlayStyle {
   static SystemUiOverlayStyle light = SystemUiOverlayStyle(
     systemNavigationBarColor: Platform.isAndroid ? null : Colors.black,
     systemNavigationBarDividerColor: null,

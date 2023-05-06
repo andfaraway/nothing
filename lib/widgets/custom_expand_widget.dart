@@ -2,8 +2,6 @@ import 'dart:math';
 
 import 'package:nothing/prefix_header.dart';
 
-import '../utils/image.dart';
-
 class CustomExpandWidget extends StatefulWidget {
   final bool expand;
   final bool canExpand;
@@ -71,8 +69,7 @@ class _CustomExpandWidgetState extends State<CustomExpandWidget>
                           if (widget.canExpand)
                             Transform.rotate(
                               angle: pi / 2 * _controller.value,
-                              child: ImageSvg.asset(R.imagesArrowRight,
-                                  width: 7.r, height: 12.r),
+                              child: AppImage.asset(R.imagesArrowRight, width: 7.r, height: 12.r),
                             ),
                           ...?widget.actions
                         ],

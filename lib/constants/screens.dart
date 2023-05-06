@@ -43,11 +43,7 @@ class Screens {
 class AppScreenUtilInit extends ScreenUtilInit {
   const AppScreenUtilInit({Key? key, required ScreenUtilInitBuilder builder})
       : super(
-            key: key,
-            designSize: const Size(750, 1624),
-            minTextAdapt: true,
-            splitScreenMode: true,
-            builder: builder);
+            key: key, designSize: const Size(375, 812), minTextAdapt: true, splitScreenMode: true, builder: builder);
 }
 
 /// Screen capability method.

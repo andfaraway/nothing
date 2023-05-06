@@ -42,6 +42,8 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(Theme.of(context).textTheme.titleMedium);
+    print(DefaultTextStyle.of(context).style);
     return Scaffold(
       backgroundColor: ThemeColor.background,
       appBar: AppBar(
@@ -54,30 +56,29 @@ class _FavoritePageState extends State<FavoritePage> {
         controller: _refreshController,
         child: dataList.isEmpty
             ? const Center(
-                child: Text('nothing'),
-              )
+          child: Text('nothing'),
+        )
             : SingleChildScrollView(
-                padding:
-                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-                child: Column(
-                    children:
-                        dataList.map((model) => messageWidget(model)).toList()),
-              ),
+          padding:
+          const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+          child: Column(
+              children:
+              dataList.map((model) => messageWidget(model)).toList()),
+        ),
       ),
     );
   }
 
   Widget messageWidget(FavoriteModel model) {
     return Padding(
-      padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
+      padding: EdgeInsets.all(17.w),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
         ),
         child: Padding(
-          padding:
-              EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
+          padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 22.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -86,27 +87,18 @@ class _FavoritePageState extends State<FavoritePage> {
                 children: [
                   Text(
                     model.xSource ?? 'nothing',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
                     model.date?.dataFormat() ?? '',
-                    style: TextStyle(
-                      color: const Color(0xff888888),
-                      fontSize: 28.sp,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: placeholderColor),
                   )
                 ],
               ),
-              30.hSizedBox,
+              15.hSizedBox,
               Text(
                 model.content ?? '',
-                style: TextStyle(
-                  color: const Color(0xff888888),
-                  fontSize: 28.sp,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               )
             ],
           ),

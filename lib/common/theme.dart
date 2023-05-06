@@ -11,6 +11,8 @@ double get appBarTitleSize => 18.0.sp;
 //  页面主标题颜色
 Color get appBarTitleColor => const Color(0xff343434);
 
+String get fontFamily => 'SourceHanSansCN';
+
 //  底部tab字体大小
 double get tabBarTitleSize => 10.0.sp;
 //  底部tab字体颜色
@@ -52,21 +54,26 @@ Color get underwayColor => const Color(0xffF8CB7B);
 //  错误颜色
 Color get errorColor => const Color(0xffFF7575);
 
+TextStyle get defaultTextStyle => TextStyle(
+      fontSize: 28.sp,
+      color: errorColor,
+      fontWeight: weightMedium,
+      letterSpacing: 1.sp,
+    );
+
 class AppTheme {
   static ThemeData defaultThemeData = ThemeData(
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     primaryColor: specialColor,
     appBarTheme: AppBarTheme(
-      systemOverlayStyle: OverlayStyle.dark,
+      systemOverlayStyle: AppOverlayStyle.dark,
       color: Colors.white,
-      elevation: 0.5,
+      elevation: 3,
       centerTitle: true,
       titleSpacing: 0.0,
+      shadowColor: mainColor.withOpacity(.2),
       titleTextStyle: TextStyle(
-        fontWeight: weightMedium,
-        fontSize: appBarTitleSize,
-        color: appBarTitleColor,
-      ),
+          fontWeight: weightMedium, fontSize: appBarTitleSize, color: appBarTitleColor, fontFamily: fontFamily),
       iconTheme: IconThemeData(
         color: mainColor,
       ),
@@ -119,20 +126,37 @@ class AppTheme {
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: specialColor,
     ),
-    fontFamily: 'SourceHanSansCN',
+    textTheme: const TextTheme(
+            displayLarge: TextStyle(),
+            displayMedium: TextStyle(),
+            displaySmall: TextStyle(),
+            headlineMedium: TextStyle(),
+            headlineSmall: TextStyle(),
+            titleLarge: TextStyle(),
+            titleMedium: TextStyle(),
+            titleSmall: TextStyle(),
+            bodyLarge: TextStyle(),
+            bodyMedium: TextStyle(),
+            bodySmall: TextStyle(),
+            labelLarge: TextStyle(),
+            labelSmall: TextStyle())
+        .apply(
+      bodyColor: mainColor,
+      displayColor: errorColor,
+    ),
+    fontFamily: fontFamily,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     splashFactory: NoSplash.splashFactory,
   );
 }
 
-class OverlayStyle {
+class AppOverlayStyle {
   static SystemUiOverlayStyle light = SystemUiOverlayStyle(
     systemNavigationBarColor: Platform.isAndroid ? null : Colors.black,
     systemNavigationBarDividerColor: null,
     statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness:
-        Platform.isAndroid ? null : Brightness.dark,
+    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.dark,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark,
   );
@@ -141,8 +165,7 @@ class OverlayStyle {
     systemNavigationBarColor: Platform.isAndroid ? null : Colors.white,
     systemNavigationBarDividerColor: null,
     statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness:
-        Platform.isAndroid ? null : Brightness.light,
+    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.light,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.light,
   );

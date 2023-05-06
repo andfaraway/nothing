@@ -21,7 +21,7 @@ void main() async {
   Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-  SystemChrome.setSystemUIOverlayStyle(OverlayStyle.dark);
+  SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {

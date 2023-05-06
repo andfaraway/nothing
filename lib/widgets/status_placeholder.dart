@@ -1,7 +1,6 @@
 import 'package:nothing/prefix_header.dart';
 
 import '../http/http.dart';
-import '../utils/image.dart';
 
 enum StatusPlaceholderType {
   custom,
@@ -104,7 +103,7 @@ class StatusPlaceholder extends StatelessWidget {
             children: <Widget>[
               Visibility(
                 visible: _icon.isNotEmpty,
-                child: ImageSvg.asset(
+                child: AppImage.asset(
                   _icon,
                   width: _iconSize.width,
                   height: _iconSize.height,

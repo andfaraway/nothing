@@ -293,7 +293,7 @@ class _HomeWidgetState extends State<HomePage> {
                           );
                         }),
                     cellWidget(
-                      icon: SvgPicture.asset(
+                      icon: AppImage.asset(
                         R.imagesSetUp,
                         width: 40.w,
                         height: 40.w,

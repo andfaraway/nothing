@@ -5,7 +5,6 @@
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter_easyloading/flutter_easyloading.dart';
-export 'package:flutter_svg/svg.dart';
 
 export '../generated/l10n.dart';
 export 'app_function.dart';
@@ -19,6 +18,7 @@ export 'constants/constants.dart';
 export 'constants/screens.dart';
 export 'generated/assets.dart';
 export 'http/api.dart';
+export 'utils/image.dart';
 export 'widgets/content_white_bg.dart';
 export 'widgets/load_error_widget.dart';
 export 'widgets/normal_cell.dart';

@@ -13,8 +13,8 @@ import 'package:nothing/utils/toast_utils.dart';
 import '../common/theme.dart';
 import 'log_utils.dart';
 
-class ImageSvg {
-  ImageSvg._();
+class AppImage {
+  AppImage._();
 
   static Widget asset(
     String assetName, {
@@ -22,8 +22,10 @@ class ImageSvg {
     double? width,
     double? height,
     Color? color,
-  }) =>
-      SvgPicture.asset(
+    BoxFit fit = BoxFit.cover,
+  }) {
+    if (assetName.toLowerCase().endsWith('svg')) {
+      return SvgPicture.asset(
         assetName,
         key: key,
         width: width,
@@ -34,27 +36,21 @@ class ImageSvg {
                 BlendMode.srcIn,
               )
             : null,
-        fit: BoxFit.cover,
+        fit: fit,
       );
-}
-
-class YBJFImage {
-  static Widget svgAsset(
-    String assetName, {
-    Key? key,
-    double? width,
-    double? height,
-    Color? color,
-  }) =>
-      ImageSvg.asset(
+    } else {
+      return Image.asset(
         assetName,
         key: key,
         width: width,
         height: height,
         color: color,
+        fit: fit,
       );
+    }
+  }
 
-  static Widget cache(
+  static Widget network(
     String url, {
     Key? key,
     double? width,
@@ -108,10 +104,8 @@ Future<bool> saveImageToLocal(
   return false;
 }
 
-Future<Uint8List?> imageFromRenderRepaintBoundary(
-    RenderRepaintBoundary renderRepaintBoundary) async {
-  var image =
-      await renderRepaintBoundary.toImage(pixelRatio: window.devicePixelRatio);
+Future<Uint8List?> imageFromRenderRepaintBoundary(RenderRepaintBoundary renderRepaintBoundary) async {
+  var image = await renderRepaintBoundary.toImage(pixelRatio: window.devicePixelRatio);
   ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
   Uint8List? pnyBytes = byteData?.buffer.asUint8List();
   return pnyBytes;

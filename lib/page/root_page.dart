@@ -36,7 +36,7 @@ class _RootPageState extends State<RootPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBody: true,
+      extendBody: true,
       resizeToAvoidBottomInset: false,
       body: PageView(
         controller: _pageController,
@@ -44,6 +44,7 @@ class _RootPageState extends State<RootPage>
         children: rootBars.map((e) => e.page).toList(),
       ),
       floatingActionButton: FloatingActionButton(
+        child: AppImage.asset(R.tabSend, color: Colors.white),
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -51,25 +52,32 @@ class _RootPageState extends State<RootPage>
           valueListenable: _bottomNavIndex,
           builder: (context, index, child) {
             return AnimatedBottomNavigationBar.builder(
+              // elevation: 0.5,
+              // gapWidth: 44.0.w,
+              shadow: BoxShadow(
+                offset: const Offset(0.0, 1.0),
+                blurRadius: 1.0,
+                color: Colors.black.withOpacity(0.1),
+              ),
+              backgroundColor: Colors.green,
               activeIndex: index,
               gapLocation: GapLocation.center,
               notchSmoothness: NotchSmoothness.defaultEdge,
               splashSpeedInMilliseconds: 0,
-              leftCornerRadius: 0,
-              rightCornerRadius: 0,
+              leftCornerRadius: 10,
+              rightCornerRadius: 10,
               onTap: (index) => setState(() => _bottomNavIndex.value = index),
               itemCount: rootBars.length,
               tabBuilder: (int index, bool isActive) {
                 BarItem item = rootBars[index];
-                return Column(
-                  children: [
-                    isActive ? item.activeIcon : item.icon,
-                    Text(
-                      item.label,
-                      style: TextStyle(
-                          color: isActive ? errorColor : placeholderColor),
-                    )
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      isActive ? item.activeIcon : item.icon,
+                    ],
+                  ),
                 );
               }, //other params
             );
@@ -80,23 +88,23 @@ class _RootPageState extends State<RootPage>
   _loadData() {
     rootBars = [
       BarItem(
-          icon: const Icon(Icons.favorite),
-          activeIcon: Icon(Icons.favorite, color: errorColor),
+          icon: AppImage.asset(R.tabHeart, color: placeholderColor),
+          activeIcon: AppImage.asset(R.tabHeart, color: errorColor),
           label: '收藏',
           page: Routes.favorite.page.call()),
       BarItem(
-          icon: const Icon(Icons.message),
-          activeIcon: Icon(Icons.message, color: errorColor),
+          icon: AppImage.asset(R.tabMail, color: placeholderColor),
+          activeIcon: AppImage.asset(R.tabMail, color: errorColor),
           label: '信息',
           page: Routes.message.page.call()),
       BarItem(
-          icon: const Icon(Icons.chat),
-          activeIcon: Icon(Icons.chat, color: errorColor),
-          label: '实况',
-          page: Routes.livePhoto.page.call()),
+          icon: AppImage.asset(R.tabAperture, color: placeholderColor),
+          activeIcon: AppImage.asset(R.tabAperture, color: errorColor),
+          label: '图片',
+          page: Routes.photoShow.page.call()),
       BarItem(
-          icon: const Icon(Icons.receipt_long),
-          activeIcon: Icon(Icons.receipt_long, color: errorColor),
+          icon: AppImage.asset(R.tabUser, color: placeholderColor),
+          activeIcon: AppImage.asset(R.tabUser, color: errorColor),
           label: '我的',
           page: Routes.feedback.page.call()),
     ];

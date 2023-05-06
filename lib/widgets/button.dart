@@ -1,7 +1,5 @@
 import 'package:nothing/prefix_header.dart';
 
-import '../utils/image.dart';
-
 class YBJFButton {
   YBJFButton._();
 
@@ -111,7 +109,7 @@ class YBJFButton {
               horizontal: 12.0.w,
               vertical: 6.0.h,
             ),
-        child: ImageSvg.asset(
+        child: AppImage.asset(
           R.iconsClose,
           width: 14.0.w,
           height: 14.0.w,
@@ -137,7 +135,7 @@ class YBJFButton {
               horizontal: 10.0.w,
               vertical: 10.0.h,
             ),
-        child: ImageSvg.asset(
+        child: AppImage.asset(
           R.iconsBtnBack,
           width: 18.0.w,
           height: 6.0.w,

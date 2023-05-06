@@ -2,12 +2,9 @@
 class R {
   R._();
 
-  static const String fontsSourceHanSansCNBold =
-      'assets/fonts/SourceHanSansCN-Bold.otf';
-  static const String fontsSourceHanSansCNMedium =
-      'assets/fonts/SourceHanSansCN-Medium.otf';
-  static const String fontsSourceHanSansCNRegular =
-      'assets/fonts/SourceHanSansCN-Regular.otf';
+  static const String fontsSourceHanSansCNBold = 'assets/fonts/SourceHanSansCN-Bold.otf';
+  static const String fontsSourceHanSansCNMedium = 'assets/fonts/SourceHanSansCN-Medium.otf';
+  static const String fontsSourceHanSansCNRegular = 'assets/fonts/SourceHanSansCN-Regular.otf';
   static const String iconsBtnBack = 'assets/images/icons/btn_back.svg';
   static const String iconsClose = 'assets/images/icons/close.svg';
   static const String iconsEyeClose = 'assets/images/icons/eye_close.svg';
@@ -27,4 +24,9 @@ class R {
   static const String imagesSetUp = 'assets/images/set_up.svg';
   static const String imagesVersionUpdate = 'assets/images/version_update.png';
   static const String imagesZixun = 'assets/images/zixun.svg';
+  static const String tabAperture = 'assets/images/tab/aperture.svg';
+  static const String tabHeart = 'assets/images/tab/heart.svg';
+  static const String tabMail = 'assets/images/tab/mail.svg';
+  static const String tabSend = 'assets/images/tab/send.svg';
+  static const String tabUser = 'assets/images/tab/user.svg';
 }

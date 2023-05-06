@@ -18,11 +18,9 @@ void main() async {
   }
   await DeviceUtils.getDeviceUuid();
 
-  Singleton.welcomeLoadResult =
-      await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
+  Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   SystemChrome.setSystemUIOverlayStyle(OverlayStyle.dark);
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }

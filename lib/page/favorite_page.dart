@@ -42,10 +42,8 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(Theme.of(context).textTheme.titleMedium);
-    print(DefaultTextStyle.of(context).style);
     return Scaffold(
-      backgroundColor: ThemeColor.background,
+      backgroundColor: AppColor.background,
       appBar: AppBar(
         title: Text(S.current.favorite),
       ),
@@ -56,7 +54,7 @@ class _FavoritePageState extends State<FavoritePage> {
         controller: _refreshController,
         child: dataList.isEmpty
             ? const Center(
-          child: Text('nothing'),
+                child: Text('nothing'),
         )
             : SingleChildScrollView(
           padding:
@@ -91,7 +89,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   ),
                   Text(
                     model.date?.dataFormat() ?? '',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: placeholderColor),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.placeholderColor),
                   )
                 ],
               ),

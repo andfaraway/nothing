@@ -112,7 +112,7 @@ class PrivacyDiaLog extends StatelessWidget {
                     },
                     child: Text(
                       S.current.disagree_quite,
-                      style: const TextStyle(color: ThemeColor.blackLight),
+                      style: const TextStyle(color: AppColor.blackLight),
                     ),
                   ),
                 )

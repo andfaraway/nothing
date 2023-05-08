@@ -1,7 +1,3 @@
-///
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2019-12-17 10:56
-///
 part of 'providers.dart';
 
 class ThemesProvider with ChangeNotifier {
@@ -10,7 +6,6 @@ class ThemesProvider with ChangeNotifier {
     _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
     _filterColor = HiveBoxes.get(HiveKey.filterColor,defaultValue: Colors.transparent);
   }
-
 
   /// 滤镜颜色
   Color _filterColor = Colors.transparent;
@@ -59,18 +54,6 @@ class ThemesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _platformBrightness = true;
-
-  bool get platformBrightness => _platformBrightness;
-
-  set platformBrightness(bool value) {
-    if (_platformBrightness == value) {
-      return;
-    }
-    HiveFieldUtils.setBrightnessPlatform(value);
-    _platformBrightness = value;
-    notifyListeners();
-  }
 
   Future<void> initTheme() async {
     int themeIndex = HiveFieldUtils.getColorThemeIndex();
@@ -80,17 +63,9 @@ class ThemesProvider with ChangeNotifier {
     }
     _currentThemeGroup = supportThemeGroups[themeIndex];
     _dark = HiveFieldUtils.getBrightnessDark();
-    _platformBrightness = HiveFieldUtils.getBrightnessPlatform();
   }
 
   void resetTheme() {
-    HiveFieldUtils.setColorTheme(0);
-    HiveFieldUtils.setBrightnessDark(false);
-    HiveFieldUtils.setBrightnessPlatform(true);
-    _currentThemeGroup = defaultThemeGroup;
-    _dark = false;
-    _platformBrightness = true;
-    notifyListeners();
   }
 
   void updateThemeColor(int themeIndex) {
@@ -106,169 +81,106 @@ class ThemesProvider with ChangeNotifier {
     );
   }
 
-  Future<void> syncFromCloudSettings(CloudSettingsModel model) async {
-    _dark = model.isDark;
-    _platformBrightness = model.platformBrightness;
-    await HiveFieldUtils.setBrightnessDark(_dark);
-    await HiveFieldUtils.setBrightnessPlatform(_platformBrightness);
-    notifyListeners();
-  }
+  final ThemeData _defaultThemeData = ThemeData(
+    scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
+    primaryColor: AppColor.mainColor,
+    appBarTheme: AppBarTheme(
+      systemOverlayStyle: AppOverlayStyle.dark,
+      color: Colors.white,
+      elevation: 3,
+      centerTitle: true,
+      titleSpacing: 0.0,
+      shadowColor: AppColor.mainColor.withOpacity(.2),
+      titleTextStyle: TextStyle(
+          fontWeight: weightMedium,
+          fontSize: AppColor.appBarTitleSize,
+          color: AppColor.appBarTitleColor,
+          fontFamily: AppTextStyle.fontFamily),
+      iconTheme: IconThemeData(
+        color: AppColor.mainColor,
+      ),
+      actionsIconTheme: IconThemeData(
+        size: 24.0.w,
+        color: AppColor.mainColor,
+      ),
+    ),
+    tabBarTheme: TabBarTheme(
+      indicatorSize: TabBarIndicatorSize.label,
+      labelColor: AppColor.tabBarTitleSelectedColor,
+      labelStyle: TextStyle(
+        fontSize: 20.0.sp,
+      ),
+      unselectedLabelColor: AppColor.tabBarTitleColor,
+      unselectedLabelStyle: TextStyle(
+        fontSize: 17.0.sp,
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+      elevation: 4.0,
+      selectedIconTheme: IconThemeData(
+        size: 28.0.sp,
+      ),
+      unselectedIconTheme: IconThemeData(
+        size: 28.0.sp,
+      ),
+      selectedItemColor: AppColor.tabBarTitleSelectedColor,
+      unselectedItemColor: AppColor.tabBarTitleColor,
+      selectedLabelStyle: TextStyle(
+        fontSize: AppColor.tabBarTitleSize,
+        color: AppColor.tabBarTitleSelectedColor,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontSize: AppColor.tabBarTitleSize,
+        color: AppColor.tabBarTitleColor,
+      ),
+      showUnselectedLabels: true,
+      showSelectedLabels: true,
+      type: BottomNavigationBarType.fixed,
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: AppColor.mainColor,
+    ),
+    dividerTheme: DividerThemeData(
+      thickness: 1.0,
+      color: AppColor.dividerColor.withOpacity(0.7),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: AppColor.mainColor,
+    ),
+    textTheme: const TextTheme(
+            displayLarge: TextStyle(),
+            displayMedium: TextStyle(),
+            displaySmall: TextStyle(),
+            headlineMedium: TextStyle(),
+            headlineSmall: TextStyle(),
+            titleLarge: TextStyle(),
+            titleMedium: TextStyle(),
+            titleSmall: TextStyle(),
+            bodyLarge: TextStyle(),
+            bodyMedium: TextStyle(),
+            bodySmall: TextStyle(),
+            labelLarge: TextStyle(),
+            labelSmall: TextStyle())
+        .apply(
+      bodyColor: AppColor.mainColor,
+      displayColor: AppColor.mainColor,
+    ),
+    fontFamily: AppTextStyle.fontFamily,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    splashFactory: NoSplash.splashFactory,
+  );
 
-  ThemeData get lightTheme {
-    final Color currentColor = currentThemeGroup.lightThemeColor;
-    final Color primaryColor = currentThemeGroup.lightPrimaryColor;
-    final Color backgroundColor = currentThemeGroup.lightBackgroundColor;
-    final Color iconColor = currentThemeGroup.lightIconUnselectedColor;
-    final Color dividerColor = currentThemeGroup.lightDividerColor;
-    final Color primaryTextColor = currentThemeGroup.lightPrimaryTextColor;
-    final Color secondaryTextColor = currentThemeGroup.lightSecondaryTextColor;
-    return ThemeData.light().copyWith(
-      brightness: Brightness.light,
-      primaryColor: primaryColor,
-      primaryColorBrightness: Brightness.light,
-      primaryColorLight: primaryColor,
-      primaryColorDark: backgroundColor,
-      canvasColor: backgroundColor,
-      dividerColor: dividerColor,
-      scaffoldBackgroundColor: backgroundColor,
-      bottomAppBarColor: primaryColor,
-      cardColor: primaryColor,
-      highlightColor: Colors.transparent,
-      splashFactory: const NoSplashFactory(),
-      toggleableActiveColor: currentColor,
-      indicatorColor: currentColor,
-      appBarTheme: AppBarTheme(
-        elevation: 0,
-        color: primaryColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.light,
-        ),
-      ),
-      iconTheme: IconThemeData(color: iconColor),
-      primaryIconTheme: IconThemeData(color: secondaryTextColor),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: primaryColor,
-        backgroundColor: currentColor,
-      ),
-      tabBarTheme: TabBarTheme(
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: primaryTextColor,
-        unselectedLabelColor: primaryTextColor,
-      ),
-      colorScheme: ColorScheme(
-        primary: currentColor,
-        primaryVariant: currentColor,
-        secondary: currentColor,
-        secondaryVariant: currentColor,
-        surface: Colors.white,
-        background: backgroundColor,
-        error: defaultLightColor,
-        onPrimary: currentColor,
-        onSecondary: currentColor,
-        onSurface: Colors.white,
-        onBackground: backgroundColor,
-        onError: defaultLightColor,
-        brightness: Brightness.light,
-      ),
-      textTheme: TextTheme(
-        bodyText1: TextStyle(color: secondaryTextColor),
-        bodyText2: TextStyle(color: primaryTextColor),
-        button: TextStyle(color: primaryTextColor),
-        caption: TextStyle(color: secondaryTextColor),
-        subtitle1: TextStyle(color: secondaryTextColor),
-        headline1: TextStyle(color: secondaryTextColor),
-        headline2: TextStyle(color: secondaryTextColor),
-        headline3: TextStyle(color: secondaryTextColor),
-        headline4: TextStyle(color: secondaryTextColor),
-        headline5: TextStyle(color: primaryTextColor),
-        headline6: TextStyle(color: primaryTextColor),
-        overline: TextStyle(color: primaryTextColor),
-      ),
-      textSelectionTheme: TextSelectionThemeData(
-        cursorColor: currentColor,
-        selectionColor: currentColor.withOpacity(0.5),
-        selectionHandleColor: currentColor,
-      ),
-    );
-  }
+  ThemeData get _lightThemeData => _defaultThemeData.copyWith(
+      primaryColor: _currentThemeGroup.lightThemeColor,
+      appBarTheme: _defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.lightThemeColor));
 
-  ThemeData get darkTheme {
-    final Color currentColor = currentThemeGroup.darkThemeColor;
-    final Color primaryColor = currentThemeGroup.darkPrimaryColor;
-    final Color backgroundColor = currentThemeGroup.darkBackgroundColor;
-    final Color iconColor = currentThemeGroup.darkIconUnselectedColor;
-    final Color dividerColor = currentThemeGroup.darkDividerColor;
-    final Color primaryTextColor = currentThemeGroup.darkPrimaryTextColor;
-    final Color secondaryTextColor = currentThemeGroup.darkSecondaryTextColor;
-    return ThemeData.dark().copyWith(
-      brightness: Brightness.dark,
-      primaryColor: primaryColor,
-      primaryColorBrightness: Brightness.dark,
-      primaryColorLight: backgroundColor,
-      primaryColorDark: primaryColor,
-      canvasColor: backgroundColor,
-      dividerColor: dividerColor,
-      scaffoldBackgroundColor: backgroundColor,
-      bottomAppBarColor: primaryColor,
-      cardColor: primaryColor,
-      highlightColor: Colors.transparent,
-      splashFactory: const NoSplashFactory(),
-      toggleableActiveColor: currentColor,
-      indicatorColor: currentColor,
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        color: Colors.black,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.dark,
-        ),
-      ),
-      iconTheme: IconThemeData(color: iconColor),
-      primaryIconTheme: IconThemeData(color: secondaryTextColor),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.black,
-        backgroundColor: currentColor,
-      ),
-      tabBarTheme: TabBarTheme(
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: primaryTextColor,
-        unselectedLabelColor: primaryTextColor,
-      ),
-      colorScheme: ColorScheme(
-        primary: currentColor,
-        primaryVariant: currentColor,
-        secondary: currentColor,
-        secondaryVariant: currentColor,
-        surface: primaryColor,
-        background: backgroundColor,
-        error: defaultLightColor,
-        onPrimary: currentColor,
-        onSecondary: currentColor,
-        onSurface: primaryColor,
-        onBackground: backgroundColor,
-        onError: defaultLightColor,
-        brightness: Brightness.dark,
-      ),
-      textTheme: TextTheme(
-        bodyText1: TextStyle(color: secondaryTextColor),
-        bodyText2: TextStyle(color: primaryTextColor),
-        button: TextStyle(color: primaryTextColor),
-        caption: TextStyle(color: secondaryTextColor),
-        subtitle1: TextStyle(color: secondaryTextColor),
-        headline1: TextStyle(color: secondaryTextColor),
-        headline2: TextStyle(color: secondaryTextColor),
-        headline3: TextStyle(color: secondaryTextColor),
-        headline4: TextStyle(color: secondaryTextColor),
-        headline5: TextStyle(color: primaryTextColor),
-        headline6: TextStyle(color: primaryTextColor),
-        overline: TextStyle(color: primaryTextColor),
-      ),
-      textSelectionTheme: TextSelectionThemeData(
-        cursorColor: currentColor,
-        selectionColor: currentColor.withOpacity(0.5),
-        selectionHandleColor: currentColor,
-      ),
-    );
-  }
+  ThemeData get _darkThemeData => _defaultThemeData.copyWith(
+      primaryColor: _currentThemeGroup.darkThemeColor,
+      appBarTheme: _defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.darkThemeColor));
+
+  ThemeData get currentThemeData => dark ? _darkThemeData : _lightThemeData;
 }
 
 const List<ThemeGroup> supportThemeGroups = <ThemeGroup>[

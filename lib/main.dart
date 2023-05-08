@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,7 +23,7 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
-  runApp(MultiProvider(providers: providers, child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -63,28 +64,28 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return AppScreenUtilInit(
-      builder: (context, child) => AppRefreshConfiguration(
-        child: Consumer<ThemesProvider>(builder: (context, provider, child) {
-          return ColorFiltered(
-            colorFilter:
-                ColorFilter.mode(provider.filterColor, BlendMode.color),
-            child: MaterialApp(
-              navigatorKey: Instances.navigatorKey,
-              theme: AppTheme.defaultThemeData,
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              initialRoute: Routes.root.name,
-              onGenerateRoute: onGenerateRoute,
-              navigatorObservers: [
-                FlutterSmartDialog.observer,
-                AppNavigatorObserver()
-              ],
-              builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
+      builder: (context, child) => MultiProvider(
+        providers: providers,
+        builder: (context, child) => Consumer<ThemesProvider>(builder: (context, themesProvider, child) {
+          return AppRefreshConfiguration(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(themesProvider.filterColor, BlendMode.color),
+              child: MaterialApp(
+                navigatorKey: Instances.navigatorKey,
+                theme: themesProvider.currentThemeData,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                initialRoute: Routes.root.name,
+                onGenerateRoute: onGenerateRoute,
+                scrollBehavior: const CupertinoScrollBehavior(),
+                navigatorObservers: [FlutterSmartDialog.observer, AppNavigatorObserver()],
+                builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
+              ),
             ),
           );
         }),

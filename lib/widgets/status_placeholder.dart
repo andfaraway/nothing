@@ -121,7 +121,7 @@ class StatusPlaceholder extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: weightBold,
                     fontSize: 17.0.sp,
-                    color: mainColor,
+                    color: AppColor.mainColor,
                   ),
                 ),
               ),
@@ -137,7 +137,7 @@ class StatusPlaceholder extends StatelessWidget {
                   style: TextStyle(
                     height: 1.6,
                     fontSize: 13.0.sp,
-                    color: secondlyColor,
+                    color: AppColor.secondlyColor,
                   ),
                 ),
               ),

@@ -27,13 +27,75 @@ class ToastTipsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
+            // width: 690.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
+                  child: Text(
+                    title,
+                    style: AppTextStyle.titleMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFE8E8E8),
+                  height: 1.h,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: onCancel ??
+                            () {
+                              Navigator.pop(context);
+                            },
+                        child: Text(
+                          cancelLabel ?? S.current.cancel,
+                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.mainColor),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: const Color(0xFFE8E8E8),
+                      height: 60.h,
+                      width: 1.w,
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          onConfirm?.call();
+                        },
+                        child: Text(
+                          confirmLabel ?? S.current.confirm,
+                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.red),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    return Scaffold(
       backgroundColor: Colors.black38,
       body: Center(
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
-          width: 690.w,
-          height: height ?? 294.h,
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
+          // width: 690.w,
+          // height: height ?? 294.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -43,12 +105,7 @@ class ToastTipsDialog extends StatelessWidget {
                   child: Center(
                     child: Text(
                       title,
-                      style: TextStyle(
-                        color: const Color(0xFF333333),
-                        fontSize: 34.sp,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none,
-                      ),
+                      style: AppTextStyle.titleMedium,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -70,10 +127,7 @@ class ToastTipsDialog extends StatelessWidget {
                             },
                         child: Text(
                           cancelLabel ?? S.current.cancel,
-                          style: TextStyle(
-                              color: const Color(0xFF1578FE),
-                              fontSize: 32.sp
-                          ),
+                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.mainColor),
                         ),
                       ),
                     ),
@@ -90,10 +144,7 @@ class ToastTipsDialog extends StatelessWidget {
                         },
                         child: Text(
                           confirmLabel ?? S.current.confirm,
-                          style: TextStyle(
-                              color: ThemeColor.red,
-                              fontSize: 32.sp
-                          ),
+                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.red),
                         ),
                       ),
                     ),

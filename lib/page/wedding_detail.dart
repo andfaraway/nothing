@@ -48,11 +48,9 @@ class _WeddingDetailState
           children: [
             TextField(
               controller: TextEditingController(text: widget.model.title),
-              decoration: const InputDecoration(
-                  border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ), hintText: '标题'),
-              style: TextStyle(color: ThemeColor.black, fontSize: 42.sp),
+              decoration:
+                  const InputDecoration(border: const OutlineInputBorder(borderSide: BorderSide.none), hintText: '标题'),
+              style: TextStyle(color: AppColor.black, fontSize: 42.sp),
               onChanged: (value) {
                 widget.model.title = value;
               },
@@ -82,14 +80,17 @@ class _WeddingDetailState
                 height: 36,
                 child: MaterialButton(
                   onPressed: () {
-                    showConfirmToast(context: context, title: "${S.current.delete}?", onConfirm: ()async{
-                      await vm.deleteWedding(widget.model);
-                      if(mounted){
-                        Navigator.of(context).pop('refresh');
-                      }
-                    });
+                    showConfirmToast(
+                        context: context,
+                        title: "${S.current.delete}?",
+                        onConfirm: () async {
+                          await vm.deleteWedding(widget.model);
+                          if (mounted) {
+                            Navigator.of(context).pop('refresh');
+                          }
+                        });
                   },
-                  color: ThemeColor.red,
+                  color: AppColor.red,
                   child: Text(
                     S.current.delete,
                     style: const TextStyle(color: Colors.white),

@@ -45,7 +45,7 @@ class _CustomExpandWidgetState extends State<CustomExpandWidget>
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: borderColor, width: 1),
+                border: Border.all(color: AppColor.borderColor, width: 1),
                 borderRadius: BorderRadius.circular(7.r),
               ),
               child: Column(
@@ -60,8 +60,7 @@ class _CustomExpandWidgetState extends State<CustomExpandWidget>
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.r, vertical: 17.r),
-                      color: scaffoldBackgroundColor
-                          .withOpacity(widget.expand ? 1 : _controller.value),
+                      color: AppColor.scaffoldBackgroundColor.withOpacity(widget.expand ? 1 : _controller.value),
                       child: Row(
                         children: [
                           Expanded(child: widget.titleWidget),

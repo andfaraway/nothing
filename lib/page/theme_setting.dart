@@ -145,6 +145,7 @@ class _ThemeContainer extends StatelessWidget {
       child: Consumer<ThemesProvider>(
         builder: (context, provider, child) => GestureDetector(
           onTap: () {
+            print('1111');
             provider.currentThemeGroup = themeGroup;
             HiveFieldUtils.setColorTheme(themeIndex);
           },

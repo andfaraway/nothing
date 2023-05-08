@@ -267,7 +267,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Expanded(
                 child: Text(
               title ?? '',
-              style: themeTextStyle(fontSize: 16.sp),
+              style: Theme.of(context).textTheme.titleMedium,
             )),
           ],
         ),

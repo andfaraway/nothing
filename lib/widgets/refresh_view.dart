@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../common/theme.dart';
 import 'status_placeholder.dart';
 
 class AppRefresher extends StatefulWidget {
@@ -145,7 +143,7 @@ class _NineURefreshState extends State<AppRefresher> {
             spacing: 8.0.w,
             textStyle: TextStyle(
               fontSize: 15.0.sp,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             idleText: '下拉刷新',
             releaseText: '松开刷新',
@@ -160,22 +158,22 @@ class _NineURefreshState extends State<AppRefresher> {
             failedIcon: Icon(
               Icons.error,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             completeIcon: Icon(
               Icons.done,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             idleIcon: Icon(
               Icons.arrow_downward,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             releaseIcon: Icon(
               Icons.refresh,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
           ),
           footer: ClassicFooter(
@@ -183,7 +181,7 @@ class _NineURefreshState extends State<AppRefresher> {
             spacing: 8.0.w,
             textStyle: TextStyle(
               fontSize: 15.0.sp,
-              color: _footerHidden ? Colors.transparent : secondlyColor,
+              color: _footerHidden ? Colors.transparent : AppColor.secondlyColor,
             ),
             idleText: '上拉加载',
             canLoadingText: '松开加载',
@@ -193,7 +191,7 @@ class _NineURefreshState extends State<AppRefresher> {
             failedIcon: Icon(
               Icons.error,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             loadingIcon: SizedBox(
               width: 22.0.w,
@@ -203,12 +201,12 @@ class _NineURefreshState extends State<AppRefresher> {
             canLoadingIcon: Icon(
               Icons.autorenew,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
             idleIcon: Icon(
               Icons.arrow_upward,
               size: 22.0.w,
-              color: secondlyColor,
+              color: AppColor.secondlyColor,
             ),
           ),
           onRefresh: widget.onRefresh,
@@ -242,7 +240,7 @@ class AppRefreshConfiguration extends RefreshConfiguration {
               Icons.done,
               color: Colors.grey,
             ),
-            waterDropColor: specialColor,
+            waterDropColor: AppColor.mainColor,
           ),
           footerBuilder: () => const ClassicFooter(),
           // headerTriggerDistance: 75.0.h,

@@ -82,7 +82,7 @@ void showIOSAlert(
                     onPressed: confirmOnPressed,
                     child: Text(
                       confirmText ?? S.current.confirm,
-                      style: const TextStyle(color: ThemeColor.red),
+                      style: const TextStyle(color: AppColor.red),
                     ),
                   )
               ]));
@@ -153,7 +153,7 @@ showEdit(BuildContext context,
               },
               child: Text(
                 '取消',
-                style: TextStyle(color: ThemeColor.blackLight),
+                style: TextStyle(color: AppColor.blackLight),
               ),
             ),
             CupertinoDialogAction(
@@ -212,9 +212,7 @@ class ModalFit extends StatelessWidget {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: Text(e.title,
-                                style: e.textStyle ??
-                                    themeTextStyle(fontSize: 16)),
+                            child: Text(e.title, style: e.textStyle ?? Theme.of(context).textTheme.titleMedium),
                           )
                         ],
                       ),
@@ -224,7 +222,7 @@ class ModalFit extends StatelessWidget {
                     const Divider(
                       height: 1,
                       thickness: 1,
-                      color: ThemeColor.background,
+                      color: AppColor.background,
                       indent: MARGIN_MAIN,
                       endIndent: MARGIN_MAIN,
                     )

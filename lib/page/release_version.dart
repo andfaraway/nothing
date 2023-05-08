@@ -62,7 +62,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
                   builder: (context, bool send, child) {
                     return Switch(
                         value: send,
-                        activeColor: ThemeColor.red,
+                        activeColor: AppColor.red,
                         onChanged: (value) {
                           sendNotification.value = value;
                         });
@@ -105,7 +105,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
       children: [
         Text(
           title,
-          style: const TextStyle(color: ThemeColor.red),
+          style: const TextStyle(color: AppColor.red),
         ),
         TextField(
           controller: TextEditingController(text: content),

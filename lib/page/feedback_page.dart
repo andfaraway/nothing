@@ -28,13 +28,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
         appBar: AppBar(
           title: Text(S.current.feedback),
         ),
-        backgroundColor: ThemeColor.background,
+        backgroundColor: AppColor.background,
         body: Padding(
-          padding:
-              EdgeInsets.only(left: 24.w, right: 24.w, top: 80.h, bottom: 80.h),
+          padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 80.h, bottom: 80.h),
           child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
                 Expanded(

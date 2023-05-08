@@ -12,16 +12,15 @@ export 'package:intl/intl.dart' show DateFormat;
 export 'package:nothing/generated/l10n.dart';
 export 'package:nothing/utils/utils.dart';
 
+export '../common/screens.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
 export '../utils/hive_boxes.dart';
 export '../utils/local_data_utils.dart';
-export 'colors.dart';
 export 'instances.dart';
 export 'messages.dart';
 export 'platform_channel.dart';
-export 'screens.dart';
 export 'singleton.dart';
 export 'widgets.dart';
 

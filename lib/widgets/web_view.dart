@@ -37,7 +37,7 @@ class _WebViewPageState extends State<WebViewPage> {
     return Scaffold(
       appBar: AppBar(
         leading: YBJFButton.backButton(
-          color: mainColor,
+          color: AppColor.mainColor,
         ),
         title: ValueListenableBuilder(
           valueListenable: _webViewController.title,

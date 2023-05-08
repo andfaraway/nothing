@@ -97,7 +97,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                             child: SafeArea(
                               child: Text(
                                 model.name ?? '',
-                                style: const TextStyle(color: ThemeColor.black),
+                                style: const TextStyle(color: AppColor.black),
                               ),
                             ),
                           )

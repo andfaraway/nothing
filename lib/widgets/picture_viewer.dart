@@ -85,29 +85,27 @@ class _PictureViewerState extends State<PictureViewer> {
               showSheet(context, [
                 SheetButtonModel(
                     title: S.current.save,
-                    textStyle: themeTextStyle(color: ThemeColor.red),
+                    textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.red),
                     onTap: () async {
                       await saveNetworkImg(
                           imgUrl: imageUrl,
                           progressCallback: (current, total) {
-                            EasyLoading.showProgress(
-                                current / (widget.imageSize ?? total));
+                            EasyLoading.showProgress(current / (widget.imageSize ?? total));
                           });
                       EasyLoading.dismiss();
                     }),
                 SheetButtonModel(
                     title: S.current.save_original_image,
-                    textStyle: themeTextStyle(color: ThemeColor.black),
+                    textStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: () async {
                       EasyLoading.show();
                       await saveNetworkImg(
-                          imgUrl: imageUrl.replaceAll("s/", ""),
-                          progressCallback: (current, total) {});
+                          imgUrl: imageUrl.replaceAll("s/", ""), progressCallback: (current, total) {});
                       EasyLoading.dismiss();
                     }),
                 SheetButtonModel(
                     title: S.current.cancel,
-                    textStyle: themeTextStyle(color: ThemeColor.blackLight),
+                    textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.blackLight),
                     bottomLine: false)
               ]);
             },

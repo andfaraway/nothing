@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:nothing/common/prefix_header.dart';
 
 class Profile extends StatefulWidget {
@@ -10,79 +12,131 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final ScrollController _scrollController = ScrollController();
 
-  final ValueNotifier<double> _scrollOffset = ValueNotifier(0);
+  final ValueNotifier<double> _rotate = ValueNotifier(0);
+
+  List<Widget> _cellList = [];
 
   @override
   void initState() {
     super.initState();
 
     _scrollController.addListener(() {
-      _scrollOffset.value = _scrollController.offset;
+      // 关闭收缩
+      if (_scrollController.offset > 0) {
+        _scrollController.jumpTo(0);
+      }
+      _rotate.value = _scrollController.offset / 100;
     });
+
+    _cellList = [
+      _titleCell(
+          icon: AppImage.asset(R.tabActivity),
+          title: '主题',
+          onTap: () => Routes.pushNamePage(context, Routes.themeSetting.name)),
+      _titleCell(
+          icon: AppImage.asset(R.imagesSettings),
+          title: '设置',
+          onTap: () => Routes.pushNamePage(context, Routes.setting.name)),
+      _titleCell(
+          icon: AppImage.asset(R.imagesLogOut),
+          title: '退出登录',
+          onTap: () {
+            showConfirmToast(
+                context: context,
+                title: '退出登录',
+                onConfirm: () {
+                  HiveBoxes.clearData();
+                  Routes.pushNamedAndRemoveUntil(context, Routes.login.name);
+                });
+          }),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _rotate.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      // controller: _scrollController,
-      // physics: const ClampingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: _scrollController,
       slivers: [
-        // SliverToBoxAdapter(
-        //   child: ValueListenableBuilder(
-        //     valueListenable: _scrollOffset,
-        //     builder: (BuildContext context, double value, Widget? child) {
-        //       return SizedBox(height:190+value,child: AppImage.network('http://1.14.252.115/src/handsomeman.jpeg',fit: BoxFit.fitWidth,));
-        //     },
-        //   ),
-        // ),
-        // SliverAppBar(
-        //   stretch: true,
-        //   pinned: true,
-        //   // toolbarHeight:200,
-        //   expandedHeight: 390 ,
-        //   flexibleSpace: FlexibleSpaceBar(
-        //     centerTitle: false,
-        //     // titlePadding:EdgeInsets.zero,
-        //     title: Container(
-        //       color: Colors.red,
-        //       child: Text("First FlexibleSpace",style: TextStyle(color: Colors.black),),
-        //     ),
-        //     stretchModes: [
-        //       // StretchMode.fadeTitle,
-        //       // StretchMode.blurBackground,
-        //       StretchMode.zoomBackground
-        //     ],
-        //     background: AppImage.network('http://1.14.252.115/src/handsomeman.jpeg',fit: BoxFit.cover),
-        //   ),
-        // ),
         SliverAppBar(
-          expandedHeight: 200,
+          leading: const SizedBox.shrink(),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          toolbarHeight: 80,
+          actions: [
+            ValueListenableBuilder(
+                valueListenable: _rotate,
+                builder: (context, value, child) {
+                  return Center(
+                      child: Padding(
+                    padding: const EdgeInsets.only(right: 18.0),
+                    child: Transform.rotate(
+                        angle: _rotate.value * pi,
+                        child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
+                  ));
+                })
+          ],
           pinned: true,
           stretch: true,
+          // toolbarHeight:200,
+          expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              "First FlexibleSpace",
-              style: TextStyle(color: Colors.black),
-            ),
-            // collapseMode: CollapseMode.pin,
-            background: Image.network(
-                "https://p3-passport.byteimg.com/img/user-avatar/af5f7ee5f0c449f25fc0b32c050bf100~180x180.awebp",
-                fit: BoxFit.cover),
+            centerTitle: false,
+            stretchModes: const [
+              StretchMode.fadeTitle,
+              // StretchMode.blurBackground,
+              StretchMode.zoomBackground
+            ],
+            background: AppImage.network('http://1.14.252.115/src/handsomeman.jpeg', fit: BoxFit.cover),
           ),
-          actions: <Widget>[IconButton(onPressed: () => null, icon: const Icon(Icons.add))],
         ),
-
-        SliverFixedExtentList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return Container(
-              color: getRandomColor(),
-              height: 50,
-              width: 100,
-            );
-          }),
-          itemExtent: 60,
+        SliverPadding(
+          padding: AppPadding.main,
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return _cellList[index];
+              },
+              childCount: _cellList.length,
+            ),
+          ),
         )
       ],
+    );
+  }
+
+  Widget _titleCell({required Widget icon, required String title, required VoidCallback? onTap}) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColor.white),
+              height: 44,
+              child: Row(
+                children: [
+                  AppPadding.horizontal.wSizedBox,
+                  icon,
+                  AppPadding.horizontal.wSizedBox,
+                  Text(
+                    title,
+                    style: AppTextStyle.titleMedium,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

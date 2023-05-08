@@ -1,94 +1,43 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-//  页面背景颜色
-Color get scaffoldBackgroundColor => const Color(0xffF5F5F5);
-//  页面主标题大小
-double get appBarTitleSize => 18.0.sp;
-//  页面主标题颜色
-Color get appBarTitleColor => const Color(0xff343434);
-
-String get fontFamily => 'SourceHanSansCN';
-
-//  底部tab字体大小
-double get tabBarTitleSize => 10.0.sp;
-//  底部tab字体颜色
-Color get tabBarTitleColor => const Color(0xffB2B2B2);
-//  底部tab字体选中颜色
-Color get tabBarTitleSelectedColor => const Color(0xff434343);
-
-//  描述文字大小
-double get descTitleSize => 12.0.sp;
-//  描述文字颜色
-Color get descTitleColor => const Color(0xff959595);
-
-//  占位提示文字大小
-double get placeholderSize => 14.0.sp;
-//  占位提示文字颜色
-Color get placeholderColor => const Color(0xffDCDCDC);
-
-//  主文字颜色
-Color get mainColor => const Color(0xff434343);
-//  次文字颜色
-Color get secondlyColor => const Color(0xffB2B2B2);
-//  特殊颜色
-Color get specialColor => const Color(0xff3476FE);
-
-//  不可用颜色
-Color get disabledColor => const Color(0xffDCDCDC);
-//  分割线颜色
-Color get dividerColor => const Color(0xffEEEEEE);
-//  边框颜色
-Color get borderColor => const Color(0xffEEEEEE);
-//  滚动条颜色
-Color get scrollBarColor => const Color(0xffD9D9D9);
-//  输入框背景颜色
-Color get searchBackgroundColor => const Color(0xffF8F8F8);
-//  已完成颜色
-Color get doneColor => const Color(0xffACD68E);
-//  进行中颜色
-Color get underwayColor => const Color(0xffF8CB7B);
-//  错误颜色
-Color get errorColor => const Color(0xffFF7575);
+import 'package:nothing/common/prefix_header.dart';
 
 TextStyle get defaultTextStyle => TextStyle(
-      fontSize: 28.sp,
-      color: errorColor,
+  fontSize: 28.sp,
+      color: AppColor.errorColor,
       fontWeight: weightMedium,
       letterSpacing: 1.sp,
     );
 
 class AppTheme {
   static ThemeData defaultThemeData = ThemeData(
-    scaffoldBackgroundColor: scaffoldBackgroundColor,
-    primaryColor: specialColor,
+    scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
+    primaryColor: AppColor.mainColor,
     appBarTheme: AppBarTheme(
       systemOverlayStyle: AppOverlayStyle.dark,
       color: Colors.white,
       elevation: 3,
       centerTitle: true,
       titleSpacing: 0.0,
-      shadowColor: mainColor.withOpacity(.2),
+      shadowColor: AppColor.mainColor.withOpacity(.2),
       titleTextStyle: TextStyle(
-          fontWeight: weightMedium, fontSize: appBarTitleSize, color: appBarTitleColor, fontFamily: fontFamily),
+          fontWeight: weightMedium,
+          fontSize: AppColor.appBarTitleSize,
+          color: AppColor.appBarTitleColor,
+          fontFamily: AppTextStyle.fontFamily),
       iconTheme: IconThemeData(
-        color: mainColor,
+        color: AppColor.mainColor,
       ),
       actionsIconTheme: IconThemeData(
         size: 24.0.w,
-        color: mainColor,
+        color: AppColor.mainColor,
       ),
     ),
     tabBarTheme: TabBarTheme(
       indicatorSize: TabBarIndicatorSize.label,
-      labelColor: tabBarTitleSelectedColor,
+      labelColor: AppColor.tabBarTitleSelectedColor,
       labelStyle: TextStyle(
         fontSize: 20.0.sp,
       ),
-      unselectedLabelColor: tabBarTitleColor,
+      unselectedLabelColor: AppColor.tabBarTitleColor,
       unselectedLabelStyle: TextStyle(
         fontSize: 17.0.sp,
       ),
@@ -102,29 +51,29 @@ class AppTheme {
       unselectedIconTheme: IconThemeData(
         size: 28.0.sp,
       ),
-      selectedItemColor: tabBarTitleSelectedColor,
-      unselectedItemColor: tabBarTitleColor,
+      selectedItemColor: AppColor.tabBarTitleSelectedColor,
+      unselectedItemColor: AppColor.tabBarTitleColor,
       selectedLabelStyle: TextStyle(
-        fontSize: tabBarTitleSize,
-        color: tabBarTitleSelectedColor,
+        fontSize: AppColor.tabBarTitleSize,
+        color: AppColor.tabBarTitleSelectedColor,
       ),
       unselectedLabelStyle: TextStyle(
-        fontSize: tabBarTitleSize,
-        color: tabBarTitleColor,
+        fontSize: AppColor.tabBarTitleSize,
+        color: AppColor.tabBarTitleColor,
       ),
       showUnselectedLabels: true,
       showSelectedLabels: true,
       type: BottomNavigationBarType.fixed,
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(
-      color: specialColor,
+      color: AppColor.mainColor,
     ),
     dividerTheme: DividerThemeData(
       thickness: 1.0,
-      color: dividerColor.withOpacity(0.7),
+      color: AppColor.dividerColor.withOpacity(0.7),
     ),
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: specialColor,
+      cursorColor: AppColor.mainColor,
     ),
     textTheme: const TextTheme(
             displayLarge: TextStyle(),
@@ -141,33 +90,13 @@ class AppTheme {
             labelLarge: TextStyle(),
             labelSmall: TextStyle())
         .apply(
-      bodyColor: mainColor,
-      displayColor: mainColor,
+      bodyColor: AppColor.mainColor,
+      displayColor: AppColor.mainColor,
     ),
-    fontFamily: fontFamily,
+    fontFamily: AppTextStyle.fontFamily,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     splashFactory: NoSplash.splashFactory,
-  );
-}
-
-class AppOverlayStyle {
-  static SystemUiOverlayStyle light = SystemUiOverlayStyle(
-    systemNavigationBarColor: Platform.isAndroid ? null : Colors.black,
-    systemNavigationBarDividerColor: null,
-    statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-    statusBarBrightness: Brightness.dark,
-  );
-
-  static SystemUiOverlayStyle dark = SystemUiOverlayStyle(
-    systemNavigationBarColor: Platform.isAndroid ? null : Colors.white,
-    systemNavigationBarDividerColor: null,
-    statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.light,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
   );
 }
 
@@ -178,113 +107,113 @@ FontWeight get weightBold => FontWeight.w700;
 
 class TS {
   static TextStyle get m18c43 => TextStyle(
-        fontSize: 18.sp,
-        color: mainColor,
+    fontSize: 18.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m17c43 => TextStyle(
-        fontSize: 17.sp,
-        color: mainColor,
+    fontSize: 17.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m15c43 => TextStyle(
-        fontSize: 15.sp,
-        color: mainColor,
+    fontSize: 15.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m15cb2 => TextStyle(
-        fontSize: 15.sp,
-        color: secondlyColor,
+    fontSize: 15.sp,
+        color: AppColor.secondlyColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m14c43 => TextStyle(
-        fontSize: 14.sp,
-        color: mainColor,
+    fontSize: 14.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m14cb2 => TextStyle(
-        fontSize: 14.sp,
-        color: secondlyColor,
+    fontSize: 14.sp,
+        color: AppColor.secondlyColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get b13c43 => TextStyle(
-        fontSize: 15.sp,
-        color: mainColor,
+    fontSize: 15.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m13cb2 => TextStyle(
-        fontSize: 13.sp,
-        color: secondlyColor,
+    fontSize: 13.sp,
+        color: AppColor.secondlyColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m13c43 => TextStyle(
-        fontSize: 13.sp,
-        color: mainColor,
+    fontSize: 13.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m13cdc => TextStyle(
-        fontSize: 13.sp,
-        color: disabledColor,
+    fontSize: 13.sp,
+        color: AppColor.disabledColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m11cb2 => TextStyle(
-        fontSize: 11.sp,
-        color: secondlyColor,
+    fontSize: 11.sp,
+        color: AppColor.secondlyColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m11c43 => TextStyle(
-        fontSize: 11.sp,
-        color: mainColor,
+    fontSize: 11.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m12c43 => TextStyle(
-        fontSize: 12.sp,
-        color: mainColor,
+    fontSize: 12.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m11cdc => TextStyle(
-        fontSize: 11.sp,
-        color: placeholderColor,
+    fontSize: 11.sp,
+        color: AppColor.placeholderColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m8c43 => TextStyle(
-        fontSize: 8.sp,
-        color: mainColor,
+    fontSize: 8.sp,
+        color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
 
   static TextStyle get m8cb2 => TextStyle(
-        fontSize: 8.sp,
-        color: secondlyColor,
+    fontSize: 8.sp,
+        color: AppColor.secondlyColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );

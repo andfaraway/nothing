@@ -145,8 +145,7 @@ class _UploadFileState extends State<UploadFile> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: ThemeColor.black.withOpacity(.2)),
+                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
@@ -161,8 +160,7 @@ class _UploadFileState extends State<UploadFile> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: ThemeColor.black.withOpacity(.2)),
+                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
@@ -193,15 +191,9 @@ class _UploadFileState extends State<UploadFile> {
             controller: TextEditingController(text: text),
             decoration: InputDecoration(
                 labelText: title,
-                labelStyle: TextStyle(
-                    color: required ? ThemeColor.red : ThemeColor.black),
-                hintText: required
-                    ? S.current.input_required
-                    : S.current.input_optional,
-                hintStyle: TextStyle(
-                    color: required
-                        ? ThemeColor.red.withOpacity(.5)
-                        : ThemeColor.black.withOpacity(.2))),
+                labelStyle: TextStyle(color: required ? AppColor.red : AppColor.black),
+                hintText: required ? S.current.input_required : S.current.input_optional,
+                hintStyle: TextStyle(color: required ? AppColor.red.withOpacity(.5) : AppColor.black.withOpacity(.2))),
             onChanged: onChanged),
         trailing: trailing);
   }

@@ -66,7 +66,6 @@ class _RootPageState extends State<RootPage>
                 blurRadius: 1.0,
                 color: Colors.black.withOpacity(0.1),
               ),
-              backgroundColor: Colors.green,
               activeIndex: index,
               gapLocation: GapLocation.center,
               notchSmoothness: NotchSmoothness.defaultEdge,
@@ -95,23 +94,23 @@ class _RootPageState extends State<RootPage>
   _loadData() {
     rootBars = [
       BarItem(
-          icon: AppImage.asset(R.tabRss, color: placeholderColor),
-          activeIcon: AppImage.asset(R.tabRss, color: errorColor),
+          icon: AppImage.asset(R.tabRss, color: AppColor.placeholderColor),
+          activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor),
           label: '信息',
           page: Routes.home.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabMail, color: placeholderColor),
-          activeIcon: AppImage.asset(R.tabMail, color: errorColor),
+          icon: AppImage.asset(R.tabMail, color: AppColor.placeholderColor),
+          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor),
           label: '信息',
           page: Routes.message.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabAperture, color: placeholderColor),
-          activeIcon: AppImage.asset(R.tabAperture, color: errorColor),
+          icon: AppImage.asset(R.tabAperture, color: AppColor.placeholderColor),
+          activeIcon: AppImage.asset(R.tabAperture, color: AppColor.errorColor),
           label: '图片',
           page: Routes.photoShow.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabUser, color: placeholderColor),
-          activeIcon: AppImage.asset(R.tabUser, color: errorColor),
+          icon: AppImage.asset(R.tabUser, color: AppColor.placeholderColor),
+          activeIcon: AppImage.asset(R.tabUser, color: AppColor.errorColor),
           label: '我的',
           page: Routes.profile.page.call()),
     ];

@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:live_photo_maker/live_photo_maker.dart';
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import 'image_editor_widget.dart';

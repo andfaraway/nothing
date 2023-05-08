@@ -1,4 +1,4 @@
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 import '../model/wedding_model.dart';
 

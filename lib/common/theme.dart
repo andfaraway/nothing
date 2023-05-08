@@ -142,7 +142,7 @@ class AppTheme {
             labelSmall: TextStyle())
         .apply(
       bodyColor: mainColor,
-      displayColor: errorColor,
+      displayColor: mainColor,
     ),
     fontFamily: fontFamily,
     splashColor: Colors.transparent,

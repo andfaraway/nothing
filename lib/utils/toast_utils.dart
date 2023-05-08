@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
 void showToast(String text, {int timeInSecForIosWeb = 1}) {

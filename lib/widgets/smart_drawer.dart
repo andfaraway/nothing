@@ -3,7 +3,7 @@
 //  [Date] 2021-11-12 12:07:22
 //
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:nothing/constants/constants.dart';
 
 class SmartDrawer extends StatefulWidget {
   final double elevation;
@@ -17,23 +17,26 @@ class SmartDrawer extends StatefulWidget {
     this.child,
     this.semanticLabel,
     this.widthPercent = 0.8,
+
     ///add start
     this.callback,
+
     ///add end
   })  : assert(widthPercent < 1.0 && widthPercent > 0.0),
         super(key: key);
+
   @override
-  _SmartDrawerState createState() => _SmartDrawerState();
+  State<SmartDrawer> createState() => _SmartDrawerState();
 }
 
 class _SmartDrawerState extends State<SmartDrawer> {
-
   @override
   void initState() {
     ///open
-      widget.callback?.call(true);
+    widget.callback?.call(true);
     super.initState();
   }
+
   @override
   void dispose() {
     ///close
@@ -43,6 +46,7 @@ class _SmartDrawerState extends State<SmartDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    Utils.hideKeyboard(context);
     assert(debugCheckHasMaterialLocalizations(context));
     String? label = widget.semanticLabel;
     switch (defaultTargetPlatform) {
@@ -53,9 +57,9 @@ class _SmartDrawerState extends State<SmartDrawer> {
       case TargetPlatform.fuchsia:
         label = widget.semanticLabel ?? MaterialLocalizations.of(context).drawerLabel;
         break;
-      default :
+      default:
     }
-    final double _width = MediaQuery.of(context).size.width * widget.widthPercent;
+    final double width = MediaQuery.of(context).size.width * widget.widthPercent;
     // return widget.child ?? const SizedBox.shrink();
     return Semantics(
       scopesRoute: true,
@@ -63,7 +67,7 @@ class _SmartDrawerState extends State<SmartDrawer> {
       explicitChildNodes: true,
       label: label,
       child: ConstrainedBox(
-        constraints: BoxConstraints.expand(width: _width),
+        constraints: BoxConstraints.expand(width: width),
         child: Material(
           elevation: widget.elevation,
           child: widget.child,

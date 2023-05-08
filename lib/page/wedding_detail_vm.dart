@@ -1,5 +1,5 @@
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/wedding_model.dart';
-import 'package:nothing/prefix_header.dart';
 
 class WeddingDetailVM extends BaseVM {
   WeddingDetailVM(BuildContext context) : super(context);

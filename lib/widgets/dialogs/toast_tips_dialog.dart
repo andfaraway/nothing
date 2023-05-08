@@ -3,7 +3,7 @@
 //  [Date] 2022-02-17 16:32:31
 //
 
-import '../../prefix_header.dart';
+import '../../common/prefix_header.dart';
 
 class ToastTipsDialog extends StatelessWidget {
   const ToastTipsDialog(

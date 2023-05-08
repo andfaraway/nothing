@@ -2,8 +2,8 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-24 13:51:09
 //
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/setting_config_model.dart';
-import 'package:nothing/prefix_header.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);

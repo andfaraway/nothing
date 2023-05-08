@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:nothing/widgets/drawer.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
@@ -36,6 +37,8 @@ class _RootPageState extends State<RootPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
+      drawerEnableOpenDragGesture: false,
       extendBody: true,
       resizeToAvoidBottomInset: false,
       body: PageView(
@@ -43,10 +46,14 @@ class _RootPageState extends State<RootPage>
         physics: const NeverScrollableScrollPhysics(),
         children: rootBars.map((e) => e.page).toList(),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: AppImage.asset(R.tabSend, color: Colors.white),
-        onPressed: () {},
-      ),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton(
+          child: AppImage.asset(R.tabSend, color: Colors.white),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        );
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: ValueListenableBuilder(
           valueListenable: _bottomNavIndex,
@@ -88,10 +95,10 @@ class _RootPageState extends State<RootPage>
   _loadData() {
     rootBars = [
       BarItem(
-          icon: AppImage.asset(R.tabHeart, color: placeholderColor),
-          activeIcon: AppImage.asset(R.tabHeart, color: errorColor),
-          label: '收藏',
-          page: Routes.favorite.page.call()),
+          icon: AppImage.asset(R.tabRss, color: placeholderColor),
+          activeIcon: AppImage.asset(R.tabRss, color: errorColor),
+          label: '信息',
+          page: Routes.home.page.call()),
       BarItem(
           icon: AppImage.asset(R.tabMail, color: placeholderColor),
           activeIcon: AppImage.asset(R.tabMail, color: errorColor),
@@ -106,7 +113,7 @@ class _RootPageState extends State<RootPage>
           icon: AppImage.asset(R.tabUser, color: placeholderColor),
           activeIcon: AppImage.asset(R.tabUser, color: errorColor),
           label: '我的',
-          page: Routes.feedback.page.call()),
+          page: Routes.profile.page.call()),
     ];
   }
 }

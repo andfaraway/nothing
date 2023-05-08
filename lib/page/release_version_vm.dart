@@ -1,5 +1,5 @@
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/version_update_model.dart';
-import 'package:nothing/prefix_header.dart';
 
 class ReleaseVersionVM extends BaseVM {
   ReleaseVersionVM(BuildContext context) : super(context);

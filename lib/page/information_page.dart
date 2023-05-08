@@ -2,7 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-05-05 17:00:44
 //
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 import '../http/http.dart';
 import '../model/interface_model.dart';

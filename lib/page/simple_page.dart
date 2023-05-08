@@ -5,7 +5,7 @@
 
 import 'package:extended_text/extended_text.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 typedef RequestCallback = Future<String> Function();
 

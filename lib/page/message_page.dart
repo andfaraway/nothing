@@ -1,7 +1,7 @@
 import 'package:nothing/model/message_model.dart';
 import 'package:nothing/widgets/request_loading_widget.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);

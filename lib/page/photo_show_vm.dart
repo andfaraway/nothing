@@ -1,5 +1,5 @@
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/photo_show.dart';
-import 'package:nothing/prefix_header.dart';
 
 import '../model/server_image_model.dart';
 

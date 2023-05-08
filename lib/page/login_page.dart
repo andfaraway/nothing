@@ -7,7 +7,7 @@ import 'package:nothing/page/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

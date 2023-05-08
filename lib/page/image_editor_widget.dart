@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 import '../utils/crop_editor_helper.dart';
 

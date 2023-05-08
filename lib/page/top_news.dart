@@ -2,7 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-08 18:11:32
 
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
 

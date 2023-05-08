@@ -3,7 +3,7 @@
 //  [Date] 2021-12-23 18:04:50
 //
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 class SayHi extends StatefulWidget {
   const SayHi({Key? key}) : super(key: key);

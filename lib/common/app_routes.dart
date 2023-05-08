@@ -2,26 +2,29 @@
 //  [Author] libin (https://www.imin.sg)
 //  [Date] 2022-02-16 18:49:44
 //
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/file_management.dart';
 import 'package:nothing/page/file_preview_page.dart';
+import 'package:nothing/page/home_page.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/music_page.dart';
 import 'package:nothing/page/photo_show.dart';
+import 'package:nothing/page/profile.dart';
 import 'package:nothing/page/release_version.dart';
 import 'package:nothing/page/root_page.dart';
 import 'package:nothing/page/say_hi.dart';
+import 'package:nothing/page/setting.dart';
 import 'package:nothing/page/some_things.dart';
 import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/page/welcome_page.dart';
-import 'package:nothing/prefix_header.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
@@ -32,6 +35,8 @@ class Routes {
     Routes.welcome,
     Routes.root,
     Routes.login,
+    Routes.home,
+    Routes.profile,
     Routes.favorite,
     Routes.feedback,
     Routes.message,
@@ -48,11 +53,11 @@ class Routes {
     Routes.someThings,
     Routes.videoPlayPage,
     Routes.musicPage,
+    Routes.setting
   ];
 
   static Widget pageWithRouteName(String routeName, {Object? arguments}) {
-    RoutePage routePage =
-        Routes.routePages.firstWhere((element) => element.name == routeName);
+    RoutePage routePage = Routes.routePages.firstWhere((element) => element.name == routeName);
     return routePage.page.call(arguments: arguments);
   }
 
@@ -60,44 +65,33 @@ class Routes {
 
   static BuildContext? get context => navKey.currentState?.context;
 
-  static final RoutePage root =
-      RoutePage(name: '/root', page: ({Object? arguments}) => const RootPage());
-  static final RoutePage welcome = RoutePage(
-      name: '/welcomeRoute',
-      page: ({Object? arguments}) => const WelcomePage());
-  static final RoutePage login = RoutePage(
-      name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
-  static final RoutePage favorite = RoutePage(
-      name: '/favoriteRoute',
-      page: ({Object? arguments}) => const FavoritePage());
-  static final RoutePage feedback = RoutePage(
-      name: '/feedbackRoute',
-      page: ({Object? arguments}) => const FeedbackPage());
+  static final RoutePage root = RoutePage(name: '/root', page: ({Object? arguments}) => const RootPage());
+  static final RoutePage welcome = RoutePage(name: '/welcomeRoute', page: ({Object? arguments}) => const WelcomePage());
+  static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
+  static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());
+  static final RoutePage profile = RoutePage(name: '/profileRoute', page: ({Object? arguments}) => const Profile());
 
-  static final RoutePage message = RoutePage(
-      name: '/messageRoute',
-      page: ({Object? arguments}) => const MessagePage());
-  static final RoutePage releaseVersion = RoutePage(
-      name: '/releaseVersionRoute',
-      page: ({Object? arguments}) => const ReleaseVersion());
-  static final RoutePage sayHi = RoutePage(
-      name: '/sayHiRoute', page: ({Object? arguments}) => const SayHi());
-  static final RoutePage themeSetting = RoutePage(
-      name: '/themeSettingRoute',
-      page: ({Object? arguments}) => const ThemeSettingPage());
-  static final RoutePage uploadFile = RoutePage(
-      name: '/uploadFileRoute',
-      page: ({Object? arguments}) => const UploadFile());
+  static final RoutePage favorite =
+      RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
+  static final RoutePage feedback =
+      RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
 
-  static final RoutePage information = RoutePage(
-      name: '/informationRoute',
-      page: ({Object? arguments}) => const InformationPage());
-  static final RoutePage livePhoto = RoutePage(
-      name: '/livePhotoRoute',
-      page: ({Object? arguments}) => const LivePhotoPage());
-  static final RoutePage weddingAbout = RoutePage(
-      name: '/weddingAboutRoute',
-      page: ({Object? arguments}) => const WeddingAbout());
+  static final RoutePage message = RoutePage(name: '/messageRoute', page: ({Object? arguments}) => const MessagePage());
+  static final RoutePage releaseVersion =
+      RoutePage(name: '/releaseVersionRoute', page: ({Object? arguments}) => const ReleaseVersion());
+  static final RoutePage sayHi = RoutePage(name: '/sayHiRoute', page: ({Object? arguments}) => const SayHi());
+  static final RoutePage themeSetting =
+      RoutePage(name: '/themeSettingRoute', page: ({Object? arguments}) => const ThemeSettingPage());
+  static final RoutePage setting = RoutePage(name: '/settingRoute', page: ({Object? arguments}) => const SettingPage());
+  static final RoutePage uploadFile =
+      RoutePage(name: '/uploadFileRoute', page: ({Object? arguments}) => const UploadFile());
+
+  static final RoutePage information =
+      RoutePage(name: '/informationRoute', page: ({Object? arguments}) => const InformationPage());
+  static final RoutePage livePhoto =
+      RoutePage(name: '/livePhotoRoute', page: ({Object? arguments}) => const LivePhotoPage());
+  static final RoutePage weddingAbout =
+      RoutePage(name: '/weddingAboutRoute', page: ({Object? arguments}) => const WeddingAbout());
   static final RoutePage photoShow = RoutePage(
       name: '/photoShowRoute',
       page: ({Object? arguments}) => PhotoShow(
@@ -113,43 +107,33 @@ class Routes {
       page: ({Object? arguments}) => FileManagement(
             arguments: arguments,
           ));
-  static final RoutePage someThings = RoutePage(
-      name: '/someThingsRoute',
-      page: ({Object? arguments}) => const SomeThings());
+  static final RoutePage someThings =
+      RoutePage(name: '/someThingsRoute', page: ({Object? arguments}) => const SomeThings());
 
-  static final RoutePage videoPlayPage = RoutePage(
-      name: '/videoPlayPageRoute',
-      page: ({Object? arguments}) => const VideoPlayPage());
-  static final RoutePage musicPage = RoutePage(
-      name: '/musicPageRoute',
-      page: ({Object? arguments}) => const MusicPage());
+  static final RoutePage videoPlayPage =
+      RoutePage(name: '/videoPlayPageRoute', page: ({Object? arguments}) => const VideoPlayPage());
+  static final RoutePage musicPage =
+      RoutePage(name: '/musicPageRoute', page: ({Object? arguments}) => const MusicPage());
 
   static Future<dynamic> pushPage(BuildContext context, Widget page) async {
-    dynamic value =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+    dynamic value = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return page;
     }));
     return value;
   }
 
-  static Future<dynamic> pushNamePage(BuildContext context, String routeName,
-      {Object? arguments}) async {
+  static Future<dynamic> pushNamePage(BuildContext context, String routeName, {Object? arguments}) async {
+    dynamic value = await Navigator.pushNamed(context, routeName, arguments: arguments);
+    return value;
+  }
+
+  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext context, String newRouteName, {Object? arguments}) async {
     dynamic value =
-        await Navigator.pushNamed(context, routeName, arguments: arguments);
+        await Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => false, arguments: arguments);
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(
-      BuildContext context, String newRouteName,
-      {Object? arguments}) async {
-    dynamic value = await Navigator.pushNamedAndRemoveUntil(
-        context, newRouteName, (route) => false,
-        arguments: arguments);
-    return value;
-  }
-
-  static Future<dynamic> pop(
-      {BuildContext? buildContext, dynamic arguments}) async {
+  static Future<dynamic> pop({BuildContext? buildContext, dynamic arguments}) async {
     buildContext ??= context;
     if (buildContext == null) return Future.value(null);
     Navigator.maybePop(buildContext, arguments);
@@ -247,15 +231,12 @@ class LoginMiddleware extends Middleware {
 
 RouteFactory? onGenerateRoute = (RouteSettings settings) {
   RouteSettings? routeSettings = settings;
-  int index = Routes.routePages
-      .indexWhere((element) => element.name == routeSettings?.name);
+  int index = Routes.routePages.indexWhere((element) => element.name == routeSettings?.name);
   if (index >= 0) {
     RoutePage routePage = Routes.routePages[index];
     if (routePage.middleware != null) {
-      RouteSettings? redirectRouteSettings =
-          routePage.middleware?.redirect(routeSettings.name);
-      int redirectIndex = Routes.routePages
-          .indexWhere((element) => element.name == redirectRouteSettings?.name);
+      RouteSettings? redirectRouteSettings = routePage.middleware?.redirect(routeSettings.name);
+      int redirectIndex = Routes.routePages.indexWhere((element) => element.name == redirectRouteSettings?.name);
       if (redirectIndex >= 0) {
         routeSettings = redirectRouteSettings;
         routePage = Routes.routePages[redirectIndex];

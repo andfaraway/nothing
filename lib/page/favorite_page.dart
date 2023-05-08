@@ -3,8 +3,8 @@
 //  [Date] 2021-11-12 18:04:14
 //
 
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/favorite_model.dart';
-import 'package:nothing/prefix_header.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);

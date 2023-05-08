@@ -12,7 +12,7 @@ import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
 
-import '../prefix_header.dart';
+import '../common/prefix_header.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, String? localPath}) : super(key: key);

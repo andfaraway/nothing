@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/utils/notification_utils.dart';
 
-import 'prefix_header.dart';
+import 'common/prefix_header.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

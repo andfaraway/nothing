@@ -58,14 +58,14 @@ class AppImage {
     Color? color,
     Widget? placeholder,
     Widget? errorWidget,
-  }) {
+        BoxFit fit = BoxFit.cover}) {
     return CachedNetworkImage(
       key: key,
       imageUrl: url,
       width: width,
       height: height,
       color: color,
-      fit: BoxFit.cover,
+      fit: fit,
       placeholder: (_, __) =>
           placeholder ??
           Container(

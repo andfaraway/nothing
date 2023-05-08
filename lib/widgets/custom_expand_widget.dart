@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 class CustomExpandWidget extends StatefulWidget {
   final bool expand;

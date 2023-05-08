@@ -3,7 +3,7 @@
 //  [Date] 2022-02-17 16:32:31
 //
 
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 class NormalCell extends StatelessWidget {
   const NormalCell(

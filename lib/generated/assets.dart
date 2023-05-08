@@ -24,9 +24,13 @@ class R {
   static const String imagesSetUp = 'assets/images/set_up.svg';
   static const String imagesVersionUpdate = 'assets/images/version_update.png';
   static const String imagesZixun = 'assets/images/zixun.svg';
+  static const String tabActivity = 'assets/images/tab/activity.svg';
   static const String tabAperture = 'assets/images/tab/aperture.svg';
+  static const String tabBookmark = 'assets/images/tab/bookmark.svg';
   static const String tabHeart = 'assets/images/tab/heart.svg';
   static const String tabMail = 'assets/images/tab/mail.svg';
+  static const String tabMusic = 'assets/images/tab/music.svg';
+  static const String tabRss = 'assets/images/tab/rss.svg';
   static const String tabSend = 'assets/images/tab/send.svg';
   static const String tabUser = 'assets/images/tab/user.svg';
 }

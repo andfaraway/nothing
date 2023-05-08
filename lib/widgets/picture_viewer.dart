@@ -1,5 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../utils/photo_save.dart';

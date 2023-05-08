@@ -3,8 +3,8 @@
 //  [Date] 2021-12-02 15:42:01
 //
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/server_image_model.dart';
-import 'package:nothing/prefix_header.dart';
 import 'package:nothing/widgets/picture_viewer.dart';
 
 import 'photo_show_vm.dart';

@@ -1,6 +1,6 @@
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/wedding_model.dart';
 import 'package:nothing/page/wedding_detail.dart';
-import 'package:nothing/prefix_header.dart';
 
 import 'wedding_about_vm.dart';
 
@@ -18,7 +18,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   WeddingAboutVM createVM() => WeddingAboutVM(context);
 
   late final AppRefreshController _controller =
-      AppRefreshController(autoRefresh: true);
+  AppRefreshController(autoRefresh: true);
 
   @override
   void initState() {
@@ -79,7 +79,6 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   }
 
   Future<void> onReorder(int oldIndex, int newIndex) async {
-
     bool sortUp = true;
     if (oldIndex < newIndex) {
       newIndex -= 1;
@@ -104,7 +103,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   Widget checkCell(WeddingModel model) {
     ValueNotifier<bool> notifier = ValueNotifier(model.done == '1');
     TextEditingController controller =
-        TextEditingController(text: model.title);
+    TextEditingController(text: model.title);
     return Padding(
       key: ValueKey(model.id),
       padding: const EdgeInsets.all(8.0),
@@ -153,8 +152,8 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                     },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
+                          borderSide: BorderSide.none
+                      ),
                     ),
                   ),
                 ),

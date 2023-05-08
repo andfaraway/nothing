@@ -2,7 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-20 12:09:13
 //
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class LaunchWidget extends StatelessWidget {

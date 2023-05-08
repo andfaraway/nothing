@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class UploadFile extends StatefulWidget {

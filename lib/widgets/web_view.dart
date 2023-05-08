@@ -1,4 +1,4 @@
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../generated/json/base/json_convert_content.dart';

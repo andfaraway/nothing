@@ -1,5 +1,5 @@
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/video_screen.dart';
-import 'package:nothing/prefix_header.dart';
 
 import 'video_play_vm.dart';
 

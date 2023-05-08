@@ -3,7 +3,7 @@
 //  [Date] 2022-02-16 18:49:44
 //
 
-import 'package:nothing/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 import '../constants/notification_center.dart';
 import 'base_widget.dart';

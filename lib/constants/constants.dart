@@ -47,6 +47,19 @@ Color getRandomColor() {
 class Constants {
   const Constants._();
 
+  static Future<void> init() async {
+    DeviceInfoPlugin plugin = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await plugin.iosInfo;
+      Constants.isPhysicalDevice = iosInfo.isPhysicalDevice;
+    } else {
+      AndroidDeviceInfo androidInfo = await plugin.androidInfo;
+      isPhysicalDevice = androidInfo.isPhysicalDevice;
+    }
+  }
+
+  static bool isPhysicalDevice = false;
+
   /// Whether force logger to print.
   static bool get forceLogging => false;
 
@@ -97,32 +110,11 @@ class Constants {
       );
     }
 
-    // if (data != null && data['update'] == true) {
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return CheckUpdateWidget(
-    //           title: data!['title'],
-    //           content: data['content'],
-    //           updateOnTap: () async {
-    //             String url = data!['path'];
-    //             if (await canLaunch(url)) {
-    //               await launch(url);
-    //             } else {
-    //               throw 'Could not launch $url';
-    //             }
-    //           },
-    //           cancelOnTap: () {
-    //             Navigator.pop(context);
-    //           },
-    //         );
-    //       });
-    // } else {}
+
   }
 
   static Future<void> insertLaunch() async {
-    bool isPhysicalDevice = await Constants.isPhysicalDevice();
-    if (Platform.isIOS && !isPhysicalDevice) return;
+    if (Platform.isIOS && !Constants.isPhysicalDevice) return;
 
     Map<String, dynamic>? param = {};
     param['userid'] = Singleton().currentUser.userId;
@@ -144,16 +136,7 @@ class Constants {
   }
 
   /// true:真机 false:模拟器
-  static Future<bool> isPhysicalDevice() async {
-    DeviceInfoPlugin plugin = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await plugin.iosInfo;
-      return iosInfo.isPhysicalDevice;
-    } else {
-      AndroidDeviceInfo androidInfo = await plugin.androidInfo;
-      return androidInfo.isPhysicalDevice;
-    }
-  }
+
 
   static hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());

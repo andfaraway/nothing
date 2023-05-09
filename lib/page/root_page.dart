@@ -66,6 +66,7 @@ class _RootPageState extends State<RootPage>
                 blurRadius: 1.0,
                 color: Colors.black.withOpacity(0.1),
               ),
+              backgroundColor: context.read<ThemesProvider>().currentThemeGroup.lightButtonTextColor,
               activeIndex: index,
               gapLocation: GapLocation.center,
               notchSmoothness: NotchSmoothness.defaultEdge,

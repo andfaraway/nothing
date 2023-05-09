@@ -27,9 +27,7 @@ class ResponseInterceptor extends Interceptor {
         }
       }else if (code == 600) {
         // 登录超时，跳转登录页面
-        HiveBoxes.clearData();
-        showToast(response.data['msg'],timeInSecForIosWeb: 2);
-        Routes.pushNamedAndRemoveUntil(Constants.context, Routes.login.name);
+
         return;
       } else {
         showToast(response.data['msg']);

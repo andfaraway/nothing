@@ -5,37 +5,35 @@
 
 part of 'models.dart';
 
-const Color defaultLightColor = Color(0xffef5350);
-const Color defaultDarkColor = Color(0xffcb4644);
-
-const Color colorTextFieldBackground = Color(0xFFF2F3F5);
-const Color colorLoginButton = Color(0xFFE6333F);
 
 class ThemeGroup {
   const ThemeGroup({
-    this.lightThemeColor = defaultLightColor,
+    this.lightThemeColor = Colors.white,
     this.lightPrimaryColor = Colors.white,
     this.lightBackgroundColor = const Color(0xfff7f7f7),
-    this.lightIconUnselectedColor = const Color(0xffc4c4c4),
+    this.lightTabBarIconColor = const Color(0xffc4c4c4),
+    this.lightTabBarIconSelectedColor = const Color(0xffc4c4c4),
     this.lightDividerColor = const Color(0xffeaeaea),
     this.lightPrimaryTextColor = const Color(0xff212121),
     this.lightSecondaryTextColor = const Color(0xff757575),
     this.lightButtonTextColor = Colors.white,
-    this.darkThemeColor = defaultDarkColor,
+    this.darkThemeColor = Colors.black,
     this.darkPrimaryColor = const Color(0xff212121),
     this.darkBackgroundColor = const Color(0xff151515),
-    this.darkIconUnselectedColor = const Color(0xff616161),
+    this.darkTabBarIconColor = const Color(0xffc4c4c4),
+    this.darkTabBarIconSelectedColor = const Color(0xffc4c4c4),
     this.darkDividerColor = const Color(0xff313131),
     this.darkPrimaryTextColor = const Color(0xffb4b4b6),
     this.darkSecondaryTextColor = const Color(0xff878787),
     this.darkButtonTextColor = Colors.white,
-    this.name = '朱红',
+    this.name = '纯白',
   });
 
   final Color lightThemeColor;
   final Color lightPrimaryColor;
   final Color lightBackgroundColor;
-  final Color lightIconUnselectedColor;
+  final Color lightTabBarIconColor;
+  final Color lightTabBarIconSelectedColor;
   final Color lightDividerColor;
   final Color lightPrimaryTextColor;
   final Color lightSecondaryTextColor;
@@ -44,7 +42,8 @@ class ThemeGroup {
   final Color darkThemeColor;
   final Color darkPrimaryColor;
   final Color darkBackgroundColor;
-  final Color darkIconUnselectedColor;
+  final Color darkTabBarIconColor;
+  final Color darkTabBarIconSelectedColor;
   final Color darkDividerColor;
   final Color darkPrimaryTextColor;
   final Color darkSecondaryTextColor;
@@ -52,18 +51,7 @@ class ThemeGroup {
 
   final String name;
 
-  Color adaptiveThemeColor(BuildContext context) =>
-      context.brightness == Brightness.dark ? darkThemeColor : lightThemeColor;
-
   Color get themeColor => Constants.isDark ? darkThemeColor : lightThemeColor;
 }
 
 const ThemeGroup defaultThemeGroup = ThemeGroup();
-
-Color adaptiveButtonColor(Color color) {
-  if (currentIsDark) {
-    return currentThemeGroup.darkButtonTextColor;
-  } else {
-    return currentThemeGroup.lightButtonTextColor ?? color;
-  }
-}

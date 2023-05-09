@@ -2,6 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-18 16:14:22
 //
+import 'package:nothing/common/style.dart';
 import 'package:nothing/constants/constants.dart';
 
 class LoginButton extends StatelessWidget {
@@ -15,20 +16,15 @@ class LoginButton extends StatelessWidget {
       width: double.infinity,
       height: 88.h,
       child: MaterialButton(
-          onPressed: (){
+          onPressed: () {
             loginButtonPressed();
           },
-          color: colorLoginButton,
+          color: AppColor.specialColor,
+          shape: RoundedRectangleBorder(side: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(44.w))),
           child: Text(
             title,
-            style: TextStyle(
-                fontSize: 38.sp,
-                fontWeight: FontWeight.normal,
-                color: Colors.white),
-          ),
-          shape: RoundedRectangleBorder(
-              side: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(44.w)))),
+            style: AppTextStyle.titleMedium,
+          )),
     );
   }
 }

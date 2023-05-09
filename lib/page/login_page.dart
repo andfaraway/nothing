@@ -3,7 +3,6 @@
 //  [Date] 2022-01-07 09:48:35
 //
 
-import 'package:nothing/page/home_page.dart';
 import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 
@@ -13,7 +12,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -38,100 +37,32 @@ class _LoginPageState extends State<LoginPage> {
   Widget loginButton() {
     return SizedBox(
       width: double.infinity,
-      height: 88.h,
+      height: 44.h,
       child: MaterialButton(
           onPressed: () {
             loginButtonPressed();
           },
-          color: colorLoginButton,
+          color: AppColor.specialColor,
+          shape: RoundedRectangleBorder(side: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(44.w))),
           child: Text(
             S.current.login,
-            style: TextStyle(
-                fontSize: 38.h,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-          shape: RoundedRectangleBorder(
-              side: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(44.w)))),
+            style: AppTextStyle.headLineMedium.copyWith(color: Colors.white),
+          )),
     );
   }
 
   Future<void> loginButtonPressed() async {
-    Map<String, dynamic>? map =
-        await API.login(_username.value, _password.value);
+    Map<String, dynamic>? map = await API.login(_username.value, _password.value);
     if (map != null) {
       map['userId'] = map['id'];
       Singleton().currentUser = UserInfoModel.fromJson(map);
-
-      String registrationId = await NotificationUtils.jpush.getRegistrationID();
-      API.registerNotification(
-            userId: Singleton().currentUser.userId,
-            pushToken: null,
-            alias: NotificationUtils.setAlias(Singleton().currentUser.username),
-            registrationId: registrationId,
-            identifier: Singleton().currentUser.openId);
-
+      NotificationUtils.register();
       if (mounted) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-            (_) => false);
+        Routes.pushNamedAndRemoveUntil(context, Routes.root.name);
         showToast("hello ${Singleton().currentUser.username}");
       }
     } else {
       showToast("登录失败");
-    }
-  }
-
-  //qq登录
-  Widget qqButton() {
-    return GestureDetector(
-      onTap: () async {
-        qqLoginButtonPressed(context);
-      },
-      child: Image.asset(
-        'images/icon_qq.png',
-        width: 90.w,
-        height: 90.h,
-      ),
-    );
-  }
-
-  Future<void> qqLoginButtonPressed(BuildContext context) async {
-    //调起QQ登录
-    UMShareUserInfo info =
-        await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
-    if (info.error == null) {
-      Map<String, dynamic>? map = await API.thirdLogin(
-          name: info.name,
-          platform: 1,
-          openId: info.openid,
-          icon: info.iconurl);
-      print('第三方登录：$map');
-      if (map != null) {
-        Singleton().currentUser = UserInfoModel.fromJson(map);
-        //注册通知
-        String registrationId = await NotificationUtils.jpush.getRegistrationID();
-        API.registerNotification(
-            userId: Singleton().currentUser.userId,
-            pushToken: null,
-            alias: NotificationUtils.setAlias(Singleton().currentUser.username),
-            registrationId: registrationId,
-            identifier: Singleton().currentUser.openId);
-
-        if (mounted) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-              (_) => false);
-          showToast("hello ${Singleton().currentUser.username}");
-        }
-      } else {
-        showToast("登录失败");
-      }
-    } else {
-      showToast(info.error ?? '登录失败');
     }
   }
 
@@ -148,15 +79,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
-    UMSharePlugin.setPlatform(
-        platform: UMSocialPlatformType_QQ, appKey: '1112081029');
+    UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _username.dispose();
     _password.dispose();
@@ -166,9 +96,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     //初始化第三方登录
-    UMSharePlugin.init('61b81959e014255fcbb28077');
-    UMSharePlugin.setPlatform(
-        platform: UMSocialPlatformType_QQ, appKey: '1112081029');
+    // UMSharePlugin.init('61b81959e014255fcbb28077');
+    // UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
 
     setAlignment(context);
     return WillPopScope(
@@ -180,125 +109,139 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: Stack(
+          backgroundColor: Colors.green,
+          body: Column(
             children: [
-              Container(
-                color: Colors.green,
-                width: double.infinity,
-                height: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 1126.h),
-                  child: Center(
-                    child: Text(
-                      'Nothing',
-                      style: TextStyle(color: Colors.white, fontSize: 54.sp),
-                    ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'nothing',
+                    style: AppTextStyle.displayLarge,
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ValueListenableBuilder<bool>(
-                      valueListenable: _keyboardAppeared,
-                      builder: (_, bool isAppear, __) {
-                        if (isAppear == false) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        }
-                        return Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(40),
-                                  topRight: Radius.circular(40))),
-                          width: double.infinity,
-                          height: isAppear ? 1126.h + 100.h : 1126.h,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: distance, right: distance),
-                            child: Column(
-                              children: [
-                                110.hSizedBox,
-                                Container(
-                                  width: 640.w,
-                                  height: 88.h,
-                                  decoration: BoxDecoration(
-                                    color: colorTextFieldBackground,
-                                    borderRadius: BorderRadius.circular(44.h),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                            border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
-                                            hintText: S.current.username_hint,
-                                            contentPadding:
-                                                EdgeInsets.only(left: 0.w),
-                                          ),
-                                          controller: _usernameController,
-                                          textAlign: TextAlign.center,
-                                          onChanged: (value) {
-                                            _username.value = value;
-                                          },
+              ValueListenableBuilder<bool>(
+                  valueListenable: _keyboardAppeared,
+                  builder: (_, bool isAppear, __) {
+                    if (isAppear == false) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    }
+                    return Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.only(topLeft: Radius.circular(20.h), topRight: Radius.circular(20.h))),
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: distance, right: distance),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            110.hSizedBox,
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColor.scaffoldBackgroundColor,
+                                borderRadius: BorderRadius.circular(22.h),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                        decoration: InputDecoration(
+                                          border: const OutlineInputBorder(borderSide: BorderSide.none),
+                                          hintText: S.current.username_hint,
+                                          hintStyle: AppTextStyle.titleMedium.placeholderColor,
+                                          contentPadding: EdgeInsets.zero,
                                         ),
-                                      ),
-                                    ],
+                                        style: AppTextStyle.titleMedium,
+                                        controller: _usernameController,
+                                        textAlign: TextAlign.center,
+                                        onChanged: (value) {
+                                          _username.value = value;
+                                        },
+                                        cursorColor: AppColor.errorColor),
                                   ),
+                                ],
+                              ),
+                            ),
+                            30.hSizedBox,
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: AppColor.scaffoldBackgroundColor, borderRadius: BorderRadius.circular(22.h)),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                                  hintText: S.current.password_hint,
+                                  hintStyle: AppTextStyle.titleMedium.placeholderColor,
+                                  contentPadding: EdgeInsets.zero,
                                 ),
-                                30.hSizedBox,
-                                Container(
-                                  width: 640.w,
-                                  height: 88.h,
-                                  decoration: BoxDecoration(
-                                      color: colorTextFieldBackground,
-                                      borderRadius:
-                                          BorderRadius.circular(44.h)),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide.none
-                                      ),
-                                      hintText: S.current.password_hint,
-                                      contentPadding:
-                                          EdgeInsets.only(left: 0.w),
-                                    ),
-                                    controller: _passwordController,
-                                    textAlign: TextAlign.center,
-                                    onChanged: (value) {
-                                      _password.value = value;
-                                    },
-                                  ),
+                                style: AppTextStyle.titleMedium,
+                                controller: _passwordController,
+                                textAlign: TextAlign.center,
+                                onChanged: (value) {
+                                  _password.value = value;
+                                },
+                              ),
+                            ),
+                            80.hSizedBox,
+                            loginButton(),
+                            22.hSizedBox,
+                            Row(
+                              children: [
+                                Text(
+                                  S.current.sign_up,
+                                  style: AppTextStyle.titleMedium,
                                 ),
-                                80.hSizedBox,
-                                loginButton(),
-                                22.hSizedBox,
-                                Row(
-                                  children: [
-                                    Text(
-                                      S.current.sign_up,
-                                      style: TextStyle(
-                                          color: textColor1, fontSize: 28.h),
-                                    ),
-                                    Expanded(child: Container()),
-                                    Text(
-                                      S.current.forgot_password,
-                                      style: TextStyle(
-                                          color: textColor1, fontSize: 28.h),
-                                    )
-                                  ],
-                                ),
-                                270.hSizedBox,
-                                qqButton()
+                                Expanded(child: Container()),
+                                Text(
+                                  S.current.forgot_password,
+                                  style: AppTextStyle.titleMedium,
+                                )
                               ],
                             ),
-                          ),
-                        );
-                      })),
+                            55.hSizedBox,
+                            _qqButton(),
+                            55.hSizedBox
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  //qq登录
+  Widget _qqButton() {
+    return GestureDetector(
+      onTap: () async {
+        UMShareUserInfo info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
+        if (info.error == null) {
+          Map<String, dynamic>? map =
+              await API.thirdLogin(name: info.name, platform: 1, openId: info.openid, icon: info.iconurl);
+          print('第三方登录：$map');
+          if (map != null) {
+            Singleton().currentUser = UserInfoModel.fromJson(map);
+
+            if (mounted) {
+              NotificationUtils.register();
+              Routes.pushNamedAndRemoveUntil(context, Routes.root.name);
+              showToast("hello ${Singleton().currentUser.username}");
+            }
+          } else {
+            showToast("登录失败");
+          }
+        } else {
+          showToast(info.error ?? '登录失败');
+        }
+      },
+      child: Image.asset(
+        'images/icon_qq.png',
+        width: 44.w,
+        height: 44.h,
       ),
     );
   }

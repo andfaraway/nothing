@@ -41,13 +41,7 @@ class _ProfileState extends State<Profile> {
           icon: AppImage.asset(R.imagesLogOut),
           title: '退出登录',
           onTap: () {
-            showConfirmToast(
-                context: context,
-                title: '退出登录',
-                onConfirm: () {
-                  HiveBoxes.clearData();
-                  Routes.pushNamedAndRemoveUntil(context, Routes.login.name);
-                });
+            showConfirmToast(context: context, title: '退出登录', onConfirm: Handler.userLogout);
           }),
     ];
   }

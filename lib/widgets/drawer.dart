@@ -62,10 +62,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           onLongPressEnd: (details) {
                             setState(() {
                               showToast("${Singleton().currentUser.username} bye");
-                              HiveBoxes.clearData();
-                              if (mounted) {
-                                Routes.pushNamedAndRemoveUntil(context, Routes.login.name);
-                              }
+                              Handler.userLogout();
                             });
                           },
                           onTap: () async {

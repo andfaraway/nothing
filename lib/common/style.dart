@@ -83,6 +83,20 @@ class AppColor {
 class AppTextStyle {
   static String get fontFamily => 'SourceHanSansCN';
 
+  static TextStyle get displayLarge => TextStyle(
+        fontSize: 28.sp,
+        color: AppColor.white,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
+
+  static TextStyle get headLineMedium => TextStyle(
+        fontSize: 18.sp,
+        color: AppColor.mainColor,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
+
   static TextStyle get titleMedium => TextStyle(
         fontSize: 15.sp,
         color: AppColor.mainColor,
@@ -98,10 +112,16 @@ class AppTextStyle {
       );
 }
 
+extension TextStyleExtension on TextStyle {
+  TextStyle get placeholderColor => copyWith(color: AppColor.placeholderColor);
+}
+
 class AppSize {
   const AppSize._();
 
   static double get cellHeight => 44.h;
+
+  static double get radiusMedium => 7.r;
 }
 
 class AppPadding {

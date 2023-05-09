@@ -4,6 +4,8 @@
 //
 import 'package:nothing/constants/constants.dart';
 
+import '../common/app_routes.dart';
+
 class Singleton {
   Singleton._internal();
 
@@ -31,7 +33,7 @@ class Singleton {
   static Map<dynamic, dynamic>? welcomeLoadResult;
 
   static cleanData() async {
-    HiveBoxes.clearData();
+    HiveBoxes.clear();
   }
 }
 
@@ -48,7 +50,7 @@ class Handler {
   static void userLogin() {}
 
   static void userLogout() {
-    HiveBoxes.clearData();
-    Singleton().currentUser = null;
+    Singleton.cleanData();
+    Routes.pushNamedAndRemoveUntil(currentContext, Routes.login.name);
   }
 }

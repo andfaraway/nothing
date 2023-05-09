@@ -2,8 +2,6 @@ import 'dart:math' as math;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'constants.dart';
 
@@ -58,6 +56,4 @@ class Instances {
   static ConnectivityResult? connectivityResult;
 
   static GlobalKey appRepaintBoundaryKey = GlobalKey();
-  // static GlobalKey<MainPageState> mainPageStateKey =
-  //     GlobalKey<MainPageState>();
 }

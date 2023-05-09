@@ -45,7 +45,7 @@ class HiveBoxes {
     );
   }
 
-  static Future<void> clearData() async {
+  static Future<void> clearAll() async {
     await launchBox.clear();
     await settingsBox.clear();
     await _dataBox.clear();
@@ -85,4 +85,7 @@ class HiveKey {
   static const String pushAlias = 'pushAlias';
 
   static const String filterColor = 'filterColor';
+
+  /// 主题色
+  static const String colorThemeIndex = 'colorThemeIndex';
 }

@@ -4,7 +4,7 @@ class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
     initTheme();
     _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
-    _filterColor = HiveBoxes.get(HiveKey.filterColor,defaultValue: Colors.transparent);
+    _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
   }
 
   /// 滤镜颜色
@@ -54,7 +54,6 @@ class ThemesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<void> initTheme() async {
     int themeIndex = HiveFieldUtils.getColorThemeIndex();
     if (themeIndex >= supportThemeGroups.length) {
@@ -65,8 +64,7 @@ class ThemesProvider with ChangeNotifier {
     _dark = HiveFieldUtils.getBrightnessDark();
   }
 
-  void resetTheme() {
-  }
+  void resetTheme() {}
 
   void updateThemeColor(int themeIndex) {
     HiveFieldUtils.setColorTheme(themeIndex);
@@ -81,7 +79,20 @@ class ThemesProvider with ChangeNotifier {
     );
   }
 
-  final ThemeData _defaultThemeData = ThemeData(
+  ThemeData get _lightThemeData {
+    return defaultThemeData.copyWith(
+        primaryColor: _currentThemeGroup.lightThemeColor,
+        appBarTheme: defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.lightThemeColor));
+  }
+
+  ThemeData get _darkThemeData => defaultThemeData.copyWith(
+        primaryColor: _currentThemeGroup.darkThemeColor,
+        appBarTheme: defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.darkThemeColor),
+      );
+
+  ThemeData get currentThemeData => dark ? _darkThemeData : _lightThemeData;
+
+  final ThemeData defaultThemeData = ThemeData(
     scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
     primaryColor: AppColor.mainColor,
     appBarTheme: AppBarTheme(
@@ -146,7 +157,7 @@ class ThemesProvider with ChangeNotifier {
       color: AppColor.dividerColor.withOpacity(0.7),
     ),
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: AppColor.mainColor,
+      cursorColor: AppColor.errorColor,
     ),
     textTheme: const TextTheme(
             displayLarge: TextStyle(),
@@ -171,48 +182,15 @@ class ThemesProvider with ChangeNotifier {
     highlightColor: Colors.transparent,
     splashFactory: NoSplash.splashFactory,
   );
-
-  ThemeData get _lightThemeData => _defaultThemeData.copyWith(
-      primaryColor: _currentThemeGroup.lightThemeColor,
-      appBarTheme: _defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.lightThemeColor));
-
-  ThemeData get _darkThemeData => _defaultThemeData.copyWith(
-      primaryColor: _currentThemeGroup.darkThemeColor,
-      appBarTheme: _defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.darkThemeColor));
-
-  ThemeData get currentThemeData => dark ? _darkThemeData : _lightThemeData;
 }
 
 const List<ThemeGroup> supportThemeGroups = <ThemeGroup>[
-  defaultThemeGroup, // This is the default theme group.
-  ThemeGroup(
-      lightThemeColor: Color(0xfff06292),
-      darkThemeColor: Color(0xffcc537c),
-      name: '基佬粉'),
-  ThemeGroup(
-      lightThemeColor: Color(0xffba68c8),
-      darkThemeColor: Color(0xff9e58aa),
-      name: '魅力紫'),
-  ThemeGroup(
-      lightThemeColor: Color(0xff2196f3),
-      darkThemeColor: Color(0xff1c7ece),
-      name: '远峰蓝'),
-  ThemeGroup(
-      lightThemeColor: Color(0xff00bcd4),
-      darkThemeColor: Color(0xff00a0b4),
-      name: '铁青'),
-  ThemeGroup(
-      lightThemeColor: Color(0xFF4CAF50),
-      darkThemeColor: Color(0xff208d83),
-      name: '海藻绿'),
-  ThemeGroup(
-      lightThemeColor: Color(0xffffeb3b),
-      darkThemeColor: Color(0xffd9c832),
-      lightButtonTextColor: Colors.black,
-      darkButtonTextColor: Colors.black,
-      name: '香蕉黄'),
-  ThemeGroup(
-      lightThemeColor: Color(0xffff7043),
-      darkThemeColor: Color(0xffd95f39),
-      name: '活力橙'),
+  defaultThemeGroup,
+  ThemeGroup(lightThemeColor: Color(0xfff06292), darkThemeColor: Color(0xffcc537c), name: '基佬粉'),
+  ThemeGroup(lightThemeColor: Color(0xffba68c8), darkThemeColor: Color(0xff9e58aa), name: '魅力紫'),
+  ThemeGroup(lightThemeColor: Color(0xff2196f3), darkThemeColor: Color(0xff1c7ece), name: '远峰蓝'),
+  ThemeGroup(lightThemeColor: Color(0xff00bcd4), darkThemeColor: Color(0xff00a0b4), name: '铁青'),
+  ThemeGroup(lightThemeColor: Color(0xFF4CAF50), darkThemeColor: Color(0xff208d83), name: '海藻绿'),
+  ThemeGroup(lightThemeColor: Color(0xffffeb3b), darkThemeColor: Color(0xffd9c832), name: '香蕉黄'),
+  ThemeGroup(lightThemeColor: Color(0xffff7043), darkThemeColor: Color(0xffd95f39), name: '活力橙'),
 ];

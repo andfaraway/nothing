@@ -4,19 +4,22 @@
 ///
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:nothing/page/message_page.dart';
 
 import '../common/prefix_header.dart';
-import '../constants/constants.dart' hide Message;
 
 class NotificationUtils {
   static final JPush jpush = JPush();
 
   //极光推送初始化
   static Future<JPush> jPushInit() async {
-    // return jpush;
+    if (!Constants.isPhysicalDevice || kIsWeb) {
+      return jpush;
+    }
+
     jpush.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {
@@ -50,7 +53,7 @@ class NotificationUtils {
         const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     jpush.setBadge(0);
-    
+
     LogUtils.d('jpush registrationID = ${await jpush.getRegistrationID()}');
     return jpush;
   }
@@ -79,25 +82,35 @@ class NotificationUtils {
       FlutterLocalNotificationsPlugin();
 
   static void initSettings() {
-    const AndroidInitializationSettings _settingsAndroid =
-        AndroidInitializationSettings('ic_stat_name');
-    const IOSInitializationSettings _settingsIOS = IOSInitializationSettings(
+    const AndroidInitializationSettings settingsAndroid = AndroidInitializationSettings('ic_stat_name');
+    const IOSInitializationSettings settingsIOS = IOSInitializationSettings(
       onDidReceiveLocalNotification: _onReceive,
     );
-    const InitializationSettings _settings = InitializationSettings(
-      android: _settingsAndroid,
-      iOS: _settingsIOS,
+    const InitializationSettings settings = InitializationSettings(
+      android: settingsAndroid,
+      iOS: settingsIOS,
     );
     NotificationUtils.plugin.initialize(
-      _settings,
+      settings,
       onSelectNotification: _onSelect,
     );
   }
 
+  static Future<void> register() async {
+    if (Constants.isPhysicalDevice) {
+      String registrationId = await NotificationUtils.jpush.getRegistrationID();
+      await API.registerNotification(
+          userId: Singleton().currentUser.userId,
+          pushToken: null,
+          alias: NotificationUtils.setAlias(Singleton().currentUser.username),
+          registrationId: registrationId,
+          identifier: Singleton().currentUser.openId);
+    }
+  }
+
   static Future<void> show(String title, String body) async {
     final Color color = currentThemeColor;
-    final AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
+    final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'openjmu_message_channel',
       '推送消息',
       channelDescription: '通知接收到的消息',

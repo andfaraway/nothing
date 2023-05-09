@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -12,12 +11,10 @@ void main() async {
 
   await PathUtils.init();
   await HiveBoxes.init();
+  await Constants.init();
+  await DeviceUtils.init();
 
-  //初始化推送信息
-  if (await Constants.isPhysicalDevice() && !kIsWeb) {
-    await NotificationUtils.jPushInit();
-  }
-  await DeviceUtils.getDeviceUuid();
+  await NotificationUtils.jPushInit();
 
   Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
 

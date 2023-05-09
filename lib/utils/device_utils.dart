@@ -10,6 +10,10 @@ import 'package:uuid/uuid.dart';
 class DeviceUtils {
   const DeviceUtils._();
 
+  static Future<void> init() async {
+    await DeviceUtils.getDeviceUuid();
+  }
+
   static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
   static dynamic deviceInfo;
 

@@ -36,6 +36,7 @@ class _RootPageState extends State<RootPage>
 
   @override
   Widget build(BuildContext context) {
+    ThemesProvider provider = Provider.of<ThemesProvider>(context);
     return Scaffold(
       drawer: const CustomDrawer(),
       drawerEnableOpenDragGesture: false,
@@ -66,7 +67,7 @@ class _RootPageState extends State<RootPage>
                 blurRadius: 1.0,
                 color: Colors.black.withOpacity(0.1),
               ),
-              backgroundColor: context.read<ThemesProvider>().currentThemeGroup.lightButtonTextColor,
+              backgroundColor: provider.currentThemeGroup.themeColor,
               activeIndex: index,
               gapLocation: GapLocation.center,
               notchSmoothness: NotchSmoothness.defaultEdge,

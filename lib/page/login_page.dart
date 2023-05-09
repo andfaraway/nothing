@@ -239,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
       child: Image.asset(
-        'images/icon_qq.png',
+        R.imagesIconQq,
         width: 44.w,
         height: 44.h,
       ),

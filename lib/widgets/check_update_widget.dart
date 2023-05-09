@@ -2,8 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-05 14:48:10
 //
-import 'package:nothing/constants/constants.dart';
-import 'flutter_white_button.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 typedef UpdateTapCallback = void Function();
 typedef CancelCallback = void Function();
@@ -35,7 +34,7 @@ class CheckUpdateWidget extends StatelessWidget {
           height: 734.h,
           child: Stack(
             children: [
-              Image.asset('images/version_update.png'),
+              AppImage.asset(R.imagesVersionUpdate),
               Align(
                 alignment: Alignment.topCenter,
                 child: Column(

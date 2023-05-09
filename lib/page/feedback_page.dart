@@ -2,6 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-17 16:09:34
 //
+import 'package:nothing/extensions/function_extension.dart';
 import 'package:nothing/widgets/login_button.dart';
 
 import '../common/prefix_header.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/extensions/function_extension.dart';
 import 'package:nothing/widgets/smart_drawer.dart';
 
 import '../model/setting_config_model.dart';

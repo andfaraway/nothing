@@ -7,6 +7,7 @@ import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/file_management.dart';
 import 'package:nothing/page/file_preview_page.dart';
+import 'package:nothing/page/fonts_setting.dart';
 import 'package:nothing/page/home_page.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
@@ -28,36 +29,36 @@ import 'package:nothing/page/welcome_page.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
-class Routes {
-  const Routes._();
+class AppRoute {
+  const AppRoute._();
 
   static List<RoutePage> routePages = [
-    Routes.welcome,
-    Routes.root,
-    Routes.login,
-    Routes.home,
-    Routes.profile,
-    Routes.favorite,
-    Routes.feedback,
-    Routes.message,
-    Routes.releaseVersion,
-    Routes.sayHi,
-    Routes.themeSetting,
-    Routes.uploadFile,
-    Routes.information,
-    Routes.livePhoto,
-    Routes.weddingAbout,
-    Routes.photoShow,
-    Routes.filePreviewPage,
-    Routes.fileManagement,
-    Routes.someThings,
-    Routes.videoPlayPage,
-    Routes.musicPage,
-    Routes.setting
+    AppRoute.welcome,
+    AppRoute.root,
+    AppRoute.login,
+    AppRoute.home,
+    AppRoute.profile,
+    AppRoute.favorite,
+    AppRoute.feedback,
+    AppRoute.message,
+    AppRoute.releaseVersion,
+    AppRoute.sayHi,
+    AppRoute.themeSetting,
+    AppRoute.uploadFile,
+    AppRoute.information,
+    AppRoute.livePhoto,
+    AppRoute.weddingAbout,
+    AppRoute.photoShow,
+    AppRoute.filePreviewPage,
+    AppRoute.fileManagement,
+    AppRoute.someThings,
+    AppRoute.videoPlayPage,
+    AppRoute.musicPage,
+    AppRoute.setting
   ];
 
   static Widget pageWithRouteName(String routeName, {Object? arguments}) {
-    RoutePage routePage = Routes.routePages.firstWhere((element) => element.name == routeName);
+    RoutePage routePage = AppRoute.routePages.firstWhere((element) => element.name == routeName);
     return routePage.page.call(arguments: arguments);
   }
 
@@ -65,16 +66,17 @@ class Routes {
 
   static BuildContext? get context => navKey.currentState?.context;
 
-  static final RoutePage root = RoutePage(name: '/root', page: ({Object? arguments}) => const RootPage());
+  static final RoutePage root = RoutePage(
+      name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const FontsSetting() : const RootPage());
   static final RoutePage welcome = RoutePage(name: '/welcomeRoute', page: ({Object? arguments}) => const WelcomePage());
   static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
   static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());
   static final RoutePage profile = RoutePage(name: '/profileRoute', page: ({Object? arguments}) => const Profile());
 
   static final RoutePage favorite =
-      RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
+  RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
   static final RoutePage feedback =
-      RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
+  RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
 
   static final RoutePage message = RoutePage(name: '/messageRoute', page: ({Object? arguments}) => const MessagePage());
   static final RoutePage releaseVersion =
@@ -188,7 +190,7 @@ class ServerTargetModel {
       print('targetStr = $splitList');
 
       if (splitList.isEmpty) {
-        model.page = Routes.routePages
+        model.page = AppRoute.routePages
             .firstWhere((element) => element.name == splitList.first)
             .page(arguments: splitList.length > 1 ? splitList.last : null);
       } else {
@@ -223,7 +225,7 @@ class LoginMiddleware extends Middleware {
   @override
   RouteSettings? redirect(String? route) {
     if (!Handler.isUserLogin) {
-      return RouteSettings(name: Routes.login.name);
+      return RouteSettings(name: AppRoute.login.name);
     }
     return super.redirect(route);
   }
@@ -231,19 +233,20 @@ class LoginMiddleware extends Middleware {
 
 RouteFactory? onGenerateRoute = (RouteSettings settings) {
   RouteSettings? routeSettings = settings;
-  int index = Routes.routePages.indexWhere((element) => element.name == routeSettings?.name);
+  int index = AppRoute.routePages.indexWhere((element) => element.name == routeSettings?.name);
   if (index >= 0) {
-    RoutePage routePage = Routes.routePages[index];
+    RoutePage routePage = AppRoute.routePages[index];
     if (routePage.middleware != null) {
       RouteSettings? redirectRouteSettings = routePage.middleware?.redirect(routeSettings.name);
-      int redirectIndex = Routes.routePages.indexWhere((element) => element.name == redirectRouteSettings?.name);
+      int redirectIndex = AppRoute.routePages.indexWhere((element) => element.name == redirectRouteSettings?.name);
       if (redirectIndex >= 0) {
         routeSettings = redirectRouteSettings;
-        routePage = Routes.routePages[redirectIndex];
+        routePage = AppRoute.routePages[redirectIndex];
       }
     }
     return MaterialPageRoute(
-      builder: (BuildContext context) => routePage.page(
+      builder: (BuildContext context) =>
+          routePage.page(
         arguments: routeSettings?.arguments,
       ),
       settings: routeSettings,

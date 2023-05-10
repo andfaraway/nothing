@@ -146,7 +146,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                         functionWithString(context, e.onTap!)?.call();
                                       }
                                     : () {
-                                        Routes.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
+                                        AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
                                       },
                                 onLongPress: e.onLongPress == null
                                     ? null
@@ -165,7 +165,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       title: S.current.setting,
                       onTap: () {
-                        Routes.pushNamePage(context, Routes.setting.name);
+                        AppRoute.pushNamePage(context, AppRoute.setting.name);
                       },
                     ),
                   ],

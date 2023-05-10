@@ -51,6 +51,6 @@ class Handler {
 
   static void userLogout() {
     Singleton.cleanData();
-    Routes.pushNamedAndRemoveUntil(currentContext, Routes.login.name);
+    AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
   }
 }

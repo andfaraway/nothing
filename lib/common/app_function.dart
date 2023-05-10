@@ -52,7 +52,7 @@ Function? functionWithString(BuildContext context, String functionStr) {
       break;
     case 'web':
       f = () async {
-        Routes.pushPage(
+        AppRoute.pushPage(
             context,
             AppWebView(
               url: url,

@@ -32,11 +32,11 @@ class _ProfileState extends State<Profile> {
       _titleCell(
           icon: AppImage.asset(R.tabActivity),
           title: '主题',
-          onTap: () => Routes.pushNamePage(context, Routes.themeSetting.name)),
+          onTap: () => AppRoute.pushNamePage(context, AppRoute.themeSetting.name)),
       _titleCell(
           icon: AppImage.asset(R.imagesSettings),
           title: '设置',
-          onTap: () => Routes.pushNamePage(context, Routes.setting.name)),
+          onTap: () => AppRoute.pushNamePage(context, AppRoute.setting.name)),
       _titleCell(
           icon: AppImage.asset(R.imagesLogOut),
           title: '退出登录',

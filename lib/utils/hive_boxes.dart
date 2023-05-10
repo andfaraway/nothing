@@ -66,6 +66,11 @@ class HiveBoxes {
   static Future<int> clear() {
     return _dataBox.clear();
   }
+
+  static bool isTest() {
+    // _dataBox.put('test', true);
+    return _dataBox.get('test', defaultValue: false);
+  }
 }
 
 class HiveAdapterTypeIds {

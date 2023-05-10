@@ -60,16 +60,29 @@ class Http {
   static Future<dynamic> post<T>(String path,
       {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
     return _request(path,
-        method: 'POST',
-        params: params,
-        data: data,
-        onSendProgress: onSendProgress);
+        method: 'POST', params: params, data: data, onSendProgress: onSendProgress);
   }
 
-  static Future<Object?> uploadFile<T>(String url,
-      {dynamic data, ProgressCallback? onSendProgress}) {
+  static Future<Object?> uploadFile<T>(String url, {dynamic data, ProgressCallback? onSendProgress}) {
     _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
     return _dio.post(url, data: data, onSendProgress: onSendProgress);
+  }
+
+  static Future<void> downloadFile(
+      String url, String savePath, void Function(int, int, double)? onReceiveProgress) async {
+    Dio dio = Dio();
+    try {
+      await dio.download(url, savePath, onReceiveProgress: (receivedBytes, totalBytes) {
+        if (totalBytes != -1) {
+          double percent = (receivedBytes / totalBytes);
+          onReceiveProgress?.call(receivedBytes, totalBytes, percent);
+        } else {
+          onReceiveProgress?.call(receivedBytes, totalBytes, -1);
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

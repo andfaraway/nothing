@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   GlobalWidgetsLocalizations.delegate
                 ],
                 supportedLocales: S.delegate.supportedLocales,
-                initialRoute: Routes.root.name,
+                initialRoute: AppRoute.root.name,
                 onGenerateRoute: onGenerateRoute,
                 scrollBehavior: const CupertinoScrollBehavior(),
                 navigatorObservers: [FlutterSmartDialog.observer, AppNavigatorObserver()],

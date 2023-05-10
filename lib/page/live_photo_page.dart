@@ -106,8 +106,7 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
 
     File? imageFile = await result.first.originFile;
     if (!mounted) return;
-    File? file =
-        await Routes.pushPage(context, SimpleImageEditor(imageFile!));
+    File? file = await AppRoute.pushPage(context, SimpleImageEditor(imageFile!));
 
     if (index == 0) {
       firstImage = file;

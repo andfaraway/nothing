@@ -40,22 +40,14 @@ class Screens {
 
 class AppScreenUtilInit extends ScreenUtilInit {
   const AppScreenUtilInit({Key? key, required ScreenUtilInitBuilder builder})
-      : super(key: key, designSize: const Size(375, 812), minTextAdapt: true, splitScreenMode: true, builder: builder);
+      : super(
+          key: key,
+          designSize: const Size(375, 812),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: builder,
+        );
 }
-
-/// Screen capability method.
-double suSetSp(double size, {double? scale}) => _sizeCapable(
-      (ScreenUtil().setSp(size) * 2).toDouble(),
-      scale: scale,
-    );
-
-double suSetWidth(double size, {double? scale}) =>
-    _sizeCapable((ScreenUtil().setWidth(size) * 2).toDouble(), scale: scale);
-
-double suSetHeight(double size, {double? scale}) =>
-    _sizeCapable((ScreenUtil().setHeight(size) * 2).toDouble(), scale: scale);
-
-double _sizeCapable(num size, {double? scale}) => (size * (scale ?? 1)).toDouble();
 
 extension AppSizeExtension on num {
   double get w => ScreenUtil().setWidth(this);
@@ -77,4 +69,3 @@ extension AppSizeExtension on num {
   //高度间隔
   Widget get hDivider => Divider(height: toDouble(), thickness: toDouble());
 }
-

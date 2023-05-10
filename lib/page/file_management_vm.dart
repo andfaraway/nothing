@@ -74,9 +74,16 @@ class FileManagementVM extends BaseVM {
       );
       showCustomWidget(context: context, child: pictureViewer);
     } else if (Utils.isVideo(model.type)) {
-      Routes.pushPage(context, VideoScreen(url: url,files: files,index: index,));return;
+      AppRoute.pushPage(
+          context,
+          VideoScreen(
+            url: url,
+            files: files,
+            index: index,
+          ));
+      return;
 
-      Routes.pushPage(context, VideoScreen(url: url));
+      AppRoute.pushPage(context, VideoScreen(url: url));
     } else{
       if (await canLaunchUrlString(url)) {
         await launchUrlString(url);

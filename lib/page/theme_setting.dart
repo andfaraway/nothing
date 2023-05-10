@@ -5,6 +5,7 @@
 
 import 'package:flutter_colors_border/flutter_colors_border.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/page/fonts_setting.dart';
 
 class ThemeSettingPage extends StatelessWidget {
   const ThemeSettingPage({Key? key}) : super(key: key);
@@ -74,6 +75,14 @@ class ThemeSettingPage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    InkWell(
+                        onTap: () {
+                          AppRoute.pushPage(context, const FontsSetting());
+                        },
+                        child: Text(
+                          '字体test1',
+                          style: TextStyle(fontSize: 50, fontFamily: 'SimKa', fontWeight: FontWeight.bold),
+                        )),
                     GridView.builder(
                       itemBuilder: (BuildContext context, int index) {
                         ThemeGroup themeGroup = supportThemeGroups[index];
@@ -145,8 +154,6 @@ class ThemeSettingPage extends StatelessWidget {
   }
 }
 
-
-
 class _InformationContainer extends StatelessWidget {
   const _InformationContainer({
     Key? key,
@@ -155,8 +162,7 @@ class _InformationContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemesProvider provider = context.read<ThemesProvider>();
-    ValueNotifier<Color> colorNotifier =
-        ValueNotifier(provider.informationBgColor);
+    ValueNotifier<Color> colorNotifier = ValueNotifier(provider.informationBgColor);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -203,12 +209,10 @@ class _InformationContainer extends StatelessWidget {
                 colorNotifier.value = getRandomColor();
               }),
               resetButton(S.current.reset, () {
-                colorNotifier.value =
-                    context.read<ThemesProvider>().informationBgColor;
+                colorNotifier.value = context.read<ThemesProvider>().informationBgColor;
               }),
               resetButton(S.current.save, () {
-                context.read<ThemesProvider>().informationBgColor =
-                    colorNotifier.value;
+                context.read<ThemesProvider>().informationBgColor = colorNotifier.value;
               })
             ],
           ),

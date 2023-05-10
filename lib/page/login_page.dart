@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       Singleton().currentUser = UserInfoModel.fromJson(map);
       NotificationUtils.register();
       if (mounted) {
-        Routes.pushNamedAndRemoveUntil(context, Routes.root.name);
+        AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
         showToast("hello ${Singleton().currentUser.username}");
       }
     } else {
@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
 
             if (mounted) {
               NotificationUtils.register();
-              Routes.pushNamedAndRemoveUntil(context, Routes.root.name);
+              AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
               showToast("hello ${Singleton().currentUser.username}");
             }
           } else {

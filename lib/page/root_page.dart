@@ -99,22 +99,22 @@ class _RootPageState extends State<RootPage>
           icon: AppImage.asset(R.tabRss, color: AppColor.placeholderColor),
           activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor),
           label: '信息',
-          page: Routes.home.page.call()),
+          page: AppRoute.home.page.call()),
       BarItem(
           icon: AppImage.asset(R.tabMail, color: AppColor.placeholderColor),
           activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor),
           label: '信息',
-          page: Routes.message.page.call()),
+          page: AppRoute.message.page.call()),
       BarItem(
           icon: AppImage.asset(R.tabAperture, color: AppColor.placeholderColor),
           activeIcon: AppImage.asset(R.tabAperture, color: AppColor.errorColor),
           label: '图片',
-          page: Routes.photoShow.page.call()),
+          page: AppRoute.photoShow.page.call()),
       BarItem(
           icon: AppImage.asset(R.tabUser, color: AppColor.placeholderColor),
           activeIcon: AppImage.asset(R.tabUser, color: AppColor.errorColor),
           label: '我的',
-          page: Routes.profile.page.call()),
+          page: AppRoute.profile.page.call()),
     ];
   }
 }

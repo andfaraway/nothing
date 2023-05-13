@@ -29,21 +29,21 @@ SettingConfigModel $SettingConfigModelFromJson(Map<String, dynamic> json) {
 	}
 	final String? sort = jsonConvert.convert<String>(json['sort']);
 	if (sort != null) {
-		settingConfigModel.sort = sort;
-	}
-	final String? drawer = jsonConvert.convert<String>(json['drawer']);
-	if (drawer != null) {
-		settingConfigModel.drawer = drawer;
-	}
-	final String? icon = jsonConvert.convert<String>(json['icon']);
-	if (icon != null) {
-		settingConfigModel.icon = icon;
-	}
-	final dynamic? arguments = jsonConvert.convert<dynamic>(json['arguments']);
-	if (arguments != null) {
-		settingConfigModel.arguments = arguments;
-	}
-	return settingConfigModel;
+    settingConfigModel.sort = sort;
+  }
+  final String? drawer = jsonConvert.convert<String>(json['drawer']);
+  if (drawer != null) {
+    settingConfigModel.drawer = drawer;
+  }
+  final String? icon = jsonConvert.convert<String>(json['icon']);
+  if (icon != null) {
+    settingConfigModel.icon = icon;
+  }
+  final dynamic arguments = jsonConvert.convert<dynamic>(json['arguments']);
+  if (arguments != null) {
+    settingConfigModel.arguments = arguments;
+  }
+  return settingConfigModel;
 }
 
 Map<String, dynamic> $SettingConfigModelToJson(SettingConfigModel entity) {

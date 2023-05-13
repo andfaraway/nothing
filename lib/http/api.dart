@@ -4,7 +4,6 @@
 //
 
 import 'dart:core';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -336,7 +335,7 @@ class API {
   static const String _secret = 'lalalala';
 
   /// 获取文件
-  static Future<dynamic> getFiles(String? catalog) async {
+  static Future<List<dynamic>?> getFiles(String? catalog) async {
     Map<String, dynamic>? params = {"secret": _secret, 'catalog': catalog};
     if (catalog == null || catalog == '') {
       params.remove('catalog');
@@ -348,9 +347,23 @@ class API {
     return response;
   }
 
+  static Future<dynamic> downloadFile(
+      {required String url,
+      required String savePath,
+      void Function(int, int, double)? onReceiveProgress,
+      CancelToken? cancelToken}) async {
+    return Http.downloadFile(
+        url: url, savePath: savePath, onReceiveProgress: onReceiveProgress, cancelToken: cancelToken);
+  }
+
   /// 更改文件/文件夹名称
-  static Future<dynamic> changeFileName(String? catalog,String oldName,String newName) async {
-    Map<String, dynamic>? params = {"secret": _secret, 'path': catalog,'oldName': oldName,'newName': newName,};
+  static Future<dynamic> changeFileName(String? catalog, String oldName, String newName) async {
+    Map<String, dynamic>? params = {
+      "secret": _secret,
+      'path': catalog,
+      'oldName': oldName,
+      'newName': newName,
+    };
     List<dynamic>? response = await Http.post(
       '/changeFileName',
       params: params,

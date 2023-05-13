@@ -2,6 +2,8 @@
 //  [Author] libin (https://www.imin.sg)
 //  [Date] 2022-03-09 17:44:59
 //
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:nothing/constants/constants.dart';
 
@@ -21,14 +23,9 @@ class Http {
       receiveTimeout: 30000,
 
       //是否不使用缓存
-      extra: {
-        'refresh': true
-      },
+      extra: {'refresh': true},
       //请求头
-      headers: {
-        'Accept-Language':
-            Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9'
-      });
+      headers: {'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9'});
 
   // 创建 Dio 实例
   static final Dio _dio = Dio(_options)
@@ -37,15 +34,11 @@ class Http {
 
   // _request所有的请求都会走这里
   static Future<dynamic> _request<T>(String path,
-      {String method = 'GET',
-      Map<String, dynamic>? params,
-      dynamic data,
-      ProgressCallback? onSendProgress}) async {
+      {String method = 'GET', Map<String, dynamic>? params, dynamic data, ProgressCallback? onSendProgress}) async {
     try {
       _dio.options.method = method;
       _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
-      Response response = await _dio.request(path,
-          data: data, queryParameters: params, onSendProgress: onSendProgress);
+      Response response = await _dio.request(path, data: data, queryParameters: params, onSendProgress: onSendProgress);
       return response.data;
     } catch (error) {
       return null;
@@ -57,10 +50,8 @@ class Http {
     return _request(path, method: 'GET', params: params);
   }
 
-  static Future<dynamic> post<T>(String path,
-      {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
-    return _request(path,
-        method: 'POST', params: params, data: data, onSendProgress: onSendProgress);
+  static Future<dynamic> post<T>(String path, {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
+    return _request(path, method: 'POST', params: params, data: data, onSendProgress: onSendProgress);
   }
 
   static Future<Object?> uploadFile<T>(String url, {dynamic data, ProgressCallback? onSendProgress}) {
@@ -68,20 +59,24 @@ class Http {
     return _dio.post(url, data: data, onSendProgress: onSendProgress);
   }
 
-  static Future<void> downloadFile(
-      String url, String savePath, void Function(int, int, double)? onReceiveProgress) async {
-    Dio dio = Dio();
+  static Future<dynamic> downloadFile(
+      {required String url,
+      required String savePath,
+      void Function(int, int, double)? onReceiveProgress,
+      CancelToken? cancelToken}) async {
     try {
-      await dio.download(url, savePath, onReceiveProgress: (receivedBytes, totalBytes) {
+      return await Dio().download(url, savePath,
+          lengthHeader: Headers.contentLengthHeader, options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
+          onReceiveProgress: (receivedBytes, totalBytes) {
         if (totalBytes != -1) {
           double percent = (receivedBytes / totalBytes);
           onReceiveProgress?.call(receivedBytes, totalBytes, percent);
         } else {
           onReceiveProgress?.call(receivedBytes, totalBytes, -1);
         }
-      });
+      }, cancelToken: cancelToken);
     } catch (e) {
-      print(e);
+      return null;
     }
   }
 }

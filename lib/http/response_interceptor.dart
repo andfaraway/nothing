@@ -20,18 +20,19 @@ class ResponseInterceptor extends Interceptor {
     EasyLoading.dismiss();
     LogUtils.n(response.data, tag: 'response');
     if (response.statusCode == 200) {
-      int code = response.data['code'];
-      if (code == 200) {
-        if (response.data['data'] != null) {
-          response.data = response.data['data'];
+      if (response.data is Map) {
+        int code = response.data['code'];
+        if (code == 200) {
+          if (response.data['data'] != null) {
+            response.data = response.data['data'];
+          }
+        } else if (code == 600) {
+          // 登录超时，跳转登录页面
+          return;
+        } else {
+          showToast(response.data['msg']);
+          return;
         }
-      }else if (code == 600) {
-        // 登录超时，跳转登录页面
-
-        return;
-      } else {
-        showToast(response.data['msg']);
-        return;
       }
     }
     super.onResponse(response, handler);

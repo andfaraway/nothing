@@ -86,10 +86,6 @@ class AppTextStyle {
 
   static Future<void> init() async {
     String path = '${PathUtils.documentPath}/YiZhiKeAiDeXiaoBaiTu-2.ttf';
-
-    // Http.downloadFile('http://1.14.252.115/src/fonts/YiZhiKeAiDeXiaoBaiTu-2.ttf', path, (p0, p1, p2) {
-    //   print('$p0,$p1,$p2');
-    // });
     File file = File(path);
     Uint8List bytes = file.readAsBytesSync();
     loadFontFromList(bytes, fontFamily: "SimKa");

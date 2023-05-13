@@ -17,26 +17,36 @@ FileModel $FileModelFromJson(Map<String, dynamic> json) {
 	}
 	final String? type = jsonConvert.convert<String>(json['type']);
 	if (type != null) {
-		fileModel.type = type;
-	}
-	final String? prefix = jsonConvert.convert<String>(json['prefix']);
-	if (prefix != null) {
-		fileModel.prefix = prefix;
-	}
-	final String? catalog = jsonConvert.convert<String>(json['catalog']);
-	if (catalog != null) {
-		fileModel.catalog = catalog;
-	}
-	return fileModel;
+    fileModel.type = type;
+  }
+  final String? prefix = jsonConvert.convert<String>(json['prefix']);
+  if (prefix != null) {
+    fileModel.prefix = prefix;
+  }
+  final String? catalog = jsonConvert.convert<String>(json['catalog']);
+  if (catalog != null) {
+    fileModel.catalog = catalog;
+  }
+  final int? downloadStatus = jsonConvert.convert<int>(json['downloadStatus']);
+  if (downloadStatus != null) {
+    fileModel.status = downloadStatus;
+  }
+  final double? process = jsonConvert.convert<double>(json['process']);
+  if (process != null) {
+    fileModel.process = process;
+  }
+  return fileModel;
 }
 
 Map<String, dynamic> $FileModelToJson(FileModel entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
-	data['isDir'] = entity.isDir;
-	data['name'] = entity.name;
-	data['size'] = entity.size;
-	data['type'] = entity.type;
-	data['prefix'] = entity.prefix;
-	data['catalog'] = entity.catalog;
-	return data;
+  data['isDir'] = entity.isDir;
+  data['name'] = entity.name;
+  data['size'] = entity.size;
+  data['type'] = entity.type;
+  data['prefix'] = entity.prefix;
+  data['catalog'] = entity.catalog;
+  data['downloadStatus'] = entity.status;
+  data['process'] = entity.process;
+  return data;
 }

@@ -176,7 +176,6 @@ class _InformationContainer extends StatelessWidget {
           ValueListenableBuilder(
               valueListenable: colorNotifier,
               builder: (context, Color color, child) {
-                print('rebuild');
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(2),
                   child: Container(

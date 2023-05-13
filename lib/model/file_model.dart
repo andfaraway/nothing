@@ -13,7 +13,9 @@ class FileModel {
   String? prefix;
   String? catalog;
   int status = DownloadStatus.initial;
-  double process = 0;
+  String path = '';
+
+  String get url => '$prefix/$catalog/$name';
 
   FileModel();
 

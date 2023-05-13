@@ -19,16 +19,16 @@ SettingConfigModel $SettingConfigModelFromJson(Map<String, dynamic> json) {
 	if (routeName != null) {
 		settingConfigModel.routeName = routeName;
 	}
-	final String? onTap = jsonConvert.convert<String>(json['onTap']);
-	if (onTap != null) {
-		settingConfigModel.onTap = onTap;
-	}
-	final String? onLongPress = jsonConvert.convert<String>(json['onLongPress']);
-	if (onLongPress != null) {
-		settingConfigModel.onLongPress = onLongPress;
-	}
-	final String? sort = jsonConvert.convert<String>(json['sort']);
-	if (sort != null) {
+  final String? onTap = jsonConvert.convert<String>(json['onTap']);
+  if (onTap != null) {
+    settingConfigModel.onTap = onTap;
+  }
+  final String? onLongPress = jsonConvert.convert<String>(json['onLongPress']);
+  if (onLongPress != null) {
+    settingConfigModel.onLongPress = onLongPress;
+  }
+  final String? sort = jsonConvert.convert<String>(json['sort']);
+  if (sort != null) {
     settingConfigModel.sort = sort;
   }
   final String? drawer = jsonConvert.convert<String>(json['drawer']);

@@ -5,6 +5,8 @@ class ThemesProvider with ChangeNotifier {
     initTheme();
     _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
     _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
+    _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
+    // AppTextStyle.loadFont(name: _fontFamily, path: path)
   }
 
   /// 滤镜颜色
@@ -19,11 +21,10 @@ class ThemesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  get isFilterColor => HiveBoxes.get(HiveKey.filterColor) == Colors.transparent;
-
   ThemeGroup _currentThemeGroup = defaultThemeGroup;
 
   ThemeGroup get currentThemeGroup => _currentThemeGroup;
+
   set currentThemeGroup(ThemeGroup value) {
     if (_currentThemeGroup == value) {
       return;
@@ -32,8 +33,27 @@ class ThemesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String? _fontFamily;
+
+  String? get fontFamily => _fontFamily;
+
+  set fontFamily(String? value) {
+    if (_fontFamily == value) {
+      return;
+    }
+    _fontFamily = value;
+    if (value == null) {
+      HiveBoxes.delete(HiveKey.fontFamily);
+    } else {
+      HiveBoxes.put(HiveKey.fontFamily, value);
+    }
+    notifyListeners();
+  }
+
   bool _dark = false;
+
   bool get dark => _dark;
+
   set dark(bool value) {
     if (_dark == value) {
       return;
@@ -55,7 +75,7 @@ class ThemesProvider with ChangeNotifier {
   }
 
   Future<void> initTheme() async {
-    int themeIndex = HiveBoxes.get(HiveKey.colorThemeIndex);
+    int themeIndex = HiveBoxes.get(HiveKey.colorThemeIndex, defaultValue: 0);
     if (themeIndex >= supportThemeGroups.length) {
       HiveBoxes.put(HiveKey.colorThemeIndex, 0);
       themeIndex = 0;
@@ -92,29 +112,29 @@ class ThemesProvider with ChangeNotifier {
 
   ThemeData get currentThemeData => dark ? _darkThemeData : _lightThemeData;
 
-  final ThemeData defaultThemeData = ThemeData(
-    scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
-    primaryColor: AppColor.mainColor,
-    appBarTheme: AppBarTheme(
-      systemOverlayStyle: AppOverlayStyle.dark,
-      color: Colors.white,
-      elevation: 3,
-      centerTitle: true,
-      titleSpacing: 0.0,
-      shadowColor: AppColor.mainColor.withOpacity(.2),
-      titleTextStyle: TextStyle(
-          fontWeight: weightMedium,
-          fontSize: AppColor.appBarTitleSize,
-          color: AppColor.appBarTitleColor,
-          fontFamily: AppTextStyle.fontFamily),
-      iconTheme: IconThemeData(
-        color: AppColor.mainColor,
-      ),
-      actionsIconTheme: IconThemeData(
-        size: 24.0.w,
-        color: AppColor.mainColor,
-      ),
-    ),
+  ThemeData get defaultThemeData => ThemeData(
+        scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
+        primaryColor: AppColor.mainColor,
+        appBarTheme: AppBarTheme(
+          systemOverlayStyle: AppOverlayStyle.dark,
+          color: Colors.white,
+          elevation: 3,
+          centerTitle: true,
+          titleSpacing: 0.0,
+          shadowColor: AppColor.mainColor.withOpacity(.2),
+          titleTextStyle: TextStyle(
+              fontWeight: weightMedium,
+              fontSize: AppColor.appBarTitleSize,
+              color: AppColor.appBarTitleColor,
+              fontFamily: _fontFamily),
+          iconTheme: IconThemeData(
+            color: AppColor.mainColor,
+          ),
+          actionsIconTheme: IconThemeData(
+            size: 24.0.w,
+            color: AppColor.mainColor,
+          ),
+        ),
     tabBarTheme: TabBarTheme(
       indicatorSize: TabBarIndicatorSize.label,
       labelColor: AppColor.tabBarTitleSelectedColor,
@@ -160,28 +180,28 @@ class ThemesProvider with ChangeNotifier {
       cursorColor: AppColor.errorColor,
     ),
     textTheme: const TextTheme(
-            displayLarge: TextStyle(),
-            displayMedium: TextStyle(),
-            displaySmall: TextStyle(),
-            headlineMedium: TextStyle(),
-            headlineSmall: TextStyle(),
-            titleLarge: TextStyle(),
-            titleMedium: TextStyle(),
-            titleSmall: TextStyle(),
-            bodyLarge: TextStyle(),
-            bodyMedium: TextStyle(),
-            bodySmall: TextStyle(),
-            labelLarge: TextStyle(),
-            labelSmall: TextStyle())
-        .apply(
-      bodyColor: AppColor.mainColor,
-      displayColor: AppColor.mainColor,
-    ),
-    fontFamily: AppTextStyle.fontFamily,
-    splashColor: Colors.transparent,
-    highlightColor: Colors.transparent,
-    splashFactory: NoSplash.splashFactory,
-  );
+                displayLarge: TextStyle(),
+                displayMedium: TextStyle(),
+                displaySmall: TextStyle(),
+                headlineMedium: TextStyle(),
+                headlineSmall: TextStyle(),
+                titleLarge: TextStyle(),
+                titleMedium: TextStyle(),
+                titleSmall: TextStyle(),
+                bodyLarge: TextStyle(),
+                bodyMedium: TextStyle(),
+                bodySmall: TextStyle(),
+                labelLarge: TextStyle(),
+                labelSmall: TextStyle())
+            .apply(
+          bodyColor: AppColor.mainColor,
+          displayColor: AppColor.mainColor,
+        ),
+        fontFamily: fontFamily,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+      );
 }
 
 const List<ThemeGroup> supportThemeGroups = <ThemeGroup>[

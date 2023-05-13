@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 import '../model/file_model.dart';
@@ -15,8 +14,6 @@ class FontsSetting extends StatefulWidget {
 class _FontsSettingState extends State<FontsSetting> {
   final List<FileModel> _dataList = [];
 
-  final List<ValueNotifier<double>> _notifierList = [];
-
   @override
   void initState() {
     super.initState();
@@ -25,112 +22,138 @@ class _FontsSettingState extends State<FontsSetting> {
 
   @override
   Widget build(BuildContext context) {
+    ThemesProvider themesProvider = context.read<ThemesProvider>();
+
     return Scaffold(
       appBar: AppBar(
-          // title: Text('字体'),
-          ),
-      body: Column(
-          children: List.generate(_dataList.length, (index) {
-        FileModel e = _dataList[index];
-        ValueNotifier<double> notifier = _notifierList[index];
-        return Container(
-          color: AppColor.white,
-          height: AppSize.cellHeight,
-          margin: AppPadding.main,
-          // padding: AppPadding.main,
-          child: Row(
-            children: [
-              Expanded(child: Text(e.name ?? '')),
-              SizedBox(
-                width: 44,
-                height: 44,
-                child: Stack(
+        title: const Text('字体设置'),
+      ),
+      body: Consumer<DownloadProvider>(
+        builder: (_, downloadProvider, ___) {
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              FileModel e = _dataList[index];
+              return Container(
+                decoration:
+                    BoxDecoration(color: AppColor.white, borderRadius: BorderRadius.circular(AppSize.radiusMedium)),
+                padding: AppPadding.main,
+                margin: AppPadding.main,
+                child: Row(
                   children: [
-                    Center(
-                      child: Visibility(
-                        visible: e.status == DownloadStatus.initial,
-                        child: InkWell(
-                            onTap: () {
-                              e.status = DownloadStatus.requesting;
-                              setState(() {});
-                              Future.delayed(const Duration(milliseconds: 1000), () {
-                                e.status = DownloadStatus.downloading;
-                                setState(() {});
-                                API.downloadFile(
-                                    url: '${e.prefix}/${e.catalog}/${e.name}',
-                                    savePath: '${PathUtils.documentPath}/${e.name}',
-                                    onReceiveProgress: (d1, d2, process) {
-                                      e.process = process;
-                                      notifier.value = process;
-                                      print('${e.name}->$process');
-                                    },
-                                    cancelToken: CancelToken());
-                              });
-                            },
-                            child: AppImage.asset(R.iconsDownloadCloud, color: AppColor.specialColor)),
-                      ),
-                    ),
-                    Center(
-                      child: Visibility(
-                        visible: e.status == DownloadStatus.requesting,
-                        child: InkWell(
-                          onTap: () {
-                            e.status = DownloadStatus.initial;
-                            setState(() {});
-                          },
-                          child: CircularProgressIndicator(
-                            color: AppColor.specialColor,
+                    Expanded(
+                        child: Text(
+                      e.name ?? '',
+                      style: AppTextStyle.titleMedium.copyWith(fontFamily: e.name),
+                    )),
+                    SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Visibility(
+                              visible: e.status == DownloadStatus.initial,
+                              child: InkWell(
+                                  onTap: () {
+                                    e.status = DownloadStatus.requesting;
+                                    setState(() {});
+                                    Future.delayed(
+                                      const Duration(milliseconds: 1000),
+                                      () {
+                                        e.status = DownloadStatus.downloading;
+                                        setState(() {});
+                                        downloadProvider.addTask(
+                                            url: e.url, name: e.name ?? '', savePath: PathUtils.fontPath);
+                                      },
+                                    );
+                                  },
+                                  child: AppImage.asset(R.iconsDownloadCloud, color: AppColor.specialColor)),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Visibility(
-                          visible: e.status == DownloadStatus.downloading,
-                          child: ValueListenableBuilder(
-                            valueListenable: notifier,
-                            builder: (context, progress, child) {
-                              return InkWell(
+                          Center(
+                            child: Visibility(
+                              visible: e.status == DownloadStatus.requesting,
+                              child: InkWell(
                                 onTap: () {
                                   e.status = DownloadStatus.initial;
                                   setState(() {});
                                 },
-                                child: Stack(
-                                  children: [
-                                    Center(
-                                      child: CircularProgressIndicator(
-                                        value: e.process,
-                                        color: AppColor.specialColor,
-                                        backgroundColor: AppColor.scaffoldBackgroundColor,
-                                      ),
-                                    ),
-                                    child!
-                                  ],
+                                child: CircularProgressIndicator(
+                                  color: AppColor.specialColor,
                                 ),
-                              );
-                            },
-                            child: Center(
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                color: AppColor.specialColor,
                               ),
                             ),
-                          )),
-                    ),
-                    Center(
-                      child: Visibility(
-                        visible: e.status == DownloadStatus.downloaded,
-                        child: AppImage.asset(R.iconsCheckCircle, color: AppColor.placeholderColor),
+                          ),
+                          Center(
+                            child: Visibility(
+                              visible: e.status == DownloadStatus.downloading,
+                              child: ChangeNotifierProvider<DownloadTask>(
+                                create: (context) =>
+                                    downloadProvider.tasks.firstWhere((element) => element.name == e.name),
+                                child: Consumer<DownloadTask>(
+                                  builder: (context, task, child) {
+                                    task.completedCallback = (isCompleted) {
+                                      e.status = DownloadStatus.downloaded;
+                                      downloadProvider.removeTask(task: task);
+                                      setState(() {});
+                                    };
+                                    return InkWell(
+                                      onTap: () {
+                                        e.status = DownloadStatus.initial;
+                                        task.cancel();
+                                        downloadProvider.removeTask(task: task);
+                                        setState(() {});
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          Center(
+                                            child: CircularProgressIndicator(
+                                              value: task.progress,
+                                              color: AppColor.specialColor,
+                                              backgroundColor: AppColor.scaffoldBackgroundColor,
+                                            ),
+                                          ),
+                                          child!
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Center(
+                                    child: Container(
+                                      width: 8,
+                                      height: 8,
+                                      color: AppColor.specialColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Visibility(
+                              visible: e.status == DownloadStatus.downloaded,
+                              child: themesProvider.fontFamily == e.name
+                                  ? AppImage.asset(R.iconsCheckSquare, color: AppColor.doneColor)
+                                  : InkWell(
+                                      onTap: () async {
+                                        await AppTextStyle.loadFont(name: e.name);
+                                        themesProvider.fontFamily = e.name;
+                                      },
+                                      child: AppImage.asset(R.iconsSquare, color: AppColor.placeholderColor)),
+                            ),
+                          )
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        );
-      })),
+              );
+            },
+            itemCount: _dataList.length,
+            // shrinkWrap: true,
+          );
+        },
+      ),
     );
   }
 
@@ -138,20 +161,19 @@ class _FontsSettingState extends State<FontsSetting> {
     List<dynamic>? s = await API.getFiles('src/fonts/') ?? [];
 
     _dataList.clear();
-    for (var element in _notifierList) {
-      element.dispose();
-    }
-    _notifierList.clear();
-
+    _dataList.add(FileModel()
+      ..name = 'default'
+      ..status = DownloadStatus.downloaded);
     for (Map<String, dynamic> e in s) {
       FileModel model = FileModel.fromJson(e);
       if (model.name == '...') continue;
-      File file = File('${PathUtils.documentPath}/${model.name}');
-      model.status = await file.exists() ? DownloadStatus.downloaded : DownloadStatus.initial;
-      print('${model.status}->${file.path}');
+      String path = '${PathUtils.fontPath}/${model.name}';
+      model.path = path;
+      File file = File(path);
+      model.status = file.existsSync() ? DownloadStatus.downloaded : DownloadStatus.initial;
       _dataList.add(model);
-      _notifierList.add(ValueNotifier(0));
     }
+
     setState(() {});
   }
 }

@@ -41,9 +41,6 @@ class AppColor {
 //  描述文字颜色
   static Color get descTitleColor => const Color(0xff959595);
 
-//  占位提示文字大小
-  static double get placeholderSize => 14.0.sp;
-
 //  占位提示文字颜色
   static Color get placeholderColor => const Color(0xffDCDCDC);
 
@@ -84,11 +81,15 @@ class AppColor {
 class AppTextStyle {
   static String get fontFamily => 'SourceHanSansCN';
 
-  static Future<void> init() async {
-    String path = '${PathUtils.documentPath}/YiZhiKeAiDeXiaoBaiTu-2.ttf';
+  static Future<void> loadFont({
+    required name,
+  }) async {
+    String path = '${PathUtils.fontPath}/$name';
+    print('load fonts path:$path');
     File file = File(path);
+    if (!file.existsSync()) return;
     Uint8List bytes = file.readAsBytesSync();
-    loadFontFromList(bytes, fontFamily: "SimKa");
+    loadFontFromList(bytes, fontFamily: name);
   }
 
   static TextStyle get displayLarge => TextStyle(

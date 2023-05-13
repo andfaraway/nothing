@@ -68,7 +68,7 @@ class HiveBoxes {
   }
 
   static bool isTest() {
-    // _dataBox.put('test', true);
+    _dataBox.put('test', true);
     return _dataBox.get('test', defaultValue: false);
   }
 }
@@ -93,4 +93,6 @@ class HiveKey {
 
   /// 主题色
   static const String colorThemeIndex = 'colorThemeIndex';
+
+  static const String fontFamily = 'fontFamily';
 }

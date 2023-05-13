@@ -7,7 +7,6 @@ import 'package:nothing/page/favorite_page.dart';
 import 'package:nothing/page/feedback_page.dart';
 import 'package:nothing/page/file_management.dart';
 import 'package:nothing/page/file_preview_page.dart';
-import 'package:nothing/page/fonts_setting.dart';
 import 'package:nothing/page/home_page.dart';
 import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
@@ -66,17 +65,17 @@ class AppRoute {
 
   static BuildContext? get context => navKey.currentState?.context;
 
-  static final RoutePage root = RoutePage(
-      name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const FontsSetting() : const RootPage());
+  static final RoutePage root =
+      RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
   static final RoutePage welcome = RoutePage(name: '/welcomeRoute', page: ({Object? arguments}) => const WelcomePage());
   static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
   static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());
   static final RoutePage profile = RoutePage(name: '/profileRoute', page: ({Object? arguments}) => const Profile());
 
   static final RoutePage favorite =
-  RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
+      RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
   static final RoutePage feedback =
-  RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
+      RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
 
   static final RoutePage message = RoutePage(name: '/messageRoute', page: ({Object? arguments}) => const MessagePage());
   static final RoutePage releaseVersion =

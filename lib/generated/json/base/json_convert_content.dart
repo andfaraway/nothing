@@ -140,5 +140,5 @@ class JsonConvert {
 		} else {
       return jsonConvert.convert<M>(json);
     }
-	}
+  }
 }

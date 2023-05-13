@@ -74,7 +74,7 @@ class Http {
         } else {
           onReceiveProgress?.call(receivedBytes, totalBytes, -1);
         }
-      }, cancelToken: cancelToken);
+      }, cancelToken: cancelToken, deleteOnError: true);
     } catch (e) {
       return null;
     }

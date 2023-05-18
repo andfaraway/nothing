@@ -70,8 +70,7 @@ class Constants {
   static late BuildContext context;
 
   /// 中文
-  static final bool isChinese =
-      (Intl.getCurrentLocale() == 'zh') ? true : false;
+  static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true : false;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
@@ -84,7 +83,7 @@ class Constants {
   static final String deviceType = Platform.isIOS ? 'iPhone' : 'Android';
 
   /// 检查更新
-  static Future<dynamic> checkUpdate(BuildContext context,{Map? data}) async {
+  static Future<dynamic> checkUpdate(BuildContext context, {Map? data}) async {
     context = navigatorState.overlay!.context;
     if (data == null) {
       String version = await DeviceUtils.version();
@@ -109,8 +108,6 @@ class Constants {
         },
       );
     }
-
-
   }
 
   static Future<void> insertLaunch() async {
@@ -136,7 +133,6 @@ class Constants {
   }
 
   /// true:真机 false:模拟器
-
 
   static hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());

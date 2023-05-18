@@ -3,7 +3,6 @@ import 'package:nothing/common/prefix_header.dart';
 import '../model/wedding_model.dart';
 
 class WeddingAboutVM extends BaseVM {
-
   WeddingAboutVM(BuildContext context) : super(context);
 
   List<WeddingModel> todoList = [];
@@ -37,18 +36,14 @@ class WeddingAboutVM extends BaseVM {
 
   Future<void> updateWedding(WeddingModel model) async {
     EasyLoading.show();
-    await API.updateWedding(
-        id: model.id,
-        title: model.title,
-        content: model.content,
-        done: model.done);
+    await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
   }
 
-  Future<void> updateWeddingSort(WeddingModel model,int sort) async {
+  Future<void> updateWeddingSort(WeddingModel model, int sort) async {
     await API.updateWeddingSort(
-        id: model.id,
-        sort: sort,
-       );
+      id: model.id,
+      sort: sort,
+    );
   }
 
   Future<void> deleteWedding(WeddingModel model) async {
@@ -56,5 +51,3 @@ class WeddingAboutVM extends BaseVM {
     await API.deleteWedding(model.id);
   }
 }
-
-

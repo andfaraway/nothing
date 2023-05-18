@@ -5,16 +5,14 @@
 part of 'models.dart';
 
 class CloudSettingsModel extends JsonModel {
-  CloudSettingsModel():lastModified = DateTime.now();
+  CloudSettingsModel() : lastModified = DateTime.now();
 
   factory CloudSettingsModel.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> settings =
-        (json['settings'] as Map<dynamic, dynamic>).cast<String, dynamic>();
+    final Map<String, dynamic> settings = (json['settings'] as Map<dynamic, dynamic>).cast<String, dynamic>();
     final CloudSettingsModel model = CloudSettingsModel()
       .._fontScale = '${settings[_fFontScale] ?? 1.0}'.toDouble()
       .._hideShieldPost = settings[_fHideShieldPost] as bool
-      .._launchFromSystemBrowser =
-          settings[_fLaunchFromSystemBrowser] as bool
+      .._launchFromSystemBrowser = settings[_fLaunchFromSystemBrowser] as bool
       .._newAppCenterIcon = settings[_fNewAppCenterIcon] as bool
       .._isDark = settings[_fIsDark] as bool
       .._platformBrightness = settings[_fPlatformBrightness] as bool
@@ -45,21 +43,27 @@ class CloudSettingsModel extends JsonModel {
   static const String _fPlatformBrightness = 'theme_platform_brightness';
 
   double _fontScale = 1.0;
+
   double get fontScale => _fontScale;
 
   bool _hideShieldPost = true;
+
   bool get hideShieldPost => _hideShieldPost;
 
   bool _launchFromSystemBrowser = false;
+
   bool get launchFromSystemBrowser => _launchFromSystemBrowser;
 
   bool _newAppCenterIcon = false;
+
   bool get newAppCenterIcon => _newAppCenterIcon;
 
   bool _isDark = false;
+
   bool get isDark => _isDark;
 
   bool _platformBrightness = true;
+
   bool get platformBrightness => _platformBrightness;
 
   DateTime lastModified;
@@ -78,8 +82,7 @@ class CloudSettingsModel extends JsonModel {
         _fIsDark: _isDark,
         _fPlatformBrightness: _platformBrightness,
       },
-      'last_modified':
-          '${lastModified.millisecondsSinceEpoch}'.substring(0, 10),
+      'last_modified': '${lastModified.millisecondsSinceEpoch}'.substring(0, 10),
     };
   }
 

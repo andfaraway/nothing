@@ -29,8 +29,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Future<void> loadData() async {
-    List<dynamic>? dataList =
-        await API.getSettingModule(accountType: Singleton().currentUser.accountType);
+    List<dynamic>? dataList = await API.getSettingModule(accountType: Singleton().currentUser.accountType);
     if (dataList == null) return;
     for (Map<String, dynamic> map in dataList) {
       SettingConfigModel model = SettingConfigModel.fromJson(map);
@@ -53,7 +52,7 @@ class _SettingPageState extends State<SettingPage> {
                         title: e.module!,
                         onTap: e.onTap != null
                             ? () {
-                                functionWithString(context,e.onTap!)?.call();
+                          functionWithString(context, e.onTap!)?.call();
                               }
                             : () {
                                 AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
@@ -61,7 +60,7 @@ class _SettingPageState extends State<SettingPage> {
                         onLongPress: e.onLongPress == null
                             ? null
                             : () {
-                                functionWithString(context,e.onLongPress!)?.call();
+                          functionWithString(context, e.onLongPress!)?.call();
                               },
                       ))
                   .toList(),
@@ -70,4 +69,3 @@ class _SettingPageState extends State<SettingPage> {
         ));
   }
 }
-

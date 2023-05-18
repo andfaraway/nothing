@@ -47,9 +47,7 @@ class _SayHiState extends State<SayHi> {
             width: 200,
             child: TextField(
               decoration: const InputDecoration(
-                border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
+                border: const OutlineInputBorder(borderSide: BorderSide.none),
               ),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20, color: Colors.white),
@@ -78,10 +76,8 @@ class _SayHiState extends State<SayHi> {
               ),
               ValueListenableBuilder(
                 valueListenable: _canSend,
-                builder: (context, bool canSend, Widget? child) =>
-                    MaterialButton(
-                  color:
-                      canSend ? currentThemeGroup.themeColor : Colors.black54,
+                builder: (context, bool canSend, Widget? child) => MaterialButton(
+                  color: canSend ? currentThemeGroup.themeColor : Colors.black54,
                   onPressed: sendBtnOnPressed,
                   child: const Text(
                     'send',

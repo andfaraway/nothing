@@ -40,14 +40,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   child: TextField(
                     controller: controller,
                     decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
+                        border: const OutlineInputBorder(borderSide: BorderSide.none),
                         hintText: '请输入您的意见和建议，我们也许会恰当采纳~',
-                        hintStyle: TextStyle(
-                            color: Color(0xFF999999), fontSize: 28.sp),
-                        contentPadding: EdgeInsets.only(
-                            left: 33.w, right: 33.w, top: 41.h, bottom: 41.h)),
+                        hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 28.sp),
+                        contentPadding: EdgeInsets.only(left: 33.w, right: 33.w, top: 41.h, bottom: 41.h)),
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 28.sp, color: Colors.black),
                     onChanged: (value) {
@@ -60,7 +56,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 SizedBox(
                   height: 80.h,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 24.w,right: 24.w),
+                    padding: EdgeInsets.only(left: 24.w, right: 24.w),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -69,13 +65,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         Expanded(
                           child: TextField(
                             decoration: InputDecoration(
-                                border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ),
+                                border: const OutlineInputBorder(borderSide: BorderSide.none),
                                 hintText: Singleton().currentUser.username,
-                                hintStyle: TextStyle(
-                                    color: Color(0xFF999999),
-                                    fontSize: 28.sp),
+                                hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 28.sp),
                                 contentPadding: EdgeInsets.zero,
                                 isDense: true),
                             onChanged: (value) {

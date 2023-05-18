@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 const MethodChannel platformChannel = MethodChannel('com.libin.nothing');
 
-class ChannelKey{
+class ChannelKey {
   static const String backToDeskTop = 'backToDeskTop';
   static const String welcomeLoad = 'welcomeLoad';
   static const String getBatteryLevel = 'getBatteryLevel';

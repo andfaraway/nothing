@@ -4,6 +4,4 @@
 //
 part of 'providers.dart';
 
-class HomeProvider extends ChangeNotifier{
-
-}
+class HomeProvider extends ChangeNotifier {}

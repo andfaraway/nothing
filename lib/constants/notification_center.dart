@@ -5,6 +5,7 @@ const String NETWORK_TIME_OUT = 'NETWORK_TIME_OUT';
 
 class NotificationCenter {
   NotificationCenter._internal();
+
   // 工厂模式
   factory NotificationCenter() => _instance;
 

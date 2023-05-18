@@ -6,29 +6,22 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyDiaLog extends StatelessWidget {
   const PrivacyDiaLog(
-      {Key? key,
-      required this.userAgreementUrl,
-      required this.privacyPolicyUrl,
-      required this.continueCallback})
+      {Key? key, required this.userAgreementUrl, required this.privacyPolicyUrl, required this.continueCallback})
       : super(key: key);
 
   final String userAgreementUrl;
   final String privacyPolicyUrl;
   final VoidCallback continueCallback;
 
-  final TextStyle linkStyle = const TextStyle(
-      color: Colors.blue,
-      decoration: TextDecoration.none,
-      decorationColor: Colors.blue);
+  final TextStyle linkStyle =
+      const TextStyle(color: Colors.blue, decoration: TextDecoration.none, decorationColor: Colors.blue);
 
   final TextStyle defaultStyle = const TextStyle(color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
     InlineSpan span = TextSpan(children: [
-      TextSpan(
-          text: 'Nothing深知个人信息对您的重要性，因此我们将竭尽全力保障用忽的隐私信息安全\n\n',
-          style: defaultStyle),
+      TextSpan(text: 'Nothing深知个人信息对您的重要性，因此我们将竭尽全力保障用忽的隐私信息安全\n\n', style: defaultStyle),
       TextSpan(text: '您可以阅读完整版', style: defaultStyle),
       TextSpan(
           text: '《用户协议》',
@@ -51,9 +44,7 @@ class PrivacyDiaLog extends StatelessWidget {
               }
             }),
       TextSpan(text: '详细了解我们如何保护您的权益。\n\n', style: defaultStyle),
-      TextSpan(
-          text: '我们将严格按照政策要求使用和保护您的个人信息，如您统一以上内容，请点击同意，开始使用我们的产品与服务。\n',
-          style: defaultStyle),
+      TextSpan(text: '我们将严格按照政策要求使用和保护您的个人信息，如您统一以上内容，请点击同意，开始使用我们的产品与服务。\n', style: defaultStyle),
     ]);
 
     return Scaffold(
@@ -63,9 +54,7 @@ class PrivacyDiaLog extends StatelessWidget {
         color: Colors.black26,
         alignment: Alignment.center,
         child: Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              color: Colors.white),
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Colors.white),
           constraints: BoxConstraints(
             minWidth: Screens.width * 0.8,
             minHeight: 0,
@@ -73,8 +62,7 @@ class PrivacyDiaLog extends StatelessWidget {
             maxHeight: Screens.height * 0.4,
           ),
           child: Padding(
-            padding:
-                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
             child: Column(
               children: [
                 Expanded(
@@ -99,8 +87,7 @@ class PrivacyDiaLog extends StatelessWidget {
                       style: const TextStyle(color: Colors.white),
                     ),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.cyan),
+                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.cyan),
                     ),
                   ),
                 ),

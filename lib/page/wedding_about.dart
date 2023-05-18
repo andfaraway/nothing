@@ -17,8 +17,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
   @override
   WeddingAboutVM createVM() => WeddingAboutVM(context);
 
-  late final AppRefreshController _controller =
-  AppRefreshController(autoRefresh: true);
+  late final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
 
   @override
   void initState() {
@@ -93,7 +92,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
     //请求服务器
     // 排序下降
     int sort = markSort - 1;
-    if(sortUp){
+    if (sortUp) {
       sort = markSort + 1;
     }
     element.sort = sort;
@@ -102,8 +101,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
 
   Widget checkCell(WeddingModel model) {
     ValueNotifier<bool> notifier = ValueNotifier(model.done == '1');
-    TextEditingController controller =
-    TextEditingController(text: model.title);
+    TextEditingController controller = TextEditingController(text: model.title);
     return Padding(
       key: ValueKey(model.id),
       padding: const EdgeInsets.all(8.0),
@@ -151,9 +149,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                       }
                     },
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide.none
-                      ),
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
                   ),
                 ),

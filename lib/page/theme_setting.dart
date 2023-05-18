@@ -79,10 +79,21 @@ class ThemeSettingPage extends StatelessWidget {
                         onTap: () {
                           AppRoute.pushPage(context, const FontsSetting());
                         },
-                        child: Text(
-                          '字体test1',
-                          style: TextStyle(fontSize: 50, fontFamily: 'SimKa', fontWeight: FontWeight.bold),
+                        child: Row(
+                          children: [
+                            Text(
+                              '字体:  ',
+                              style: AppTextStyle.headLineMedium,
+                            ),
+                            Expanded(
+                              child: Text(
+                                context.read<ThemesProvider>().fontFamily ?? 'default',
+                                style: AppTextStyle.titleMedium,
+                              ),
+                            ),
+                          ],
                         )),
+                    17.hSizedBox,
                     GridView.builder(
                       itemBuilder: (BuildContext context, int index) {
                         ThemeGroup themeGroup = supportThemeGroups[index];

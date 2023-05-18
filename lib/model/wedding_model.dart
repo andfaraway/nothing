@@ -1,16 +1,16 @@
+import 'dart:convert';
+
 import 'package:nothing/generated/json/base/json_field.dart';
 import 'package:nothing/generated/json/wedding_model.g.dart';
-import 'dart:convert';
 
 @JsonSerializable()
 class WeddingModel {
-
-	String? id;
-	String? title;
-	String? content;
-	String? done;
+  String? id;
+  String? title;
+  String? content;
+  String? done;
   int sort = 0;
-  
+
   WeddingModel();
 
   factory WeddingModel.fromJson(Map<String, dynamic> json) => $WeddingModelFromJson(json);

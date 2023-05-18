@@ -12,8 +12,7 @@ class WeddingDetailPage extends BasePage<_WeddingDetailState> {
   _WeddingDetailState createBaseState() => _WeddingDetailState();
 }
 
-class _WeddingDetailState
-    extends BaseState<WeddingDetailVM, WeddingDetailPage> {
+class _WeddingDetailState extends BaseState<WeddingDetailVM, WeddingDetailPage> {
   @override
   WeddingDetailVM createVM() => WeddingDetailVM(context);
 
@@ -63,9 +62,7 @@ class _WeddingDetailState
                     text: widget.model.content,
                   ),
                   decoration: const InputDecoration(
-                      border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none
-                                            ), hintText: '详细信息'),
+                      border: const OutlineInputBorder(borderSide: BorderSide.none), hintText: '详细信息'),
                   maxLines: 50,
                   onChanged: (value) {
                     widget.model.content = value;

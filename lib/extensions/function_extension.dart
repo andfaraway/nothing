@@ -45,9 +45,9 @@ extension DebounceThrottlingExtension on Function {
 /// 而下面的两个方法没有这种顾虑。
 /// 防抖
 VoidCallback debounce(
-    VoidCallback callback, [
-      Duration duration = const Duration(seconds: 1),
-    ]) {
+  VoidCallback callback, [
+  Duration duration = const Duration(seconds: 1),
+]) {
   assert(callback != null);
   assert(duration != null && duration > Duration.zero);
   Timer? _debounce;
@@ -65,9 +65,9 @@ VoidCallback debounce(
 
 /// 节流
 VoidCallback throttle(
-    VoidCallback callback, [
-      Duration duration = const Duration(seconds: 1),
-    ]) {
+  VoidCallback callback, [
+  Duration duration = const Duration(seconds: 1),
+]) {
   assert(callback != null);
   assert(duration != null && duration > Duration.zero);
   Timer? _throttle;

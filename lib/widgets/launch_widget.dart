@@ -39,10 +39,12 @@ class LaunchWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          CachedNetworkImage(imageUrl: backgroundImage ?? image,
+          CachedNetworkImage(
+            imageUrl: backgroundImage ?? image,
             fit: BoxFit.cover,
             width: double.infinity,
-            height: double.infinity,),
+            height: double.infinity,
+          ),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
@@ -57,28 +59,26 @@ class LaunchWidget extends StatelessWidget {
                       child: Center(
                         child: Text(
                           title ?? '',
-                          style:
-                              TextStyle(fontSize: 26.sp, color: Colors.black),
+                          style: TextStyle(fontSize: 26.sp, color: Colors.black),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 556.w,
-                      height: 548.h,
-                      child: CachedNetworkImage(
-                        imageUrl:image,
-                        fit: BoxFit.fitHeight,
-                        width: double.infinity,
-                        height: double.infinity,)
-                    ),
+                        width: 556.w,
+                        height: 548.h,
+                        child: CachedNetworkImage(
+                          imageUrl: image,
+                          fit: BoxFit.fitHeight,
+                          width: double.infinity,
+                          height: double.infinity,
+                        )),
                     37.hSizedBox,
                     Row(
                       children: [
                         60.wSizedBox,
                         Text(
                           dayStr ?? '',
-                          style:
-                              TextStyle(color: Colors.black, fontSize: 78.sp),
+                          style: TextStyle(color: Colors.black, fontSize: 78.sp),
                         ),
                         18.wSizedBox,
                         Container(
@@ -93,13 +93,11 @@ class LaunchWidget extends StatelessWidget {
                           children: [
                             Text(
                               monthStr ?? '',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 46.sp),
+                              style: TextStyle(color: Colors.black, fontSize: 46.sp),
                             ),
                             Text(
                               dateDetailStr ?? '',
-                              style: TextStyle(
-                                  fontSize: 22.sp, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),
                             )
                           ],
                         ),
@@ -112,8 +110,7 @@ class LaunchWidget extends StatelessWidget {
                         children: [
                           Text(
                             contentStr ?? '',
-                            style: TextStyle(
-                                fontSize: 26.sp, fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w500),
                           ),
                           32.hSizedBox,
                           Row(
@@ -121,9 +118,7 @@ class LaunchWidget extends StatelessWidget {
                             children: [
                               Text(
                                 author ?? '',
-                                style: TextStyle(
-                                    fontSize: 26.sp,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.end,
                               ),
                             ],
@@ -168,15 +163,11 @@ class _BackPainter extends CustomPainter {
     canvas.translate(size.width / 2, 0);
     path.moveTo(0, 0);
     path.lineTo(size.width / 2 - radius, 0);
-    path.relativeArcToPoint(Offset(radius, radius),
-        radius: Radius.circular(radius), largeArc: false, clockwise: false);
+    path.relativeArcToPoint(Offset(radius, radius), radius: Radius.circular(radius), largeArc: false, clockwise: false);
     path.relativeLineTo(0, firstRadiusTopHeight);
-    path.relativeArcToPoint(Offset(0, radius * 2),
-        radius: Radius.circular(radius), largeArc: false, clockwise: false);
-    path.lineTo(size.width / 2,
-        size.height - radius - firstRadiusBottomHeight - radius * 2);
-    path.relativeArcToPoint(Offset(0, radius * 2),
-        radius: Radius.circular(radius), largeArc: false, clockwise: false);
+    path.relativeArcToPoint(Offset(0, radius * 2), radius: Radius.circular(radius), largeArc: false, clockwise: false);
+    path.lineTo(size.width / 2, size.height - radius - firstRadiusBottomHeight - radius * 2);
+    path.relativeArcToPoint(Offset(0, radius * 2), radius: Radius.circular(radius), largeArc: false, clockwise: false);
     path.relativeLineTo(0, firstRadiusBottomHeight);
     path.relativeArcToPoint(Offset(-radius, radius),
         radius: Radius.circular(radius), largeArc: false, clockwise: false);

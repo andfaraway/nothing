@@ -4,16 +4,16 @@
 //
 
 import 'dart:convert';
+
 import 'package:nothing/generated/json/base/json_field.dart';
 import 'package:nothing/generated/json/favorite_model.g.dart';
 
 @JsonSerializable()
 class FavoriteModel {
-
-	String? favoriteId;
-	String? content;
-	@JSONField(name: "source")
-	String? xSource;
+  String? favoriteId;
+  String? content;
+  @JSONField(name: "source")
+  String? xSource;
   String? date;
 
   FavoriteModel();

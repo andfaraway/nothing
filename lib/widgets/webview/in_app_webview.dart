@@ -5,8 +5,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nothing/constants/constants.dart';
@@ -84,10 +82,8 @@ class AppWebView extends StatefulWidget {
   _AppWebViewState createState() => _AppWebViewState();
 }
 
-class _AppWebViewState extends State<AppWebView>
-    with AutomaticKeepAliveClientMixin {
-  final StreamController<double> progressController =
-      StreamController<double>.broadcast();
+class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMixin {
+  final StreamController<double> progressController = StreamController<double>.broadcast();
   Timer? _progressCancelTimer;
 
   final ValueNotifier<String> title = ValueNotifier<String>('');
@@ -147,18 +143,15 @@ class _AppWebViewState extends State<AppWebView>
           transparentBackground: true,
           useOnDownloadStart: true,
           useShouldOverrideUrlLoading: true,
-          preferredContentMode: useDesktopMode
-              ? UserPreferredContentMode.DESKTOP
-              : UserPreferredContentMode.RECOMMENDED,
+          preferredContentMode:
+              useDesktopMode ? UserPreferredContentMode.DESKTOP : UserPreferredContentMode.RECOMMENDED,
           verticalScrollBarEnabled: false,
         ),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
           builtInZoomControls: true,
           displayZoomControls: false,
-          forceDark: currentIsDark
-              ? AndroidForceDark.FORCE_DARK_ON
-              : AndroidForceDark.FORCE_DARK_OFF,
+          forceDark: currentIsDark ? AndroidForceDark.FORCE_DARK_ON : AndroidForceDark.FORCE_DARK_OFF,
           loadWithOverviewMode: true,
           mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
           safeBrowsingEnabled: false,
@@ -200,7 +193,6 @@ class _AppWebViewState extends State<AppWebView>
         InAppWebViewController controller,
         NavigationAction navigationAction,
       ) async {
-
         if (checkSchemeLoad(
           controller,
           navigationAction.request.url.toString(),
@@ -214,9 +206,9 @@ class _AppWebViewState extends State<AppWebView>
         LogUtils.d('WebView onUpdateVisitedHistory: $url, $androidIsReload');
         // cancelProgress();
       },
-      onLoadStop: (InAppWebViewController _, Uri? uri)async{
+      onLoadStop: (InAppWebViewController _, Uri? uri) async {
         print('onLoadStop');
-        Future.delayed(const Duration(milliseconds: 200),()async{
+        Future.delayed(const Duration(milliseconds: 200), () async {
           webCanGoBack.value = await _webViewController.canGoBack();
           print('webCanGoBack.value = ${webCanGoBack.value}');
         });
@@ -262,35 +254,35 @@ class _AppWebViewState extends State<AppWebView>
         child: Stack(
           children: [
             _webView,
-            if(widget.withBackBtn) ValueListenableBuilder(
-              builder: (context, bool canGoBack, child) {
-                if(!canGoBack) return const SizedBox.shrink();
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    // top: Screens.topSafeHeight,
-                    top: 0
-                  ),
-                  child: Container(
-                    color: Colors.green,
-                    height: 25,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                        color: Colors.white,
+            if (widget.withBackBtn)
+              ValueListenableBuilder(
+                builder: (context, bool canGoBack, child) {
+                  if (!canGoBack) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        // top: Screens.topSafeHeight,
+                        top: 0),
+                    child: Container(
+                      color: Colors.green,
+                      height: 25,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        onPressed: () async {
+                          if (await _webViewController.canGoBack()) {
+                            _webViewController.goBack();
+                          }
+                        },
                       ),
-                      onPressed: () async {
-                        if (await _webViewController.canGoBack()) {
-                          _webViewController.goBack();
-                        }
-                      },
                     ),
-                  ),
-                );
-              },
-              valueListenable: webCanGoBack,
-            )
+                  );
+                },
+                valueListenable: webCanGoBack,
+              )
           ],
         ),
       ),

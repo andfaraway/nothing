@@ -79,8 +79,6 @@ class AppColor {
 }
 
 class AppTextStyle {
-  static String get fontFamily => 'SourceHanSansCN';
-
   static Future<void> loadFont({
     required name,
   }) async {
@@ -94,6 +92,13 @@ class AppTextStyle {
 
   static TextStyle get displayLarge => TextStyle(
         fontSize: 28.sp,
+        color: AppColor.white,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
+
+  static TextStyle get displayMedium => TextStyle(
+        fontSize: 22.sp,
         color: AppColor.white,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,

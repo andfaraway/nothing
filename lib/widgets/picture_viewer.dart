@@ -12,12 +12,7 @@ class PictureViewer extends StatefulWidget {
   final GestureTapCallback? onTap;
 
   const PictureViewer(
-      {Key? key,
-      required this.imageUrl,
-      this.imageName,
-      this.imageSize,
-        this.originalImageSize,
-      this.onTap})
+      {Key? key, required this.imageUrl, this.imageName, this.imageSize, this.originalImageSize, this.onTap})
       : super(key: key);
 
   @override
@@ -29,6 +24,7 @@ class _PictureViewerState extends State<PictureViewer> {
   late String originalImageUrl;
 
   ValueNotifier<bool> btnShow = ValueNotifier(true);
+
   /// 原图是否缓存
   bool _imageCached = false;
 
@@ -39,9 +35,9 @@ class _PictureViewerState extends State<PictureViewer> {
     originalImageUrl = widget.imageUrl.replaceAll("s/", "");
 
     // 若不含压缩标记，不显示原图按钮
-    if(imageUrl == originalImageUrl){
+    if (imageUrl == originalImageUrl) {
       btnShow.value = false;
-    }else{
+    } else {
       showOriginalBtn();
     }
   }
@@ -118,17 +114,15 @@ class _PictureViewerState extends State<PictureViewer> {
                 fadeInDuration: const Duration(milliseconds: 100),
                 fadeOutDuration: const Duration(milliseconds: 100),
                 progressIndicatorBuilder: (context, url, downloadProgress) {
-                  double? progress =
-                      downloadProgress.downloaded / (widget.imageSize ?? 1);
+                  double? progress = downloadProgress.downloaded / (widget.imageSize ?? 1);
                   if (imageUrl == originalImageUrl) {
-                    if(widget.originalImageSize == null){
+                    if (widget.originalImageSize == null) {
                       return const Center(child: CircularProgressIndicator());
-                    }else{
-                      progress =
-                          downloadProgress.downloaded / (widget.originalImageSize ?? 1);
-                      return Center(child: CircularProgressIndicator(value:progress));
+                    } else {
+                      progress = downloadProgress.downloaded / (widget.originalImageSize ?? 1);
+                      return Center(child: CircularProgressIndicator(value: progress));
                     }
-                  }else{
+                  } else {
                     return Center(
                       child: CircularProgressIndicator(value: progress),
                     );

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BaseWidget extends StatelessWidget {
@@ -6,11 +5,7 @@ class BaseWidget extends StatelessWidget {
   final Widget contentWidget;
   final bool loadingShowContent;
 
-  BaseWidget(
-      {Key? key,
-      required this.contentWidget,
-      this.showLoading = true,
-      this.loadingShowContent = false})
+  BaseWidget({Key? key, required this.contentWidget, this.showLoading = true, this.loadingShowContent = false})
       : super(key: key);
 
   @override

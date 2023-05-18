@@ -31,7 +31,7 @@ extension StringExtension on String {
     int dateInt = toInt();
     int secondsValue = nowInt - dateInt;
     //转换为秒计算
-    secondsValue = secondsValue~/1000;
+    secondsValue = secondsValue ~/ 1000;
     if (secondsValue < 60) {
       //1分钟内显示为“刚刚”
       return "刚刚";
@@ -41,8 +41,7 @@ extension StringExtension on String {
     } else if ((secondsValue >= 60 * 60) && (secondsValue < 60 * 60 * 24)) {
       //大于1小时小于一天显示为“n小时前”
       return "${(secondsValue / 3600).truncate()}小时前";
-    } else if ((secondsValue >= 86400) &&
-        (secondsValue < (60 * 60 * 24 * 30))) {
+    } else if ((secondsValue >= 86400) && (secondsValue < (60 * 60 * 24 * 30))) {
       //大于1天小于30天显示为“n天前”
       return "${(secondsValue / 86400).toStringAsFixed(0)}天前";
     } else {

@@ -4,11 +4,9 @@
   "password_hint": "Please key in password",
   "sign_up": "Sign Up",
   "forgot_password": "Forgot Password",
-
   "message": "Message",
   "no_message": "No Message",
   "request_failed": "request failed",
-
   "setting": "Setting",
   "launch_screen": "Launch Screen",
   "feedback": "Feedback",
@@ -18,15 +16,12 @@
   "upload_file": "Upload File",
   "release_version": "Release Version",
   "version_update": "Version update",
-
   "confirm": "Confirm",
   "cancel": "Cancel",
-
   "camera": "Camera",
   "photo_album": "Photo Album",
   "upload": "Upload",
   "album_name": "Name of Album",
-
   "success": "Success",
   "fail": "Fail",
   "save": "Save",
@@ -34,22 +29,17 @@
   "random": "Random",
   "delete": "Delete",
   "open": "Open",
-
   "information": "Information",
   "input_required": "Required",
   "input_optional": "Optional",
   "select": "Select",
-
   "login_info": "Login Info",
-
   "user_agreement": "User Agreement",
   "privacy_policy": "Privacy Policy",
   "agree_continue": "Agreement And Continue",
   "disagree_quite": "Disagree And Quite",
-
   "save_original_image": "Save Original Image",
   "original_image": "Original_Image",
-
   "some_things": "Some Things",
   "rename": "Rename"
 }

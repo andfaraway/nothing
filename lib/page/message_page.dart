@@ -11,8 +11,7 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  late final AppRefreshController _refreshController =
-      AppRefreshController(autoRefresh: true);
+  late final AppRefreshController _refreshController = AppRefreshController(autoRefresh: true);
 
   List<MessageModel> dataList = [];
 
@@ -25,7 +24,7 @@ class _MessagePageState extends State<MessagePage> {
     globalContext = context;
   }
 
-  Future<void> loadData() async{
+  Future<void> loadData() async {
     String? alias = HiveBoxes.get(HiveKey.pushAlias);
     List? list = await API.getMessages(alias);
     if (list == null) {
@@ -58,14 +57,11 @@ class _MessagePageState extends State<MessagePage> {
         child: dataList.isEmpty
             ? const RequestLoadingWidget()
             : SingleChildScrollView(
-                padding:
-                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+          padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
                 child: Column(
                     children: dataList.isEmpty
                         ? [Center(child: Text(S.current.no_message))]
-                        : dataList
-                            .map((model) => messageWidget(model))
-                            .toList()),
+                        : dataList.map((model) => messageWidget(model)).toList()),
               ),
       ),
     );
@@ -90,8 +86,7 @@ class _MessagePageState extends State<MessagePage> {
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
           child: Padding(
-            padding: EdgeInsets.only(
-                left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
+            padding: EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -101,10 +96,7 @@ class _MessagePageState extends State<MessagePage> {
                     Expanded(
                       child: Text(
                         model.title ?? 'nothing',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 32.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.black, fontSize: 32.sp, fontWeight: FontWeight.bold),
                         maxLines: 2,
                       ),
                     ),

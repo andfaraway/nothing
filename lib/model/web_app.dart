@@ -60,8 +60,7 @@ class WebApp {
   }
 
   /// Get encoded json string for settings sync.
-  String get encodedJsonString =>
-      const JsonEncoder.withIndent('  ').convert(toJson());
+  String get encodedJsonString => const JsonEncoder.withIndent('  ').convert(toJson());
 
   @override
   String toString() {
@@ -74,19 +73,16 @@ class WebApp {
   String get replacedUrl {
     final RegExp sidReg = RegExp(r'{SID}');
     final RegExp uidReg = RegExp(r'{UID}');
-    final String result = url??'';
-        // .replaceAllMapped(sidReg, (Match match) => currentUser.sid.toString())
-        // .replaceAllMapped(uidReg, (Match match) => currentUser.uid.toString());
+    final String result = url ?? '';
+    // .replaceAllMapped(sidReg, (Match match) => currentUser.sid.toString())
+    // .replaceAllMapped(uidReg, (Match match) => currentUser.uid.toString());
     return result;
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is WebApp &&
-          runtimeType == other.runtimeType &&
-          appId == other.appId &&
-          code == other.code;
+      other is WebApp && runtimeType == other.runtimeType && appId == other.appId && code == other.code;
 
   @override
   int get hashCode => appId.hashCode ^ code.hashCode;

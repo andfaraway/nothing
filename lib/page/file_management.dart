@@ -15,8 +15,7 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
   @override
   FileManagementVM createVM() => FileManagementVM(context);
 
-  final AppRefreshController _refreshController =
-      AppRefreshController(autoRefresh: true);
+  final AppRefreshController _refreshController = AppRefreshController(autoRefresh: true);
 
   @override
   Widget? getPageWidget() {
@@ -52,15 +51,13 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                           icon: const Icon(Icons.open_in_new_outlined),
                           title: S.current.open,
                           onTap: () async {
-                            vm.open(model,index);
+                            vm.open(model, index);
                           }),
                       SheetButtonModel(
                           icon: const Icon(Icons.edit_outlined),
                           title: S.current.rename,
                           onTap: () async {
-                            showEdit(context,
-                                title: S.current.rename,
-                                text: model.name, commitPressed: (value) async {
+                            showEdit(context, title: S.current.rename, text: model.name, commitPressed: (value) async {
                               await vm.changeFile(model, value);
                             });
                           }),
@@ -79,8 +76,7 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                     ]);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: MARGIN_MAIN, right: MARGIN_MAIN),
+                    padding: const EdgeInsets.only(left: MARGIN_MAIN, right: MARGIN_MAIN),
                     child: Column(
                       children: [
                         SizedBox(
@@ -91,12 +87,8 @@ class _FileManagementState extends BaseState<FileManagementVM, FileManagement> {
                             child: Row(
                               children: [
                                 model.isDir!
-                                    ? Image.asset(R.iconsFolder,
-                                        width: 24,
-                                        height: 24,
-                                        color: Colors.orange)
-                                    : Image.asset(R.iconsFile,
-                                        width: 22, height: 22),
+                                    ? Image.asset(R.iconsFolder, width: 24, height: 24, color: Colors.orange)
+                                    : Image.asset(R.iconsFile, width: 22, height: 22),
                                 10.wSizedBox,
                                 Text(model.name ?? '')
                               ],

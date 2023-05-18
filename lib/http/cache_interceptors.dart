@@ -26,7 +26,4 @@ class CacheInterceptor extends Interceptor {
     _cache[response.requestOptions.uri] = response;
     super.onResponse(response, handler);
   }
-
 }
-
-

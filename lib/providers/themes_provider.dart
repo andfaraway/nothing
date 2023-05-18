@@ -6,12 +6,14 @@ class ThemesProvider with ChangeNotifier {
     _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
     _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
     _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
-    // AppTextStyle.loadFont(name: _fontFamily, path: path)
+    AppTextStyle.loadFont(name: _fontFamily);
   }
 
   /// 滤镜颜色
   Color _filterColor = Colors.transparent;
+
   Color get filterColor => _filterColor;
+
   set filterColor(Color value) {
     if (_filterColor == value) {
       return;
@@ -64,7 +66,9 @@ class ThemesProvider with ChangeNotifier {
   }
 
   Color _informationBgColor = Colors.white;
+
   Color get informationBgColor => _informationBgColor;
+
   set informationBgColor(Color value) {
     if (_informationBgColor == value) {
       return;
@@ -135,68 +139,51 @@ class ThemesProvider with ChangeNotifier {
             color: AppColor.mainColor,
           ),
         ),
-    tabBarTheme: TabBarTheme(
-      indicatorSize: TabBarIndicatorSize.label,
-      labelColor: AppColor.tabBarTitleSelectedColor,
-      labelStyle: TextStyle(
-        fontSize: 20.0.sp,
-      ),
-      unselectedLabelColor: AppColor.tabBarTitleColor,
-      unselectedLabelStyle: TextStyle(
-        fontSize: 17.0.sp,
-      ),
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
-      elevation: 4.0,
-      selectedIconTheme: IconThemeData(
-        size: 28.0.sp,
-      ),
-      unselectedIconTheme: IconThemeData(
-        size: 28.0.sp,
-      ),
-      selectedItemColor: AppColor.tabBarTitleSelectedColor,
-      unselectedItemColor: AppColor.tabBarTitleColor,
-      selectedLabelStyle: TextStyle(
-        fontSize: AppColor.tabBarTitleSize,
-        color: AppColor.tabBarTitleSelectedColor,
-      ),
-      unselectedLabelStyle: TextStyle(
-        fontSize: AppColor.tabBarTitleSize,
-        color: AppColor.tabBarTitleColor,
-      ),
-      showUnselectedLabels: true,
-      showSelectedLabels: true,
-      type: BottomNavigationBarType.fixed,
-    ),
-    progressIndicatorTheme: ProgressIndicatorThemeData(
-      color: AppColor.mainColor,
-    ),
-    dividerTheme: DividerThemeData(
-      thickness: 1.0,
-      color: AppColor.dividerColor.withOpacity(0.7),
-    ),
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: AppColor.errorColor,
-    ),
-    textTheme: const TextTheme(
-                displayLarge: TextStyle(),
-                displayMedium: TextStyle(),
-                displaySmall: TextStyle(),
-                headlineMedium: TextStyle(),
-                headlineSmall: TextStyle(),
-                titleLarge: TextStyle(),
-                titleMedium: TextStyle(),
-                titleSmall: TextStyle(),
-                bodyLarge: TextStyle(),
-                bodyMedium: TextStyle(),
-                bodySmall: TextStyle(),
-                labelLarge: TextStyle(),
-                labelSmall: TextStyle())
-            .apply(
-          bodyColor: AppColor.mainColor,
-          displayColor: AppColor.mainColor,
+        tabBarTheme: TabBarTheme(
+          indicatorSize: TabBarIndicatorSize.label,
+          labelColor: AppColor.tabBarTitleSelectedColor,
+          labelStyle: TextStyle(
+            fontSize: 20.0.sp,
+          ),
+          unselectedLabelColor: AppColor.tabBarTitleColor,
+          unselectedLabelStyle: TextStyle(
+            fontSize: 17.0.sp,
+          ),
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          elevation: 4.0,
+          selectedIconTheme: IconThemeData(
+            size: 28.0.sp,
+          ),
+          unselectedIconTheme: IconThemeData(
+            size: 28.0.sp,
+          ),
+          selectedItemColor: AppColor.tabBarTitleSelectedColor,
+          unselectedItemColor: AppColor.tabBarTitleColor,
+          selectedLabelStyle: TextStyle(
+            fontSize: AppColor.tabBarTitleSize,
+            color: AppColor.tabBarTitleSelectedColor,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: AppColor.tabBarTitleSize,
+            color: AppColor.tabBarTitleColor,
+          ),
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+        ),
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: AppColor.mainColor,
+        ),
+        dividerTheme: DividerThemeData(
+          thickness: 1.0,
+          color: AppColor.dividerColor.withOpacity(0.7),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColor.errorColor,
+        ),
+        textTheme: const TextTheme(),
         fontFamily: fontFamily,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,

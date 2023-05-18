@@ -35,18 +35,22 @@ class PhotoShowVM extends BaseVM {
   }
 
   void changeCatalog() {
-    showEdit(context,  title: '情书',text: catalog, commitPressed: (value) {
-      if (value != null || value != '') {
-        if(catalog.contains(value) || value.toString().contains(catalog)){
-          HiveBoxes.put(HiveKey.photoShowIndex, 0);
+    showEdit(
+      context,
+      title: '情书',
+      text: catalog,
+      commitPressed: (value) {
+        if (value != null || value != '') {
+          if (catalog.contains(value) || value.toString().contains(catalog)) {
+            HiveBoxes.put(HiveKey.photoShowIndex, 0);
+          }
+          if (value == '~') {
+            value = '';
+          }
+          getImages(value);
         }
-        if(value == '~'){
-          value = '';
-        }
-        getImages(value);
-      }
-    }, cancelPressed: () {
-
-    },);
+      },
+      cancelPressed: () {},
+    );
   }
 }

@@ -8,7 +8,8 @@ import 'package:nothing/constants/constants.dart';
 class LoginButton extends StatelessWidget {
   final String title;
   final Function loginButtonPressed;
-  const LoginButton(this.title,this.loginButtonPressed,{Key? key}) : super(key: key);
+
+  const LoginButton(this.title, this.loginButtonPressed, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

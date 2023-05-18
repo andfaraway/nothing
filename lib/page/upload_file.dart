@@ -180,11 +180,7 @@ class _UploadFileState extends State<UploadFile> {
 
   /// 输入cell
   Widget inputCell(
-      {required String title,
-      String? text,
-      ValueChanged<String>? onChanged,
-      Widget? trailing,
-      bool required = false}) {
+      {required String title, String? text, ValueChanged<String>? onChanged, Widget? trailing, bool required = false}) {
     return ListTile(
         // title: Text(title),
         subtitle: TextField(
@@ -222,53 +218,48 @@ class _UploadFileState extends State<UploadFile> {
       source = ImageSource.gallery;
     }
     ImagePicker picker = ImagePicker();
-    PickedFile? file =
-        await picker.getImage(source: source).catchError((error) {
+    PickedFile? file = await picker.getImage(source: source).catchError((error) {
       print('picker error : ' + error.toString());
       openAppSettings();
     });
 
     File? croppedFile = (await ImageCropper().cropImage(
-        sourcePath: file?.path ?? '',
-        aspectRatioPresets: Platform.isAndroid
-            ? [
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio16x9
-              ]
-            : [
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio5x3,
-                CropAspectRatioPreset.ratio5x4,
-                CropAspectRatioPreset.ratio7x5,
-                CropAspectRatioPreset.ratio16x9
-              ],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Clip',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Clip',
-          )
-        ],
-       )) as File?;
+      sourcePath: file?.path ?? '',
+      aspectRatioPresets: Platform.isAndroid
+          ? [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9
+            ]
+          : [
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio3x2,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio7x5,
+              CropAspectRatioPreset.ratio16x9
+            ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Clip',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Clip',
+        )
+      ],
+    )) as File?;
 
     if (croppedFile != null) {
-      File compressedFile = await FlutterNativeImage.compressImage(
-          croppedFile.path,
-          quality: 70,
-          percentage: 70);
+      File compressedFile = await FlutterNativeImage.compressImage(croppedFile.path, quality: 70, percentage: 70);
       PickedFile? file = PickedFile(compressedFile.path);
-      imageType ==
-      upload(file);
+      imageType == upload(file);
     }
   }
 

@@ -24,13 +24,9 @@ Future<bool> checkPermissionCamera({
 Future<bool> checkPermissionPhotos({
   bool isShowToast = true,
 }) async {
-  PermissionStatus status = Platform.isIOS
-      ? (await Permission.photos.status)
-      : (await Permission.storage.status);
+  PermissionStatus status = Platform.isIOS ? (await Permission.photos.status) : (await Permission.storage.status);
   if (status.isDenied) {
-    status = Platform.isIOS
-        ? (await Permission.photos.request())
-        : (await Permission.storage.request());
+    status = Platform.isIOS ? (await Permission.photos.request()) : (await Permission.storage.request());
   }
   if (!status.isGranted && !status.isLimited) {
     if (isShowToast) {
@@ -45,13 +41,10 @@ Future<bool> checkPermissionPhotos({
 Future<bool> checkPermissionSavePhoto({
   bool isShowToast = true,
 }) async {
-  PermissionStatus status = Platform.isIOS
-      ? (await Permission.photosAddOnly.status)
-      : (await Permission.storage.status);
+  PermissionStatus status =
+      Platform.isIOS ? (await Permission.photosAddOnly.status) : (await Permission.storage.status);
   if (status.isDenied) {
-    status = Platform.isIOS
-        ? (await Permission.photosAddOnly.request())
-        : (await Permission.storage.request());
+    status = Platform.isIOS ? (await Permission.photosAddOnly.request()) : (await Permission.storage.request());
   }
   if (!status.isGranted) {
     if (isShowToast) {

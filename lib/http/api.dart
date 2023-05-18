@@ -25,8 +25,7 @@ class API {
   }
 
   /// 登录
-  static Future<Map<String, dynamic>?> login(
-      String username, String password) async {
+  static Future<Map<String, dynamic>?> login(String username, String password) async {
     Map<String, dynamic> param = {'username': username, 'password': password};
     var response = await Http.post(ConstUrl.login, params: param);
     return response;
@@ -39,19 +38,13 @@ class API {
     String? openId,
     String? icon,
   }) async {
-    Map<String, dynamic> param = {
-      'name': name,
-      'platform': platform,
-      'openId': openId,
-      'icon': icon
-    };
+    Map<String, dynamic> param = {'name': name, 'platform': platform, 'openId': openId, 'icon': icon};
     var response = await Http.post(ConstUrl.thirdLogin, params: param);
     return response;
   }
 
   /// 检查更新
-  static Future<Map<String, dynamic>?> checkUpdate(
-      String platform, String version) async {
+  static Future<Map<String, dynamic>?> checkUpdate(String platform, String version) async {
     Map<String, dynamic> param = {
       'platform': platform,
       'version': version,
@@ -91,8 +84,7 @@ class API {
   }
 
   // 发布版本更新推送
-  static Future<dynamic> versionUpdateNotification(
-      VersionUpdateModel model) async {
+  static Future<dynamic> versionUpdateNotification(VersionUpdateModel model) async {
     Map<String, dynamic> param = {
       'id': model.id,
       'platform': model.platform,
@@ -108,11 +100,7 @@ class API {
 
   /// 注册推送 userId, 推送id：pushToken, 别名：alias
   static Future<Map<String, dynamic>?> registerNotification(
-      {String? userId,
-      String? pushToken,
-      String? alias,
-      String? registrationId,
-      String? identifier}) async {
+      {String? userId, String? pushToken, String? alias, String? registrationId, String? identifier}) async {
     Map<String, dynamic> param = {
       'user_id': userId,
       'push_token': pushToken,
@@ -120,14 +108,12 @@ class API {
       'registration_id': registrationId,
       'identifier': identifier
     };
-    var response =
-        await Http.post(ConstUrl.registerNotification, params: param);
+    var response = await Http.post(ConstUrl.registerNotification, params: param);
     return response;
   }
 
   /// 发送消息 alias：别名  alert：消息内容
-  static Future<Map<String, dynamic>?> sayHello(
-      String alias, String alert) async {
+  static Future<Map<String, dynamic>?> sayHello(String alias, String alert) async {
     Map<String, dynamic> param = {
       'alias': alias,
       'alert': alert,
@@ -155,22 +141,14 @@ class API {
     String? userid,
     String? deviceToken,
   ) async {
-    Map<String, dynamic> param = {
-      'userid': userid,
-      'deviceToken': deviceToken,
-      'debug': isDebug
-    };
+    Map<String, dynamic> param = {'userid': userid, 'deviceToken': deviceToken, 'debug': isDebug};
     var response = await Http.post(ConstUrl.pushDeviceToken, params: param);
     return response;
   }
 
   /// 添加收藏
-  static Future<Map<String,dynamic>?> addFavorite(String content, {String? source}) async {
-    Map<String, dynamic> param = {
-      'userid': Singleton().currentUser.userId,
-      'content': content,
-      'source': source
-    };
+  static Future<Map<String, dynamic>?> addFavorite(String content, {String? source}) async {
+    Map<String, dynamic> param = {'userid': Singleton().currentUser.userId, 'content': content, 'source': source};
     var response = await Http.post(ConstUrl.addFavorite, params: param);
     return response;
   }
@@ -184,21 +162,14 @@ class API {
 
   /// 删除收藏
   static Future<List?> deleteFavorite(String favoriteId) async {
-    Map<String, dynamic> param = {
-      'userid': Singleton().currentUser.userId,
-      'favoriteId': favoriteId
-    };
+    Map<String, dynamic> param = {'userid': Singleton().currentUser.userId, 'favoriteId': favoriteId};
     var response = await Http.post(ConstUrl.deleteFavorite, params: param);
     return response;
   }
 
   /// 获取反馈
   static Future<dynamic> getFeedback(int pageIndex, int pageSize) async {
-    Map<String, dynamic> param = {
-      'userid': Singleton().currentUser.userId,
-      'page': pageIndex,
-      'size': pageSize
-    };
+    Map<String, dynamic> param = {'userid': Singleton().currentUser.userId, 'page': pageIndex, 'size': pageSize};
     var response = await Http.post(ConstUrl.getFeedback, params: param);
     return response;
   }
@@ -216,8 +187,7 @@ class API {
   }
 
   //插入登录表
-  static Future<Map<String, dynamic>?> insertLaunch(
-      Map<String, dynamic>? param) async {
+  static Future<Map<String, dynamic>?> insertLaunch(Map<String, dynamic>? param) async {
     var response = await Http.post(ConstUrl.insertLaunch, params: param);
     return response;
   }
@@ -230,16 +200,14 @@ class API {
   }
 
   /// 插入启动页信息
-  static Future<Map<String, dynamic>?> insertLaunchInfo(
-      Map<String, dynamic>? param) async {
+  static Future<Map<String, dynamic>?> insertLaunchInfo(Map<String, dynamic>? param) async {
     var response = await Http.post(ConstUrl.insertLaunchInfo, params: param);
     return response;
   }
 
   /// 获取设置模块
   static Future<List<dynamic>?> getSettingModule({String? accountType}) async {
-    Map<String, dynamic>? param =
-        accountType == null ? null : {'accountType': accountType};
+    Map<String, dynamic>? param = accountType == null ? null : {'accountType': accountType};
     var response = await Http.get(ConstUrl.getSettingModule, params: param);
     return response;
   }
@@ -259,13 +227,8 @@ class API {
   }
 
   /// 插入婚礼代办事件
-  static Future<Map<String, dynamic>?> insertWedding(
-      {String? title, String? content, int? done}) async {
-    Map<String, dynamic> param = {
-      'title': title,
-      'content': content,
-      'done': done
-    };
+  static Future<Map<String, dynamic>?> insertWedding({String? title, String? content, int? done}) async {
+    Map<String, dynamic> param = {'title': title, 'content': content, 'done': done};
     var response = await Http.post('/insertWedding', params: param);
     return response;
   }
@@ -278,8 +241,7 @@ class API {
   }
 
   /// 更新婚礼代办事件
-  static Future<Map<String, dynamic>?> updateWedding(
-      {String? id, String? title, String? content, String? done}) async {
+  static Future<Map<String, dynamic>?> updateWedding({String? id, String? title, String? content, String? done}) async {
     Map<String, dynamic> param = {
       'id': id,
       'title': title,
@@ -291,8 +253,7 @@ class API {
   }
 
   /// 更新婚礼代办事件排序
-  static Future<Map<String, dynamic>?> updateWeddingSort(
-      {required String? id, required int sort}) async {
+  static Future<Map<String, dynamic>?> updateWeddingSort({required String? id, required int sort}) async {
     Map<String, dynamic> param = {
       'id': id,
       'sort': sort,
@@ -316,8 +277,7 @@ class API {
       houzhui = 'jpg';
     }
 
-    MultipartFile f =
-        await MultipartFile.fromFile(imagePath, filename: fileName);
+    MultipartFile f = await MultipartFile.fromFile(imagePath, filename: fileName);
     FormData formData = FormData.fromMap({
       'file': f,
       //传参信息
@@ -325,8 +285,7 @@ class API {
       "name": fileName
     });
 
-    return Http.post(ConstUrl.uploadFile, data: formData,
-        onSendProgress: (a, b) {
+    return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
       EasyLoading.showProgress(s);
     });
@@ -372,15 +331,14 @@ class API {
   }
 
   /// 删除文件/文件夹
-  static Future<dynamic> deleteFile(String? path,String name) async {
-    Map<String, dynamic>? params = {"secret": _secret, 'path': path,'name': name};
+  static Future<dynamic> deleteFile(String? path, String name) async {
+    Map<String, dynamic>? params = {"secret": _secret, 'path': path, 'name': name};
     var response = await Http.post(
       '/deleteFile',
       params: params,
     );
     return response;
   }
-
 
   /// 获取图片
   static Future<dynamic> getImages(String? catalog) async {
@@ -498,25 +456,20 @@ class ConstUrl {
   static const String secretKey = 'e1d306002add9c529feaa829d3969766';
 
   ///生活小窍门
-  static const String qiaomen =
-      tianApi + '/qiaomen/index' + '?key=' + secretKey;
+  static const String qiaomen = tianApi + '/qiaomen/index' + '?key=' + secretKey;
 
   ///健康提示
-  static const String healthTips =
-      tianApi + '/healthtip/index' + '?key=' + secretKey;
+  static const String healthTips = tianApi + '/healthtip/index' + '?key=' + secretKey;
 
   ///彩虹屁
-  static const String caihongpi =
-      tianApi + '/caihongpi/index' + '?key=' + secretKey;
+  static const String caihongpi = tianApi + '/caihongpi/index' + '?key=' + secretKey;
 
   ///今日头条新闻
-  static const String topNews =
-      tianApi + '/topnews/index' + '?key=' + secretKey;
+  static const String topNews = tianApi + '/topnews/index' + '?key=' + secretKey;
 
   ///中国老黄历
   static const String huangli = tianApi + '/lunar/index' + '?key=' + secretKey;
 
   ///土味情话
-  static const String sayLove =
-      tianApi + '/saylove/index' + '?key=' + secretKey;
+  static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
 }

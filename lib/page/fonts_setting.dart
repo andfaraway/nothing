@@ -21,15 +21,19 @@ class _FontsSettingState extends State<FontsSetting> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    ThemesProvider themesProvider = context.read<ThemesProvider>();
+  void dispose() {
+    super.dispose();
+    print('font setting dispose');
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('字体设置'),
       ),
-      body: Consumer<DownloadProvider>(
-        builder: (_, downloadProvider, ___) {
+      body: Consumer2<DownloadProvider, ThemesProvider>(
+        builder: (context, downloadProvider, themesProvider, child) {
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               FileModel e = _dataList[index];
@@ -58,16 +62,17 @@ class _FontsSettingState extends State<FontsSetting> {
                                     e.status = DownloadStatus.requesting;
                                     setState(() {});
                                     Future.delayed(
-                                      const Duration(milliseconds: 1000),
+                                      const Duration(milliseconds: 500),
                                       () {
                                         e.status = DownloadStatus.downloading;
-                                        setState(() {});
                                         downloadProvider.addTask(
                                             url: e.url, name: e.name ?? '', savePath: PathUtils.fontPath);
+                                        setState(() {});
                                       },
                                     );
                                   },
-                                  child: AppImage.asset(R.iconsDownloadCloud, color: AppColor.specialColor)),
+                                  child: AppImage.asset(R.iconsDownloadCloud,
+                                      color: AppColor.specialColor, width: 28, height: 28)),
                             ),
                           ),
                           Center(
@@ -79,7 +84,8 @@ class _FontsSettingState extends State<FontsSetting> {
                                   setState(() {});
                                 },
                                 child: CircularProgressIndicator(
-                                  color: AppColor.specialColor,
+                                  color: AppColor.placeholderColor,
+                                  strokeWidth: 4,
                                 ),
                               ),
                             ),

@@ -10,8 +10,7 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage>
-    with SingleTickerProviderStateMixin {
+class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin {
   List<BarItem> rootBars = [];
 
   late final PageController _pageController;
@@ -120,11 +119,7 @@ class _RootPageState extends State<RootPage>
 }
 
 class BarItem {
-  const BarItem(
-      {required this.icon,
-      required this.activeIcon,
-      required this.label,
-      required this.page});
+  const BarItem({required this.icon, required this.activeIcon, required this.label, required this.page});
 
   final Widget icon;
   final Widget activeIcon;

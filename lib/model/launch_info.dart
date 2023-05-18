@@ -26,7 +26,8 @@ class LaunchInfo extends HiveObject {
       this.codeStr,
       this.date,
       this.backgroundImage,
-      this.homePage, this.arguments,
+      this.homePage,
+      this.arguments,
       this.timeCount});
 
   factory LaunchInfo.fromJson(Map<String, dynamic> json) {

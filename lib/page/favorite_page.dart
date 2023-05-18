@@ -14,8 +14,7 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  late final AppRefreshController _refreshController =
-      AppRefreshController(autoRefresh: true);
+  late final AppRefreshController _refreshController = AppRefreshController(autoRefresh: true);
 
   List<FavoriteModel> dataList = [];
 
@@ -55,14 +54,11 @@ class _FavoritePageState extends State<FavoritePage> {
         child: dataList.isEmpty
             ? const Center(
                 child: Text('nothing'),
-        )
+              )
             : SingleChildScrollView(
-          padding:
-          const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-          child: Column(
-              children:
-              dataList.map((model) => messageWidget(model)).toList()),
-        ),
+                padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                child: Column(children: dataList.map((model) => messageWidget(model)).toList()),
+              ),
       ),
     );
   }

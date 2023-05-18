@@ -15,8 +15,7 @@ class SomeThingsVM extends BaseVM {
     currentPage = pagesName.first;
   }
 
-  Future<List<dynamic>> getData(int pageIndex, int pageSize,
-      {bool clean = false}) async {
+  Future<List<dynamic>> getData(int pageIndex, int pageSize, {bool clean = false}) async {
     if (clean) dataList.clear();
     List<dynamic> data = [];
     if (currentPage == pagesName[0]) {
@@ -24,9 +23,8 @@ class SomeThingsVM extends BaseVM {
       for (Map<String, dynamic> map in data) {
         RecordModel model = RecordModel(
             title: map['username'],
-            subTitle:
-                '${map['network']} ${map['battery']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
-                    'yyyy/MM/dd')} ',
+            subTitle: '${map['network']} ${map['battery']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
+                'yyyy/MM/dd')} ',
             trailingText: map['version']);
         dataList.add(model);
       }
@@ -35,9 +33,8 @@ class SomeThingsVM extends BaseVM {
       for (Map<String, dynamic> map in data) {
         RecordModel model = RecordModel(
             title: map['nickname'],
-            subTitle:
-                '${map['content']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
-                    'yyyy/MM/dd')}',
+            subTitle: '${map['content']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
+                'yyyy/MM/dd')}',
             trailingText: map['version']);
         dataList.add(model);
       }
@@ -45,14 +42,9 @@ class SomeThingsVM extends BaseVM {
     return data;
   }
 
-  Future<List<dynamic>> getCommonData(String table, int pageIndex, int pageSize,
-      {bool clean = false}) async {
+  Future<List<dynamic>> getCommonData(String table, int pageIndex, int pageSize, {bool clean = false}) async {
     if (clean) dataList.clear();
-    Map<String, dynamic> params = {
-      "table": table,
-      "page": pageIndex,
-      "size": pageSize
-    };
+    Map<String, dynamic> params = {"table": table, "page": pageIndex, "size": pageSize};
     List<dynamic> response = await Http.get('/getCommonInfo', params: params);
     for (Map<String, dynamic> map in response) {
       String str = '';
@@ -63,11 +55,8 @@ class SomeThingsVM extends BaseVM {
           str += '\n';
         }
       }
-      RecordModel model = RecordModel(
-          title: str,
-          trailingText: map['date']
-              .toString()
-              .dataFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
+      RecordModel model =
+          RecordModel(title: str, trailingText: map['date'].toString().dataFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
       dataList.add(model);
     }
     return response;

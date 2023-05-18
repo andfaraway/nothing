@@ -5,7 +5,6 @@
 
 part of 'models.dart';
 
-
 class ThemeGroup {
   const ThemeGroup({
     this.lightThemeColor = Colors.white,

@@ -158,15 +158,15 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  fonts:
-    - family: SourceHanSansCN
-      fonts:
-        - asset: assets/fonts/SourceHanSansCN-Regular.otf
-        - asset: assets/fonts/SourceHanSansCN-Medium.otf
-          weight: 500
-        - asset: assets/fonts/SourceHanSansCN-Bold.otf
-          weight: 700
-  #
+  #  fonts:
+  #    - family: SourceHanSansCN
+  #      fonts:
+  #        - asset: assets/fonts/SourceHanSansCN-Regular.otf
+  #        - asset: assets/fonts/SourceHanSansCN-Medium.otf
+  #          weight: 500
+  #        - asset: assets/fonts/SourceHanSansCN-Bold.otf
+  #          weight: 700
+  #  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:

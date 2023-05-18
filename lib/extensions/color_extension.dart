@@ -25,12 +25,7 @@ extension ColorExtension on Color {
         900: _swatchShade(900),
       };
 
-  Color _swatchShade(int swatchValue) => HSLColor.fromColor(this)
-      .withLightness(1 - (swatchValue / 1000))
-      .toColor();
+  Color _swatchShade(int swatchValue) => HSLColor.fromColor(this).withLightness(1 - (swatchValue / 1000)).toColor();
 
-  Color get getAdaptiveColor =>
-      (red * 0.299 + green * 0.587 + blue * 0.144) > 186
-          ? Colors.black
-          : Colors.white;
+  Color get getAdaptiveColor => (red * 0.299 + green * 0.587 + blue * 0.144) > 186 ? Colors.black : Colors.white;
 }

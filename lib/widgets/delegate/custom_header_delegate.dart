@@ -1,33 +1,28 @@
 import 'package:flutter/cupertino.dart';
 
-typedef CustomHeaderBuilder = Widget Function(
-    BuildContext context, double shrinkOffset, bool overlapsContent);
+typedef CustomHeaderBuilder = Widget Function(BuildContext context, double shrinkOffset, bool overlapsContent);
 
 class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
   final CustomHeaderBuilder builder;
 
-  CustomHeaderDelegate(
-      {required this.minHeight, required this.maxHeight, required Widget child})
+  CustomHeaderDelegate({required this.minHeight, required this.maxHeight, required Widget child})
       : builder = ((ctx, shrinkOffset, overlapsContent) => child),
         assert(minHeight <= maxHeight && minHeight >= 0);
 
   // CustomHeaderDelegate fixHeight 高度相同 构造函数
-  CustomHeaderDelegate.fixHeight(
-      {required double height, required Widget child})
+  CustomHeaderDelegate.fixHeight({required double height, required Widget child})
       : builder = ((context, shrinkOffset, overlapsContent) => child),
         minHeight = height,
         maxHeight = height,
         assert(height >= 0);
 
-  CustomHeaderDelegate.builder(
-      {required this.minHeight, required this.maxHeight, required this.builder})
+  CustomHeaderDelegate.builder({required this.minHeight, required this.maxHeight, required this.builder})
       : assert(minHeight <= maxHeight && minHeight >= 0);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     Widget child = builder(context, shrinkOffset, overlapsContent);
     assert(() {
       if (child.key != null) {
@@ -48,7 +43,6 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return oldDelegate.maxExtent != maxHeight ||
-        oldDelegate.minExtent != minHeight;
+    return oldDelegate.maxExtent != maxHeight || oldDelegate.minExtent != minHeight;
   }
 }

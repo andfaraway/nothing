@@ -24,8 +24,7 @@ class _HomeWidgetState extends State<HomePage> {
     // 初始界面
     String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
     if (homePage != null) {
-      ServerTargetModel targetModel =
-      ServerTargetModel.fromString(context, homePage);
+      ServerTargetModel targetModel = ServerTargetModel.fromString(context, homePage);
       if (targetModel.type == 0) {
         homeWidget = targetModel.page;
       } else {

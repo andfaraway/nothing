@@ -14,11 +14,7 @@ class CheckUpdateWidget extends StatelessWidget {
   final CancelCallback? cancelOnTap;
 
   const CheckUpdateWidget(
-      {Key? key,
-      this.title = 'version update',
-      this.content = '',
-      required this.updateOnTap,
-      this.cancelOnTap})
+      {Key? key, this.title = 'version update', this.content = '', required this.updateOnTap, this.cancelOnTap})
       : super(key: key);
 
   @override
@@ -47,9 +43,7 @@ class CheckUpdateWidget extends StatelessWidget {
                     50.hSizedBox,
                     Text(
                       content,
-                      style: TextStyle(
-                          color: const Color.fromARGB(255, 176, 176, 176),
-                          fontSize: 30.sp),
+                      style: TextStyle(color: const Color.fromARGB(255, 176, 176, 176), fontSize: 30.sp),
                     ),
                   ],
                 ),
@@ -74,8 +68,7 @@ class CheckUpdateWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 60, bottom: 20),
                       child: Text(
                         'cancel',
-                        style:
-                            TextStyle(color: Colors.orangeAccent, fontSize: 18),
+                        style: TextStyle(color: Colors.orangeAccent, fontSize: 18),
                       ),
                     )),
               )

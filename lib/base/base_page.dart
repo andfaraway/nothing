@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'base_state.dart';
 
 ///  需要参数传递的加以下参数
@@ -12,5 +13,4 @@ abstract class BasePage<S extends BaseState> extends StatefulWidget {
   }
 
   S createBaseState();
-
 }

@@ -16,8 +16,7 @@ class SimpleImageEditor extends StatefulWidget {
 }
 
 class _SimpleImageEditorState extends State<SimpleImageEditor> {
-  final GlobalKey<ExtendedImageEditorState> editorKey =
-      GlobalKey<ExtendedImageEditorState>();
+  final GlobalKey<ExtendedImageEditorState> editorKey = GlobalKey<ExtendedImageEditorState>();
   bool _cropping = false;
 
   @override
@@ -43,7 +42,7 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
         initEditorConfigHandler: (ExtendedImageState? state) {
           return EditorConfig(
               maxScale: 5.0,
-              cropRectPadding: const EdgeInsets.only(top: 20,left: 20,right: 20,bottom: kBottomNavigationBarHeight),
+              cropRectPadding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: kBottomNavigationBarHeight),
               hitTestSize: 20.0,
               initCropRectType: InitCropRectType.layoutRect,
               cropAspectRatio: Screens.width / Screens.height,
@@ -62,10 +61,8 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
     _cropping = true;
     try {
       final Uint8List fileData = Uint8List.fromList(kIsWeb
-          ? (await cropImageDataWithDartLibrary(
-              state: editorKey.currentState!))!
-          : (await cropImageDataWithNativeLibrary(
-              state: editorKey.currentState!))!);
+          ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
+          : (await cropImageDataWithNativeLibrary(state: editorKey.currentState!))!);
 
       File imageFile = await saveImageToTemp(fileData);
       if (mounted) {

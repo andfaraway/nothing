@@ -36,8 +36,11 @@ extension StatusPlaceholderTypeEnumExt on StatusPlaceholderType {
   };
 
   String get icon => rootTabTypeIconMap[this] ?? '';
+
   Size get iconSize => rootTabTypeIconSizeMap[this] ?? Size.zero;
+
   String get title => rootTabTypeTitleMap[this] ?? '';
+
   String get desc => rootTabTypeDescMap[this] ?? '';
 }
 
@@ -54,7 +57,8 @@ StatusPlaceholderType? codeToStatusType(int? code, bool hasData) {
 }
 
 class StatusPlaceholder extends StatelessWidget {
-  const StatusPlaceholder({Key? key,
+  const StatusPlaceholder({
+    Key? key,
     this.type = StatusPlaceholderType.custom,
     this.icon = '',
     this.iconSize,
@@ -78,15 +82,15 @@ class StatusPlaceholder extends StatelessWidget {
   final Color? color;
   final VoidCallback? onTap;
 
-  String get _icon =>
-      type == StatusPlaceholderType.custom ? icon : type?.icon ?? '';
+  String get _icon => type == StatusPlaceholderType.custom ? icon : type?.icon ?? '';
+
   Size get _iconSize => type == StatusPlaceholderType.custom
       ? iconSize ?? Size(80.0.w, 80.0.w)
       : Size(type?.iconSize.width.w ?? 0.0, type?.iconSize.height.w ?? 0.0);
-  String get _title =>
-      type == StatusPlaceholderType.custom ? title : type?.title ?? '';
-  String get _desc =>
-      type == StatusPlaceholderType.custom ? desc : type?.desc ?? '';
+
+  String get _title => type == StatusPlaceholderType.custom ? title : type?.title ?? '';
+
+  String get _desc => type == StatusPlaceholderType.custom ? desc : type?.desc ?? '';
 
   @override
   Widget build(BuildContext context) {

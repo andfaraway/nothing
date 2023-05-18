@@ -124,11 +124,12 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
       return;
     }
     EasyLoading.show(dismissOnTap: false);
-    bool success = await LivePhotoMaker.create(firstImagePath: firstImage!.path, secondImagePath: secondImage!.path, width: movWidth, height: movHeight);
+    bool success = await LivePhotoMaker.create(
+        firstImagePath: firstImage!.path, secondImagePath: secondImage!.path, width: movWidth, height: movHeight);
     EasyLoading.dismiss();
-    if(success){
+    if (success) {
       showToast(S.current.success);
-    }else{
+    } else {
       showToast(S.current.fail);
     }
   }

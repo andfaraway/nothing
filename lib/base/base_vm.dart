@@ -4,6 +4,7 @@
 //
 
 import 'package:flutter/cupertino.dart';
+
 import 'vm_s_contract.dart';
 
 abstract class BaseVM {
@@ -26,7 +27,8 @@ abstract class BaseVM {
   VoidCallback? get notifyStateChanged => _notifyStateChanged;
 
   late StatefulWidget widget;
-  void setWidget(StatefulWidget s){
+
+  void setWidget(StatefulWidget s) {
     widget = s;
   }
 
@@ -51,5 +53,4 @@ abstract class BaseVM {
   void didChangeDependencies() {}
 
   Future<void> next() async => {};
-
 }

@@ -5,8 +5,7 @@
 import 'dart:developer' as _dev;
 
 import 'package:logging/logging.dart';
-import 'package:nothing/constants/constants.dart'
-    show DateFormat, currentTime, currentTimeStamp;
+import 'package:nothing/constants/constants.dart' show DateFormat, currentTime, currentTimeStamp;
 
 class LogUtils {
   const LogUtils._();
@@ -21,8 +20,7 @@ class LogUtils {
     _printLog(message, '$tag 📣', stackTrace, level: Level.INFO);
   }
 
-  static void n(dynamic message,
-      {String tag = 'network', StackTrace? stackTrace}) {
+  static void n(dynamic message, {String tag = 'network', StackTrace? stackTrace}) {
     _printLog(message, '🌐 $tag', stackTrace, level: Level.INFO);
   }
 
@@ -69,8 +67,7 @@ class LogUtils {
         name: tag ?? _TAG,
         level: level.value,
         error: message,
-        stackTrace: stackTrace ??
-            (isError && withStackTrace ? StackTrace.current : null),
+        stackTrace: stackTrace ?? (isError && withStackTrace ? StackTrace.current : null),
       );
     } else {
       _dev.log(
@@ -78,8 +75,7 @@ class LogUtils {
         time: currentTime,
         name: tag ?? _TAG,
         level: level.value,
-        stackTrace: stackTrace ??
-            (isError && withStackTrace ? StackTrace.current : null),
+        stackTrace: stackTrace ?? (isError && withStackTrace ? StackTrace.current : null),
       );
     }
   }

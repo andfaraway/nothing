@@ -24,11 +24,7 @@ class WeddingDetailVM extends BaseVM {
       return;
     }
     EasyLoading.show();
-    await API.updateWedding(
-        id: model.id,
-        title: model.title,
-        content: model.content,
-        done: model.done);
+    await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
     showToast(S.current.success);
   }
 

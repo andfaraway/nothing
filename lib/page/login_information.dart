@@ -17,4 +17,3 @@ class _LoginInformationState extends State<LoginInformation> {
     return Container();
   }
 }
-

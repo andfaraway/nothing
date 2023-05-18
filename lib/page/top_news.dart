@@ -24,13 +24,11 @@ class TopNewsPage extends StatefulWidget {
   _TopNewsPageState createState() => _TopNewsPageState();
 }
 
-class _TopNewsPageState extends State<TopNewsPage>
-    with AutomaticKeepAliveClientMixin {
+class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  final AppRefreshController _controller =
-      AppRefreshController(autoRefresh: true);
+  final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
   final double marginWidth = 30;
   List<TopNewsModel> newsList = [];
 
@@ -58,9 +56,7 @@ class _TopNewsPageState extends State<TopNewsPage>
               alignment: Alignment.center,
               child: Text(
                 widget.title ?? '',
-                style: TextStyle(
-                    color: widget.backgroundColor?.getAdaptiveColor,
-                    fontSize: 28),
+                style: TextStyle(color: widget.backgroundColor?.getAdaptiveColor, fontSize: 28),
               ),
             ),
             Expanded(
@@ -68,8 +64,7 @@ class _TopNewsPageState extends State<TopNewsPage>
                 onRefresh: () async {
                   var list = await widget.requestCallback?.call();
                   newsList.clear();
-                  list?.forEach((element) =>
-                      newsList.add(TopNewsModel().fromJson(element)));
+                  list?.forEach((element) => newsList.add(TopNewsModel().fromJson(element)));
                   if (mounted) {
                     setState(() {});
                   }
@@ -79,14 +74,16 @@ class _TopNewsPageState extends State<TopNewsPage>
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        launch(newsList[index].url ?? '');return;
-                        AppWebView.launch(
-                            url: newsList[index].url ?? '',title: newsList[index].title
-                        );
+                      onTap: () {
+                        launch(newsList[index].url ?? '');
+                        return;
+                        AppWebView.launch(url: newsList[index].url ?? '', title: newsList[index].title);
                       },
                       child: ListTile(
-                        title: Text(newsList[index].title ?? '',style: TextStyle(color: widget.backgroundColor?.getAdaptiveColor),),
+                        title: Text(
+                          newsList[index].title ?? '',
+                          style: TextStyle(color: widget.backgroundColor?.getAdaptiveColor),
+                        ),
                       ),
                     );
                   },
@@ -111,14 +108,7 @@ class TopNewsModel {
   final String? url;
   final String? source;
 
-  TopNewsModel(
-      {this.id,
-      this.ctime,
-      this.title,
-      this.description,
-      this.picUrl,
-      this.url,
-      this.source});
+  TopNewsModel({this.id, this.ctime, this.title, this.description, this.picUrl, this.url, this.source});
 
   TopNewsModel fromJson(Map map) {
     return TopNewsModel(

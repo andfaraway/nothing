@@ -15,8 +15,7 @@ class InformationPage extends StatefulWidget {
   State<InformationPage> createState() => _InformationPageState();
 }
 
-class _InformationPageState extends State<InformationPage>
-    with SingleTickerProviderStateMixin {
+class _InformationPageState extends State<InformationPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   Widget? homeWidget;
@@ -30,17 +29,12 @@ class _InformationPageState extends State<InformationPage>
   }
 
   void initTabBar() {
-    _interfaceList.add(InterfaceModel(
-        tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', ConstUrl.qiaomen)));
+    _interfaceList.add(InterfaceModel(tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', ConstUrl.qiaomen)));
     _interfaceList.add(InterfaceModel(
         tag: 0,
         title: '黄历',
-        page: huangliPage(
-            '黄历',
-            ConstUrl.huangli +
-                '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
-    _interfaceList.add(InterfaceModel(
-        tag: 2, title: '健康提示', page: genericPage('健康提示', ConstUrl.healthTips)));
+        page: huangliPage('黄历', ConstUrl.huangli + '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
+    _interfaceList.add(InterfaceModel(tag: 2, title: '健康提示', page: genericPage('健康提示', ConstUrl.healthTips)));
     _tabController = TabController(length: _interfaceList.length, vsync: this);
   }
 
@@ -74,17 +68,12 @@ class _InformationPageState extends State<InformationPage>
           var s = await Http.get(url);
           Map map = s['newslist'].first;
           String str = '';
-          String jieri =
-              ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)
-                  ? (map['lunar_festival'] ?? map['festival']) + '\n\n'
-                  : '';
+          String jieri = ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)
+              ? (map['lunar_festival'] ?? map['festival']) + '\n\n'
+              : '';
           str += jieri;
           String dateStr = '日期：' + map['gregoriandate'];
-          String nongliStr = '\n农历：' +
-              map['tiangandizhiyear'] +
-              '年 ' +
-              map['lubarmonth'] +
-              map['lunarday'];
+          String nongliStr = '\n农历：' + map['tiangandizhiyear'] + '年 ' + map['lubarmonth'] + map['lunarday'];
           String yiStr = '\n宜：' + map['fitness'];
           String jiStr = '\n忌：' + map['taboo'];
           str = dateStr + nongliStr + yiStr + jiStr;
@@ -97,15 +86,13 @@ class _InformationPageState extends State<InformationPage>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(_interfaceList[_tabController.index].title??''),
+        title: Text(_interfaceList[_tabController.index].title ?? ''),
       ),
       body: Stack(
         children: [
           DefaultTabController(
             length: 12,
-            child: TabBarView(
-                controller: _tabController,
-                children: _interfaceList.map((e) => e.page!).toList()),
+            child: TabBarView(controller: _tabController, children: _interfaceList.map((e) => e.page!).toList()),
           ),
         ],
       ),

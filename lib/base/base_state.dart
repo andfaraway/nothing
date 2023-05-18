@@ -9,8 +9,9 @@ import '../constants/notification_center.dart';
 import 'base_widget.dart';
 import 'vm_s_contract.dart';
 
-abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
-    extends State with AutomaticKeepAliveClientMixin implements VMSContract {
+abstract class BaseState<VM extends BaseVM, T extends StatefulWidget> extends State
+    with AutomaticKeepAliveClientMixin
+    implements VMSContract {
   @override
   bool get wantKeepAlive => false;
 
@@ -202,9 +203,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       backgroundColor: backgroundColor,
       //防止因键盘弹出造成bottom overlowed by X pixels
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      appBar: pageTitle == null && getPageWidget() == null
-          ? createAppBar()
-          : createTitleAppBar(),
+      appBar: pageTitle == null && getPageWidget() == null ? createAppBar() : createTitleAppBar(),
       body: WillPopScope(
         onWillPop: onWillPop,
         child: BaseWidget(
@@ -254,8 +253,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       height: 25,
       child: TextButton(
         style: ButtonStyle(
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.only(right: MARGIN_MAIN, left: MARGIN_MAIN)),
+          padding: MaterialStateProperty.all(const EdgeInsets.only(right: MARGIN_MAIN, left: MARGIN_MAIN)),
           alignment: Alignment.centerRight,
         ),
         onPressed: onPressed,

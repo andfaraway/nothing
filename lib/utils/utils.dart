@@ -8,13 +8,13 @@ import 'package:photo_manager/photo_manager.dart';
 
 import '../constants/constants.dart';
 
+export 'device_utils.dart';
 export 'hive_field_utils.dart';
 export 'log_utils.dart';
 export 'net_utils.dart';
+export 'path_utils.dart';
 // export 'notification_utils.dart';
 export 'toast_utils.dart';
-export 'device_utils.dart';
-export 'path_utils.dart';
 
 const bool logMessageSocketPacket = false;
 
@@ -48,8 +48,7 @@ void doNothing() {}
 /// Check permissions and only return whether they succeed or not.
 Future<bool> checkPermissions(List<Permission> permissions) async {
   try {
-    final Map<Permission, PermissionStatus> status =
-        await permissions.request();
+    final Map<Permission, PermissionStatus> status = await permissions.request();
     return !status.values.any(
       (PermissionStatus p) => p != PermissionStatus.granted,
     );
@@ -61,8 +60,7 @@ Future<bool> checkPermissions(List<Permission> permissions) async {
 
 /// Obtain the screenshot data from a [GlobalKey] with [RepaintBoundary].
 Future<ByteData?> obtainScreenshotData(GlobalKey key) async {
-  final RenderRepaintBoundary boundary =
-      key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  final RenderRepaintBoundary boundary = key.currentContext!.findRenderObject() as RenderRepaintBoundary;
   final ui.Image image = await boundary.toImage(
     pixelRatio: ui.window.devicePixelRatio,
   );
@@ -113,28 +111,28 @@ Future<Uint8List?> compressEntity(
   return data;
 }
 
-class Utils{
-  static void hideKeyboard(BuildContext context){
+class Utils {
+  static void hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
-  static const List<String> _imageTypes = ['JPEG','JPG','PNG','GIF','BMP','WEBP'];
-  static const List<String> _videoTypes = ['MP4','MOV','WMV','FLV','AVI','AVCHD','WebM','MKV'];
+  static const List<String> _imageTypes = ['JPEG', 'JPG', 'PNG', 'GIF', 'BMP', 'WEBP'];
+  static const List<String> _videoTypes = ['MP4', 'MOV', 'WMV', 'FLV', 'AVI', 'AVCHD', 'WebM', 'MKV'];
 
-  static bool isImage(String? type){
-    if(type == null) return false;
-    if(_imageTypes.contains(type.toUpperCase())){
+  static bool isImage(String? type) {
+    if (type == null) return false;
+    if (_imageTypes.contains(type.toUpperCase())) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  static bool isVideo(String? type){
-    if(type == null) return false;
-    if(_videoTypes.contains(type.toUpperCase())){
+  static bool isVideo(String? type) {
+    if (type == null) return false;
+    if (_videoTypes.contains(type.toUpperCase())) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

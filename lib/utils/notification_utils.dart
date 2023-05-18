@@ -30,10 +30,7 @@ class NotificationUtils {
         LogUtils.d("flutter onOpenNotification: ${message}");
         if (globalContext?.widget.toString() != 'MessagePage') {
           BuildContext context = navigatorState.overlay!.context;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const MessagePage()));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
         }
       },
       // 接收自定义消息回调方法。
@@ -49,8 +46,7 @@ class NotificationUtils {
       debug: false, // 设置是否打印 debug 日志
     );
 
-    jpush.applyPushAuthority(
-        const NotificationSettingsIOS(sound: true, alert: true, badge: true));
+    jpush.applyPushAuthority(const NotificationSettingsIOS(sound: true, alert: true, badge: true));
 
     jpush.setBadge(0);
 
@@ -58,28 +54,27 @@ class NotificationUtils {
     return jpush;
   }
 
-  static String? setAlias(String? alias){
-    if(alias == null) return null;
-    if(alias.isEmpty) return null;
-    String str = HiveBoxes.get(HiveKey.pushAlias,defaultValue: '');
+  static String? setAlias(String? alias) {
+    if (alias == null) return null;
+    if (alias.isEmpty) return null;
+    String str = HiveBoxes.get(HiveKey.pushAlias, defaultValue: '');
     if (str == '') {
       for (int i = 0; i < alias.length; i++) {
         String c = alias[i];
         if (RegExp('[0-9a-zA-z]').hasMatch(c)) str = str + c;
       }
-      try{
+      try {
         jpush.setAlias(str);
         HiveBoxes.put(HiveKey.pushAlias, str);
         LogUtils.d('setAlias success');
-      }catch(e){
+      } catch (e) {
         LogUtils.d('setAlias error: $e');
       }
     }
     return str;
   }
 
-  static final FlutterLocalNotificationsPlugin plugin =
-      FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
 
   static void initSettings() {
     const AndroidInitializationSettings settingsAndroid = AndroidInitializationSettings('ic_stat_name');

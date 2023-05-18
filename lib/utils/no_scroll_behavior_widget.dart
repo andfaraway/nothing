@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class NoScrollBehaviorWidget extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     switch (getPlatform(context)) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:

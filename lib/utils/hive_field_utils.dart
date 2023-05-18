@@ -6,8 +6,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:hive/hive.dart';
 import 'package:nothing/constants/constants.dart';
 
-import 'device_utils.dart';
-
 class HiveFieldUtils {
   const HiveFieldUtils._();
 
@@ -28,8 +26,7 @@ class HiveFieldUtils {
   static const String settingNewIcons = 'setting_new_icons';
   static const String settingHomeSplashIndex = 'setting_home_splash_index';
   static const String settingHideShieldPost = 'setting_hide_shield_post';
-  static const String settingLaunchFromSystemBrowser =
-      'setting_launch_from_system_browser';
+  static const String settingLaunchFromSystemBrowser = 'setting_launch_from_system_browser';
 
   static const String deviceUuid = 'device_uuid';
   static const String devicePushToken = 'device_push_token';
@@ -47,17 +44,12 @@ class HiveFieldUtils {
   static bool getBrightnessPlatform() {
     bool value = false;
     if (DeviceUtils.deviceInfo is IosDeviceInfo) {
-      final double version = (DeviceUtils.deviceInfo as IosDeviceInfo)
-          .systemVersion!
-          .split('.')
-          .first
-          .toDouble();
+      final double version = (DeviceUtils.deviceInfo as IosDeviceInfo).systemVersion!.split('.').first.toDouble();
       if (version >= 13.0) {
         value = true;
       }
     } else if (DeviceUtils.deviceInfo is AndroidDeviceInfo) {
-      final int? sdk =
-          (DeviceUtils.deviceInfo as AndroidDeviceInfo).version.sdkInt;
+      final int? sdk = (DeviceUtils.deviceInfo as AndroidDeviceInfo).version.sdkInt;
       if (sdk! >= 29) {
         value = true;
       }
@@ -67,20 +59,16 @@ class HiveFieldUtils {
   }
 
   /// 设置选择的主题色
-  static Future<void>? setColorTheme(int value) =>
-      _box.put(colorThemeIndex, value);
+  static Future<void>? setColorTheme(int value) => _box.put(colorThemeIndex, value);
 
   /// 设置资讯背景色
-  static Future<void>? setInformationBgColor(int value) =>
-      _box.put(informationBgColor, value);
+  static Future<void>? setInformationBgColor(int value) => _box.put(informationBgColor, value);
 
   /// 设置选择的夜间模式
-  static Future<void>? setBrightnessDark(bool value) =>
-      _box.put(brightnessDark, value);
+  static Future<void>? setBrightnessDark(bool value) => _box.put(brightnessDark, value);
 
   /// 设置跟随系统的夜间模式
-  static Future<void>? setBrightnessPlatform(bool value) =>
-      _box.put(brightnessPlatform, value);
+  static Future<void>? setBrightnessPlatform(bool value) => _box.put(brightnessPlatform, value);
 
   /// 获取字体缩放设置
   static double? getFontScale() => _box.get(settingFontScale) as double;
@@ -92,18 +80,15 @@ class HiveFieldUtils {
   static int? getHomeSplashIndex() => _box.get(settingHomeSplashIndex) as int;
 
   /// 获取是否隐藏被屏蔽的动态
-  static bool? getEnabledHideShieldPost() =>
-      _box.get(settingHideShieldPost) as bool;
+  static bool? getEnabledHideShieldPost() => _box.get(settingHideShieldPost) as bool;
 
   /// 获取是否通过系统浏览器打开网页
-  static bool? getLaunchFromSystemBrowser() =>
-      _box.get(settingLaunchFromSystemBrowser) as bool;
+  static bool? getLaunchFromSystemBrowser() => _box.get(settingLaunchFromSystemBrowser) as bool;
 
   /// 是否同意用户协议
-  static bool? getAgreement() =>
-      _box.get('agreement');
-  static Future<void> setAgreement(bool agreement) =>
-      _box.put('agreement', agreement);
+  static bool? getAgreement() => _box.get('agreement');
+
+  static Future<void> setAgreement(bool agreement) => _box.put('agreement', agreement);
 
   // /// 设置是否启用新应用图标
   // static Future<void>? setEnabledNewAppsIcon(bool enable) {

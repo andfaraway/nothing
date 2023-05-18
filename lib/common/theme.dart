@@ -1,7 +1,7 @@
 import 'package:nothing/common/prefix_header.dart';
 
 TextStyle get defaultTextStyle => TextStyle(
-  fontSize: 28.sp,
+      fontSize: 28.sp,
       color: AppColor.errorColor,
       fontWeight: weightMedium,
       letterSpacing: 1.sp,
@@ -9,7 +9,9 @@ TextStyle get defaultTextStyle => TextStyle(
 
 /*  theme textStyle */
 FontWeight get weightRegular => FontWeight.w400;
+
 FontWeight get weightMedium => FontWeight.w500;
+
 FontWeight get weightBold => FontWeight.w700;
 
 class TS {

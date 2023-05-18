@@ -5,7 +5,8 @@ import '../generated/json/base/json_convert_content.dart';
 import 'button.dart';
 
 class WebViewPage extends StatefulWidget {
-  const WebViewPage({Key? key,
+  const WebViewPage({
+    Key? key,
     this.arguments,
   }) : super(key: key);
 
@@ -81,8 +82,7 @@ class YBJFWebView extends StatefulWidget {
 class _YBJFWebViewState extends State<YBJFWebView> {
   YBJFWebViewController? _webViewController;
 
-  YBJFWebViewController? get _effectiveController =>
-      widget.controller ?? _webViewController;
+  YBJFWebViewController? get _effectiveController => widget.controller ?? _webViewController;
 
   @override
   void initState() {

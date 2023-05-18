@@ -19,8 +19,7 @@ class _SomeThingsState extends BaseState<SomeThingsVM, SomeThings> {
     super.initState();
   }
 
-  final AppRefreshController _controller =
-      AppRefreshController(autoRefresh: true);
+  final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
   int pageIndex = 0;
   int pageSize = 10;
 

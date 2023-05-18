@@ -11,6 +11,7 @@ class SmartDrawer extends StatefulWidget {
   final String? semanticLabel;
   final double widthPercent;
   final DrawerCallback? callback;
+
   const SmartDrawer({
     Key? key,
     this.elevation = 16.0,

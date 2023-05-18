@@ -7,13 +7,7 @@ import '../../common/prefix_header.dart';
 
 class ToastTipsDialog extends StatelessWidget {
   const ToastTipsDialog(
-      {Key? key,
-        required this.title,
-        this.cancelLabel,
-        this.confirmLabel,
-        this.onCancel,
-        this.onConfirm,
-        this.height})
+      {Key? key, required this.title, this.cancelLabel, this.confirmLabel, this.onCancel, this.onConfirm, this.height})
       : super(key: key);
 
   final String title;

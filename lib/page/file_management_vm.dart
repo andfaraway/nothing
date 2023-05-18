@@ -37,8 +37,7 @@ class FileManagementVM extends BaseVM {
         //返回上层
         if (catalog.contains('/')) {
           //去除反斜杠
-          catalog =
-              catalog.replaceRange(catalog.length - 1, catalog.length, '');
+          catalog = catalog.replaceRange(catalog.length - 1, catalog.length, '');
           //去除上一层目录
           catalog = catalog.replaceAll(catalog.split('/').last, '');
         }
@@ -61,7 +60,7 @@ class FileManagementVM extends BaseVM {
     showToast(S.current.success);
   }
 
-  Future<void> open(FileModel model,int index) async {
+  Future<void> open(FileModel model, int index) async {
     String url = "${model.prefix}${model.catalog ?? ''}${model.name}";
     print(url);
     if (Utils.isImage(model.type)) {
@@ -84,10 +83,10 @@ class FileManagementVM extends BaseVM {
       return;
 
       AppRoute.pushPage(context, VideoScreen(url: url));
-    } else{
+    } else {
       if (await canLaunchUrlString(url)) {
         await launchUrlString(url);
-      }else{
+      } else {
         showToast("unknown type");
       }
     }

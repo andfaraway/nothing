@@ -244,8 +244,7 @@ RouteFactory? onGenerateRoute = (RouteSettings settings) {
       }
     }
     return MaterialPageRoute(
-      builder: (BuildContext context) =>
-          routePage.page(
+      builder: (BuildContext context) => routePage.page(
         arguments: routeSettings?.arguments,
       ),
       settings: routeSettings,

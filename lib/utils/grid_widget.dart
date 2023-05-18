@@ -61,8 +61,7 @@ class _GridWidgetPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _GridWidgetPainter oldDelegate) {
-    return oldDelegate.strokeWidth != strokeWidth ||
-        oldDelegate.opacity != opacity;
+    return oldDelegate.strokeWidth != strokeWidth || oldDelegate.opacity != opacity;
   }
 
   static Color randomColor({double opacity = 1}) {

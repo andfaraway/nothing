@@ -77,14 +77,11 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                             height: double.infinity,
                             fadeInDuration: const Duration(milliseconds: 100),
                             fadeOutDuration: const Duration(milliseconds: 100),
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) {
+                            progressIndicatorBuilder: (context, url, downloadProgress) {
                               loadError = false;
-                              double progress = downloadProgress.downloaded /
-                                  (model.size ?? 1);
+                              double progress = downloadProgress.downloaded / (model.size ?? 1);
                               return Center(
-                                child:
-                                    CircularProgressIndicator(value: progress),
+                                child: CircularProgressIndicator(value: progress),
                               );
                             },
                             errorWidget: (context, object, _) {

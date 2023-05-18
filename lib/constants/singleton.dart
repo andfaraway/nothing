@@ -16,8 +16,7 @@ class Singleton {
   late UserInfoModel _currentUser;
 
   UserInfoModel get currentUser {
-    _currentUser =
-        HiveBoxes.get(HiveKey.userInfo, defaultValue: UserInfoModel());
+    _currentUser = HiveBoxes.get(HiveKey.userInfo, defaultValue: UserInfoModel());
     return _currentUser;
   }
 
@@ -37,10 +36,8 @@ class Singleton {
   }
 }
 
-
 class Handler {
-  static String? get accessToken =>
-      'Bearer ${Singleton().currentUser.token}';
+  static String? get accessToken => 'Bearer ${Singleton().currentUser.token}';
 
   static bool get isUserLogin {
     String? accessToken = Singleton().currentUser.token;

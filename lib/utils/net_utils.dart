@@ -19,23 +19,19 @@ class NetUtils {
     Map<String, dynamic>? headers,
     CancelToken? cancelToken,
     Options? options,
-        ProgressCallback? onSendProgress,
+    ProgressCallback? onSendProgress,
   }) async {
     Response<T>? response;
     try {
-      response = await dio.post<T>(
-        url,
-        queryParameters: queryParameters,
-        data: data,
-        options: (options ?? Options()).copyWith(
-          headers:
-              headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
-        ),
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress
-      );
-      LogUtils.d(
-          'request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
+      response = await dio.post<T>(url,
+          queryParameters: queryParameters,
+          data: data,
+          options: (options ?? Options()).copyWith(
+            headers: headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
+          ),
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress);
+      LogUtils.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
     } on DioError catch (error) {
       LogUtils.e('request error:$url,\n$queryParameters,\n${error.toString()}');
     }
@@ -54,8 +50,7 @@ class NetUtils {
         queryParameters: queryParameters,
         cancelToken: cancelToken,
         options: (options ?? Options()).copyWith(
-          headers:
-              headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
+          headers: headers ?? _buildPostHeaders(Singleton().currentUser.token ?? ''),
         ),
       );
 

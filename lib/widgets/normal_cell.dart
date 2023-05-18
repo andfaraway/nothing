@@ -14,7 +14,7 @@ class NormalCell extends StatelessWidget {
       this.showSuffixIcon = true,
       this.suffixWidget,
       this.onTap,
-        this.onLongPress,
+      this.onLongPress,
       this.showDivider = true})
       : super(key: key);
 
@@ -42,10 +42,7 @@ class NormalCell extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(title,
-                        style: TextStyle(
-                            color: const Color(0xFF333333),
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.bold)),
+                        style: TextStyle(color: const Color(0xFF333333), fontSize: 30.sp, fontWeight: FontWeight.bold)),
                   ),
                   ...getSuffixWidget()
                 ],

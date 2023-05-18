@@ -31,8 +31,7 @@ class _NineURefreshState extends State<AppRefresher> {
   bool _footerHidden = false;
   StatusPlaceholderType? _statusType;
 
-  AppRefreshController? get _effectiveController =>
-      widget.controller ?? _refreshController;
+  AppRefreshController? get _effectiveController => widget.controller ?? _refreshController;
 
   void _config() {
     if (widget.controller == null) {
@@ -251,8 +250,7 @@ class AppRefreshConfiguration extends RefreshConfiguration {
 class AppRefreshController extends RefreshController {
   final bool autoRefresh;
   final ValueNotifier<bool> footerHidden = ValueNotifier<bool>(false);
-  final ValueNotifier<StatusPlaceholderType?> statusType =
-      ValueNotifier<StatusPlaceholderType?>(null);
+  final ValueNotifier<StatusPlaceholderType?> statusType = ValueNotifier<StatusPlaceholderType?>(null);
 
   bool get isRequest {
     return isRefresh || isLoading;
@@ -282,9 +280,7 @@ class AppRefreshController extends RefreshController {
     bool resetFooterState = false,
   }) {
     footerHidden.value = !resetFooterState;
-    success
-        ? super.refreshCompleted(resetFooterState: resetFooterState)
-        : super.refreshFailed();
+    success ? super.refreshCompleted(resetFooterState: resetFooterState) : super.refreshFailed();
     if (!resetFooterState) {
       super.loadNoData();
     }

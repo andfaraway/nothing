@@ -24,8 +24,7 @@ class CustomExpandWidget extends StatefulWidget {
   State<CustomExpandWidget> createState() => _CustomExpandWidgetState();
 }
 
-class _CustomExpandWidgetState extends State<CustomExpandWidget>
-    with SingleTickerProviderStateMixin {
+class _CustomExpandWidgetState extends State<CustomExpandWidget> with SingleTickerProviderStateMixin {
   final Duration _animatedDuration = const Duration(milliseconds: 200);
 
   late AnimationController _controller;
@@ -58,8 +57,7 @@ class _CustomExpandWidgetState extends State<CustomExpandWidget>
                           }
                         : null,
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.r, vertical: 17.r),
+                      padding: EdgeInsets.symmetric(horizontal: 20.r, vertical: 17.r),
                       color: AppColor.scaffoldBackgroundColor.withOpacity(widget.expand ? 1 : _controller.value),
                       child: Row(
                         children: [
@@ -76,13 +74,9 @@ class _CustomExpandWidgetState extends State<CustomExpandWidget>
                     ),
                   ),
                   SizedBox(
-                    height: widget.expand
-                        ? widget.subWidgetHeight
-                        : widget.subWidgetHeight * _controller.value,
+                    height: widget.expand ? widget.subWidgetHeight : widget.subWidgetHeight * _controller.value,
                     child: SingleChildScrollView(
-                      child: SizedBox(
-                          height: widget.subWidgetHeight,
-                          child: widget.subWidget),
+                      child: SizedBox(height: widget.subWidgetHeight, child: widget.subWidget),
                     ),
                   )
                 ],

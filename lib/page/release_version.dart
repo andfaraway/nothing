@@ -13,8 +13,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
   @override
   ReleaseVersionVM createVM() => ReleaseVersionVM(context);
 
-  final AppRefreshController _controller =
-      AppRefreshController(autoRefresh: true);
+  final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
   final ValueNotifier<bool> sendNotification = ValueNotifier(false);
 
   @override
@@ -98,8 +97,7 @@ class _ReleaseVersionState extends BaseState<ReleaseVersionVM, ReleaseVersion> {
     );
   }
 
-  Widget editCell(
-      String title, String? content, ValueChanged<String>? onChanged) {
+  Widget editCell(String title, String? content, ValueChanged<String>? onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

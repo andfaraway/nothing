@@ -41,8 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
             useSafeArea: false,
             barrierColor: Colors.black38,
             barrierDismissible: true,
-            builder: (_) =>
-                PrivacyDiaLog(
+            builder: (_) => PrivacyDiaLog(
                   userAgreementUrl: '${ConstUrl.netServer}/userAgreement.html',
                   privacyPolicyUrl: '${ConstUrl.netServer}/privacyPolicy.html',
                   continueCallback: () async {
@@ -58,23 +57,14 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> jumpPage() async {
     //判断是否登录
     if (Singleton().currentUser.userId != null) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-              (_) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (_) => false);
     } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-              (_) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
     }
 
     if (Singleton.welcomeLoadResult != null) {
       if (globalContext?.widget.toString() != 'MessagePage') {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => const MessagePage()));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
       }
     }
   }
@@ -116,52 +106,50 @@ class _WelcomePageState extends State<WelcomePage> {
         children: [
           Consumer<LaunchProvider>(
             builder: (context, provider, child) {
-              LogUtils.i(
-                  "provider.launchInfo?.launchType:${provider.launchInfo
-                      ?.launchType}");
+              LogUtils.i("provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
               return provider.launchInfo == null
                   ? Center(
-                child: Text(
-                  'Hi',
-                  style: TextStyle(
-                      fontSize: 80,
-                      fontWeight: FontWeight.lerp(
-                          FontWeight.normal, FontWeight.bold, .1)),
-                ),
-              )
+                      child: Text(
+                        'Hi',
+                        style: TextStyle(
+                            fontSize: 80, fontWeight: FontWeight.lerp(FontWeight.normal, FontWeight.bold, .1)),
+                      ),
+                    )
                   : provider.launchInfo?.launchType == 0
-                  ? Container(
-                color: Colors.black,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onLongPress: () {
-                    saveNetworkImg(imgUrl: provider.launchInfo!.image!);
-                  },
-                  child: LaunchWidget(
-                    title: provider.launchInfo?.title,
-                    image: provider.launchInfo?.image ?? '',
-                    backgroundImage:
-                    provider.launchInfo?.backgroundImage,
-                    dayStr: provider.launchInfo?.dayStr,
-                    monthStr: provider.launchInfo?.monthStr,
-                    dateDetailStr: provider.launchInfo?.dateDetailStr,
-                    contentStr: provider.launchInfo?.contentStr,
-                    author: provider.launchInfo?.authorStr,
-                    codeStr: provider.launchInfo?.codeStr,
-                  ),
-                ),
-              )
-                  : CachedNetworkImage(
-                imageUrl: provider.launchInfo!.image!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                errorWidget: (context, string, child) {
-                  return Image.asset(R.imagesHandsomeman, fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,);
-                },
-              );
+                      ? Container(
+                          color: Colors.black,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onLongPress: () {
+                              saveNetworkImg(imgUrl: provider.launchInfo!.image!);
+                            },
+                            child: LaunchWidget(
+                              title: provider.launchInfo?.title,
+                              image: provider.launchInfo?.image ?? '',
+                              backgroundImage: provider.launchInfo?.backgroundImage,
+                              dayStr: provider.launchInfo?.dayStr,
+                              monthStr: provider.launchInfo?.monthStr,
+                              dateDetailStr: provider.launchInfo?.dateDetailStr,
+                              contentStr: provider.launchInfo?.contentStr,
+                              author: provider.launchInfo?.authorStr,
+                              codeStr: provider.launchInfo?.codeStr,
+                            ),
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: provider.launchInfo!.image!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          errorWidget: (context, string, child) {
+                            return Image.asset(
+                              R.imagesHandsomeman,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            );
+                          },
+                        );
             },
           ),
           ValueListenableBuilder(
@@ -184,11 +172,9 @@ class _WelcomePageState extends State<WelcomePage> {
                           ],
                         ),
                         style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all(Colors.black26),
+                          backgroundColor: MaterialStateProperty.all(Colors.black26),
                           minimumSize: MaterialStateProperty.all(Size.zero),
-                          foregroundColor:
-                          MaterialStateProperty.all(Colors.white),
+                          foregroundColor: MaterialStateProperty.all(Colors.white),
                         ),
                         onPressed: () {
                           jumpPage();

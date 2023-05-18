@@ -14,7 +14,6 @@ import '../http/api.dart';
 export 'package:provider/provider.dart';
 
 part 'download_provider.dart';
-
 part 'home_provider.dart';
 part 'launch_provider.dart';
 part 'settings_provider.dart';
@@ -29,7 +28,7 @@ List<SingleChildWidget> get providers => _providers;
 final List<ChangeNotifierProvider<dynamic>> _providers = <ChangeNotifierProvider<dynamic>>[
   buildProvider<SettingsProvider>(SettingsProvider()),
   buildProvider<ThemesProvider>(ThemesProvider()),
-      buildProvider<HomeProvider>(HomeProvider()),
-      buildProvider<LaunchProvider>(LaunchProvider()),
-  buildProvider<DownloadProvider>(DownloadProvider())
+  buildProvider<HomeProvider>(HomeProvider()),
+  buildProvider<LaunchProvider>(LaunchProvider()),
+  buildProvider<DownloadProvider>(DownloadProvider()),
 ];

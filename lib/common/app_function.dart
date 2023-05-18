@@ -21,8 +21,7 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'checkUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data =
-            await API.checkUpdate(Platform.operatingSystem, version);
+        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null && data['update'] == true) {
           String url = data['path'];
           if (await canLaunchUrlString(url)) {
@@ -38,8 +37,7 @@ Function? functionWithString(BuildContext context, String functionStr) {
     case 'goUpdate':
       f = () async {
         String version = await DeviceUtils.version();
-        Map<String, dynamic>? data =
-            await API.checkUpdate(Platform.operatingSystem, version);
+        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
         if (data != null) {
           String url = data['path'];
           if (await canLaunchUrlString(url)) {

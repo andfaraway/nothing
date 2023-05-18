@@ -14,12 +14,7 @@ class LDropdownButton extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
 
   LDropdownButton(
-      {Key? key,
-      required this.items,
-      required this.initText,
-      this.secondItems = const [],
-      this.icon,
-      this.onChanged})
+      {Key? key, required this.items, required this.initText, this.secondItems = const [], this.icon, this.onChanged})
       : super(key: key);
 
   final ValueNotifier<String?> currentValue = ValueNotifier('');
@@ -82,12 +77,7 @@ class CustomMenuItem {
   final bool showManageIcon;
 
   CustomMenuItem(
-      {required this.text,
-      this.id,
-      this.count,
-      this.divider = true,
-      this.index,
-      this.showManageIcon = false});
+      {required this.text, this.id, this.count, this.divider = true, this.index, this.showManageIcon = false});
 
   static Widget buildItem(BuildContext context, CustomMenuItem item) {
     return Center(

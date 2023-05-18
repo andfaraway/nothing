@@ -6,7 +6,7 @@ import 'dart:ui';
 // import 'package:isolate/isolate_runner.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide Animation,Image;
+import 'package:flutter/material.dart' hide Animation, Image;
 // ignore: implementation_imports
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:image/image.dart';
@@ -16,8 +16,7 @@ import 'package:photo_manager/photo_manager.dart';
 // final Future<LoadBalancer> loadBalancer =
 //     LoadBalancer.create(1, IsolateRunner.spawn);
 
-Future<Uint8List?> cropImageDataWithDartLibrary(
-    {required ExtendedImageEditorState state}) async {
+Future<Uint8List?> cropImageDataWithDartLibrary({required ExtendedImageEditorState state}) async {
   print('dart library start cropping');
 
   ///crop rect base on raw image
@@ -33,11 +32,8 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
   // return ui.webOnlyInstantiateImageCodecFromUrl(
   //     resolved); //
 
-  final Uint8List data = kIsWeb &&
-          state.widget.extendedImageState.imageWidget.image
-              is ExtendedNetworkImageProvider
-      ? await _loadNetwork(state.widget.extendedImageState.imageWidget.image
-          as ExtendedNetworkImageProvider)
+  final Uint8List data = kIsWeb && state.widget.extendedImageState.imageWidget.image is ExtendedNetworkImageProvider
+      ? await _loadNetwork(state.widget.extendedImageState.imageWidget.image as ExtendedNetworkImageProvider)
 
       ///toByteData is not work on web
       ///https://github.com/flutter/flutter/issues/44908
@@ -46,10 +42,8 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
       //     .asUint8List()
       : state.rawImageData;
 
-  if (data == state.rawImageData &&
-      state.widget.extendedImageState.imageProvider is ExtendedResizeImage) {
-    final ImmutableBuffer buffer =
-        await ImmutableBuffer.fromUint8List(state.rawImageData);
+  if (data == state.rawImageData && state.widget.extendedImageState.imageProvider is ExtendedResizeImage) {
+    final ImmutableBuffer buffer = await ImmutableBuffer.fromUint8List(state.rawImageData);
     final ImageDescriptor descriptor = await ImageDescriptor.encoded(buffer);
     final double widthRatio = descriptor.width / state.image!.width;
     final double heightRatio = descriptor.height / state.image!.height;
@@ -81,8 +75,8 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
       image = bakeOrientation(image);
 
       if (editAction.needCrop) {
-        image = copyCrop(image, cropRect.left.toInt(), cropRect.top.toInt(),
-            cropRect.width.toInt(), cropRect.height.toInt());
+        image = copyCrop(
+            image, cropRect.left.toInt(), cropRect.top.toInt(), cropRect.width.toInt(), cropRect.height.toInt());
       }
 
       if (editAction.needFlip) {
@@ -124,9 +118,7 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
       fileData = onlyOneFrame ? encodeJpg(src.first) : encodeGifAnimation(src);
     } else {
       //fileData = await lb.run<List<int>, Image>(encodeJpg, src);
-      fileData = onlyOneFrame
-          ? await compute(encodeJpg, src.first)
-          : await compute(encodeGifAnimation, src);
+      fileData = onlyOneFrame ? await compute(encodeJpg, src.first) : await compute(encodeGifAnimation, src);
     }
   }
   final DateTime time5 = DateTime.now();
@@ -135,13 +127,11 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
   return Uint8List.fromList(fileData!);
 }
 
-Future<Uint8List?> cropImageDataWithNativeLibrary(
-    {required ExtendedImageEditorState state}) async {
+Future<Uint8List?> cropImageDataWithNativeLibrary({required ExtendedImageEditorState state}) async {
   print('native library start cropping');
   Rect cropRect = state.getCropRect()!;
   if (state.widget.extendedImageState.imageProvider is ExtendedResizeImage) {
-    final ImmutableBuffer buffer =
-        await ImmutableBuffer.fromUint8List(state.rawImageData);
+    final ImmutableBuffer buffer = await ImmutableBuffer.fromUint8List(state.rawImageData);
     final ImageDescriptor descriptor = await ImageDescriptor.encoded(buffer);
 
     final double widthRatio = descriptor.width / state.image!.width;
@@ -168,8 +158,7 @@ Future<Uint8List?> cropImageDataWithNativeLibrary(
   }
 
   if (action.needFlip) {
-    option.addOption(
-        FlipOption(horizontal: flipHorizontal, vertical: flipVertical));
+    option.addOption(FlipOption(horizontal: flipHorizontal, vertical: flipVertical));
   }
 
   if (action.hasRotateAngle) {
@@ -238,13 +227,11 @@ Future<Uint8List> _loadNetwork(ExtendedNetworkImageProvider key) async {
     return response!.bodyBytes;
   } on OperationCanceledError catch (_) {
     print('User cancel request ${key.url}.');
-    return Future<Uint8List>.error(
-        StateError('User cancel request ${key.url}.'));
+    return Future<Uint8List>.error(StateError('User cancel request ${key.url}.'));
   } catch (e) {
     return Future<Uint8List>.error(StateError('failed load ${key.url}. \n $e'));
   }
 }
-
 
 double? initScale({
   required Size imageSize,
@@ -254,14 +241,12 @@ double? initScale({
   final double n1 = imageSize.height / imageSize.width;
   final double n2 = size.height / size.width;
   if (n1 > n2) {
-    final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+    final FittedSizes fittedSizes = applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     final Size destinationSize = fittedSizes.destination;
     return size.width / destinationSize.width;
   } else if (n1 / n2 < 1 / 4) {
-    final FittedSizes fittedSizes =
-    applyBoxFit(BoxFit.contain, imageSize, size);
+    final FittedSizes fittedSizes = applyBoxFit(BoxFit.contain, imageSize, size);
     //final Size sourceSize = fittedSizes.source;
     final Size destinationSize = fittedSizes.destination;
     return size.height / destinationSize.height;

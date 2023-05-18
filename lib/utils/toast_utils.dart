@@ -11,10 +11,7 @@ import '../common/prefix_header.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
 void showToast(String text, {int timeInSecForIosWeb = 1}) {
-  Fluttertoast.showToast(
-      msg: text,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: timeInSecForIosWeb);
+  Fluttertoast.showToast(msg: text, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: timeInSecForIosWeb);
 }
 
 void showCenterToast(String text) {
@@ -26,10 +23,7 @@ void showErrorToast(String text) {
 }
 
 void showCenterErrorToast(String text) {
-  Fluttertoast.showToast(
-      msg: text,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.redAccent);
+  Fluttertoast.showToast(msg: text, gravity: ToastGravity.CENTER, backgroundColor: Colors.redAccent);
 }
 
 void showHttpLoading() {
@@ -97,10 +91,7 @@ void hideAllToast() {
 }
 
 void showConfirmToast(
-    {required BuildContext context,
-    required String title,
-    required VoidCallback? onConfirm,
-    double? height}) {
+    {required BuildContext context, required String title, required VoidCallback? onConfirm, double? height}) {
   showDialog<bool>(
       context: context,
       useSafeArea: false,
@@ -126,10 +117,7 @@ void showCustomWidget({
 }
 
 showEdit(BuildContext context,
-    {required String title,
-    required ValueChanged? commitPressed,
-    VoidCallback? cancelPressed,
-    String? text}) {
+    {required String title, required ValueChanged? commitPressed, VoidCallback? cancelPressed, String? text}) {
   showCupertinoDialog(
       context: context,
       barrierDismissible: false,
@@ -241,10 +229,5 @@ class SheetButtonModel {
   final TextStyle? textStyle;
   final bool bottomLine;
 
-  SheetButtonModel(
-      {required this.title,
-      this.onTap,
-      this.icon,
-      this.textStyle,
-      this.bottomLine = true});
+  SheetButtonModel({required this.title, this.onTap, this.icon, this.textStyle, this.bottomLine = true});
 }

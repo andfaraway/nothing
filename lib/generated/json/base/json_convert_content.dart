@@ -14,6 +14,7 @@ import 'package:nothing/model/version_update_model.dart';
 import 'package:nothing/model/wedding_model.dart';
 
 JsonConvert jsonConvert = JsonConvert();
+
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 typedef EnumConvertFunction<T> = T Function(String value);
 
@@ -102,42 +103,42 @@ class JsonConvert {
     }
   }
 
-	//list is returned by type
-	static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
-		if(<FavoriteModel>[] is M){
-			return data.map<FavoriteModel>((Map<String, dynamic> e) => FavoriteModel.fromJson(e)).toList() as M;
-		}
-		if(<FileModel>[] is M){
-			return data.map<FileModel>((Map<String, dynamic> e) => FileModel.fromJson(e)).toList() as M;
-		}
-		if(<LoginModel>[] is M){
-			return data.map<LoginModel>((Map<String, dynamic> e) => LoginModel.fromJson(e)).toList() as M;
-		}
-		if(<MessageModel>[] is M){
-			return data.map<MessageModel>((Map<String, dynamic> e) => MessageModel.fromJson(e)).toList() as M;
-		}
-		if(<ServerImageModel>[] is M){
-			return data.map<ServerImageModel>((Map<String, dynamic> e) => ServerImageModel.fromJson(e)).toList() as M;
-		}
-		if(<SettingConfigModel>[] is M){
-			return data.map<SettingConfigModel>((Map<String, dynamic> e) => SettingConfigModel.fromJson(e)).toList() as M;
-		}
-		if(<VersionUpdateModel>[] is M){
-			return data.map<VersionUpdateModel>((Map<String, dynamic> e) => VersionUpdateModel.fromJson(e)).toList() as M;
-		}
-		if(<WeddingModel>[] is M){
-			return data.map<WeddingModel>((Map<String, dynamic> e) => WeddingModel.fromJson(e)).toList() as M;
-		}
+  //list is returned by type
+  static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
+    if (<FavoriteModel>[] is M) {
+      return data.map<FavoriteModel>((Map<String, dynamic> e) => FavoriteModel.fromJson(e)).toList() as M;
+    }
+    if (<FileModel>[] is M) {
+      return data.map<FileModel>((Map<String, dynamic> e) => FileModel.fromJson(e)).toList() as M;
+    }
+    if (<LoginModel>[] is M) {
+      return data.map<LoginModel>((Map<String, dynamic> e) => LoginModel.fromJson(e)).toList() as M;
+    }
+    if (<MessageModel>[] is M) {
+      return data.map<MessageModel>((Map<String, dynamic> e) => MessageModel.fromJson(e)).toList() as M;
+    }
+    if (<ServerImageModel>[] is M) {
+      return data.map<ServerImageModel>((Map<String, dynamic> e) => ServerImageModel.fromJson(e)).toList() as M;
+    }
+    if (<SettingConfigModel>[] is M) {
+      return data.map<SettingConfigModel>((Map<String, dynamic> e) => SettingConfigModel.fromJson(e)).toList() as M;
+    }
+    if (<VersionUpdateModel>[] is M) {
+      return data.map<VersionUpdateModel>((Map<String, dynamic> e) => VersionUpdateModel.fromJson(e)).toList() as M;
+    }
+    if (<WeddingModel>[] is M) {
+      return data.map<WeddingModel>((Map<String, dynamic> e) => WeddingModel.fromJson(e)).toList() as M;
+    }
 
-		debugPrint("${M.toString()} not found");
-	
-		return null;
-}
+    debugPrint("${M.toString()} not found");
 
-	static M? fromJsonAsT<M>(dynamic json) {
-		if (json is List) {
-			return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
-		} else {
+    return null;
+  }
+
+  static M? fromJsonAsT<M>(dynamic json) {
+    if (json is List) {
+      return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
+    } else {
       return jsonConvert.convert<M>(json);
     }
   }

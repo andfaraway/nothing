@@ -4,6 +4,7 @@ class FlutterWhiteButton extends StatelessWidget {
   final Size size;
 
   final Widget? child;
+
   ///圆角
   final double radius;
 
@@ -29,7 +30,7 @@ class FlutterWhiteButton extends StatelessWidget {
   const FlutterWhiteButton(
       {Key? key,
       this.size = const Size(150, 150),
-        this.child,
+      this.child,
       this.radius = 5,
       this.distance = 10,
       this.blur = 25,

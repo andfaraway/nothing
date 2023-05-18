@@ -10,8 +10,7 @@ class FilePreviewPage extends BasePage<_FilePreviewState> {
   final String? title;
   final String? url;
 
-  const FilePreviewPage({Key? key, this.arguments, this.title, this.url})
-      : super(key: key);
+  const FilePreviewPage({Key? key, this.arguments, this.title, this.url}) : super(key: key);
 
   @override
   _FilePreviewState createBaseState() => _FilePreviewState();

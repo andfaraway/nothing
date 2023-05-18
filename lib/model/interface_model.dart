@@ -12,14 +12,9 @@ class InterfaceModel {
   final void Function()? onTap;
   final void Function()? onLongPress;
 
-  InterfaceModel(
-      {this.title, this.url, this.tag, required this.page, this.onTap, this.onLongPress});
+  InterfaceModel({this.title, this.url, this.tag, required this.page, this.onTap, this.onLongPress});
 
   static InterfaceModel fromJson(Map map) {
-    return InterfaceModel(
-        title: map['title'],
-        url: map['url'],
-        tag: map['tag'],
-        page: map['page']);
+    return InterfaceModel(title: map['title'], url: map['url'], tag: map['tag'], page: map['page']);
   }
 }

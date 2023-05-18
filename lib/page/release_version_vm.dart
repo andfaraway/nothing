@@ -14,12 +14,12 @@ class ReleaseVersionVM extends BaseVM {
 
   Future<void> save(bool sendNotification) async {
     if (model == null) return;
-    if(tempId == model!.id){
+    if (tempId == model!.id) {
       await API.updateVersionInfo(model!);
-    }else{
+    } else {
       await API.addVersionInfo(model!);
     }
-    if(sendNotification){
+    if (sendNotification) {
       await API.versionUpdateNotification(model!);
     }
     showToast(S.current.success);

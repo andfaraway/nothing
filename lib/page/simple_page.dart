@@ -10,12 +10,7 @@ import '../common/prefix_header.dart';
 typedef RequestCallback = Future<String> Function();
 
 class SimplePage extends StatefulWidget {
-  const SimplePage(
-      {Key? key,
-      this.title,
-      this.requestCallback,
-      this.justify = false,
-      this.initialRefresh = true})
+  const SimplePage({Key? key, this.title, this.requestCallback, this.justify = false, this.initialRefresh = true})
       : super(key: key);
 
   final String? title;
@@ -27,8 +22,7 @@ class SimplePage extends StatefulWidget {
   _SimplePageState createState() => _SimplePageState();
 }
 
-class _SimplePageState extends State<SimplePage>
-    with AutomaticKeepAliveClientMixin {
+class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -91,25 +85,17 @@ class _SimplePageState extends State<SimplePage>
                   Expanded(
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            bottom: Screens.navigationBarHeight),
+                        padding: EdgeInsets.only(left: 30, right: 30, bottom: Screens.navigationBarHeight),
                         child: GestureDetector(
                           onDoubleTap: () async {
-                            var result = await API.addFavorite(
-                                contentText.trim().toString(),
-                                source: widget.title);
+                            var result = await API.addFavorite(contentText.trim().toString(), source: widget.title);
                             if (result != null) {
                               showToast('收藏成功！');
                             }
                           },
                           child: ExtendedText(
                             contentText.isEmpty ? '' : contentText,
-                            style: TextStyle(
-                                color: provider
-                                    .informationBgColor.getAdaptiveColor,
-                                fontSize: 22),
+                            style: TextStyle(color: provider.informationBgColor.getAdaptiveColor, fontSize: 22),
                             textAlign: TextAlign.justify,
                           ),
                         ),

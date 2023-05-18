@@ -4,11 +4,9 @@
   "password_hint": "请输入密码",
   "sign_up": "注册",
   "forgot_password": "忘记密码",
-
   "message": "消息",
   "no_message": "没有消息",
   "request_failed": "请求失败",
-
   "setting": "设置",
   "launch_screen": "启动页",
   "feedback": "意见与建议",
@@ -18,15 +16,12 @@
   "upload_file": "上传文件",
   "release_version": "发布版本",
   "version_update": "检查更新",
-
   "confirm": "确定",
   "cancel": "取消",
-
   "camera": "相机",
   "photo_album": "相册",
   "upload": "上传",
   "album_name": "请输入相册名",
-
   "success": "成功",
   "fail": "失败",
   "save": "保存",
@@ -34,22 +29,17 @@
   "random": "随机",
   "delete": "删除",
   "open": "打开",
-
   "information": "资讯",
   "input_required": "必填",
   "input_optional": "选填",
   "select": "选择",
-
   "login_info": "登录信息",
-
   "user_agreement": "用户协议",
   "privacy_policy": "隐私政策",
   "agree_continue": "同意，继续使用",
   "disagree_quite": "不同意，退出",
-
   "save_original_image": "保存原图",
   "original_image": "原图",
-
   "some_things": "一些东西",
   "rename": "重命名"
 }

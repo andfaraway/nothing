@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:event_bus/event_bus.dart';
 
 import 'constants.dart';
 
@@ -35,11 +34,6 @@ List<String> favoriteList = [];
 
 class Instances {
   const Instances._();
-
-  static final EventBus eventBus = EventBus()
-    ..on<dynamic>().listen((dynamic event) {
-      LogUtils.d('Event fired: ${event.runtimeType}');
-    });
 
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static final RouteObserver<Route<dynamic>> routeObserver = RouteObserver<Route<dynamic>>();

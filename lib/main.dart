@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:nothing/utils/notification_utils.dart';
-
-import 'common/prefix_header.dart';
+import 'package:nothing/common/prefix_header.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,7 +95,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       case AppLifecycleState.inactive: // 处于这种状态的应用程序应该假设它们可能在任何时候暂停。
         break;
       case AppLifecycleState.resumed: // 应用程序可见，前台
-        NotificationUtils.jpush.setBadge(0);
+        NotificationUtils.jPush?.setBadge(0);
         // Constants.insertLaunch();
         break;
       case AppLifecycleState.paused: // 应用程序不可见，后台

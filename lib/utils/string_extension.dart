@@ -17,3 +17,33 @@ extension StringExt on String {
 
   bool get isYBJFUrl => false;
 }
+
+extension IteratorExt<E> on Iterable<E> {
+  E? get firstOrNull {
+    Iterator it = iterator;
+    if (!it.moveNext()) {
+      null;
+    }
+    return it.current;
+  }
+
+  E? get lastOrNull {
+    Iterator it = iterator;
+    if (!it.moveNext()) {
+      return null;
+    }
+    E result;
+    do {
+      result = it.current;
+    } while (it.moveNext());
+    return result;
+  }
+
+  E? firstWhereOrNull(bool Function(E element) test, {E Function()? orElse}) {
+    for (E element in this) {
+      if (test(element)) return element;
+    }
+    if (orElse != null) return orElse();
+    return null;
+  }
+}

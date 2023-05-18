@@ -3,7 +3,6 @@
 //  [Date] 2022-01-07 09:48:35
 //
 
-import 'package:nothing/utils/notification_utils.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 
 import '../common/prefix_header.dart';

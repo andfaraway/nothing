@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:intl/intl.dart';
 import 'package:nothing/common/prefix_header.dart';
-import 'package:nothing/utils/notification_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 export 'package:flutter/material.dart';
@@ -119,7 +118,7 @@ class Constants {
     //推送别名
     param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
     //推送注册id
-    param['registrationID'] = await NotificationUtils.jpush.getRegistrationID();
+    param['registrationID'] = await NotificationUtils.jPush?.getRegistrationID();
     //电量
     param['battery'] = await DeviceUtils.battery();
     //设备信息

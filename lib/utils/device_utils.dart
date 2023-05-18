@@ -17,7 +17,7 @@ class DeviceUtils {
   static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
   static dynamic deviceInfo;
 
-  static String deviceModel = 'OpenJMU Device';
+  static String deviceModel = 'Device';
   static String? devicePushToken;
   static String? deviceUuid;
 

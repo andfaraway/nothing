@@ -27,13 +27,9 @@ FileModel $FileModelFromJson(Map<String, dynamic> json) {
   if (catalog != null) {
     fileModel.catalog = catalog;
   }
-  final int? status = jsonConvert.convert<int>(json['status']);
-  if (status != null) {
-    fileModel.status = status;
-  }
-  final String? path = jsonConvert.convert<String>(json['path']);
-  if (path != null) {
-    fileModel.path = path;
+  final String? savePath = jsonConvert.convert<String>(json['savePath']);
+  if (savePath != null) {
+    fileModel.savePath = savePath;
   }
   return fileModel;
 }
@@ -46,7 +42,6 @@ Map<String, dynamic> $FileModelToJson(FileModel entity) {
   data['type'] = entity.type;
   data['prefix'] = entity.prefix;
   data['catalog'] = entity.catalog;
-  data['status'] = entity.status;
-  data['path'] = entity.path;
+  data['savePath'] = entity.savePath;
   return data;
 }

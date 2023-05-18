@@ -14,7 +14,6 @@ import 'package:nothing/model/version_update_model.dart';
 import 'package:nothing/model/wedding_model.dart';
 
 JsonConvert jsonConvert = JsonConvert();
-
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 typedef EnumConvertFunction<T> = T Function(String value);
 

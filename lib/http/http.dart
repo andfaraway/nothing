@@ -65,16 +65,22 @@ class Http {
       void Function(int, int, double)? onReceiveProgress,
       CancelToken? cancelToken}) async {
     try {
-      return await Dio().download(url, savePath,
-          lengthHeader: Headers.contentLengthHeader, options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
-          onReceiveProgress: (receivedBytes, totalBytes) {
-        if (totalBytes != -1) {
-          double percent = (receivedBytes / totalBytes);
-          onReceiveProgress?.call(receivedBytes, totalBytes, percent);
-        } else {
-          onReceiveProgress?.call(receivedBytes, totalBytes, -1);
-        }
-      }, cancelToken: cancelToken, deleteOnError: true);
+      return await Dio().download(
+        url,
+        savePath,
+        lengthHeader: Headers.contentLengthHeader,
+        options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
+        onReceiveProgress: (receivedBytes, totalBytes) {
+          if (totalBytes != -1) {
+            double percent = (receivedBytes / totalBytes);
+            onReceiveProgress?.call(receivedBytes, totalBytes, percent);
+          } else {
+            onReceiveProgress?.call(receivedBytes, totalBytes, -1);
+          }
+        },
+        cancelToken: cancelToken,
+        deleteOnError: false,
+      );
     } catch (e) {
       return null;
     }

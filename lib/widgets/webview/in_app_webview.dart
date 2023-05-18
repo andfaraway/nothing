@@ -1,7 +1,3 @@
-///
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2020-01-16 19:10
-///
 import 'dart:async';
 import 'dart:io';
 

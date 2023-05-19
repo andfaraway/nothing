@@ -47,9 +47,9 @@ class _PictureViewerState extends State<PictureViewer> {
       await DefaultCacheManager().getSingleFile(originalImageUrl);
       _imageCached = true;
       btnShow.value = false;
-      LogUtils.d("image cache");
+      Log.d("image cache");
     } catch (e) {
-      LogUtils.d("no cache");
+      Log.d("no cache");
       btnShow.value = true;
     }
   }

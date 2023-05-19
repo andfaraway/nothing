@@ -175,7 +175,7 @@ class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMi
         progressController.add(progress / 100);
       },
       onConsoleMessage: (_, ConsoleMessage consoleMessage) {
-        LogUtils.d(
+        Log.d(
           'Console message: '
           '${consoleMessage.messageLevel.toString()}'
           ' - '
@@ -199,7 +199,7 @@ class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMi
         }
       },
       onUpdateVisitedHistory: (_, Uri? url, bool? androidIsReload) async {
-        LogUtils.d('WebView onUpdateVisitedHistory: $url, $androidIsReload');
+        Log.d('WebView onUpdateVisitedHistory: $url, $androidIsReload');
         // cancelProgress();
       },
       onLoadStop: (InAppWebViewController _, Uri? uri) async {
@@ -215,7 +215,7 @@ class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMi
   bool checkSchemeLoad(InAppWebViewController controller, String url) {
     final RegExp protocolRegExp = RegExp(r'(http|https):\/\/([\w.]+\/?)\S*');
     if (!url.startsWith(protocolRegExp) && url.contains('://')) {
-      LogUtils.d('Found scheme when load: $url');
+      Log.d('Found scheme when load: $url');
       if (Platform.isAndroid) {
         // Future<void>.delayed(1.microseconds, () async {
         //   controller.stopLoading();

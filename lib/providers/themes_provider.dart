@@ -3,10 +3,6 @@ part of 'providers.dart';
 class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
     initTheme();
-    _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
-    _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
-    _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
-    AppTextStyle.loadFont(name: _fontFamily);
   }
 
   /// 滤镜颜色
@@ -86,6 +82,14 @@ class ThemesProvider with ChangeNotifier {
     }
     _currentThemeGroup = supportThemeGroups[themeIndex];
     _dark = HiveFieldUtils.getBrightnessDark();
+
+    _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
+    _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
+    _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
+
+    if (await AppTextStyle.loadFont(name: _fontFamily) == false) {
+      _fontFamily = null;
+    }
   }
 
   void resetTheme() {}

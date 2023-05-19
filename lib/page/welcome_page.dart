@@ -72,7 +72,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> initData() async {
     LaunchProvider provider = context.read<LaunchProvider>();
     Map<String, dynamic>? map = await API.getLaunchInfo();
-    LogUtils.i("launchInfo:$map");
+    Log.i("launchInfo:$map");
     if (map != null) {
       provider.launchInfo = LaunchInfo.fromJson(map);
     }
@@ -89,7 +89,7 @@ class _WelcomePageState extends State<WelcomePage> {
       }
     });
 
-    LogUtils.i('document:${PathUtils.documentPath}');
+    Log.i('document:${PathUtils.documentPath}');
     print('document:${PathUtils.documentPath}');
   }
 
@@ -106,7 +106,7 @@ class _WelcomePageState extends State<WelcomePage> {
         children: [
           Consumer<LaunchProvider>(
             builder: (context, provider, child) {
-              LogUtils.i("provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
+              Log.i("provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
               return provider.launchInfo == null
                   ? Center(
                       child: Text(

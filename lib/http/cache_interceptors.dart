@@ -15,7 +15,7 @@ class CacheInterceptor extends Interceptor {
     if (options.extra['refresh'] == true) {
       return handler.next(options);
     } else if (response != null) {
-      LogUtils.n('${options.uri}', tag: 'cache');
+      Log.n('${options.uri}', tag: 'cache');
       return handler.resolve(response);
     }
     super.onRequest(options, handler);

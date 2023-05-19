@@ -367,7 +367,7 @@ class API {
     final bool shouldLaunchFromSystem = provider.launchFromSystemBrowser;
     final String uri = '${Uri.parse(url.trim())}';
     if (shouldLaunchFromSystem) {
-      LogUtils.d('Launching web: $uri');
+      Log.d('Launching web: $uri');
       return launch(
         uri,
         forceSafariVC: false,
@@ -376,7 +376,7 @@ class API {
         enableDomStorage: true,
       );
     } else {
-      LogUtils.d('Launching web: $uri');
+      Log.d('Launching web: $uri');
       AppWebView.launch(
         url: uri,
         title: title,

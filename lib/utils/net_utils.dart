@@ -31,9 +31,9 @@ class NetUtils {
           ),
           cancelToken: cancelToken,
           onSendProgress: onSendProgress);
-      LogUtils.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
+      Log.d('request url:$url,\nparam:$queryParameters\nresponse.data:${response.data}');
     } on DioError catch (error) {
-      LogUtils.e('request error:$url,\n$queryParameters,\n${error.toString()}');
+      Log.e('request error:$url,\n$queryParameters,\n${error.toString()}');
     }
     return response;
   }

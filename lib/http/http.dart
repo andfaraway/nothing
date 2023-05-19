@@ -68,7 +68,6 @@ class Http {
       return await Dio().download(
         url,
         savePath,
-        lengthHeader: Headers.contentLengthHeader,
         options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
         onReceiveProgress: (receivedBytes, totalBytes) {
           if (totalBytes != -1) {

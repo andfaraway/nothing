@@ -179,7 +179,7 @@ Future<String?> saveToDocument({required String url, required String saveName}) 
   if (s.statusCode == 200) {
     return saveName;
   } else {
-    LogUtils.d("download error ${s.toString()}");
+    Log.d("download error ${s.toString()}");
     return null;
   }
 }

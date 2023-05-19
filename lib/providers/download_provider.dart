@@ -7,10 +7,10 @@ class DownloadProvider {
 
   static void addTask({required String url, required String? name, required String? savePath}) {
     if (name == null) {
-      LogUtils.e('addTask name is null');
+      Log.e('addTask name is null');
       return;
     } else if (savePath == null) {
-      LogUtils.e('addTask savePath is null');
+      Log.e('addTask savePath is null');
       return;
     }
 
@@ -36,32 +36,35 @@ class DownloadTask extends ChangeNotifier {
   final String savePath;
   final String name;
   double progress = 0.0;
-  bool isCompleted = false;
   CancelToken cancelToken = CancelToken();
 
   DownloadTask({required this.url, required this.name, required this.savePath});
 
   Future<void> startDownload() async {
-    String tempPath = '${savePath}_';
-    API.downloadFile(
+    String tempPath = '${savePath}_temp';
+    bool requestCompleted = false;
+    var s = await API.downloadFile(
         url: url,
         savePath: tempPath,
         onReceiveProgress: (receivedBytes, totalBytes, progress) async {
-          this.progress = progress;
-          if (progress == 1) {
-            isCompleted = true;
-            await File(tempPath).rename(savePath);
-            DownloadProvider.removeTask(task: this);
-          }
-          AppMessage.send(this);
+          if (requestCompleted) return;
+          AppMessage.send(this..progress = progress);
         },
         cancelToken: cancelToken);
+    requestCompleted = true;
+    DownloadProvider.removeTask(task: this);
+    Log.n('$name completed = $s');
+    if (s == null) {
+      progress = -1;
+    } else {
+      progress = 1;
+      await File(tempPath).rename(savePath);
+    }
+    AppMessage.send(this..progress = progress);
   }
 
   Future<void> cancel() async {
+    Log.w('$url cancel');
     cancelToken.cancel();
-    progress = -1;
-    DownloadProvider.removeTask(task: this);
-    AppMessage.send(this);
   }
 }

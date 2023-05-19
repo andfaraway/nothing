@@ -8,15 +8,20 @@ import '../model/file_model.dart';
 
 class DownloadButton extends StatefulWidget {
   final FileModel file;
+  final bool isSelected;
+  final VoidCallback? unSelectedOnTap;
+  final VoidCallback? selectedOnTap;
 
-  const DownloadButton({Key? key, required this.file}) : super(key: key);
+  const DownloadButton(
+      {Key? key, required this.file, this.isSelected = false, this.unSelectedOnTap, this.selectedOnTap})
+      : super(key: key);
 
   @override
   State<DownloadButton> createState() => _DownloadButtonState();
 }
 
 class _DownloadButtonState extends State<DownloadButton> {
-  int _status = DownloadStatus.initial;
+  DownloadButtonStatus _status = DownloadButtonStatus.initial;
   double _progress = 0;
   StreamSubscription? _streamSubscription;
 
@@ -25,28 +30,35 @@ class _DownloadButtonState extends State<DownloadButton> {
     super.initState();
     String savePath = '${PathUtils.fontPath}/${widget.file.name}';
     widget.file.savePath = savePath;
-    _status = File(savePath).existsSync() ? DownloadStatus.downloaded : DownloadStatus.initial;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      AppMessage.addListener<DownloadTask>((event) {
-        if (event.url == widget.file.url) {
-          _progress = event.progress;
-          if (event.progress == 1) {
-            _status = DownloadStatus.downloaded;
-          } else if (event.progress == -1) {
-            _status = DownloadStatus.initial;
-          } else {
-            _status = DownloadStatus.downloading;
-          }
-        }
+    if (File(savePath).existsSync()) {
+      _status = widget.isSelected ? DownloadButtonStatus.selected : DownloadButtonStatus.unSelected;
+    } else {
+      if (widget.file.url.isEmpty) {
+        _status = widget.isSelected ? DownloadButtonStatus.selected : DownloadButtonStatus.unSelected;
+      } else {
+        _status = DownloadButtonStatus.initial;
+      }
+    }
 
-        print('progress=$_progress,state=$_status');
-        if (mounted) {
-          print('mounted = $mounted');
-          setState(() {});
-        } else {
-          print('mounted = $mounted');
-        }
-      });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      AppMessage.addListener<DownloadTask>(
+        (event) {
+          if (event.url == widget.file.url) {
+            _progress = event.progress;
+            if (event.progress == 1) {
+              _status = DownloadButtonStatus.unSelected;
+            } else if (event.progress == -1) {
+              _status = DownloadButtonStatus.initial;
+            } else {
+              _status = DownloadButtonStatus.downloading;
+            }
+          }
+
+          if (mounted) {
+            setState(() {});
+          }
+        },
+      );
     });
   }
 
@@ -58,37 +70,38 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   @override
   Widget build(BuildContext context) {
-    print('build: progress=$_progress,state=$_status');
-
     return AnimatedSwitcher(
       duration: const Duration(seconds: 1),
       child: IconButton(
           onPressed: () {
-            if (_status == DownloadStatus.initial) {
+            if (_status == DownloadButtonStatus.initial) {
               DownloadProvider.addTask(url: widget.file.url, name: widget.file.name, savePath: widget.file.savePath);
-            } else if (_status == DownloadStatus.downloading) {
+            } else if (_status == DownloadButtonStatus.downloading) {
               DownloadTask? task = DownloadProvider.tasks.firstWhereOrNull((element) => element.url == widget.file.url);
               task?.cancel();
-              print('DownloadProvider.list = ${DownloadProvider.tasks}');
+            } else if (_status == DownloadButtonStatus.unSelected) {
+              widget.unSelectedOnTap?.call();
+            } else if (_status == DownloadButtonStatus.selected) {
+              widget.selectedOnTap?.call();
             }
           },
           icon: _iconWidget(_status, progress: _progress)),
     );
   }
 
-  Widget _iconWidget(int status, {double? progress}) {
+  Widget _iconWidget(DownloadButtonStatus status, {double? progress}) {
     Widget icon = const SizedBox.shrink();
     switch (status) {
-      case DownloadStatus.initial:
+      case DownloadButtonStatus.initial:
         icon = AppImage.asset(R.iconsDownloadCloud, color: AppColor.specialColor, width: 28, height: 28);
         break;
-      case DownloadStatus.requesting:
+      case DownloadButtonStatus.requesting:
         icon = CircularProgressIndicator(
           color: AppColor.placeholderColor,
           strokeWidth: 4,
         );
         break;
-      case DownloadStatus.downloading:
+      case DownloadButtonStatus.downloading:
         icon = Stack(
           children: [
             CircularProgressIndicator(
@@ -106,11 +119,10 @@ class _DownloadButtonState extends State<DownloadButton> {
           ],
         );
         break;
-      case DownloadStatus.downloaded:
-      case DownloadStatus.unSelected:
+      case DownloadButtonStatus.unSelected:
         icon = AppImage.asset(R.iconsSquare, color: AppColor.placeholderColor);
         break;
-      case DownloadStatus.selected:
+      case DownloadButtonStatus.selected:
         icon = AppImage.asset(R.iconsCheckSquare, color: AppColor.doneColor);
         break;
       default:
@@ -119,15 +131,10 @@ class _DownloadButtonState extends State<DownloadButton> {
   }
 }
 
-class DownloadStatus {
-  DownloadStatus._();
-
-  static const int initial = 0;
-  static const int downloading = 1;
-  static const int requesting = 2;
-  static const int failed = -1;
-  static const int downloaded = 99;
-  static const int selected = 98;
-  static const int unSelected = 97;
-  static const int success = 99;
+enum DownloadButtonStatus {
+  initial,
+  selected,
+  unSelected,
+  downloading,
+  requesting,
 }

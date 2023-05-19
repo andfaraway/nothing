@@ -79,15 +79,20 @@ class AppColor {
 }
 
 class AppTextStyle {
-  static Future<void> loadFont({
+  const AppTextStyle._();
+
+  static const fontFamilyNameDefault = 'Default';
+
+  static Future<bool> loadFont({
     required name,
   }) async {
     String path = '${PathUtils.fontPath}/$name';
-    print('load fonts path:$path');
+    Log.i('load fonts path:$path');
     File file = File(path);
-    if (!file.existsSync()) return;
+    if (!file.existsSync()) return false;
     Uint8List bytes = file.readAsBytesSync();
     loadFontFromList(bytes, fontFamily: name);
+    return true;
   }
 
   static TextStyle get displayLarge => TextStyle(

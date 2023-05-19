@@ -96,7 +96,7 @@ Future<bool> saveImageToLocal(
       showToast(isSuccess ? '保存成功' : '保存失败');
       return isSuccess;
     } catch (e) {
-      LogUtils.e('saveImageToLocal=>$e');
+      Log.e('saveImageToLocal=>$e');
       return false;
     }
   }

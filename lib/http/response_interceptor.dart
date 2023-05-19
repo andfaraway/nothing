@@ -9,16 +9,16 @@ class ResponseInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    LogUtils.n(options.uri, tag: 'url');
-    LogUtils.n(options.data, tag: 'data');
-    LogUtils.n(options.queryParameters, tag: 'queryParameters');
+    Log.n(options.uri, tag: 'url');
+    Log.n(options.data, tag: 'data');
+    Log.n(options.queryParameters, tag: 'queryParameters');
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     EasyLoading.dismiss();
-    LogUtils.n(response.data, tag: 'response');
+    Log.n(response.data, tag: 'response');
     if (response.statusCode == 200) {
       if (response.data is Map) {
         int code = response.data['code'];
@@ -40,7 +40,7 @@ class ResponseInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    LogUtils.e('onError: ${err.message}');
+    Log.e('onError: ${err.message}');
     _dioError(err);
     showToast('request error');
     EasyLoading.dismiss();

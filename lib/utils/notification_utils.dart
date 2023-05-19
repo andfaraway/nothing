@@ -14,11 +14,11 @@ class NotificationUtils {
     jPush?.addEventHandler(
       // 接收通知回调方法。
       onReceiveNotification: (Map<String, dynamic> message) async {
-        LogUtils.d("flutter onReceiveNotification: $message");
+        Log.d("flutter onReceiveNotification: $message");
       },
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
-        LogUtils.d("flutter onOpenNotification: $message");
+        Log.d("flutter onOpenNotification: $message");
         if (globalContext?.widget.toString() != 'MessagePage') {
           BuildContext context = navigatorState.overlay!.context;
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
@@ -26,7 +26,7 @@ class NotificationUtils {
       },
       // 接收自定义消息回调方法。
       onReceiveMessage: (Map<String, dynamic> message) async {
-        LogUtils.d("flutter onReceiveMessage: $message");
+        Log.d("flutter onReceiveMessage: $message");
       },
     );
 
@@ -56,9 +56,9 @@ class NotificationUtils {
       try {
         jPush?.setAlias(str);
         HiveBoxes.put(HiveKey.pushAlias, str);
-        LogUtils.d('setAlias success');
+        Log.d('setAlias success');
       } catch (e) {
-        LogUtils.d('setAlias error: $e');
+        Log.d('setAlias error: $e');
       }
     }
     return str;

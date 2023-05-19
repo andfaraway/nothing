@@ -5,7 +5,7 @@ import 'package:nothing/generated/json/file_model.g.dart';
 
 @JsonSerializable()
 class FileModel {
-  bool? isDir;
+  bool isDir = false;
   String? name;
   int? size;
   String? type;
@@ -13,7 +13,7 @@ class FileModel {
   String? catalog;
   String? savePath;
 
-  String get url => '$prefix/$catalog/$name';
+  String get url => prefix == null ? '' : '$prefix/$catalog/$name';
 
   FileModel();
 

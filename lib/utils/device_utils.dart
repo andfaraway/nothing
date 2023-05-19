@@ -42,7 +42,7 @@ class DeviceUtils {
       deviceModel = model;
     }
 
-    LogUtils.d('deviceModel: $deviceModel');
+    Log.d('deviceModel: $deviceModel');
   }
 
   // static Future<void> getDevicePushToken() async {
@@ -74,7 +74,7 @@ class DeviceUtils {
       // await HiveFieldUtils.setDeviceUuid(const Uuid().v4());
     }
     // }
-    LogUtils.d('deviceUuid: $deviceUuid');
+    Log.d('deviceUuid: $deviceUuid');
   }
 
   /// Set default display mode to compatible with the highest refresh rate on

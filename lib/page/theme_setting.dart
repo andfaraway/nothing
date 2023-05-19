@@ -87,7 +87,7 @@ class ThemeSettingPage extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                context.read<ThemesProvider>().fontFamily ?? 'default',
+                                context.read<ThemesProvider>().fontFamily ?? AppTextStyle.fontFamilyNameDefault,
                                 style: AppTextStyle.titleMedium,
                               ),
                             ),

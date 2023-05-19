@@ -22,7 +22,6 @@ class _FontsSettingState extends State<FontsSetting> {
   @override
   void dispose() {
     super.dispose();
-    print('font setting dispose');
   }
 
   @override
@@ -36,6 +35,7 @@ class _FontsSettingState extends State<FontsSetting> {
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               FileModel file = _dataList[index];
+              bool isSelected = file.name == (themesProvider.fontFamily ?? AppTextStyle.fontFamilyNameDefault);
               return Container(
                 decoration:
                     BoxDecoration(color: AppColor.white, borderRadius: BorderRadius.circular(AppSize.radiusMedium)),
@@ -48,7 +48,22 @@ class _FontsSettingState extends State<FontsSetting> {
                       file.name ?? '',
                       style: AppTextStyle.titleMedium.copyWith(fontFamily: file.name),
                     )),
-                    DownloadButton(file: file),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      transitionBuilder: (child, anim) {
+                        return ScaleTransition(scale: anim, child: child);
+                      },
+                      child: DownloadButton(
+                        key: isSelected ? UniqueKey() : null,
+                        file: file,
+                        isSelected: isSelected,
+                        unSelectedOnTap: () {
+                          themesProvider.fontFamily =
+                              file.name == AppTextStyle.fontFamilyNameDefault ? null : file.name;
+                          AppTextStyle.loadFont(name: themesProvider.fontFamily);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -65,10 +80,10 @@ class _FontsSettingState extends State<FontsSetting> {
     List<dynamic>? s = await API.getFiles('src/fonts/') ?? [];
 
     _dataList.clear();
-    _dataList.add(FileModel()..name = 'default');
+    _dataList.add(FileModel()..name = AppTextStyle.fontFamilyNameDefault);
 
     _dataList.addAll(s.map((e) => FileModel.fromJson(e)).toList());
-    _dataList.removeWhere((element) => element.name == '...');
+    _dataList.removeWhere((element) => element.isDir);
 
     setState(() {});
   }

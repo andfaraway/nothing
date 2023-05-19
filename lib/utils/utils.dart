@@ -54,7 +54,7 @@ Future<bool> checkPermissions(List<Permission> permissions) async {
       (PermissionStatus p) => p != PermissionStatus.granted,
     );
   } catch (e) {
-    LogUtils.e('Error when requesting permission: $e');
+    Log.e('Error when requesting permission: $e');
     return false;
   }
 }

@@ -7,7 +7,7 @@ class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
 
   @override
-  _MessagePageState createState() => _MessagePageState();
+  State<MessagePage> createState() => _MessagePageState();
 }
 
 class _MessagePageState extends State<MessagePage> {
@@ -17,7 +17,6 @@ class _MessagePageState extends State<MessagePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadData();
 
@@ -56,12 +55,12 @@ class _MessagePageState extends State<MessagePage> {
         controller: _refreshController,
         child: dataList.isEmpty
             ? const RequestLoadingWidget()
-            : SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-                child: Column(
-                    children: dataList.isEmpty
-                        ? [Center(child: Text(S.current.no_message))]
-                        : dataList.map((model) => messageWidget(model)).toList()),
+            : ListView.builder(
+                itemBuilder: (context, index) {
+                  return messageWidget(dataList[index]);
+                },
+                itemCount: dataList.length,
+                shrinkWrap: true,
               ),
       ),
     );
@@ -79,14 +78,14 @@ class _MessagePageState extends State<MessagePage> {
             });
       },
       child: Padding(
-        padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
+        padding: AppPadding.main,
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.radiusMedium)),
           ),
           child: Padding(
-            padding: EdgeInsets.only(left: 45.w, right: 45.w, top: 36.h, bottom: 36.h),
+            padding: AppPadding.main,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -96,36 +95,27 @@ class _MessagePageState extends State<MessagePage> {
                     Expanded(
                       child: Text(
                         model.title ?? 'nothing',
-                        style: TextStyle(color: Colors.black, fontSize: 32.sp, fontWeight: FontWeight.bold),
+                        style: AppTextStyle.titleMedium,
                         maxLines: 2,
                       ),
                     ),
                     Text(
                       model.date?.dataFormat() ?? '',
-                      style: TextStyle(
-                        color: const Color(0xff888888),
-                        fontSize: 28.sp,
-                      ),
+                      style: AppTextStyle.titleMedium.placeholderColor,
                     )
                   ],
                 ),
-                30.hSizedBox,
+                10.hSizedBox,
                 model.type != 5
                     ? Text(
                         model.content ?? '',
-                        style: TextStyle(
-                          color: const Color(0xff888888),
-                          fontSize: 28.sp,
-                        ),
+                        style: AppTextStyle.bodyMedium,
                       )
                     : SizedBox(
                         width: double.infinity,
                         child: Text(
                           model.content ?? '',
-                          style: TextStyle(
-                            color: const Color(0xff888888),
-                            fontSize: 28.sp,
-                          ),
+                          style: AppTextStyle.bodyMedium,
                           textAlign: TextAlign.center,
                         ),
                       )

@@ -47,10 +47,10 @@ class _SayHiState extends State<SayHi> {
             width: 200,
             child: TextField(
               decoration: const InputDecoration(
-                border: const OutlineInputBorder(borderSide: BorderSide.none),
+                border: OutlineInputBorder(borderSide: BorderSide.none),
               ),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+              style: AppTextStyle.headLineMedium,
               controller: userCtl,
               onChanged: (value) {
                 user = value;
@@ -71,13 +71,12 @@ class _SayHiState extends State<SayHi> {
                   text = value;
                 },
               ),
-              const SizedBox(
-                height: 50,
-              ),
+              50.hSizedBox,
               ValueListenableBuilder(
                 valueListenable: _canSend,
-                builder: (context, bool canSend, Widget? child) => MaterialButton(
-                  color: canSend ? currentThemeGroup.themeColor : Colors.black54,
+                builder: (context, bool canSend, Widget? child) =>
+                    MaterialButton(
+                  color: canSend ? AppColor.specialColor : Colors.black54,
                   onPressed: sendBtnOnPressed,
                   child: const Text(
                     'send',

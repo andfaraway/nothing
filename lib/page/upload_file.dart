@@ -145,11 +145,14 @@ class _UploadFileState extends State<UploadFile> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+                        border: Border.all(
+                            width: 1, color: AppColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
-                      child: Image.asset(imageFile?.path ?? ''),
+                      child: imageFile?.path == null
+                          ? const SizedBox.shrink()
+                          : Image.asset(imageFile?.path ?? ''),
                     ),
                     10.hSizedBox,
                     const Text('image')
@@ -160,11 +163,14 @@ class _UploadFileState extends State<UploadFile> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+                        border: Border.all(
+                            width: 1, color: AppColor.black.withOpacity(.2)),
                       ),
                       width: 100.w,
                       height: 100.w,
-                      child: Image.asset(bgImageFile?.path ?? ''),
+                      child: bgImageFile?.path == null
+                          ? const SizedBox.shrink()
+                          : Image.asset(bgImageFile?.path ?? ''),
                     ),
                     10.hSizedBox,
                     const Text('image_background')

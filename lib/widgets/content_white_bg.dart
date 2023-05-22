@@ -10,16 +10,19 @@ class ContentWhiteBg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 30.h, left: 25.w, right: 25.w),
+      padding: AppPadding.main,
       child: Container(
           height: height,
-          decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(10), boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Color(0x0A000000),
-              offset: Offset(0, 2),
-              blurRadius: 4,
-            ),
-          ]),
+          decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(AppSize.radiusLarge),
+              boxShadow: const <BoxShadow>[
+                BoxShadow(
+                  color: Color(0x0A000000),
+                  offset: Offset(0, 2),
+                  blurRadius: 4,
+                ),
+              ]),
           child: child),
     );
   }

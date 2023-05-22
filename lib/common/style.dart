@@ -158,6 +158,8 @@ class AppSize {
 
   static double get cellHeight => 44.h;
 
+  static double get radiusLarge => 10.r;
+
   static double get radiusMedium => 7.r;
 }
 

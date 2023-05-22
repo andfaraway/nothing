@@ -106,6 +106,7 @@ dependencies:
   webview_flutter: ^4.0.7
   lpinyin: ^2.0.3
   animated_bottom_navigation_bar: ^1.2.0
+  confetti: ^0.7.0
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated

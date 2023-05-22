@@ -5,4 +5,6 @@
 // 代办事项
 1.异步下载 flutter_downloader
 2.http拦截
-3.适配 4.流式布局
+3.适配
+4.流式布局
+5.加载loading

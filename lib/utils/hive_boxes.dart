@@ -83,8 +83,8 @@ class HiveAdapterTypeIds {
 class HiveKey {
   const HiveKey._();
 
+  static const String agreement = 'agreement';
   static const String photoShowIndex = "photoShowIndex";
-
   static const String userInfo = 'userInfo';
   static const String hiToUser = 'hiToUser';
   static const String pushAlias = 'pushAlias';
@@ -93,6 +93,9 @@ class HiveKey {
 
   /// 主题色
   static const String colorThemeIndex = 'colorThemeIndex';
+
+  /// 资讯背景色
+  static const String informationColor = 'informationColor';
 
   static const String fontFamily = 'fontFamily';
 }

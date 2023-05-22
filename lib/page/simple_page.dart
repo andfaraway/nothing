@@ -37,7 +37,6 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }
@@ -66,22 +65,6 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
               controller: _controller,
               child: Column(
                 children: [
-                  // GestureDetector(
-                  //   onDoubleTap: () {
-                  //     provider.informationBgColor = getRandomColor();
-                  //   },
-                  //   child: Container(
-                  //     alignment: Alignment.center,
-                  //     height: Screens.navigationBarHeight,
-                  //     child: Text(
-                  //       widget.title ?? '',
-                  //       style: TextStyle(
-                  //           color:
-                  //               provider.informationBgColor.getAdaptiveColor,
-                  //           fontSize: 28),
-                  //     ),
-                  //   ),
-                  // ),
                   Expanded(
                     child: Center(
                       child: Padding(

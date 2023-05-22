@@ -18,7 +18,7 @@ class NormalCell extends StatelessWidget {
       this.showDivider = true})
       : super(key: key);
 
-  final String title;
+  final String? title;
   final String? suffixTitle;
   final bool showSuffixIcon;
   final Widget? suffixWidget;
@@ -42,7 +42,7 @@ class NormalCell extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Text(title, style: AppTextStyle.titleMedium),
+                  child: Text(title ?? '', style: AppTextStyle.titleMedium),
                 ),
                 ...getSuffixWidget()
               ],

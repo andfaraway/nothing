@@ -5,9 +5,6 @@
 
 import 'dart:async';
 
-import 'package:nothing/page/home_page.dart';
-import 'package:nothing/page/login_page.dart';
-import 'package:nothing/page/message_page.dart';
 import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
@@ -18,7 +15,7 @@ class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, String? localPath}) : super(key: key);
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
@@ -30,9 +27,9 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     super.initState();
 
-    bool? agreement = HiveFieldUtils.getAgreement();
+    bool agreement = HiveBoxes.get(HiveKey.agreement, defaultValue: false);
 
-    if (agreement ?? false) {
+    if (agreement) {
       initData();
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -45,7 +42,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   userAgreementUrl: '${ConstUrl.netServer}/userAgreement.html',
                   privacyPolicyUrl: '${ConstUrl.netServer}/privacyPolicy.html',
                   continueCallback: () async {
-                    await HiveFieldUtils.setAgreement(true);
+                    await HiveBoxes.put(HiveKey.agreement, true);
                     initData();
                   },
                 ));
@@ -56,15 +53,16 @@ class _WelcomePageState extends State<WelcomePage> {
   // 跳转页面
   Future<void> jumpPage() async {
     //判断是否登录
-    if (Singleton().currentUser.userId != null) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (_) => false);
+    if (Handler.isUserLogin) {
+      AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
     } else {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
+      AppRoute.pushNamedAndRemoveUntil(context, AppRoute.login.name);
     }
 
     if (Singleton.welcomeLoadResult != null) {
       if (globalContext?.widget.toString() != 'MessagePage') {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
+        context.read<HomeProvider>().pageIndex = 1;
+        AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
       }
     }
   }
@@ -72,7 +70,6 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> initData() async {
     LaunchProvider provider = context.read<LaunchProvider>();
     Map<String, dynamic>? map = await API.getLaunchInfo();
-    Log.i("launchInfo:$map");
     if (map != null) {
       provider.launchInfo = LaunchInfo.fromJson(map);
     }
@@ -88,9 +85,6 @@ class _WelcomePageState extends State<WelcomePage> {
         timeCount.value--;
       }
     });
-
-    Log.i('document:${PathUtils.documentPath}');
-    print('document:${PathUtils.documentPath}');
   }
 
   @override

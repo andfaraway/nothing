@@ -71,7 +71,7 @@ class ThemesProvider with ChangeNotifier {
       return;
     }
     _informationBgColor = value;
-    HiveFieldUtils.setInformationBgColor(value.value);
+    HiveBoxes.put(HiveKey.informationColor, value.value);
     notifyListeners();
   }
 
@@ -84,7 +84,8 @@ class ThemesProvider with ChangeNotifier {
     _currentThemeGroup = supportThemeGroups[themeIndex];
     _dark = HiveFieldUtils.getBrightnessDark();
 
-    _informationBgColor = Color(HiveFieldUtils.getInformationBgColor());
+    _informationBgColor = Color(HiveBoxes.get(HiveKey.informationColor, defaultValue: 0xffffffff));
+
     _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
     _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
 

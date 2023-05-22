@@ -11,89 +11,88 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin {
-  List<BarItem> rootBars = [];
+  List<BarItem> _rootBars = [];
 
-  late final PageController _pageController;
-  final ValueNotifier<int> _bottomNavIndex = ValueNotifier(0);
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _bottomNavIndex.value);
-    _bottomNavIndex.addListener(() {
-      _pageController.jumpToPage(_bottomNavIndex.value);
-    });
-
     _loadData();
+
+    _tabController = TabController(
+      length: _rootBars.length,
+      vsync: this,
+      animationDuration: Duration.zero,
+    );
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemesProvider provider = Provider.of<ThemesProvider>(context);
-    return Scaffold(
-      drawer: const CustomDrawer(),
-      drawerEnableOpenDragGesture: false,
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: rootBars.map((e) => e.page).toList(),
-      ),
-      floatingActionButton: Builder(builder: (context) {
-        return FloatingActionButton(
-          child: AppImage.asset(R.tabSend, color: Colors.white),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        );
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: ValueListenableBuilder(
-          valueListenable: _bottomNavIndex,
-          builder: (context, index, child) {
-            return AnimatedBottomNavigationBar.builder(
-              // elevation: 0.5,
-              // gapWidth: 44.0.w,
-              shadow: BoxShadow(
-                offset: const Offset(0.0, 1.0),
-                blurRadius: 1.0,
-                color: Colors.black.withOpacity(0.1),
+    return Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, provider, child) {
+      _tabController.index = provider.pageIndex;
+
+      return Scaffold(
+        drawer: const CustomDrawer(),
+        drawerEnableOpenDragGesture: false,
+        extendBody: true,
+        resizeToAvoidBottomInset: false,
+        body: TabBarView(
+          controller: _tabController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: _rootBars.map((e) => e.page).toList(),
+        ),
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+            child: AppImage.asset(R.tabSend, color: Colors.white),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+          // elevation: 0.5,
+          // gapWidth: 44.0.w,
+          shadow: BoxShadow(
+            offset: const Offset(0.0, 1.0),
+            blurRadius: 1.0,
+            color: Colors.black.withOpacity(0.1),
+          ),
+          backgroundColor: themesProvider.currentThemeGroup.themeColor,
+          activeIndex: _tabController.index,
+          gapLocation: GapLocation.center,
+          notchSmoothness: NotchSmoothness.defaultEdge,
+          splashSpeedInMilliseconds: 0,
+          leftCornerRadius: 10,
+          rightCornerRadius: 10,
+          onTap: (index) => provider.pageIndex = index,
+          itemCount: _rootBars.length,
+          tabBuilder: (int index, bool isActive) {
+            BarItem item = _rootBars[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  isActive ? item.activeIcon : item.icon,
+                ],
               ),
-              backgroundColor: provider.currentThemeGroup.themeColor,
-              activeIndex: index,
-              gapLocation: GapLocation.center,
-              notchSmoothness: NotchSmoothness.defaultEdge,
-              splashSpeedInMilliseconds: 0,
-              leftCornerRadius: 10,
-              rightCornerRadius: 10,
-              onTap: (index) => setState(() => _bottomNavIndex.value = index),
-              itemCount: rootBars.length,
-              tabBuilder: (int index, bool isActive) {
-                BarItem item = rootBars[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      isActive ? item.activeIcon : item.icon,
-                    ],
-                  ),
-                );
-              }, //other params
             );
-          }),
-    );
+          }, //other params
+        ),
+      );
+    });
   }
 
   _loadData() {
-    rootBars = [
+    _rootBars = [
       BarItem(
           icon: AppImage.asset(R.tabRss, color: AppColor.placeholderColor),
           activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor),

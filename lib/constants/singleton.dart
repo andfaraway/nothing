@@ -40,8 +40,8 @@ class Handler {
   static String? get accessToken => 'Bearer ${Singleton().currentUser.token}';
 
   static bool get isUserLogin {
-    String? accessToken = Singleton().currentUser.token;
-    return accessToken != null && accessToken.isNotEmpty;
+    String? userId = Singleton().currentUser.userId;
+    return userId != null && userId.isNotEmpty;
   }
 
   static void userLogin() {}

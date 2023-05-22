@@ -6,6 +6,8 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../http/http.dart';
+
 typedef RequestCallback = Future Function();
 
 class TopNewsPage extends StatefulWidget {
@@ -13,15 +15,13 @@ class TopNewsPage extends StatefulWidget {
     Key? key,
     this.title,
     this.backgroundColor,
-    this.requestCallback,
   }) : super(key: key);
 
   final String? title;
   final Color? backgroundColor;
-  final RequestCallback? requestCallback;
 
   @override
-  _TopNewsPageState createState() => _TopNewsPageState();
+  State<TopNewsPage> createState() => _TopNewsPageState();
 }
 
 class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClientMixin {
@@ -32,10 +32,6 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
   final double marginWidth = 30;
   List<TopNewsModel> newsList = [];
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -47,55 +43,43 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      extendBody: true,
       backgroundColor: widget.backgroundColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: Screens.navigationBarHeight,
-              alignment: Alignment.center,
-              child: Text(
-                widget.title ?? '',
-                style: TextStyle(color: widget.backgroundColor?.getAdaptiveColor, fontSize: 28),
-              ),
-            ),
-            Expanded(
-              child: AppRefresher(
-                onRefresh: () async {
-                  var list = await widget.requestCallback?.call();
-                  newsList.clear();
-                  list?.forEach((element) => newsList.add(TopNewsModel().fromJson(element)));
-                  if (mounted) {
-                    setState(() {});
-                  }
-                  _controller.completed();
+        child: AppRefresher(
+          onRefresh: _loadData,
+          controller: _controller,
+          child: ListView.separated(
+            padding: AppPadding.main,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  launch(newsList[index].url ?? '');
+                  return;
+                  AppWebView.launch(url: newsList[index].url ?? '', title: newsList[index].title);
                 },
-                controller: _controller,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        launch(newsList[index].url ?? '');
-                        return;
-                        AppWebView.launch(url: newsList[index].url ?? '', title: newsList[index].title);
-                      },
-                      child: ListTile(
-                        title: Text(
-                          newsList[index].title ?? '',
-                          style: TextStyle(color: widget.backgroundColor?.getAdaptiveColor),
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: newsList.length,
-                  shrinkWrap: true,
-                ),
-              ),
-            )
-          ],
+                child: Container(
+                    decoration:
+                        BoxDecoration(color: AppColor.white, borderRadius: BorderRadius.circular(AppSize.radiusMedium)),
+                    child: NormalCell(title: newsList[index].title, showDivider: false, showSuffixIcon: false)),
+              );
+            },
+            itemCount: newsList.length,
+            shrinkWrap: true,
+            separatorBuilder: (BuildContext context, int index) {
+              return 10.hSizedBox;
+            },
+          ),
         ),
       ),
     );
+  }
+
+  _loadData() async {
+    List list = (await Http.get(ConstUrl.topNews))['newslist'];
+    newsList = list.map((e) => TopNewsModel.fromJson(e)).toList();
+    _controller.completed(success: true);
+    setState(() {});
   }
 }
 
@@ -110,7 +94,7 @@ class TopNewsModel {
 
   TopNewsModel({this.id, this.ctime, this.title, this.description, this.picUrl, this.url, this.source});
 
-  TopNewsModel fromJson(Map map) {
+  static TopNewsModel fromJson(Map map) {
     return TopNewsModel(
         id: map['id'],
         ctime: map['ctime'],

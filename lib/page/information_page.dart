@@ -131,7 +131,7 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
       width: AppSize.screenWidth,
       // color: AppColor.scaffoldBackgroundColor,
       alignment: alignment,
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 7.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 12.h),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 22),
         child: TabBar(

@@ -4,4 +4,18 @@
 //
 part of 'providers.dart';
 
-class HomeProvider extends ChangeNotifier {}
+class HomeProvider extends ChangeNotifier {
+  HomeProvider();
+
+  int _pageIndex = 0;
+
+  int get pageIndex => _pageIndex;
+
+  set pageIndex(int index) {
+    if (_pageIndex == index) {
+      return;
+    }
+    _pageIndex = index;
+    notifyListeners();
+  }
+}

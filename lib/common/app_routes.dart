@@ -25,6 +25,7 @@ import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/page/welcome_page.dart';
+import 'package:nothing/utils/string_extension.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
@@ -56,9 +57,9 @@ class AppRoute {
     AppRoute.setting
   ];
 
-  static Widget pageWithRouteName(String routeName, {Object? arguments}) {
-    RoutePage routePage = AppRoute.routePages.firstWhere((element) => element.name == routeName);
-    return routePage.page.call(arguments: arguments);
+  static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
+    RoutePage? routePage = AppRoute.routePages.firstWhereOrNull((element) => element.name == routeName);
+    return routePage?.page.call(arguments: arguments);
   }
 
   static final navKey = GlobalKey<NavigatorState>();
@@ -66,7 +67,7 @@ class AppRoute {
   static BuildContext? get context => navKey.currentState?.context;
 
   static final RoutePage root =
-      RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
+  RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
   static final RoutePage welcome = RoutePage(name: '/welcomeRoute', page: ({Object? arguments}) => const WelcomePage());
   static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
   static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());

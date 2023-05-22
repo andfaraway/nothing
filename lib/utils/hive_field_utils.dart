@@ -37,9 +37,6 @@ class HiveFieldUtils {
   /// 获取设置的夜间模式
   static bool getBrightnessDark() => _box.get(brightnessDark) ?? false;
 
-  /// 获取资讯背景色
-  static int getInformationBgColor() => _box.get(informationBgColor) ?? 0xffc5e6b1;
-
   /// 获取设置的跟随系统夜间模式
   static bool getBrightnessPlatform() {
     bool value = false;
@@ -60,9 +57,6 @@ class HiveFieldUtils {
 
   /// 设置选择的主题色
   static Future<void>? setColorTheme(int value) => _box.put(colorThemeIndex, value);
-
-  /// 设置资讯背景色
-  static Future<void>? setInformationBgColor(int value) => _box.put(informationBgColor, value);
 
   /// 设置选择的夜间模式
   static Future<void>? setBrightnessDark(bool value) => _box.put(brightnessDark, value);

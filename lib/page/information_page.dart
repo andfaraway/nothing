@@ -16,26 +16,33 @@ class InformationPage extends StatefulWidget {
 }
 
 class _InformationPageState extends State<InformationPage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
   Widget? homeWidget;
 
   final List<InterfaceModel> _interfaceList = [];
 
+  late final TabController _tabController;
+
+  double _segmentH = 32.h;
+
+  final GlobalKey _globalKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
-    initTabBar();
-  }
 
-  void initTabBar() {
     _interfaceList.add(InterfaceModel(tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', ConstUrl.qiaomen)));
     _interfaceList.add(InterfaceModel(
         tag: 0,
         title: '黄历',
-        page: huangliPage('黄历', ConstUrl.huangli + '&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
+        page: huangliPage('黄历', '${ConstUrl.huangli}&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
     _interfaceList.add(InterfaceModel(tag: 2, title: '健康提示', page: genericPage('健康提示', ConstUrl.healthTips)));
+
     _tabController = TabController(length: _interfaceList.length, vsync: this);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _segmentH = _globalKey.currentContext?.size?.height ?? _segmentH;
+      setState(() {});
+    });
   }
 
   @override
@@ -83,18 +90,77 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(_interfaceList[_tabController.index].title ?? ''),
-      ),
-      body: Stack(
-        children: [
-          DefaultTabController(
-            length: 12,
-            child: TabBarView(controller: _tabController, children: _interfaceList.map((e) => e.page!).toList()),
+    return DefaultTabController(
+      length: _tabController.length,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            '资讯',
+            style: AppTextStyle.headLineMedium,
           ),
-        ],
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity, _segmentH),
+            child: _subSegmentedWidget(
+                key: _globalKey,
+                height: _segmentH,
+                titles: _interfaceList.map((e) => e.title).toList(),
+                controller: _tabController),
+          ),
+        ),
+        body: Stack(
+          children: [
+            TabBarView(
+              controller: _tabController,
+              children: _interfaceList.map((e) => e.page!).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _subSegmentedWidget(
+      {Key? key,
+      required List<String> titles,
+      required TabController controller,
+      AlignmentGeometry? alignment = Alignment.centerLeft,
+      double? height}) {
+    return Container(
+      key: key,
+      width: AppSize.screenWidth,
+      // color: AppColor.scaffoldBackgroundColor,
+      alignment: alignment,
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 7.h),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 22),
+        child: TabBar(
+          controller: controller,
+          labelColor: Colors.white,
+          //选中的颜色
+          labelStyle: TS.m13c43.copyWith(fontSize: 13),
+          unselectedLabelColor: AppColor.secondlyColor,
+          //未选中的颜色
+          unselectedLabelStyle: TS.m13c43.copyWith(fontSize: 13),
+          isScrollable: true,
+          indicatorPadding: EdgeInsets.symmetric(horizontal: -9.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 13.w),
+          indicatorWeight: 0.0,
+          //自定义indicator样式
+          indicator: BoxDecoration(
+            color: AppColor.mainColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+          // controller: TabController(length: titles.length,vsync: this),
+          onTap: (value) {},
+          tabs: titles
+              .map((e) => Tab(
+                    text: e,
+                  ))
+              .toList(),
+        ),
       ),
     );
   }

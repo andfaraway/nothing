@@ -21,6 +21,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(Singleton().currentUser);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -31,7 +32,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ),
         backgroundColor: AppColor.background,
         body: Padding(
-          padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 80.h, bottom: 80.h),
+          padding: AppPadding.main,
           child: Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: Column(
@@ -42,51 +43,47 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(borderSide: BorderSide.none),
                         hintText: '请输入您的意见和建议，我们也许会恰当采纳~',
-                        hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 28.sp),
-                        contentPadding: EdgeInsets.only(left: 33.w, right: 33.w, top: 41.h, bottom: 41.h)),
+                        hintStyle: AppTextStyle.bodyMedium.placeholderColor,
+                        contentPadding: AppPadding.main),
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 28.sp, color: Colors.black),
-                    onChanged: (value) {
-                      content = value;
-                    },
+                    style: AppTextStyle.bodyMedium,
+                    onChanged: (value) => content = value,
                     // maxLines: 10,
                   ),
                 ),
                 1.hDivider,
-                SizedBox(
-                  height: 80.h,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('昵称:'),
-                        10.wSizedBox,
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: const OutlineInputBorder(borderSide: BorderSide.none),
-                                hintText: Singleton().currentUser.username,
-                                hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 28.sp),
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true),
-                            onChanged: (value) {
-                              nickname = value;
-                            },
-                          ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 12.h),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '昵称:',
+                        style: AppTextStyle.titleMedium,
+                      ),
+                      10.wSizedBox,
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(borderSide: BorderSide.none),
+                              hintText: Singleton().currentUser.username,
+                              hintStyle: AppTextStyle.titleMedium,
+                              contentPadding: EdgeInsets.zero,
+                              isDense: true),
+                          textAlign: TextAlign.end,
+                          onChanged: (value) {
+                            nickname = value;
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 )
               ],
             ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 140.h),
-          child: LoginButton(S.current.confirm, feedback.debounce()),
-        ),
+        bottomNavigationBar: LoginButton(S.current.confirm, feedback.debounce()),
       ),
     );
   }

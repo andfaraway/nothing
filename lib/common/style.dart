@@ -123,8 +123,22 @@ class AppTextStyle {
         letterSpacing: 1.sp,
       );
 
+  static TextStyle get bodyLarge => TextStyle(
+        fontSize: 14.sp,
+        color: AppColor.mainColor,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
+
   static TextStyle get bodyMedium => TextStyle(
         fontSize: 13.sp,
+        color: AppColor.mainColor,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
+
+  static TextStyle get bodySmall => TextStyle(
+        fontSize: 12.sp,
         color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
@@ -137,6 +151,10 @@ extension TextStyleExtension on TextStyle {
 
 class AppSize {
   const AppSize._();
+
+  static double get screenWidth => Screens.width;
+
+  static double get screenHeight => Screens.height;
 
   static double get cellHeight => 44.h;
 

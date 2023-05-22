@@ -30,45 +30,32 @@ class NormalCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 32.w, right: 32.w),
-      child: SizedBox(
-        height: height ?? 110.h,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Text(title,
-                        style: TextStyle(color: const Color(0xFF333333), fontSize: 30.sp, fontWeight: FontWeight.bold)),
-                  ),
-                  ...getSuffixWidget()
-                ],
-              ),
-            ),
-            if (onTap != null)
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: onTap,
-                  onLongPress: onLongPress,
-                  child: Container(
-                    width: Screens.width,
-                    color: Colors.transparent,
-                  ),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left),
+      child: Column(
+        children: [
+          10.hSizedBox,
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            onLongPress: onLongPress,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(title, style: AppTextStyle.titleMedium),
                 ),
-              ),
-            if (showDivider)
-              const Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Divider(
-                    height: 1,
-                  )),
-          ],
-        ),
+                ...getSuffixWidget()
+              ],
+            ),
+          ),
+          10.hSizedBox,
+          if (showDivider)
+            const Align(
+                alignment: Alignment.bottomCenter,
+                child: Divider(
+                  height: 1,
+                )),
+        ],
       ),
     );
   }

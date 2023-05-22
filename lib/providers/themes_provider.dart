@@ -3,6 +3,7 @@ part of 'providers.dart';
 class ThemesProvider with ChangeNotifier {
   ThemesProvider() {
     initTheme();
+    _fontFamily = 'PingFang SC';
   }
 
   /// 滤镜颜色

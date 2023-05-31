@@ -17,15 +17,20 @@ class Http {
       baseUrl: ConstUrl.baseUrl,
 
       ///打开超时时间
-      connectTimeout: 20000,
+      connectTimeout: const Duration(seconds: 20),
 
       ///接收超时时间
-      receiveTimeout: 30000,
+      receiveTimeout: const Duration(seconds: 30),
 
       //是否不使用缓存
-      extra: {'refresh': true},
+      extra: {
+        'refresh': true
+      },
       //请求头
-      headers: {'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9'});
+      headers: {
+        'Accept-Language':
+            Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9'
+      });
 
   // 创建 Dio 实例
   static final Dio _dio = Dio(_options)

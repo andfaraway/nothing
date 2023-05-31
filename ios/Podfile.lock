@@ -19,7 +19,7 @@ PODS:
   - Flutter (1.0.0)
   - flutter_colors_border (0.0.1):
     - Flutter
-  - flutter_image_compress (1.0.0):
+  - flutter_image_compress_common (1.0.0):
     - Flutter
     - Mantle
     - SDWebImage
@@ -44,9 +44,9 @@ PODS:
   - image_cropper (0.0.4):
     - Flutter
     - TOCropViewController (~> 2.6.1)
-  - image_editor (1.0.0):
+  - image_editor_common (1.0.0):
     - Flutter
-  - image_gallery_saver (1.5.0):
+  - image_gallery_saver (2.0.1):
     - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
@@ -98,7 +98,7 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - sqflite (0.0.2):
+  - sqflite (0.0.3):
     - Flutter
     - FMDB (>= 2.7.5)
   - Toast (4.0.0)
@@ -140,25 +140,25 @@ DEPENDENCIES:
   - file_preview (from `.symlinks/plugins/file_preview/ios`)
   - Flutter (from `Flutter`)
   - flutter_colors_border (from `.symlinks/plugins/flutter_colors_border/ios`)
-  - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
+  - flutter_image_compress_common (from `.symlinks/plugins/flutter_image_compress_common/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_image (from `.symlinks/plugins/flutter_native_image/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
-  - image_editor (from `.symlinks/plugins/image_editor/ios`)
+  - image_editor_common (from `.symlinks/plugins/image_editor_common/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - live_photo_maker (from `.symlinks/plugins/live_photo_maker/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - SDWebImageSwiftUI
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
-  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - um_share_plugin (from `.symlinks/plugins/um_share_plugin/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -205,8 +205,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_colors_border:
     :path: ".symlinks/plugins/flutter_colors_border/ios"
-  flutter_image_compress:
-    :path: ".symlinks/plugins/flutter_image_compress/ios"
+  flutter_image_compress_common:
+    :path: ".symlinks/plugins/flutter_image_compress_common/ios"
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
   flutter_local_notifications:
@@ -217,8 +217,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   image_cropper:
     :path: ".symlinks/plugins/image_cropper/ios"
-  image_editor:
-    :path: ".symlinks/plugins/image_editor/ios"
+  image_editor_common:
+    :path: ".symlinks/plugins/image_editor_common/ios"
   image_gallery_saver:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker_ios:
@@ -232,7 +232,7 @@ EXTERNAL SOURCES:
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/ios"
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   photo_manager:
@@ -240,7 +240,7 @@ EXTERNAL SOURCES:
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
-    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   um_share_plugin:
@@ -256,23 +256,23 @@ SPEC CHECKSUMS:
   audio_service: f509d65da41b9521a61f1c404dd58651f265a567
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   BIJKPlayer: 4c5d66e5cb99ae5bade6f22a4fcc031722a81c64
-  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
+  connectivity_plus: 07c49e96d7fc92bc9920617b83238c4d178b446a
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
-  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   fijkplayer: 5ecf78e80cb97eed64cc170b094a4f691d9b9691
   file_preview: f1f26bfb9836a41685d3098dccf3ebecd01f85b9
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_colors_border: 9d0e38876c41081d638d9f25990751517e48b222
-  flutter_image_compress: 5a5e9aee05b6553048b8df1c3bc456d0afaac433
+  flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_image: 9c0b7451838484458e5b0fae007b86a4c2d4bdfe
-  fluttertoast: eb263d302cc92e04176c053d2385237e9f43fad0
+  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  image_cropper: 60c2789d1f1a78c873235d4319ca0c34a69f2d98
-  image_editor: eab82a302a6623a866da5145b7c4c0ee8a4ffbb4
-  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
-  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
+  image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
+  image_editor_common: d6f6644ae4a6de80481e89fe6d0a8c49e30b4b43
+  image_gallery_saver: 6eb11e5a866e9ac2c8a98c74ef99a04fc62878b2
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   JCore: ea09330f4b5b5031f37c40cf6facc669ffc172be
   JPush: 4f1c88acfd13660b8e128bd7e4c56bb115f35e06
   jpush_flutter: d3b70542430de253c82a8b8f7c72d6fc6d16c913
@@ -282,16 +282,16 @@ SPEC CHECKSUMS:
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
-  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   photo_manager: 4f6810b7dfc4feb03b461ac1a70dacf91fba7604
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   SDWebImageSwiftUI: 54ded4115b4ac6cd60b78f61415f86d070892d98
   SDWebImageWebPCoder: 295a6573c512f54ad2dd58098e64e17dcf008499
-  share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
-  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
-  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
+  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
+  sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   um_share_plugin: 20e45db2fbf77af2f08851774e7c6c7837e249e2
@@ -300,8 +300,8 @@ SPEC CHECKSUMS:
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCShare: e14e1399673fa361cddbde3a05b3743e10f673f7
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
-  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
+  video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 9f92ab83792cffedf99caeacfb7e04dd11bd13fa

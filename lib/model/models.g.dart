@@ -29,6 +29,7 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       date: fields[9] as String?,
       backgroundImage: fields[10] as String?,
       homePage: fields[12] as String?,
+      arguments: fields[13] as String?,
       timeCount: fields[11] as int?,
     );
   }
@@ -36,7 +37,7 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
   @override
   void write(BinaryWriter writer, LaunchInfo obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -62,7 +63,9 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
       ..writeByte(11)
       ..write(obj.timeCount)
       ..writeByte(12)
-      ..write(obj.homePage);
+      ..write(obj.homePage)
+      ..writeByte(13)
+      ..write(obj.arguments);
   }
 
   @override
@@ -71,7 +74,9 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LaunchInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is LaunchInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
@@ -127,5 +132,7 @@ class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserInfoModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is UserInfoModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

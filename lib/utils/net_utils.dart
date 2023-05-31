@@ -63,9 +63,9 @@ class NetUtils {
 
   static BaseOptions get _options {
     return BaseOptions(
-      connectTimeout: 20000,
-      sendTimeout: 10000,
-      receiveTimeout: 60000,
+      connectTimeout: const Duration(seconds: 20),
+      sendTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 60),
       receiveDataWhenStatusError: true,
       followRedirects: true,
       maxRedirects: 100,

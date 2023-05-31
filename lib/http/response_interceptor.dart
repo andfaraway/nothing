@@ -51,7 +51,7 @@ class ResponseInterceptor extends Interceptor {
   static String _dioError(DioError error) {
     String message;
     switch (error.type) {
-      case DioErrorType.connectTimeout:
+      case DioErrorType.connectionTimeout:
         message = "网络连接超时，请检查网络设置";
         break;
       case DioErrorType.receiveTimeout:
@@ -60,13 +60,13 @@ class ResponseInterceptor extends Interceptor {
       case DioErrorType.sendTimeout:
         message = "网络连接超时，请检查网络设置";
         break;
-      case DioErrorType.response:
+      case DioErrorType.badResponse:
         message = "服务器异常，请稍后重试！";
         break;
       case DioErrorType.cancel:
         message = "请求已被取消，请重新请求";
         break;
-      case DioErrorType.other:
+      case DioErrorType.unknown:
         message = "网络异常，请稍后重试！";
         break;
       default:

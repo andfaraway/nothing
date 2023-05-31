@@ -14,7 +14,12 @@ class LDropdownButton extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
 
   LDropdownButton(
-      {Key? key, required this.items, required this.initText, this.secondItems = const [], this.icon, this.onChanged})
+      {Key? key,
+      required this.items,
+      required this.initText,
+      this.secondItems = const [],
+      this.icon,
+      this.onChanged})
       : super(key: key);
 
   final ValueNotifier<String?> currentValue = ValueNotifier('');
@@ -41,7 +46,7 @@ class LDropdownButton extends StatelessWidget {
           ),
         ),
         // style: const TextStyle(color: Colors.white, fontSize: 24),
-        icon: const SizedBox.shrink(),
+        disabledHint: const SizedBox.shrink(),
         items: [
           ...items.map(
             (item) => DropdownMenuItem<CustomMenuItem>(
@@ -54,15 +59,6 @@ class LDropdownButton extends StatelessWidget {
           currentValue.value = item?.text;
           onChanged?.call(item?.text);
         },
-        itemHeight: 48,
-        itemPadding: const EdgeInsets.only(left: 16, right: 16),
-        dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-        dropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: Colors.white,
-        ),
-        dropdownElevation: 4,
-        offset: const Offset(0, 0),
       ),
     );
   }
@@ -77,53 +73,18 @@ class CustomMenuItem {
   final bool showManageIcon;
 
   CustomMenuItem(
-      {required this.text, this.id, this.count, this.divider = true, this.index, this.showManageIcon = false});
+      {required this.text,
+      this.id,
+      this.count,
+      this.divider = true,
+      this.index,
+      this.showManageIcon = false});
 
   static Widget buildItem(BuildContext context, CustomMenuItem item) {
     return Center(
-        child: Text(
-      item.text,
-    ));
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Row(
-            children: [
-              SizedBox(
-                width: 190.w,
-                child: Text(
-                  item.text,
-                  style: TextStyle(
-                    fontSize: 32.sp,
-                    color: const Color(0xFF333333),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const Expanded(child: SizedBox.shrink()),
-              item.count == null
-                  ? const SizedBox.shrink()
-                  : Text(
-                      item.count.toString(),
-                      style: TextStyle(
-                        fontSize: 28.sp,
-                        color: const Color(0xFF999999),
-                      ),
-                    ),
-            ],
-          ),
-        ),
-        if (item.divider)
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: Divider(
-              color: Color(0xFFE8E8E8),
-              height: .5,
-              thickness: .5,
-            ),
-          )
-      ],
+      child: Text(
+        item.text,
+      ),
     );
   }
 }

@@ -66,21 +66,6 @@ class NotificationUtils {
 
   static final FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
 
-  static void initSettings() {
-    const AndroidInitializationSettings settingsAndroid = AndroidInitializationSettings('ic_stat_name');
-    const IOSInitializationSettings settingsIOS = IOSInitializationSettings(
-      onDidReceiveLocalNotification: _onReceive,
-    );
-    const InitializationSettings settings = InitializationSettings(
-      android: settingsAndroid,
-      iOS: settingsIOS,
-    );
-    NotificationUtils.plugin.initialize(
-      settings,
-      onSelectNotification: null,
-    );
-  }
-
   static Future<void> register() async {
     if (Constants.isPhysicalDevice) {
       String? registrationId = await NotificationUtils.jPush?.getRegistrationID();
@@ -104,10 +89,8 @@ class NotificationUtils {
       color: color,
       ticker: 'ticker',
     );
-    const IOSNotificationDetails iOSDetails = IOSNotificationDetails();
     final NotificationDetails details = NotificationDetails(
       android: androidDetails,
-      iOS: iOSDetails,
     );
     await NotificationUtils.plugin.show(0, title, body, details);
   }

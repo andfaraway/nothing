@@ -4,8 +4,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nothing/common/prefix_header.dart';
 
-import '../utils/crop_editor_helper.dart';
-
 class SimpleImageEditor extends StatefulWidget {
   final File image;
 
@@ -59,15 +57,16 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
       return;
     }
     _cropping = true;
+    /// TODO
     try {
-      final Uint8List fileData = Uint8List.fromList(kIsWeb
-          ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
-          : (await cropImageDataWithNativeLibrary(state: editorKey.currentState!))!);
-
-      File imageFile = await saveImageToTemp(fileData);
-      if (mounted) {
-        Navigator.of(context).pop(imageFile);
-      }
+      // final Uint8List fileData = Uint8List.fromList(kIsWeb
+      //     ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
+      //     : (await cropImageDataWithNativeLibrary(state: editorKey.currentState!))!);
+      //
+      // File imageFile = await saveImageToTemp(fileData);
+      // if (mounted) {
+      //   Navigator.of(context).pop(imageFile);
+      // }
     } finally {
       _cropping = false;
     }

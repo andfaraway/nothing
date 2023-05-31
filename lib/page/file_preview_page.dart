@@ -39,7 +39,7 @@ class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
   Future<void> isInit() async {
     bool init = await FilePreview.tbsHasInit();
     if (!init) {
-      await FilePreview.initTBS();
+      await FilePreview.initTBS(license: '');
       return;
     }
   }
@@ -60,14 +60,14 @@ class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
               //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
               path: url!,
               callBack: FilePreviewCallBack(onShow: () {
-                print("文件打开成功");
+                Log.d("文件打开成功");
                 _openFileSuccess.value = true;
               }, onDownload: (progress) {
-                print("文件下载进度$progress");
+                Log.d("文件下载进度$progress");
               }, onFail: (code, msg) {
                 _openFileSuccess.value = false;
                 showToast('文件打开失败');
-                print("文件打开失败 $code  $msg");
+                Log.d("文件打开失败 $code  $msg");
               }),
             ),
             if (!openSuccess)

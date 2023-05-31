@@ -128,7 +128,7 @@ class LaunchWidget extends StatelessWidget {
                     ),
                     // 40.hSizedBox,
                     if (codeStr != null)
-                      QrImage(
+                      QrImageView(
                         data: codeStr ?? '',
                         size: 120.w,
                       ),

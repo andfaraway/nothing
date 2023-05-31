@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import flutter_inappwebview
 
 import AVFoundation
 

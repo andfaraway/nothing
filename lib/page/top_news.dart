@@ -5,6 +5,7 @@
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/widgets/webview/in_app_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../http/http.dart';
 
@@ -54,9 +55,7 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  launch(newsList[index].url ?? '');
-                  return;
-                  AppWebView.launch(url: newsList[index].url ?? '', title: newsList[index].title);
+                  launchUrlString(newsList[index].url ?? '');
                 },
                 child: Container(
                     decoration:

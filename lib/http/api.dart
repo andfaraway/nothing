@@ -7,6 +7,7 @@ import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nothing/common/app_routes.dart';
 import 'package:nothing/model/version_update_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -377,12 +378,7 @@ class API {
       );
     } else {
       Log.d('Launching web: $uri');
-      AppWebView.launch(
-        url: uri,
-        title: title,
-        app: app,
-        withCookie: withCookie,
-      );
+      AppRoute.pushNamePage(null, AppRoute.webView.name,arguments: uri);
       return true;
     }
   }

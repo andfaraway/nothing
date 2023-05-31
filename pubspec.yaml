@@ -49,9 +49,6 @@ dependencies:
   uuid: ^3.0.7
   flutter_displaymode: ^0.6.0
   url_launcher: ^6.1.11
-  flutter_inappwebview:
-    git:
-      url: https://github.com/vocsyinfotech/flutter_inappwebview.git
   pull_to_refresh:
     git:
       url: https://github.com/andfaraway/flutter_pulltorefresh.git
@@ -110,7 +107,7 @@ dependencies:
   confetti: ^0.7.0
 
 dependency_overrides:
-  intl: ^0.18.0
+  intl: ^0.18.1
   file: ^7.0.0
 
 flutter_assets_generator:

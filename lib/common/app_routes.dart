@@ -26,6 +26,7 @@ import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/page/welcome_page.dart';
 import 'package:nothing/utils/string_extension.dart';
+import 'package:nothing/widgets/webview/in_app_webview.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
@@ -54,17 +55,14 @@ class AppRoute {
     AppRoute.someThings,
     AppRoute.videoPlayPage,
     AppRoute.musicPage,
-    AppRoute.setting
+    AppRoute.setting,
+    AppRoute.webView
   ];
 
   static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
     RoutePage? routePage = AppRoute.routePages.firstWhereOrNull((element) => element.name == routeName);
     return routePage?.page.call(arguments: arguments);
   }
-
-  static final navKey = GlobalKey<NavigatorState>();
-
-  static BuildContext? get context => navKey.currentState?.context;
 
   static final RoutePage root =
   RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
@@ -114,30 +112,35 @@ class AppRoute {
 
   static final RoutePage videoPlayPage =
       RoutePage(name: '/videoPlayPageRoute', page: ({Object? arguments}) => const VideoPlayPage());
+
   static final RoutePage musicPage =
       RoutePage(name: '/musicPageRoute', page: ({Object? arguments}) => const MusicPage());
 
-  static Future<dynamic> pushPage(BuildContext context, Widget page) async {
+  static final RoutePage webView = RoutePage(name: '/webViewRoute', page: ({Object? arguments}) =>  AppWebView(url: arguments.toString()));
+
+  static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
+    context ??= currentContext;
     dynamic value = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return page;
     }));
     return value;
   }
 
-  static Future<dynamic> pushNamePage(BuildContext context, String routeName, {Object? arguments}) async {
+  static Future<dynamic> pushNamePage(BuildContext? context, String routeName, {Object? arguments}) async {
+    context ??= currentContext;
     dynamic value = await Navigator.pushNamed(context, routeName, arguments: arguments);
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext context, String newRouteName, {Object? arguments}) async {
+  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext? context, String newRouteName, {Object? arguments}) async {
+    context ??= currentContext;
     dynamic value =
         await Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => false, arguments: arguments);
     return value;
   }
 
   static Future<dynamic> pop({BuildContext? buildContext, dynamic arguments}) async {
-    buildContext ??= context;
-    if (buildContext == null) return Future.value(null);
+    buildContext ??= currentContext;
     Navigator.maybePop(buildContext, arguments);
   }
 

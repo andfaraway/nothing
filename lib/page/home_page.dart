@@ -31,9 +31,6 @@ class _HomeWidgetState extends State<HomePage> {
         homeWidget = AppWebView(
           url: targetModel.url,
           title: 'nothing',
-          withAppBar: false,
-          withBackBtn: true,
-          safeTop: targetModel.safeTop,
         );
       }
     }

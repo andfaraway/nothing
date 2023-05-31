@@ -55,7 +55,6 @@ Function? functionWithString(BuildContext context, String functionStr) {
             AppWebView(
               url: url,
               title: 'nothing',
-              withAppBar: true,
             ));
         return;
       };

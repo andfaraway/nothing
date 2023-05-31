@@ -8,32 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		2CE2250E6BF314C59CFBDD2B /* libPods-NothingWidgetExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09112D7AEE39C4A05EB7257A /* libPods-NothingWidgetExtension.a */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		9844B5E2D12FEA7EC29355BB /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E5705C6238F310321E96FD /* libPods-Runner.a */; };
-		DA03C30428D3325500FEB84A /* libSDWebImageSwiftUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03C30328D3325500FEB84A /* libSDWebImageSwiftUI.a */; };
-		DAAEBBA628D31F0300BA9A43 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAEBBA528D31F0300BA9A43 /* WidgetKit.framework */; };
-		DAAEBBA828D31F0300BA9A43 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAEBBA728D31F0300BA9A43 /* SwiftUI.framework */; };
-		DAAEBBAB28D31F0300BA9A43 /* NothingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEBBAA28D31F0300BA9A43 /* NothingWidget.swift */; };
-		DAAEBBAE28D31F0400BA9A43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAAEBBAD28D31F0400BA9A43 /* Assets.xcassets */; };
-		DAAEBBB028D31F0400BA9A43 /* NothingWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = DAAEBBAC28D31F0300BA9A43 /* NothingWidget.intentdefinition */; };
-		DAAEBBB128D31F0400BA9A43 /* NothingWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = DAAEBBAC28D31F0300BA9A43 /* NothingWidget.intentdefinition */; };
-		DAAEBBB428D31F0400BA9A43 /* NothingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DAAEBBA428D31F0300BA9A43 /* NothingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAFE23382812566A0028C05A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFE23372812566A0028C05A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		DAAEBBB228D31F0400BA9A43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAAEBBA328D31F0300BA9A43;
-			remoteInfo = NothingWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -52,7 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				DAAEBBB428D31F0400BA9A43 /* NothingWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,13 +60,8 @@
 		D0E5705C6238F310321E96FD /* libPods-Runner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Runner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA03C30328D3325500FEB84A /* libSDWebImageSwiftUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSDWebImageSwiftUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0A25A12744AA9F00E24440 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		DAAEBBA428D31F0300BA9A43 /* NothingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NothingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAEBBA528D31F0300BA9A43 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DAAEBBA728D31F0300BA9A43 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		DAAEBBAA28D31F0300BA9A43 /* NothingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingWidget.swift; sourceTree = "<group>"; };
-		DAAEBBAC28D31F0300BA9A43 /* NothingWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = NothingWidget.intentdefinition; sourceTree = "<group>"; };
-		DAAEBBAD28D31F0400BA9A43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DAAEBBAF28D31F0400BA9A43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAFE23372812566A0028C05A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DBAEF2C0B5A7C8334787573A /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		E8245443048860A1A1A6C5F9 /* Pods-NothingWidgetExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NothingWidgetExtension.profile.xcconfig"; path = "Target Support Files/Pods-NothingWidgetExtension/Pods-NothingWidgetExtension.profile.xcconfig"; sourceTree = "<group>"; };
@@ -98,17 +73,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9844B5E2D12FEA7EC29355BB /* libPods-Runner.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DAAEBBA128D31F0300BA9A43 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DA03C30428D3325500FEB84A /* libSDWebImageSwiftUI.a in Frameworks */,
-				DAAEBBA828D31F0300BA9A43 /* SwiftUI.framework in Frameworks */,
-				DAAEBBA628D31F0300BA9A43 /* WidgetKit.framework in Frameworks */,
-				2CE2250E6BF314C59CFBDD2B /* libPods-NothingWidgetExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +95,6 @@
 			children = (
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
-				DAAEBBA928D31F0300BA9A43 /* NothingWidget */,
 				97C146EF1CF9000F007C117D /* Products */,
 				F7BE9EC8FC675BCC79818DAF /* Pods */,
 				D358F1F7BE948DE956074457 /* Frameworks */,
@@ -142,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
-				DAAEBBA428D31F0300BA9A43 /* NothingWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -173,17 +135,6 @@
 				09112D7AEE39C4A05EB7257A /* libPods-NothingWidgetExtension.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DAAEBBA928D31F0300BA9A43 /* NothingWidget */ = {
-			isa = PBXGroup;
-			children = (
-				DAAEBBAA28D31F0300BA9A43 /* NothingWidget.swift */,
-				DAAEBBAC28D31F0300BA9A43 /* NothingWidget.intentdefinition */,
-				DAAEBBAD28D31F0400BA9A43 /* Assets.xcassets */,
-				DAAEBBAF28D31F0400BA9A43 /* Info.plist */,
-			);
-			path = NothingWidget;
 			sourceTree = "<group>";
 		};
 		F7BE9EC8FC675BCC79818DAF /* Pods */ = {
@@ -219,30 +170,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				DAAEBBB328D31F0400BA9A43 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
-		};
-		DAAEBBA328D31F0300BA9A43 /* NothingWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DAAEBBB928D31F0500BA9A43 /* Build configuration list for PBXNativeTarget "NothingWidgetExtension" */;
-			buildPhases = (
-				8AD5E92610D0485A9A9CFA5E /* [CP] Check Pods Manifest.lock */,
-				DAAEBBA028D31F0300BA9A43 /* Sources */,
-				DAAEBBA128D31F0300BA9A43 /* Frameworks */,
-				DAAEBBA228D31F0300BA9A43 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = NothingWidgetExtension;
-			productName = NothingWidgetExtension;
-			productReference = DAAEBBA428D31F0300BA9A43 /* NothingWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -257,9 +189,6 @@
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
-					};
-					DAAEBBA328D31F0300BA9A43 = {
-						CreatedOnToolsVersion = 14.0;
 					};
 				};
 			};
@@ -277,7 +206,6 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
-				DAAEBBA328D31F0300BA9A43 /* NothingWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -291,14 +219,6 @@
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				DAFE23382812566A0028C05A /* LaunchScreen.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DAAEBBA228D31F0300BA9A43 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DAAEBBAE28D31F0400BA9A43 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,28 +240,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
-		};
-		8AD5E92610D0485A9A9CFA5E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NothingWidgetExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -405,29 +303,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				DAAEBBB128D31F0400BA9A43 /* NothingWidget.intentdefinition in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAAEBBA028D31F0300BA9A43 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DAAEBBB028D31F0400BA9A43 /* NothingWidget.intentdefinition in Sources */,
-				DAAEBBAB28D31F0300BA9A43 /* NothingWidget.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		DAAEBBB328D31F0400BA9A43 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAAEBBA328D31F0300BA9A43 /* NothingWidgetExtension */;
-			targetProxy = DAAEBBB228D31F0400BA9A43 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -497,7 +377,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53AD9DA291DA7F1987CC42DC /* Pods-Runner.profile.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -510,13 +389,13 @@
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Nothing;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.18;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.libin1.nothing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -640,7 +519,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0EFC6B42B0D4C7B37CFF0F22 /* Pods-Runner.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -649,17 +527,17 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 849L449D84;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Nothing;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.18;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.libin1.nothing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -673,7 +551,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DBAEF2C0B5A7C8334787573A /* Pods-Runner.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -686,14 +563,14 @@
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Nothing;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.18;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.libin1.nothing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -701,120 +578,6 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
-		};
-		DAAEBBB628D31F0500BA9A43 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 15A35CFE895579D8D6319563 /* Pods-NothingWidgetExtension.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J7ZF3UPVFT;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NothingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NothingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing.NothingWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		DAAEBBB728D31F0500BA9A43 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9AD976AFD087273870187648 /* Pods-NothingWidgetExtension.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J7ZF3UPVFT;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NothingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NothingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing.NothingWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		DAAEBBB828D31F0500BA9A43 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8245443048860A1A1A6C5F9 /* Pods-NothingWidgetExtension.profile.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J7ZF3UPVFT;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NothingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NothingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.libin.nothing.NothingWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -835,16 +598,6 @@
 				97C147061CF9000F007C117D /* Debug */,
 				97C147071CF9000F007C117D /* Release */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DAAEBBB928D31F0500BA9A43 /* Build configuration list for PBXNativeTarget "NothingWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DAAEBBB628D31F0500BA9A43 /* Debug */,
-				DAAEBBB728D31F0500BA9A43 /* Release */,
-				DAAEBBB828D31F0500BA9A43 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

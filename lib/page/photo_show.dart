@@ -7,34 +7,43 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/server_image_model.dart';
 import 'package:nothing/widgets/picture_viewer.dart';
 
-import 'photo_show_vm.dart';
-
-class PhotoShow extends BasePage<_PhotoShowState> {
+class PhotoShow extends StatefulWidget {
   final dynamic arguments;
 
   const PhotoShow({Key? key, this.arguments}) : super(key: key);
 
   @override
-  _PhotoShowState createBaseState() => _PhotoShowState();
+  State<PhotoShow> createState() => _PhotoShowState();
 }
 
-class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
-  @override
-  PhotoShowVM createVM() => PhotoShowVM(context);
-
+class _PhotoShowState extends State<PhotoShow> {
   final ValueNotifier<bool> photoEdit = ValueNotifier(false);
 
   ServerImageModel currentModel = ServerImageModel();
 
   final ValueNotifier<String> imageName = ValueNotifier('');
 
-  bool loadError = false;
+  bool _loadError = false;
 
   /// 长按3秒弹出选择目录
   int _lastWantToPop = 0;
 
+  List<ServerImageModel> _data = [];
+
+  int _initIndex = 3;
+
+  late String _catalog;
+
   @override
-  Widget createContentWidget() {
+  void initState() {
+    super.initState();
+
+    _catalog = widget.arguments ?? '';
+    getImages(_catalog);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onLongPressStart: (detail) {
         _lastWantToPop = DateTime.now().millisecondsSinceEpoch;
@@ -42,32 +51,32 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
       onLongPressEnd: (detail) {
         final int now = DateTime.now().millisecondsSinceEpoch;
         if (now - _lastWantToPop > 3000) {
-          vm.changeCatalog();
+          changeCatalog();
         }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: vm.data.isEmpty
+        body: _data.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : Stack(
                 children: [
                   Swiper(
                     onIndexChanged: (index) {
-                      currentModel = vm.data[index];
+                      currentModel = _data[index];
                       HiveBoxes.put(HiveKey.photoShowIndex, index);
                     },
-                    index: vm.initIndex,
+                    index: _initIndex,
                     itemHeight: 200,
                     layout: SwiperLayout.DEFAULT,
                     scrollDirection: Axis.vertical,
                     onTap: (index) {
-                      currentModel = vm.data[index];
-                      if (!loadError) {
+                      currentModel = _data[index];
+                      if (!_loadError) {
                         photoEdit.value = true;
                       }
                     },
                     itemBuilder: (context, i) {
-                      ServerImageModel model = vm.data[i];
+                      ServerImageModel model = _data[i];
                       return Stack(
                         children: [
                           CachedNetworkImage(
@@ -78,14 +87,14 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                             fadeInDuration: const Duration(milliseconds: 100),
                             fadeOutDuration: const Duration(milliseconds: 100),
                             progressIndicatorBuilder: (context, url, downloadProgress) {
-                              loadError = false;
+                              _loadError = false;
                               double progress = downloadProgress.downloaded / (model.size ?? 1);
                               return Center(
                                 child: CircularProgressIndicator(value: progress),
                               );
                             },
                             errorWidget: (context, object, _) {
-                              loadError = true;
+                              _loadError = true;
                               return const LoadErrorWidget();
                             },
                           ),
@@ -101,7 +110,7 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                         ],
                       );
                     },
-                    itemCount: vm.data.length,
+                    itemCount: _data.length,
                   ),
                   ValueListenableBuilder(
                       valueListenable: photoEdit,
@@ -120,6 +129,43 @@ class _PhotoShowState extends BaseState<PhotoShowVM, PhotoShow> {
                 ],
               ),
       ),
+    );
+  }
+
+  Future<void> getImages(String? catalog) async {
+    var response = await API.getImages(catalog) ?? [];
+    _data.clear();
+    for (Map<String, dynamic> map in response) {
+      ServerImageModel model = ServerImageModel.fromJson(map);
+      model.imageUrl = '${model.prefix}${model.name}';
+      if (model.imageUrl!.contains('.')) {
+        _data.add(model);
+      }
+    }
+    _data.sort((a, b) {
+      return a.name!.compareTo(b.name!);
+    });
+    _initIndex = HiveBoxes.get(HiveKey.photoShowIndex, defaultValue: 0);
+    setState(() {});
+  }
+
+  void changeCatalog() {
+    showEdit(
+      context,
+      title: '情书',
+      text: _catalog,
+      commitPressed: (value) {
+        if (value != null || value != '') {
+          if (_catalog.contains(value) || value.toString().contains(_catalog)) {
+            HiveBoxes.put(HiveKey.photoShowIndex, 0);
+          }
+          if (value == '~') {
+            value = '';
+          }
+          getImages(value);
+        }
+      },
+      cancelPressed: () {},
     );
   }
 }

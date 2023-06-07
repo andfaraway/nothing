@@ -5,19 +5,15 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'music_common.dart';
-import 'music_vm.dart';
 
-class MusicPage extends BasePage<_MusicPageState> {
+class MusicPage extends StatefulWidget {
   const MusicPage({Key? key}) : super(key: key);
 
   @override
-  _MusicPageState createBaseState() => _MusicPageState();
+  State<MusicPage> createState() => _MusicPageState();
 }
 
-class _MusicPageState extends BaseState<MusicVM, MusicPage> {
-  @override
-  MusicVM createVM() => MusicVM(context);
-
+class _MusicPageState extends State<MusicPage> {
   static int _nextMediaId = 0;
   late AudioPlayer _player;
   final _playlist = ConcatenatingAudioSource(children: [
@@ -92,28 +88,10 @@ class _MusicPageState extends BaseState<MusicVM, MusicPage> {
 
   @override
   void dispose() {
-    print('dispose');
     _player.dispose();
     super.dispose();
   }
 
-  @override
-  Widget? floatingActionButton() {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () {
-        _playlist.add(AudioSource.uri(
-          Uri.parse("asset:///audio/nature.mp3"),
-          tag: MediaItem(
-            id: '${_nextMediaId++}',
-            album: "Public Domain",
-            title: "Nature Sounds ${++_addedCount}",
-            artUri: Uri.parse("https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-          ),
-        ));
-      },
-    );
-  }
 
   Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
       _player.positionStream,
@@ -122,9 +100,10 @@ class _MusicPageState extends BaseState<MusicVM, MusicPage> {
       (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
 
   @override
-  Widget createContentWidget() {
-    return SafeArea(
-      child: Column(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppWidget.appbar(title: 'MUSIC PLAY'),
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -264,6 +243,20 @@ class _MusicPageState extends BaseState<MusicVM, MusicPage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          _playlist.add(AudioSource.uri(
+            Uri.parse("asset:///audio/nature.mp3"),
+            tag: MediaItem(
+              id: '${_nextMediaId++}',
+              album: "Public Domain",
+              title: "Nature Sounds ${++_addedCount}",
+              artUri: Uri.parse("https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
+            ),
+          ));
+        },
       ),
     );
   }

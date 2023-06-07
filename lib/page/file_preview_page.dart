@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:file_preview/file_preview.dart';
 import 'package:nothing/common/prefix_header.dart';
 
-import 'file_preview_vm.dart';
-
-class FilePreviewPage extends BasePage<_FilePreviewState> {
+class FilePreviewPage extends StatefulWidget {
   final dynamic arguments;
   final String? title;
   final String? url;
@@ -13,15 +11,14 @@ class FilePreviewPage extends BasePage<_FilePreviewState> {
   const FilePreviewPage({Key? key, this.arguments, this.title, this.url}) : super(key: key);
 
   @override
-  _FilePreviewState createBaseState() => _FilePreviewState();
+  State<FilePreviewPage> createState() => _FilePreviewState();
 }
 
-class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
-  @override
-  FilePreviewVM createVM() => FilePreviewVM(context);
-
+class _FilePreviewState extends State<FilePreviewPage> {
   final ValueNotifier<bool> _openFileSuccess = ValueNotifier(false);
   final FilePreviewController controller = FilePreviewController();
+
+  late Map<String, dynamic> _map;
 
   double? loadProgress;
 
@@ -30,9 +27,8 @@ class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
   @override
   void initState() {
     super.initState();
-    Map<String, dynamic> map = json.decode(widget.arguments);
-    pageTitle = widget.title ?? map['title'];
-    url = widget.url ?? map['url'];
+    _map = json.decode(widget.arguments);
+    url = widget.url ?? _map['url'];
     isInit();
   }
 
@@ -45,41 +41,44 @@ class _FilePreviewState extends BaseState<FilePreviewVM, FilePreviewPage> {
   }
 
   @override
-  Widget createContentWidget() {
+  Widget build(BuildContext context) {
     if (url == null || url == '') {
       return Center(child: Text('open error:$url'));
     }
-    return ValueListenableBuilder(
-      builder: (context1, bool openSuccess, child) {
-        return Stack(
-          children: [
-            FilePreviewWidget(
-              controller: controller,
-              width: Screens.width,
-              height: Screens.height - kAppBarHeight,
-              //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
-              path: url!,
-              callBack: FilePreviewCallBack(onShow: () {
-                Log.d("文件打开成功");
-                _openFileSuccess.value = true;
-              }, onDownload: (progress) {
-                Log.d("文件下载进度$progress");
-              }, onFail: (code, msg) {
-                _openFileSuccess.value = false;
-                showToast('文件打开失败');
-                Log.d("文件打开失败 $code  $msg");
-              }),
-            ),
-            if (!openSuccess)
-              Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.white,
-                  child: const Center(child: CircularProgressIndicator()))
-          ],
-        );
-      },
-      valueListenable: _openFileSuccess,
+    return Scaffold(
+      appBar: AppWidget.appbar(title: widget.title ?? _map['title']),
+      body: ValueListenableBuilder(
+        builder: (context1, bool openSuccess, child) {
+          return Stack(
+            children: [
+              FilePreviewWidget(
+                controller: controller,
+                width: Screens.width,
+                height: Screens.height - kAppBarHeight,
+                //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
+                path: url!,
+                callBack: FilePreviewCallBack(onShow: () {
+                  Log.d("文件打开成功");
+                  _openFileSuccess.value = true;
+                }, onDownload: (progress) {
+                  Log.d("文件下载进度$progress");
+                }, onFail: (code, msg) {
+                  _openFileSuccess.value = false;
+                  showToast('文件打开失败');
+                  Log.d("文件打开失败 $code  $msg");
+                }),
+              ),
+              if (!openSuccess)
+                Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.white,
+                    child: const Center(child: CircularProgressIndicator()))
+            ],
+          );
+        },
+        valueListenable: _openFileSuccess,
+      ),
     );
   }
 }

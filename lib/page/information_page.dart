@@ -93,26 +93,19 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
     return DefaultTabController(
       length: _tabController.length,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            '资讯',
-            style: AppTextStyle.headLineMedium,
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size(double.infinity, _segmentH),
-            child: _subSegmentedWidget(
+        appBar: AppWidget.appbar(title: '资讯'),
+        body: Column(
+          children: [
+            _subSegmentedWidget(
                 key: _globalKey,
                 height: _segmentH,
                 titles: _interfaceList.map((e) => e.title).toList(),
                 controller: _tabController),
-          ),
-        ),
-        body: Stack(
-          children: [
-            TabBarView(
-              controller: _tabController,
-              children: _interfaceList.map((e) => e.page!).toList(),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: _interfaceList.map((e) => e.page!).toList(),
+              ),
             ),
           ],
         ),
@@ -129,7 +122,7 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
     return Container(
       key: key,
       width: AppSize.screenWidth,
-      // color: AppColor.scaffoldBackgroundColor,
+      color: AppColor.white,
       alignment: alignment,
       padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 12.h),
       child: ConstrainedBox(

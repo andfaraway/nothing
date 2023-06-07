@@ -237,6 +237,7 @@ class LoginMiddleware extends Middleware {
 RouteFactory? onGenerateRoute = (RouteSettings settings) {
   RouteSettings? routeSettings = settings;
   int index = AppRoute.routePages.indexWhere((element) => element.name == routeSettings?.name);
+  print('index = $index,${routeSettings.name}');
   if (index >= 0) {
     RoutePage routePage = AppRoute.routePages[index];
     if (routePage.middleware != null) {

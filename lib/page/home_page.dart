@@ -3,7 +3,7 @@
 //  [Date] 2021-11-04 18:13:56
 
 import 'package:nothing/page/information_page.dart';
-import 'package:nothing/widgets/webview/in_app_webview.dart';
+import 'package:nothing/widgets/app_webview.dart';
 
 import '../common/prefix_header.dart';
 

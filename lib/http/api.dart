@@ -12,7 +12,6 @@ import 'package:nothing/model/version_update_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/constants.dart';
-import '../widgets/webview/in_app_webview.dart';
 import 'http.dart';
 
 /// Definition of various sorts of APIs.

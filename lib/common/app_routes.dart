@@ -26,7 +26,7 @@ import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/page/welcome_page.dart';
 import 'package:nothing/utils/string_extension.dart';
-import 'package:nothing/widgets/webview/in_app_webview.dart';
+import 'package:nothing/widgets/app_webview.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 

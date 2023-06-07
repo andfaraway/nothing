@@ -14,6 +14,7 @@ export '../constants/constants.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';
 export '../utils/image.dart';
+export '../widgets/button.dart';
 export '../widgets/content_white_bg.dart';
 export '../widgets/load_error_widget.dart';
 export '../widgets/normal_cell.dart';

@@ -1,7 +1,7 @@
 import 'package:nothing/common/prefix_header.dart';
 
-class YBJFButton {
-  YBJFButton._();
+class AppButton {
+  AppButton._();
 
   static Widget customButton({
     double? width,
@@ -111,14 +111,14 @@ class YBJFButton {
             ),
         child: AppImage.asset(
           R.iconsClose,
-          width: 14.0.w,
-          height: 14.0.w,
+          width: 24.0.w,
+          height: 24.0.w,
           color: color,
         ),
       ),
       onTap: onTap ??
           () {
-            // YBJF.back();
+            Navigator.maybeOf(currentContext)?.maybePop();
           },
     );
   }
@@ -132,19 +132,19 @@ class YBJFButton {
       child: Container(
         padding: padding ??
             EdgeInsets.symmetric(
-              horizontal: 10.0.w,
-              vertical: 10.0.h,
+              horizontal: 12.0.w,
+              vertical: 6.0.h,
             ),
         child: AppImage.asset(
           R.iconsBtnBack,
-          width: 18.0.w,
-          height: 6.0.w,
+          width: 24.0.w,
+          height: 24.0.w,
           color: color,
         ),
       ),
       onTap: onTap ??
           () {
-            // Navigator.pop(context);
+            Navigator.maybeOf(currentContext)?.maybePop();
           },
     );
   }

@@ -4,7 +4,7 @@
 //
 import 'dart:io';
 
-import 'package:nothing/widgets/webview/in_app_webview.dart';
+import 'package:nothing/widgets/app_webview.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'prefix_header.dart';

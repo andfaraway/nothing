@@ -35,7 +35,7 @@ class NotificationUtils {
     );
 
     jPush?.setup(
-      appKey: "713db5486c35b95a967e3b3a",
+      appKey: "386f060ca3982c5576e4376c",
       channel: "theChannel",
       production: isDebug,
       debug: false, // 设置是否打印 debug 日志

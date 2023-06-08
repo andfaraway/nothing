@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
           icon: AppImage.asset(R.imagesLogOut),
           title: '退出登录',
           onTap: () {
-            showConfirmToast(context: context, title: '退出登录', onConfirm: Handler.userLogout);
+            showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
           }),
     ];
   }

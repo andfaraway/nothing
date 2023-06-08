@@ -2,8 +2,8 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-18 16:14:22
 //
+import 'package:nothing/common/constants.dart';
 import 'package:nothing/common/style.dart';
-import 'package:nothing/constants/constants.dart';
 
 class LoginButton extends StatelessWidget {
   final String title;

@@ -2,9 +2,7 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2021-11-18 15:41:28
 //
-import 'package:nothing/constants/constants.dart';
-
-import '../common/app_routes.dart';
+import 'package:nothing/common/constants.dart';
 
 class Singleton {
   Singleton._internal();
@@ -33,21 +31,5 @@ class Singleton {
 
   static cleanData() async {
     HiveBoxes.clear();
-  }
-}
-
-class Handler {
-  static String? get accessToken => 'Bearer ${Singleton().currentUser.token}';
-
-  static bool get isUserLogin {
-    String? userId = Singleton().currentUser.userId;
-    return userId != null && userId.isNotEmpty;
-  }
-
-  static void userLogin() {}
-
-  static void userLogout() {
-    Singleton.cleanData();
-    AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
   }
 }

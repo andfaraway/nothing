@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(themesProvider.filterColor, BlendMode.color),
               child: MaterialApp(
-                navigatorKey: Instances.navigatorKey,
+                navigatorKey: navigatorKey,
                 theme: themesProvider.currentThemeData,
                 localizationsDelegates: const [
                   S.delegate,

@@ -19,8 +19,6 @@ class _MessagePageState extends State<MessagePage> {
   void initState() {
     super.initState();
     loadData();
-
-    globalContext = context;
   }
 
   Future<void> loadData() async {

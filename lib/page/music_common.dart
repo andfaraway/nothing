@@ -19,7 +19,7 @@ class SeekBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  SeekBarState createState() => SeekBarState();
+  State<SeekBar> createState() => SeekBarState();
 }
 
 class SeekBarState extends State<SeekBar> {

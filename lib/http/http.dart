@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/common/constants.dart';
 
 import 'api.dart';
 import 'interceptors.dart';

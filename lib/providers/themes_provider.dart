@@ -62,7 +62,7 @@ class ThemesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Color _informationBgColor = Colors.white;
+  Color _informationBgColor = AppColor.scaffoldBackgroundColor;
 
   Color get informationBgColor => _informationBgColor;
 
@@ -84,7 +84,8 @@ class ThemesProvider with ChangeNotifier {
     _currentThemeGroup = supportThemeGroups[themeIndex];
     _dark = HiveFieldUtils.getBrightnessDark();
 
-    _informationBgColor = Color(HiveBoxes.get(HiveKey.informationColor, defaultValue: 0xffffffff));
+    _informationBgColor =
+        Color(HiveBoxes.get(HiveKey.informationColor, defaultValue: AppColor.scaffoldBackgroundColor));
 
     _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
     _fontFamily = HiveBoxes.get(HiveKey.fontFamily);
@@ -135,10 +136,10 @@ class ThemesProvider with ChangeNotifier {
           titleTextStyle: TextStyle(
               fontWeight: weightMedium,
               fontSize: AppColor.appBarTitleSize,
-              color: AppColor.appBarTitleColor,
+              color: _currentThemeGroup.themeColor.adaptiveColor,
               fontFamily: _fontFamily),
           iconTheme: IconThemeData(
-            color: AppColor.mainColor,
+            color: _currentThemeGroup.themeColor.adaptiveColor,
           ),
           actionsIconTheme: IconThemeData(
             size: 24.0.w,

@@ -229,7 +229,7 @@ abstract class Middleware {
 class LoginMiddleware extends Middleware {
   @override
   RouteSettings? redirect(String? route) {
-    if (!Handler.isUserLogin) {
+    if (!Constants.isLogin) {
       return RouteSettings(name: AppRoute.login.name);
     }
     return super.redirect(route);
@@ -239,7 +239,6 @@ class LoginMiddleware extends Middleware {
 RouteFactory? onGenerateRoute = (RouteSettings settings) {
   RouteSettings? routeSettings = settings;
   int index = AppRoute.routePages.indexWhere((element) => element.name == routeSettings?.name);
-  print('index = $index,${routeSettings.name}');
   if (index >= 0) {
     RoutePage routePage = AppRoute.routePages[index];
     if (routePage.middleware != null) {

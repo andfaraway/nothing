@@ -55,7 +55,6 @@ class _PhotoShowState extends State<PhotoShow> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: _data.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : Stack(

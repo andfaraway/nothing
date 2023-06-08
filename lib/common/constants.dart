@@ -2,37 +2,33 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info/device_info.dart';
-import 'package:intl/intl.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 export 'package:flutter/material.dart';
-export 'package:intl/intl.dart' show DateFormat;
 export 'package:nothing/generated/l10n.dart';
 export 'package:nothing/utils/utils.dart';
 
-export '../common/screens.dart';
 export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
 export '../utils/hive_boxes.dart';
 export '../utils/local_data_utils.dart';
-export 'instances.dart';
-export 'messages.dart';
 export 'platform_channel.dart';
+export 'screens.dart';
 export 'singleton.dart';
-export 'widgets.dart';
 
 const bool isDebug = false;
 const String localUrl = 'http://10.0.21.146:5000';
 
-const double kAppBarHeight = 86.0;
-const double kDrawerMarginLeft = 16.0;
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-///主页两边宽度
-const double MARGIN_MAIN = 17;
+NavigatorState get navigatorState => navigatorKey.currentState!;
 
-//标记界面的context
-BuildContext? globalContext;
+BuildContext get currentContext => navigatorState.context;
+
+DateTime get currentTime => DateTime.now();
+
+int get currentTimeStamp => currentTime.millisecondsSinceEpoch;
 
 Color getRandomColor() {
   int a = 255;
@@ -88,23 +84,25 @@ class Constants {
     }
 
     if (data != null && data['update'] == true) {
-      if (!context.mounted) return;
-      showIOSAlert(
-        context: currentContext,
-        title: S.current.version_update,
-        content: data['content'],
-        cancelOnPressed: () {
-          Navigator.pop(context);
-        },
-        confirmOnPressed: () async {
-          String url = data!['path'];
-          if (await canLaunchUrlString(url)) {
-            await launchUrlString(url);
-          } else {
-            throw 'Could not launch $url';
-          }
-        },
-      );
+      if (currentContext.mounted) {
+        showIOSAlert(
+          context: currentContext,
+          title: S.current.version_update,
+          content: data['content'],
+          cancelOnPressed: () {
+            print('currentContext=$currentContext');
+            Navigator.pop(currentContext);
+          },
+          confirmOnPressed: () async {
+            String url = data!['path'];
+            if (await canLaunchUrlString(url)) {
+              await launchUrlString(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          },
+        );
+      }
     }
   }
 
@@ -130,9 +128,13 @@ class Constants {
     API.insertLaunch(param);
   }
 
-  /// true:真机 false:模拟器
+  static bool get isLogin {
+    String? userId = Singleton().currentUser.userId;
+    return userId != null && userId.isNotEmpty;
+  }
 
-  static hideKeyboard(BuildContext context) {
-    FocusScope.of(context).requestFocus(FocusNode());
+  static void logout() {
+    Singleton.cleanData();
+    AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
   }
 }

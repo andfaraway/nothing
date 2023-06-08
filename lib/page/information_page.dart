@@ -113,7 +113,7 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
     );
   }
 
-  static Widget _subSegmentedWidget(
+  Widget _subSegmentedWidget(
       {Key? key,
       required List<String> titles,
       required TabController controller,
@@ -122,7 +122,7 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
     return Container(
       key: key,
       width: AppSize.screenWidth,
-      color: AppColor.white,
+      color: context.watch<ThemesProvider>().informationBgColor,
       alignment: alignment,
       padding: EdgeInsets.symmetric(horizontal: AppPadding.main.left, vertical: 12.h),
       child: ConstrainedBox(

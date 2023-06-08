@@ -5,11 +5,11 @@
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter_easyloading/flutter_easyloading.dart';
+export 'package:intl/intl.dart' show DateFormat, Intl;
 export 'package:url_launcher/url_launcher.dart';
 export 'package:url_launcher/url_launcher_string.dart';
 
 export '../../generated/l10n.dart';
-export '../constants/constants.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';
 export '../utils/image.dart';
@@ -22,6 +22,7 @@ export '../widgets/normal_cell.dart';
 export '../widgets/refresh_view.dart';
 export 'app_function.dart';
 export 'app_routes.dart';
+export 'constants.dart';
 export 'screens.dart';
 export 'style.dart';
 export 'theme.dart';

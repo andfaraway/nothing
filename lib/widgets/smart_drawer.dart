@@ -3,7 +3,7 @@
 //  [Date] 2021-11-12 12:07:22
 //
 import 'package:flutter/foundation.dart';
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/common/constants.dart';
 
 class SmartDrawer extends StatefulWidget {
   final double elevation;

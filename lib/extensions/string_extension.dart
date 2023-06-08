@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:nothing/constants/constants.dart';
+import '../common/prefix_header.dart';
 
 extension StringExtension on String {
   String get notBreak => replaceAll('', '\u{200B}');

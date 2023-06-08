@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/common/constants.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../common/style.dart';

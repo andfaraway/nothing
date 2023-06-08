@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-import '../constants/constants.dart';
+import '../common/constants.dart';
 
 class NetUtils {
   const NetUtils._();

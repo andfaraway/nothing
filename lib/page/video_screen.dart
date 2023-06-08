@@ -11,7 +11,7 @@ class VideoScreen extends StatefulWidget {
   const VideoScreen({Key? key, required this.url, this.files, this.index = 0}) : super(key: key);
 
   @override
-  _VideoScreenState createState() => _VideoScreenState();
+  State<VideoScreen> createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {

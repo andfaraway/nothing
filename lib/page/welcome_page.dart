@@ -53,14 +53,14 @@ class _WelcomePageState extends State<WelcomePage> {
   // 跳转页面
   Future<void> jumpPage() async {
     //判断是否登录
-    if (Handler.isUserLogin) {
+    if (Constants.isLogin) {
       AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
     } else {
       AppRoute.pushNamedAndRemoveUntil(context, AppRoute.login.name);
     }
 
     if (Singleton.welcomeLoadResult != null) {
-      if (globalContext?.widget.toString() != 'MessagePage') {
+      if (currentContext.widget.toString() != 'MessagePage') {
         context.read<HomeProvider>().pageIndex = 1;
         AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
       }

@@ -11,7 +11,7 @@ class FeedbackPage extends StatefulWidget {
   const FeedbackPage({Key? key}) : super(key: key);
 
   @override
-  _FeedbackPageState createState() => _FeedbackPageState();
+  State<FeedbackPage> createState() => _FeedbackPageState();
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
@@ -93,7 +93,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       showCenterToast('反馈内容没有填哦😘');
       return null;
     }
-    Constants.hideKeyboard(context);
+    hideKeyboard(context);
     EasyLoading.show();
     var result = await API.addFeedback(content, nickname);
     if (result == null) {

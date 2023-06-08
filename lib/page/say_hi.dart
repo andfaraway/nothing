@@ -9,7 +9,7 @@ class SayHi extends StatefulWidget {
   const SayHi({Key? key}) : super(key: key);
 
   @override
-  _SayHiState createState() => _SayHiState();
+  State<SayHi> createState() => _SayHiState();
 }
 
 class _SayHiState extends State<SayHi> {

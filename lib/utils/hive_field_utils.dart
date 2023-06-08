@@ -1,6 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:hive/hive.dart';
-import 'package:nothing/constants/constants.dart';
+import 'package:nothing/common/constants.dart';
 
 class HiveFieldUtils {
   const HiveFieldUtils._();

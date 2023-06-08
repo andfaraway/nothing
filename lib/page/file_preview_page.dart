@@ -54,7 +54,7 @@ class _FilePreviewState extends State<FilePreviewPage> {
               FilePreviewWidget(
                 controller: controller,
                 width: Screens.width,
-                height: Screens.height - kAppBarHeight,
+                height: Screens.height - Screens.topSafeHeight,
                 //path 文件地址 https/http开头、文件格式结尾的地址，或者本地绝对路径
                 path: url!,
                 callBack: FilePreviewCallBack(onShow: () {

@@ -19,6 +19,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   // 菜单快捷配置
   final ValueNotifier<List<SettingConfigModel>> drawerConfigList = ValueNotifier([]);
 
+  final double kDrawerMarginLeft = AppPadding.main.left;
+
   @override
   void initState() {
     loadData();
@@ -55,7 +57,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       height: Screens.topSafeHeight + 70,
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                           left: kDrawerMarginLeft,
                           right: kDrawerMarginLeft,
                         ),
@@ -63,7 +65,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           onLongPressEnd: (details) {
                             setState(() {
                               showToast("${Singleton().currentUser.username} bye");
-                              Handler.userLogout();
+                              Constants.logout();
                             });
                           },
                           onTap: () async {
@@ -91,7 +93,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       height: 150,
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             left: kDrawerMarginLeft, right: kDrawerMarginLeft, bottom: kDrawerMarginLeft),
                         child: GestureDetector(
                           onDoubleTap: () async {
@@ -118,7 +120,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               );
             }),
             Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                   left: kDrawerMarginLeft, right: kDrawerMarginLeft, top: kDrawerMarginLeft, bottom: kDrawerMarginLeft),
               child: todayTipsWidget(),
             ),
@@ -254,7 +256,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       onTap: onTap,
       onLongPress: onLongPress,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDrawerMarginLeft, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: kDrawerMarginLeft, vertical: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

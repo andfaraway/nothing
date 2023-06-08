@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-import '../constants/constants.dart';
+import '../common/constants.dart';
 
 export 'device_utils.dart';
 export 'hive_field_utils.dart';

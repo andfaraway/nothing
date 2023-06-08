@@ -194,7 +194,7 @@ class ModalFit extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: MARGIN_MAIN),
+                              padding: EdgeInsets.only(left: AppPadding.main.left),
                               child: e.icon,
                             ),
                           ),
@@ -207,12 +207,12 @@ class ModalFit extends StatelessWidget {
                     ),
                   ),
                   if (e.bottomLine)
-                    const Divider(
+                    Divider(
                       height: 1,
                       thickness: 1,
                       color: AppColor.background,
-                      indent: MARGIN_MAIN,
-                      endIndent: MARGIN_MAIN,
+                      indent: AppPadding.main.left,
+                      endIndent: AppPadding.main.left,
                     )
                 ],
               ),

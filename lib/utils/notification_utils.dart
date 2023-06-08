@@ -23,7 +23,7 @@ class NotificationUtils {
       // 点击通知回调方法。
       onOpenNotification: (Map<String, dynamic> message) async {
         Log.d("flutter onOpenNotification: $message");
-        if (globalContext?.widget.toString() != 'MessagePage') {
+        if (currentContext.widget.toString() != 'MessagePage') {
           BuildContext context = navigatorState.overlay!.context;
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MessagePage()));
         }
@@ -83,7 +83,7 @@ class NotificationUtils {
   }
 
   static Future<void> show(String title, String body) async {
-    final Color color = currentThemeColor;
+    final Color color = Theme.of(currentContext).colorScheme.secondary;
     final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'nothing_message_channel',
       '推送消息',

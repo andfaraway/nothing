@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 
-import '../constants/constants.dart';
+import '../common/constants.dart';
 
 part 'launch_info.dart';
 part 'models.g.dart';

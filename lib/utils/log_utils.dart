@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:logging/logging.dart';
-import 'package:nothing/constants/constants.dart' show DateFormat, currentTime, currentTimeStamp;
+
+import '../common/prefix_header.dart';
 
 class Log {
   const Log._();

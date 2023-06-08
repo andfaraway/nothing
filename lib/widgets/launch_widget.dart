@@ -48,42 +48,42 @@ class LaunchWidget extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: SizedBox(
-              width: 630.w,
-              height: 1120.h,
+              width: 315.w,
+              height: 560.h,
               child: CustomPaint(
                 painter: _BackPainter(),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 64.h,
+                      height: 32.h,
                       child: Center(
                         child: Text(
                           title ?? '',
-                          style: TextStyle(fontSize: 26.sp, color: Colors.black),
+                          style: TextStyle(fontSize: 13.sp, color: Colors.black),
                         ),
                       ),
                     ),
                     SizedBox(
-                        width: 556.w,
-                        height: 548.h,
+                        width: 274.r,
+                        height: 274.r,
                         child: CachedNetworkImage(
                           imageUrl: image,
                           fit: BoxFit.fitHeight,
                           width: double.infinity,
                           height: double.infinity,
                         )),
-                    37.hSizedBox,
+                    18.hSizedBox,
                     Row(
                       children: [
-                        60.wSizedBox,
+                        30.wSizedBox,
                         Text(
                           dayStr ?? '',
-                          style: TextStyle(color: Colors.black, fontSize: 78.sp),
+                          style: TextStyle(color: Colors.black, fontSize: 36.sp),
                         ),
                         18.wSizedBox,
                         Container(
-                          width: 2,
-                          height: 78.h,
+                          width: 1,
+                          height: 39.h,
                           color: Colors.black,
                         ),
                         18.wSizedBox,
@@ -93,32 +93,32 @@ class LaunchWidget extends StatelessWidget {
                           children: [
                             Text(
                               monthStr ?? '',
-                              style: TextStyle(color: Colors.black, fontSize: 46.sp),
+                              style: TextStyle(color: Colors.black, fontSize: 23.sp),
                             ),
                             Text(
                               dateDetailStr ?? '',
-                              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),
                             )
                           ],
                         ),
                       ],
                     ),
-                    60.hSizedBox,
+                    30.hSizedBox,
                     Padding(
-                      padding: EdgeInsets.only(left: 62.w, right: 62.w),
+                      padding: EdgeInsets.only(left: 31.w, right: 31.w),
                       child: Column(
                         children: [
                           Text(
                             contentStr ?? '',
-                            style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
                           ),
-                          32.hSizedBox,
+                          16.hSizedBox,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 author ?? '',
-                                style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.end,
                               ),
                             ],
@@ -130,7 +130,7 @@ class LaunchWidget extends StatelessWidget {
                     if (codeStr != null)
                       QrImageView(
                         data: codeStr ?? '',
-                        size: 120.w,
+                        size: 60.w,
                       ),
                   ],
                 ),
@@ -144,9 +144,9 @@ class LaunchWidget extends StatelessWidget {
 }
 
 class _BackPainter extends CustomPainter {
-  final double radius = 18.h;
-  final double firstRadiusTopHeight = 54.h;
-  final double firstRadiusBottomHeight = 236.h;
+  final double radius = 9.h;
+  final double firstRadiusTopHeight = 27.h;
+  final double firstRadiusBottomHeight = 118.h;
 
   @override
   void paint(Canvas canvas, Size size) {

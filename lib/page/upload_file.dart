@@ -14,12 +14,11 @@ class UploadFile extends StatefulWidget {
   const UploadFile({Key? key}) : super(key: key);
 
   @override
-  _UploadFileState createState() => _UploadFileState();
+  State<UploadFile> createState() => _UploadFileState();
 }
 
 class _UploadFileState extends State<UploadFile> {
-  String? fileName;
-  LaunchInfo launchInfo = LaunchInfo();
+  late LaunchInfo launchInfo;
   PickedFile? imageFile;
   PickedFile? bgImageFile;
 
@@ -28,12 +27,10 @@ class _UploadFileState extends State<UploadFile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    print(context.read<LaunchProvider>().launchInfo);
 
-    final DateTime now = DateTime.now();
-    fileName =
-        '${now.year.toString().padLeft(2, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}.jpg';
+    launchInfo = context.read<LaunchProvider>().launchInfo ?? LaunchInfo();
   }
 
   @override
@@ -70,109 +67,112 @@ class _UploadFileState extends State<UploadFile> {
                 ))
           ],
         ),
-        body: Column(
-          children: [
-            inputCell(
-                title: 'id',
-                text: launchInfo.date,
-                onChanged: (value) {
-                  launchInfo.date = value;
-                }),
-            inputCell(
-                title: 'festival',
-                text: launchInfo.title,
-                onChanged: (value) {
-                  launchInfo.title = value;
-                }),
-            inputCell(
-                title: 'content',
-                text: launchInfo.contentStr,
-                onChanged: (value) {
-                  launchInfo.contentStr = value;
-                },
-                required: true),
-            inputCell(
-                title: 'author',
-                text: launchInfo.authorStr,
-                onChanged: (value) {
-                  launchInfo.authorStr = value;
-                }),
-            inputCell(
-                title: 'qr_code',
-                text: launchInfo.codeStr,
-                onChanged: (value) {
-                  launchInfo.codeStr = value;
-                }),
-            inputCell(
-                title: 'homePage',
-                text: launchInfo.homePage,
-                onChanged: (value) {
-                  launchInfo.homePage = value;
-                }),
-            inputCell(
-                title: 'image',
-                text: launchInfo.image,
-                onChanged: (value) {
-                  launchInfo.image = value;
-                },
-                trailing: MaterialButton(
-                    color: Colors.blue,
-                    child: Text(S.current.select),
-                    onPressed: () {
-                      imageType = 0;
-                      selectFile();
-                    }),
-                required: true),
-            inputCell(
-                title: 'image_background',
-                text: launchInfo.backgroundImage,
-                onChanged: (value) {
-                  launchInfo.backgroundImage = value;
-                },
-                trailing: MaterialButton(
-                    color: Colors.blue,
-                    child: Text(S.current.select),
-                    onPressed: () {
-                      imageType = 1;
-                      selectFile();
-                    }),
-                required: true),
-            50.hSizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              inputCell(
+                  title: 'id',
+                  text: launchInfo.date,
+                  onChanged: (value) {
+                    launchInfo.date = value;
+                  }),
+              inputCell(
+                  title: 'festival',
+                  text: launchInfo.title,
+                  onChanged: (value) {
+                    launchInfo.title = value;
+                  }),
+              inputCell(
+                  title: 'content',
+                  text: launchInfo.contentStr,
+                  onChanged: (value) {
+                    launchInfo.contentStr = value;
+                  },
+                  required: true),
+              inputCell(
+                  title: 'author',
+                  text: launchInfo.authorStr,
+                  onChanged: (value) {
+                    launchInfo.authorStr = value;
+                  }),
+              inputCell(
+                  title: 'qr_code',
+                  text: launchInfo.codeStr,
+                  onChanged: (value) {
+                    launchInfo.codeStr = value;
+                  }),
+              inputCell(
+                  title: 'homePage',
+                  text: launchInfo.homePage,
+                  onChanged: (value) {
+                    launchInfo.homePage = value;
+                  }),
+              inputCell(
+                  title: 'image',
+                  text: launchInfo.image,
+                  onChanged: (value) {
+                    launchInfo.image = value;
+                  },
+                  trailing: MaterialButton(
+                      color: Colors.blue,
+                      child: Text(S.current.select),
+                      onPressed: () {
+                        imageType = 0;
+                        selectFile();
+                      }),
+                  required: true),
+              inputCell(
+                  title: 'image_background',
+                  text: launchInfo.backgroundImage,
+                  onChanged: (value) {
+                    launchInfo.backgroundImage = value;
+                  },
+                  trailing: MaterialButton(
+                      color: Colors.blue,
+                      child: Text(S.current.select),
+                      onPressed: () {
+                        imageType = 1;
+                        selectFile();
+                      }),
+                  required: true),
+              50.hSizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+                        ),
+                        width: 100.w,
+                        height: 100.w,
+                        child: imageFile?.path == null ? const SizedBox.shrink() : Image.asset(imageFile?.path ?? ''),
                       ),
-                      width: 100.w,
-                      height: 100.w,
-                      child: imageFile?.path == null ? const SizedBox.shrink() : Image.asset(imageFile?.path ?? ''),
-                    ),
-                    10.hSizedBox,
-                    const Text('image')
-                  ],
-                ),
-                100.wSizedBox,
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+                      10.hSizedBox,
+                      const Text('image')
+                    ],
+                  ),
+                  100.wSizedBox,
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+                        ),
+                        width: 100.w,
+                        height: 100.w,
+                        child:
+                            bgImageFile?.path == null ? const SizedBox.shrink() : Image.asset(bgImageFile?.path ?? ''),
                       ),
-                      width: 100.w,
-                      height: 100.w,
-                      child: bgImageFile?.path == null ? const SizedBox.shrink() : Image.asset(bgImageFile?.path ?? ''),
-                    ),
-                    10.hSizedBox,
-                    const Text('image_background')
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      10.hSizedBox,
+                      const Text('image_background')
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -223,7 +223,7 @@ class _UploadFileState extends State<UploadFile> {
       openAppSettings();
     });
 
-    File? croppedFile = (await ImageCropper().cropImage(
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: file?.path ?? '',
       aspectRatioPresets: Platform.isAndroid
           ? [
@@ -254,17 +254,21 @@ class _UploadFileState extends State<UploadFile> {
           title: 'Clip',
         )
       ],
-    )) as File?;
+    );
 
     if (croppedFile != null) {
       File compressedFile = await FlutterNativeImage.compressImage(croppedFile.path, quality: 70, percentage: 70);
       PickedFile? file = PickedFile(compressedFile.path);
-      imageType == upload(file);
+      upload(file);
     }
   }
 
   /// 上传文件
   Future<void> upload(PickedFile? file) async {
+    final DateTime now = DateTime.now();
+    String fileName =
+        '${now.year.toString().padLeft(2, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}.jpg';
+
     EasyLoading.show();
     // 上传文件
     var data = await API.uploadFile(file?.path ?? '', fileName ?? '');

@@ -10,12 +10,11 @@ class SimpleImageEditor extends StatefulWidget {
   const SimpleImageEditor(this.image, {Key? key}) : super(key: key);
 
   @override
-  _SimpleImageEditorState createState() => _SimpleImageEditorState();
+  State<SimpleImageEditor> createState() => _SimpleImageEditorState();
 }
 
 class _SimpleImageEditorState extends State<SimpleImageEditor> {
   final GlobalKey<ExtendedImageEditorState> editorKey = GlobalKey<ExtendedImageEditorState>();
-  bool _cropping = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +52,13 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
   }
 
   Future<void> cropImage() async {
-    if (_cropping) {
-      return;
+    final Uint8List? fileData = editorKey.currentState?.rawImageData;
+    if (fileData == null) {
+      showToast('crop error');
     }
-    _cropping = true;
-
-    /// TODO
-    try {
-      // final Uint8List fileData = Uint8List.fromList(kIsWeb
-      //     ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
-      //     : (await cropImageDataWithNativeLibrary(state: editorKey.currentState!))!);
-      //
-      // File imageFile = await saveImageToTemp(fileData);
-      // if (mounted) {
-      //   Navigator.of(context).pop(imageFile);
-      // }
-    } finally {
-      _cropping = false;
+    File imageFile = await saveImageToTemp(fileData!);
+    if (mounted) {
+      Navigator.of(context).pop(imageFile);
     }
   }
 

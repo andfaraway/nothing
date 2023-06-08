@@ -6,12 +6,9 @@
 import 'dart:core';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:nothing/common/app_routes.dart';
+import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/version_update_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../constants/constants.dart';
 import 'http.dart';
 
 /// Definition of various sorts of APIs.
@@ -357,7 +354,6 @@ class API {
   static Future<bool> launchWeb({
     required String url,
     String? title,
-    WebApp? app,
     bool withCookie = true,
   }) async {
     final SettingsProvider provider = Provider.of<SettingsProvider>(
@@ -365,19 +361,12 @@ class API {
       listen: false,
     );
     final bool shouldLaunchFromSystem = provider.launchFromSystemBrowser;
-    final String uri = '${Uri.parse(url.trim())}';
     if (shouldLaunchFromSystem) {
-      Log.d('Launching web: $uri');
-      return launch(
-        uri,
-        forceSafariVC: false,
-        forceWebView: false,
-        enableJavaScript: true,
-        enableDomStorage: true,
-      );
+      Log.d('Launching web: $url');
+      return launchUrlString(url, mode: LaunchMode.externalApplication);
     } else {
-      Log.d('Launching web: $uri');
-      AppRoute.pushNamePage(null, AppRoute.webView.name,arguments: uri);
+      Log.d('Launching web: $url');
+      AppRoute.pushNamePage(null, AppRoute.webView.name, arguments: url);
       return true;
     }
   }

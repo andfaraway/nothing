@@ -52,7 +52,7 @@ class _SettingPageState extends State<SettingPage> {
                         title: e.module!,
                         onTap: e.onTap != null
                             ? () {
-                          functionWithString(context, e.onTap!)?.call();
+                                functionWithString(context, e.onTap!)?.call();
                               }
                             : () {
                           print('e.routeName=${e.routeName}');

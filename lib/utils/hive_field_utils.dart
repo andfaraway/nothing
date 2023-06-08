@@ -1,7 +1,3 @@
-///
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2020-01-13 10:59
-///
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:hive/hive.dart';
 import 'package:nothing/constants/constants.dart';

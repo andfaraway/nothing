@@ -37,7 +37,10 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
         actions: [
           AppButton.button(
             padding: AppPadding.main,
-            child: Text(S.current.save, style: const TextStyle(color: Colors.white),),
+            child: Text(
+              S.current.save,
+              style: const TextStyle(color: Colors.white),
+            ),
             onTap: () async {
               EasyLoading.show();
               await save(sendNotification.value);

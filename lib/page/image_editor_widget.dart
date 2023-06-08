@@ -57,6 +57,7 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
       return;
     }
     _cropping = true;
+
     /// TODO
     try {
       // final Uint8List fileData = Uint8List.fromList(kIsWeb

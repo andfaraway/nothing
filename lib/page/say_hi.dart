@@ -74,8 +74,7 @@ class _SayHiState extends State<SayHi> {
               50.hSizedBox,
               ValueListenableBuilder(
                 valueListenable: _canSend,
-                builder: (context, bool canSend, Widget? child) =>
-                    MaterialButton(
+                builder: (context, bool canSend, Widget? child) => MaterialButton(
                   color: canSend ? AppColor.specialColor : Colors.black54,
                   onPressed: sendBtnOnPressed,
                   child: const Text(

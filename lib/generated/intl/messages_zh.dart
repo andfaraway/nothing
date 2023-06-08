@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "agree_continue": MessageLookupByLibrary.simpleMessage("同意，继续使用"),
         "album_name": MessageLookupByLibrary.simpleMessage("请输入相册名"),

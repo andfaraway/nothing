@@ -92,7 +92,6 @@ class _MusicPageState extends State<MusicPage> {
     super.dispose();
   }
 
-
   Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
       _player.positionStream,
       _player.bufferedPositionStream,

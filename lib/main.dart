@@ -37,13 +37,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       if (call.method == 'deviceToken') {
         String deviceToken = call.arguments.toString();
         API.pushDeviceToken(Singleton().currentUser.userId, deviceToken);
-        print('deviceToken：${call.arguments.toString()}');
+        Log.d('deviceToken：${call.arguments.toString()}');
       }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Constants.context = context;
-      Constants.isDark = context.theme.brightness == Brightness.dark;
+      Constants.isDark = Theme.of(context).brightness == Brightness.dark;
 
       Future.delayed(const Duration(seconds: 1), () async {
         await Constants.insertLaunch();

@@ -116,7 +116,7 @@ class ToastTipsDialog extends StatelessWidget {
                     Expanded(
                       child: TextButton(
                         onPressed: onCancel ??
-                                () {
+                            () {
                               Navigator.pop(context);
                             },
                         child: Text(

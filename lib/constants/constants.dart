@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:intl/intl.dart';
 import 'package:nothing/common/prefix_header.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 export 'package:flutter/material.dart';
 export 'package:intl/intl.dart' show DateFormat;
@@ -83,15 +82,15 @@ class Constants {
 
   /// 检查更新
   static Future<dynamic> checkUpdate(BuildContext context, {Map? data}) async {
-    context = navigatorState.overlay!.context;
     if (data == null) {
       String version = await DeviceUtils.version();
       data = await API.checkUpdate('ios', version);
     }
 
     if (data != null && data['update'] == true) {
+      if (!context.mounted) return;
       showIOSAlert(
-        context: context,
+        context: currentContext,
         title: S.current.version_update,
         content: data['content'],
         cancelOnPressed: () {
@@ -99,8 +98,8 @@ class Constants {
         },
         confirmOnPressed: () async {
           String url = data!['path'];
-          if (await canLaunch(url)) {
-            await launch(url);
+          if (await canLaunchUrlString(url)) {
+            await launchUrlString(url);
           } else {
             throw 'Could not launch $url';
           }

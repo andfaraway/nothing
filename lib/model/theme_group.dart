@@ -1,8 +1,3 @@
-///
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2020/8/21 16:29
-///
-
 part of 'models.dart';
 
 class ThemeGroup {

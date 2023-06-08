@@ -21,21 +21,20 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "agree_continue":
-            MessageLookupByLibrary.simpleMessage("Agreement And Continue"),
+
+  static Map<String, Function> _notInlinedMessages(_) =>
+      <String, Function>{
+        "agree_continue": MessageLookupByLibrary.simpleMessage("Agreement And Continue"),
         "album_name": MessageLookupByLibrary.simpleMessage("Name of Album"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-        "disagree_quite":
-            MessageLookupByLibrary.simpleMessage("Disagree And Quite"),
+        "disagree_quite": MessageLookupByLibrary.simpleMessage("Disagree And Quite"),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
-        "forgot_password":
-            MessageLookupByLibrary.simpleMessage("Forgot Password"),
+        "forgot_password": MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "information": MessageLookupByLibrary.simpleMessage("Information"),
         "input_optional": MessageLookupByLibrary.simpleMessage("Optional"),
@@ -46,23 +45,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "message": MessageLookupByLibrary.simpleMessage("Message"),
         "no_message": MessageLookupByLibrary.simpleMessage("No Message"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
-        "original_image":
-            MessageLookupByLibrary.simpleMessage("Original_Image"),
-        "password_hint":
-            MessageLookupByLibrary.simpleMessage("Please key in password"),
+        "original_image": MessageLookupByLibrary.simpleMessage("Original_Image"),
+        "password_hint": MessageLookupByLibrary.simpleMessage("Please key in password"),
         "photo_album": MessageLookupByLibrary.simpleMessage("Photo Album"),
-        "privacy_policy":
-            MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+        "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "random": MessageLookupByLibrary.simpleMessage("Random"),
-        "release_version":
-            MessageLookupByLibrary.simpleMessage("Release Version"),
+        "release_version": MessageLookupByLibrary.simpleMessage("Release Version"),
         "rename": MessageLookupByLibrary.simpleMessage("Rename"),
-        "request_failed":
-            MessageLookupByLibrary.simpleMessage("request failed"),
+        "request_failed": MessageLookupByLibrary.simpleMessage("request failed"),
         "reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "save_original_image":
-            MessageLookupByLibrary.simpleMessage("Save Original Image"),
+        "save_original_image": MessageLookupByLibrary.simpleMessage("Save Original Image"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),
         "setting": MessageLookupByLibrary.simpleMessage("Setting"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
@@ -71,10 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "upload_file": MessageLookupByLibrary.simpleMessage("Upload File"),
-        "user_agreement":
-            MessageLookupByLibrary.simpleMessage("User Agreement"),
-        "username_hint":
-            MessageLookupByLibrary.simpleMessage("Please key in ID"),
+        "user_agreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
+        "username_hint": MessageLookupByLibrary.simpleMessage("Please key in ID"),
         "version_update": MessageLookupByLibrary.simpleMessage("Version update")
       };
 }

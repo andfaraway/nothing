@@ -20,7 +20,6 @@ class AppWebView extends StatefulWidget {
 }
 
 class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMixin {
-
   /// 页面是否可以返回
   final ValueNotifier<bool> webCanGoBack = ValueNotifier(false);
 
@@ -40,8 +39,6 @@ class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
     url = (widget.url ?? url).trim();
-    // url = 'https://www.1step.tech/product/app/';
-    url = 'https://www.baidu.com';
 
     _webController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -84,7 +81,7 @@ class _AppWebViewState extends State<AppWebView> with AutomaticKeepAliveClientMi
     super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: true
+      appBar: widget.title != null
           ? AppBar(
               title: widget.title != null
                   ? Text(widget.title ?? '')

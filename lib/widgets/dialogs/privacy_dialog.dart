@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:nothing/common/prefix_header.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyDiaLog extends StatelessWidget {
   const PrivacyDiaLog(

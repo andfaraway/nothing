@@ -16,7 +16,7 @@ FontWeight get weightBold => FontWeight.w700;
 
 class TS {
   static TextStyle get m18c43 => TextStyle(
-    fontSize: 18.sp,
+        fontSize: 18.sp,
         color: AppColor.mainColor,
         fontWeight: weightMedium,
         letterSpacing: 1.sp,

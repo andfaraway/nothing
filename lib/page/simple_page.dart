@@ -19,7 +19,7 @@ class SimplePage extends StatefulWidget {
   final bool initialRefresh;
 
   @override
-  _SimplePageState createState() => _SimplePageState();
+  State<SimplePage> createState() => _SimplePageState();
 }
 
 class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMixin {
@@ -78,7 +78,7 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
                           },
                           child: ExtendedText(
                             contentText.isEmpty ? '' : contentText,
-                            style: TextStyle(color: provider.informationBgColor.getAdaptiveColor, fontSize: 22),
+                            style: TextStyle(color: provider.informationBgColor.adaptiveColor, fontSize: 22),
                             textAlign: TextAlign.justify,
                           ),
                         ),

@@ -3,7 +3,6 @@
 //  [Date] 2021-11-08 18:11:32
 
 import 'package:nothing/common/prefix_header.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../http/http.dart';
 
@@ -30,7 +29,6 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
   final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
   final double marginWidth = 30;
   List<TopNewsModel> newsList = [];
-
 
   @override
   void dispose() {

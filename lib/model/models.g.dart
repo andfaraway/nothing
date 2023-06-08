@@ -74,9 +74,7 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LaunchInfoAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is LaunchInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
 class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
@@ -132,7 +130,5 @@ class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserInfoModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is UserInfoModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

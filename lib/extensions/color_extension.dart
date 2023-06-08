@@ -1,7 +1,3 @@
-///
-/// [Author] Alex (https://github.com/AlexV525)
-/// [Date] 2020/3/16 16:19
-///
 import 'package:flutter/material.dart';
 
 extension ColorExtension on Color {
@@ -27,5 +23,5 @@ extension ColorExtension on Color {
 
   Color _swatchShade(int swatchValue) => HSLColor.fromColor(this).withLightness(1 - (swatchValue / 1000)).toColor();
 
-  Color get getAdaptiveColor => (red * 0.299 + green * 0.587 + blue * 0.144) > 186 ? Colors.black : Colors.white;
+  Color get adaptiveColor => (red * 0.299 + green * 0.587 + blue * 0.144) > 186 ? Colors.black : Colors.white;
 }

@@ -65,7 +65,7 @@ class AppRoute {
   }
 
   static final RoutePage root =
-  RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
+      RoutePage(name: '/root', page: ({Object? arguments}) => HiveBoxes.isTest() ? const RootPage() : const RootPage());
   static final RoutePage welcome = RoutePage(name: '/welcomeRoute', page: ({Object? arguments}) => const WelcomePage());
   static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
   static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());
@@ -116,7 +116,8 @@ class AppRoute {
   static final RoutePage musicPage =
       RoutePage(name: '/musicPageRoute', page: ({Object? arguments}) => const MusicPage());
 
-  static final RoutePage webView = RoutePage(name: '/webViewRoute', page: ({Object? arguments}) =>  AppWebView(url: arguments.toString()));
+  static final RoutePage webView =
+      RoutePage(name: '/webViewRoute', page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
 
   static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
     context ??= currentContext;
@@ -132,7 +133,8 @@ class AppRoute {
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext? context, String newRouteName, {Object? arguments}) async {
+  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext? context, String newRouteName,
+      {Object? arguments}) async {
     context ??= currentContext;
     dynamic value =
         await Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => false, arguments: arguments);

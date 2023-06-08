@@ -1,103 +1,132 @@
 import 'package:nothing/common/prefix_header.dart';
 
 import '../model/wedding_model.dart';
-import 'wedding_detail_vm.dart';
 
-class WeddingDetailPage extends BasePage<_WeddingDetailState> {
+class WeddingDetailPage extends StatefulWidget {
   final WeddingModel model;
 
   const WeddingDetailPage({Key? key, required this.model}) : super(key: key);
 
   @override
-  _WeddingDetailState createBaseState() => _WeddingDetailState();
+  State<WeddingDetailPage> createState() => _WeddingDetailState();
 }
 
-class _WeddingDetailState extends BaseState<WeddingDetailVM, WeddingDetailPage> {
-  @override
-  WeddingDetailVM createVM() => WeddingDetailVM(context);
-
+class _WeddingDetailState extends State<WeddingDetailPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    pageTitle = "Wedding Detail";
   }
 
   @override
-  List<Widget>? appBarActions() {
-    // TODO: implement appBarActions
-    return [
-      defaultAppBarActions(
-          text: S.current.save,
-          onPressed: () async {
-            Utils.hideKeyboard(context);
-            await vm.updateWedding(widget.model);
-          })
-    ];
-  }
-
-  @override
-  Widget createContentWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-      child: SafeArea(
-        bottom: true,
-        top: false,
-        child: Column(
-          children: [
-            TextField(
-              controller: TextEditingController(text: widget.model.title),
-              decoration:
-                  const InputDecoration(border: const OutlineInputBorder(borderSide: BorderSide.none), hintText: '标题'),
-              style: TextStyle(color: AppColor.black, fontSize: 42.sp),
-              onChanged: (value) {
-                widget.model.title = value;
+  Widget build(BuildContext context) {
+    return KeyboardHideOnTap(
+      child: Scaffold(
+        appBar: AppWidget.appbar(
+          title: 'Wedding Detail',
+          actions: [
+            AppButton.button(
+              padding: AppPadding.main,
+              child: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onTap: () {
+                showConfirmToast(
+                    context: context,
+                    title: "${S.current.delete}?",
+                    onConfirm: () async {
+                      await deleteWedding(widget.model);
+                      if (mounted) {
+                        Navigator.of(context).pop('refresh');
+                      }
+                    });
               },
             ),
-            const Divider(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: TextField(
-                  controller: TextEditingController(
-                    text: widget.model.content,
-                  ),
-                  decoration: const InputDecoration(
-                      border: const OutlineInputBorder(borderSide: BorderSide.none), hintText: '详细信息'),
-                  maxLines: 50,
-                  onChanged: (value) {
-                    widget.model.content = value;
-                  },
-                ),
-              ),
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(18),
-              child: SizedBox(
-                width: double.infinity,
-                height: 36,
-                child: MaterialButton(
-                  onPressed: () {
-                    showConfirmToast(
-                        context: context,
-                        title: "${S.current.delete}?",
-                        onConfirm: () async {
-                          await vm.deleteWedding(widget.model);
-                          if (mounted) {
-                            Navigator.of(context).pop('refresh');
-                          }
-                        });
-                  },
-                  color: AppColor.red,
-                  child: Text(
-                    S.current.delete,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            )
           ],
+        ),
+        body: Padding(
+          padding: AppPadding.main,
+          child: SafeArea(
+            bottom: true,
+            top: false,
+            child: Column(
+              children: [
+                TextField(
+                  controller: TextEditingController(text: widget.model.title),
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none), hintText: '标题'),
+                  style: AppTextStyle.titleMedium,
+                  onChanged: (value) {
+                    widget.model.title = value;
+                  },
+                ),
+                const Divider(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: TextField(
+                      controller: TextEditingController(
+                        text: widget.model.content,
+                      ),
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(borderSide: BorderSide.none),
+                          hintText: '详细信息',
+                          hintStyle: AppTextStyle.bodyMedium.placeholderColor),
+                      maxLines: 50,
+                      style: AppTextStyle.bodyMedium,
+                      onChanged: (value) {
+                        widget.model.content = value;
+                      },
+                    ),
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 36,
+                    child: MaterialButton(
+                      onPressed: () async {
+                        hideKeyboard(context);
+                        await updateWedding(widget.model);
+                      },
+                      color: AppColor.red,
+                      child: Text(
+                        S.current.save,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> addWedding() async {
+    EasyLoading.show();
+    await API.insertWedding(title: '代办事项');
+  }
+
+  Future<void> insertWedding() async {
+    EasyLoading.show();
+    var a = await API.getWeddings();
+  }
+
+  Future<void> updateWedding(WeddingModel model) async {
+    if (model.title == null || model.title == '') {
+      showToast("标题不能为空");
+      return;
+    }
+    EasyLoading.show();
+    await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
+    showToast(S.current.success);
+  }
+
+  Future<dynamic> deleteWedding(WeddingModel model) async {
+    EasyLoading.show();
+    return API.deleteWedding(model.id);
   }
 }

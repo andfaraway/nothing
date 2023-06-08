@@ -2,77 +2,77 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/wedding_model.dart';
 import 'package:nothing/page/wedding_detail.dart';
 
-import 'wedding_about_vm.dart';
-
-class WeddingAbout extends BasePage<_WeddingAboutState> {
+class WeddingAbout extends StatefulWidget {
   final dynamic arguments;
 
   const WeddingAbout({Key? key, this.arguments}) : super(key: key);
 
   @override
-  _WeddingAboutState createBaseState() => _WeddingAboutState();
+  State<WeddingAbout> createState() => _WeddingAboutState();
 }
 
-class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
-  @override
-  WeddingAboutVM createVM() => WeddingAboutVM(context);
-
+class _WeddingAboutState extends State<WeddingAbout> {
   late final AppRefreshController _controller = AppRefreshController(autoRefresh: true);
+
+  List<WeddingModel> todoList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    pageTitle = "💑 婚礼待办 💑";
-    needHidKeyboard = true;
+    loadWeddings();
   }
 
   @override
-  List<Widget>? appBarActions() {
-    return [
-      IconButton(
-          onPressed: () async {
-            await vm.addWedding();
-          },
-          icon: const Icon(Icons.add))
-    ];
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
-  Widget? floatingActionButton() {
-    return IconButton(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppWidget.appbar(
+        title: '💑 婚礼待办 💑',
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await addWedding();
+            },
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
+      body: AppRefresher(
+        onRefresh: () async {
+          await loadWeddings();
+          _controller.completed();
+        },
+        controller: _controller,
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              Expanded(
+                child: ReorderableListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, i) {
+                      WeddingModel model = todoList[i];
+                      return checkCell(model);
+                    },
+                    itemCount: todoList.length,
+                    onReorder: onReorder),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: IconButton(
         onPressed: () {
           AppRoute.pushNamePage(context, AppRoute.feedback.name);
         },
-        icon: const Icon(Icons.feedback_outlined));
-  }
-
-  @override
-  Widget createContentWidget() {
-    return AppRefresher(
-      onRefresh: () async {
-        await vm.loadWeddings();
-        _controller.completed();
-      },
-      controller: _controller,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            Expanded(
-              child: ReorderableListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, i) {
-                    WeddingModel model = vm.todoList[i];
-                    return checkCell(model);
-                  },
-                  itemCount: vm.todoList.length,
-                  onReorder: onReorder),
-            ),
-          ],
-        ),
+        icon: const Icon(Icons.feedback_outlined),
       ),
     );
   }
@@ -83,10 +83,10 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
       newIndex -= 1;
       sortUp = false;
     }
-    int markSort = vm.todoList[newIndex].sort;
-    final WeddingModel element = vm.todoList.removeAt(oldIndex);
+    int markSort = todoList[newIndex].sort;
+    final WeddingModel element = todoList.removeAt(oldIndex);
     setState(() {
-      vm.todoList.insert(newIndex, element);
+      todoList.insert(newIndex, element);
     });
 
     //请求服务器
@@ -96,7 +96,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
       sort = markSort + 1;
     }
     element.sort = sort;
-    await vm.updateWeddingSort(element, sort);
+    await updateWeddingSort(element, sort);
   }
 
   Widget checkCell(WeddingModel model) {
@@ -118,7 +118,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                     } else {
                       model.done = '0';
                     }
-                    await vm.updateWedding(model);
+                    await updateWedding(model);
                   }),
               Expanded(
                 child: GestureDetector(
@@ -131,7 +131,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                         ));
                     if (s != null) {
                       setState(() {
-                        vm.loadWeddings();
+                        loadWeddings();
                       });
                     }
                   },
@@ -142,7 +142,7 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
                     onEditingComplete: () async {
                       if (model.title != controller.text) {
                         model.title = controller.text;
-                        await vm.updateWedding(model);
+                        await updateWedding(model);
                       }
                       if (mounted) {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -160,5 +160,44 @@ class _WeddingAboutState extends BaseState<WeddingAboutVM, WeddingAbout> {
         valueListenable: notifier,
       ),
     );
+  }
+
+  Future<void> addWedding() async {
+    EasyLoading.show();
+    await API.insertWedding(title: '代办事项');
+    await loadWeddings();
+  }
+
+  Future<void> loadWeddings() async {
+    List<dynamic> data = await API.getWeddings();
+    todoList.clear();
+    for (Map<String, dynamic> map in data) {
+      WeddingModel model = WeddingModel.fromJson(map);
+      todoList.add(model);
+    }
+    setState(() {});
+  }
+
+  Future<void> insertWedding() async {
+    EasyLoading.show();
+    var a = await API.getWeddings();
+    print(a.toString());
+  }
+
+  Future<void> updateWedding(WeddingModel model) async {
+    EasyLoading.show();
+    await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
+  }
+
+  Future<void> updateWeddingSort(WeddingModel model, int sort) async {
+    await API.updateWeddingSort(
+      id: model.id,
+      sort: sort,
+    );
+  }
+
+  Future<void> deleteWedding(WeddingModel model) async {
+    EasyLoading.show();
+    await API.deleteWedding(model.id);
   }
 }

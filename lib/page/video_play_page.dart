@@ -1,49 +1,46 @@
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/video_screen.dart';
 
-import 'video_play_vm.dart';
-
-class VideoPlayPage extends BasePage<_VideoPlayState> {
+class VideoPlayPage extends StatefulWidget {
   const VideoPlayPage({Key? key}) : super(key: key);
 
   @override
-  _VideoPlayState createBaseState() => _VideoPlayState();
+  State<VideoPlayPage> createState() => _VideoPlayState();
 }
 
-class _VideoPlayState extends BaseState<VideoPlayVM, VideoPlayPage> {
+class _VideoPlayState extends State<VideoPlayPage> {
   String url = '${ConstUrl.netServer}/something/1.mp4';
-
-  @override
-  VideoPlayVM createVM() => VideoPlayVM(context);
 
   @override
   void initState() {
     super.initState();
-    pageTitle = "Video Play";
   }
 
   @override
-  Widget createContentWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextField(
-          controller: TextEditingController(text: url),
-          onChanged: (value) {
-            url = value;
-          },
-          textAlign: TextAlign.center,
-        ),
-        TextButton(
-          onPressed: () {
-            AppRoute.pushPage(context, VideoScreen(url: url));
-          },
-          child: const Padding(
-            padding: EdgeInsets.all(30.0),
-            child: Text('next'),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppWidget.appbar(title: 'Video Play'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: TextEditingController(text: url),
+            onChanged: (value) {
+              url = value;
+            },
+            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          TextButton(
+            onPressed: () {
+              AppRoute.pushPage(context, VideoScreen(url: url));
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(30.0),
+              child: Text('next'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

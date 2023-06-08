@@ -16,6 +16,7 @@ export '../constants/constants.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';
 export '../utils/image.dart';
+export '../utils/keyboard.dart';
 export '../widgets/app_widget.dart';
 export '../widgets/button.dart';
 export '../widgets/content_white_bg.dart';

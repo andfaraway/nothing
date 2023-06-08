@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Screens {
   const Screens._();
 
-  static MediaQueryData get mediaQuery => MediaQueryData.fromWindow(ui.window);
+  static MediaQueryData get mediaQuery => MediaQueryData.fromView(ui.window);
 
   static double fixedFontSize(double fontSize) => fontSize / textScaleFactor;
 

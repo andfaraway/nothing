@@ -80,7 +80,7 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
               : '';
           str += jieri;
           String dateStr = '日期：' + map['gregoriandate'];
-          String nongliStr = '\n农历：' + map['tiangandizhiyear'] + '年 ' + map['lubarmonth'] + map['lunarday'];
+          String nongliStr = '${'\n农历：' + map['tiangandizhiyear']}年 ' + map['lubarmonth'] + map['lunarday'];
           String yiStr = '\n宜：' + map['fitness'];
           String jiStr = '\n忌：' + map['taboo'];
           str = dateStr + nongliStr + yiStr + jiStr;

@@ -44,11 +44,11 @@ class FlutterWhiteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
+      alignment: Alignment.center,
       child: Container(
         width: size.width,
         height: size.height,
         alignment: Alignment.center,
-        child: child,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20.0)),
           color: backgroundColor,
@@ -66,8 +66,8 @@ class FlutterWhiteButton extends StatelessWidget {
             ),
           ],
         ),
+        child: child,
       ),
-      alignment: Alignment.center,
     );
   }
 }

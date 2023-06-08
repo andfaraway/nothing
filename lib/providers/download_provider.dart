@@ -14,7 +14,7 @@ class DownloadProvider {
       return;
     }
 
-    DownloadTask task = DownloadTask(url: url, name: name!, savePath: savePath!);
+    DownloadTask task = DownloadTask(url: url, name: name, savePath: savePath);
     task.startDownload();
     _tasks.add(task);
   }

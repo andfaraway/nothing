@@ -2,8 +2,10 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 class Popup extends StatefulWidget {
+  const Popup({super.key});
+
   @override
-  _PopupState createState() => _PopupState();
+  State<Popup> createState() => _PopupState();
 }
 
 class _PopupState extends State<Popup> with SingleTickerProviderStateMixin {
@@ -52,28 +54,28 @@ class _PopupState extends State<Popup> with SingleTickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     '恭喜你！',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
                   ),
-                  Text(
+                  const Text(
                     '你获得了一个神秘礼物！',
                     style: TextStyle(fontSize: 20, color: Colors.blue),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       // TODO: handle the button action
                     },
-                    child: Text('立即领取'),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     ),
+                    child: const Text('立即领取'),
                   ),
                 ],
               ),
@@ -86,7 +88,7 @@ class _PopupState extends State<Popup> with SingleTickerProviderStateMixin {
             confettiController: _controller,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: true,
-            colors: [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+            colors: const [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
           ),
         ),
       ],

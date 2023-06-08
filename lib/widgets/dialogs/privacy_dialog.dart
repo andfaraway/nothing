@@ -81,12 +81,12 @@ class PrivacyDiaLog extends StatelessWidget {
                       Navigator.of(context).pop();
                       continueCallback();
                     },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.cyan),
+                    ),
                     child: Text(
                       S.current.agree_continue,
                       style: const TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.cyan),
                     ),
                   ),
                 ),

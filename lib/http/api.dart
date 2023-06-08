@@ -440,20 +440,20 @@ class ConstUrl {
   static const String secretKey = 'e1d306002add9c529feaa829d3969766';
 
   ///生活小窍门
-  static const String qiaomen = tianApi + '/qiaomen/index' + '?key=' + secretKey;
+  static const String qiaomen = '$tianApi/qiaomen/index?key=$secretKey';
 
   ///健康提示
-  static const String healthTips = tianApi + '/healthtip/index' + '?key=' + secretKey;
+  static const String healthTips = '$tianApi/healthtip/index?key=$secretKey';
 
   ///彩虹屁
-  static const String caihongpi = tianApi + '/caihongpi/index' + '?key=' + secretKey;
+  static const String caihongpi = '$tianApi/caihongpi/index?key=$secretKey';
 
   ///今日头条新闻
-  static const String topNews = tianApi + '/topnews/index' + '?key=' + secretKey;
+  static const String topNews = '$tianApi/topnews/index?key=$secretKey';
 
   ///中国老黄历
-  static const String huangli = tianApi + '/lunar/index' + '?key=' + secretKey;
+  static const String huangli = '$tianApi/lunar/index?key=$secretKey';
 
   ///土味情话
-  static const String sayLove = tianApi + '/saylove/index' + '?key=' + secretKey;
+  static const String sayLove = '$tianApi/saylove/index?key=$secretKey';
 }

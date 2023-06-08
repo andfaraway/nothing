@@ -81,7 +81,7 @@ class DeviceUtils {
   /// supported devices.
   /// 在支持的手机上尝试以最高的刷新率显示
   static void setHighestRefreshRate() {
-    if (Platform.isAndroid && (deviceInfo as AndroidDeviceInfo).version.sdkInt! >= 23) {
+    if (Platform.isAndroid && (deviceInfo as AndroidDeviceInfo).version.sdkInt >= 23) {
       FlutterDisplayMode.setHighRefreshRate();
     }
   }
@@ -91,7 +91,7 @@ class DeviceUtils {
     if (battery == -1) {
       return "unknown";
     } else {
-      return battery.toString() + "%";
+      return "$battery%";
     }
   }
 

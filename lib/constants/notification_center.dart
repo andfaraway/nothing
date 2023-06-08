@@ -9,15 +9,15 @@ class NotificationCenter {
   // 工厂模式
   factory NotificationCenter() => _instance;
 
-  static late final NotificationCenter _instance = NotificationCenter._internal();
+  static final NotificationCenter _instance = NotificationCenter._internal();
 
   //创建Map来记录名称
-  Map<String, dynamic> postNameMap = Map<String, dynamic>();
+  Map<String, dynamic> postNameMap = <String, dynamic>{};
 
   late GetObject getObject;
 
   //添加监听者方法
-  addObserver(String postName, object(dynamic object)) {
+  addObserver(String postName, Function(dynamic object) object) {
     postNameMap[postName] = null;
     getObject = object;
   }

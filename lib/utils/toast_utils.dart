@@ -31,12 +31,12 @@ void showHttpLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
 
     ///背景颜色
-    ..backgroundColor = Color(0xfff4f7fb)
+    ..backgroundColor = const Color(0xfff4f7fb)
 
     ///进度颜色
-    ..indicatorColor = Color(0xff0082CD)
-    ..textColor = Color(0xff0082CD)
-    ..textStyle = TextStyle(fontSize: 12)
+    ..indicatorColor = const Color(0xff0082CD)
+    ..textColor = const Color(0xff0082CD)
+    ..textStyle = const TextStyle(fontSize: 12)
     ..indicatorType = EasyLoadingIndicatorType.wave;
   EasyLoading.show();
 }
@@ -139,7 +139,7 @@ showEdit(BuildContext context,
                 cancelPressed?.call();
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 '取消',
                 style: TextStyle(color: AppColor.blackLight),
               ),
@@ -149,7 +149,7 @@ showEdit(BuildContext context,
                 commitPressed?.call(text);
                 Navigator.pop(context);
               },
-              child: Text('确定'),
+              child: const Text('确定'),
             ),
           ],
         );
@@ -178,7 +178,7 @@ class ModalFit extends StatelessWidget {
       child: Column(
           mainAxisSize: MainAxisSize.min,
           children: list.map((e) {
-            return Container(
+            return SizedBox(
               height: 44,
               child: Column(
                 children: [

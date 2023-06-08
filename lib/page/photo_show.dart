@@ -28,7 +28,7 @@ class _PhotoShowState extends State<PhotoShow> {
   /// 长按3秒弹出选择目录
   int _lastWantToPop = 0;
 
-  List<ServerImageModel> _data = [];
+  final List<ServerImageModel> _data = [];
 
   int _initIndex = 3;
 

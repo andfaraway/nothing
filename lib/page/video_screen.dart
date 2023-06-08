@@ -8,7 +8,7 @@ class VideoScreen extends StatefulWidget {
   final List<FileModel>? files;
   final int index;
 
-  VideoScreen({Key? key, required this.url, this.files, this.index = 0}) : super(key: key);
+  const VideoScreen({Key? key, required this.url, this.files, this.index = 0}) : super(key: key);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();

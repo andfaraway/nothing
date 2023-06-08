@@ -37,13 +37,13 @@ class HiveFieldUtils {
   static bool getBrightnessPlatform() {
     bool value = false;
     if (DeviceUtils.deviceInfo is IosDeviceInfo) {
-      final double version = (DeviceUtils.deviceInfo as IosDeviceInfo).systemVersion!.split('.').first.toDouble();
+      final double version = (DeviceUtils.deviceInfo as IosDeviceInfo).systemVersion.split('.').first.toDouble();
       if (version >= 13.0) {
         value = true;
       }
     } else if (DeviceUtils.deviceInfo is AndroidDeviceInfo) {
-      final int? sdk = (DeviceUtils.deviceInfo as AndroidDeviceInfo).version.sdkInt;
-      if (sdk! >= 29) {
+      final int sdk = (DeviceUtils.deviceInfo as AndroidDeviceInfo).version.sdkInt;
+      if (sdk >= 29) {
         value = true;
       }
     }

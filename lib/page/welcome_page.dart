@@ -150,12 +150,21 @@ class _WelcomePageState extends State<WelcomePage> {
             builder: (context, value, child) {
               if (value == 0) return const SizedBox.shrink();
               return Align(
+                alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Row(
                     children: [
                       const Expanded(child: SizedBox.shrink()),
                       TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.black26),
+                          minimumSize: MaterialStateProperty.all(Size.zero),
+                          foregroundColor: MaterialStateProperty.all(Colors.white),
+                        ),
+                        onPressed: () {
+                          jumpPage();
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -165,19 +174,10 @@ class _WelcomePageState extends State<WelcomePage> {
                             const Text('跳过'),
                           ],
                         ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.black26),
-                          minimumSize: MaterialStateProperty.all(Size.zero),
-                          foregroundColor: MaterialStateProperty.all(Colors.white),
-                        ),
-                        onPressed: () {
-                          jumpPage();
-                        },
                       ),
                     ],
                   ),
                 ),
-                alignment: Alignment.bottomRight,
               );
             },
             valueListenable: timeCount,

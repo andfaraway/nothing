@@ -219,7 +219,7 @@ class _UploadFileState extends State<UploadFile> {
     }
     ImagePicker picker = ImagePicker();
     PickedFile? file = await picker.getImage(source: source).catchError((error) {
-      print('picker error : ' + error.toString());
+      print('picker error : $error');
       openAppSettings();
     });
 

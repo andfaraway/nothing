@@ -57,9 +57,7 @@ class _NoSplash extends InteractiveInkFeature {
     required MaterialInkController controller,
     required RenderBox referenceBox,
     VoidCallback? onRemoved,
-  })  : assert(controller != null),
-        assert(referenceBox != null),
-        super(
+  }) : super(
           controller: controller,
           referenceBox: referenceBox,
           onRemoved: onRemoved,

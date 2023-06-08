@@ -38,7 +38,7 @@ Future<String> captureImage() async {
   bool isDirExist = await Directory(applicationDir.path).exists();
   if (!isDirExist) Directory(applicationDir.path).create();
   // 直接保存，返回的就是保存后的文件
-  File saveFile = await File(applicationDir.path + "${DateTime.now().toIso8601String()}.jpg").writeAsBytes(pngBytes);
+  File saveFile = await File("${applicationDir.path}${DateTime.now().toIso8601String()}.jpg").writeAsBytes(pngBytes);
   filePath = saveFile.path;
   // if (Platform.isAndroid) {
   //   // 如果是Android 的话，直接使用image_gallery_saver就可以了
@@ -172,7 +172,7 @@ Future<String?> saveToDocument({required String url, required String saveName}) 
   );
 
   // 本地图片路径
-  String localPath = PathUtils.documentPath + '/' + saveName;
+  String localPath = '${PathUtils.documentPath}/$saveName';
   Response s = await NetUtils.download(urlPath: url, savePath: localPath, onReceiveProgress: (a, b) {});
 
   // 下载完成，记录状态

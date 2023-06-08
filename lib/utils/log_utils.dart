@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer' as _dev;
+import 'dart:developer' as dev;
 
 import 'package:logging/logging.dart';
 import 'package:nothing/constants/constants.dart' show DateFormat, currentTime, currentTimeStamp;
@@ -50,7 +50,7 @@ class Log {
     bool withStackTrace = true,
   }) {
     if (isError) {
-      _dev.log(
+      dev.log(
         '${DateFormat('[HH:mm:ss]').format(currentTime)} - An error occurred.',
         time: currentTime,
         name: tag ?? _TAG,
@@ -59,7 +59,7 @@ class Log {
         stackTrace: stackTrace ?? (isError && withStackTrace ? StackTrace.current : null),
       );
     } else {
-      _dev.log(
+      dev.log(
         '${DateFormat('[HH:mm:ss]').format(currentTime)} - ${_messageFormat(message)}',
         time: currentTime,
         name: tag ?? _TAG,

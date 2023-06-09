@@ -84,8 +84,12 @@ class ThemesProvider with ChangeNotifier {
     _currentThemeGroup = supportThemeGroups[themeIndex];
     _dark = HiveFieldUtils.getBrightnessDark();
 
-    _informationBgColor =
-        Color(HiveBoxes.get(HiveKey.informationColor, defaultValue: AppColor.scaffoldBackgroundColor));
+    int? intColor = HiveBoxes.get(HiveKey.informationColor);
+    if (intColor != null) {
+      _informationBgColor = Color(intColor);
+    } else {
+      _informationBgColor = AppColor.scaffoldBackgroundColor;
+    }
 
     _filterColor = HiveBoxes.get(HiveKey.filterColor, defaultValue: Colors.transparent);
     _fontFamily = HiveBoxes.get(HiveKey.fontFamily);

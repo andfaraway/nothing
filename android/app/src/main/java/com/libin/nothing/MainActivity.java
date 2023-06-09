@@ -26,7 +26,7 @@ public class MainActivity extends FlutterActivity {
     ///接受消息
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine);
+        super.configureFlutterEngine(flutterEngine);
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL);
         channel.setMethodCallHandler(
                 (call, result) -> {

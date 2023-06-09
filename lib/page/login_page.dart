@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
   /// 键盘弹出或收起时设置输入字段的对齐方式以防止遮挡。
   void setAlignment(BuildContext context) {
-    final double inputMethodHeight = MediaQuery.of(context).viewInsets.bottom;
+    final double inputMethodHeight = MediaQuery.viewInsetsOf(context).bottom;
     if (inputMethodHeight > 1.0 && !_keyboardAppeared.value) {
       _keyboardAppeared.value = true;
     } else if (inputMethodHeight <= 1.0 && _keyboardAppeared.value) {

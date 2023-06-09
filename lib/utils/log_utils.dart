@@ -19,7 +19,18 @@ class Log {
   }
 
   static void n(dynamic message, {String tag = 'network', StackTrace? stackTrace}) {
-    _printLog(message, '🌐 $tag', stackTrace, level: Level.INFO);
+    if (Config.apiLogOpen) {
+      if (message != null) {
+        try {
+          if (message.isEmpty) {
+            return;
+          }
+        } catch (_) {}
+      } else {
+        return;
+      }
+      _printLog(message, '🌐 $tag', stackTrace, level: Level.INFO, format: false);
+    }
   }
 
   static void w(dynamic message, {String tag = _TAG, StackTrace? stackTrace}) {
@@ -47,12 +58,13 @@ class Log {
     String? tag,
     StackTrace? stackTrace, {
     bool isError = false,
+    bool format = true,
     Level level = Level.ALL,
     bool withStackTrace = true,
   }) {
     if (isError) {
       dev.log(
-        '${DateFormat('[HH:mm:ss]').format(currentTime)} - An error occurred.',
+        '${DateFormat('[HH:mm:ss]').format(currentTime)} An error occurred.',
         time: currentTime,
         name: tag ?? _TAG,
         level: level.value,
@@ -61,7 +73,7 @@ class Log {
       );
     } else {
       dev.log(
-        '${DateFormat('[HH:mm:ss]').format(currentTime)} - ${_messageFormat(message)}',
+        '${DateFormat('[HH:mm:ss]').format(currentTime)} ${format ? _messageFormat(message) : message}',
         time: currentTime,
         name: tag ?? _TAG,
         level: level.value,
@@ -77,7 +89,7 @@ class Log {
     } else {
       try {
         return json.encode(message);
-      } catch (e) {
+      } catch (_) {
         return message;
       }
     }
@@ -94,7 +106,6 @@ class Log {
       return true;
     } on NoSuchMethodError {
       return false;
-      // do nothing
     }
   }
 }

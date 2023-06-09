@@ -192,8 +192,6 @@ class ServerTargetModel {
       List<String> splitList = targetStr.split(',');
       model.type = 0;
       model.routeName = splitList.first;
-      print('targetStr = $splitList');
-
       if (splitList.isEmpty) {
         model.page = AppRoute.routePages
             .firstWhere((element) => element.name == splitList.first)

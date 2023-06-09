@@ -60,7 +60,7 @@ class _SmartDrawerState extends State<SmartDrawer> {
         break;
       default:
     }
-    final double width = MediaQuery.of(context).size.width * widget.widthPercent;
+    final double width = MediaQuery.sizeOf(context).width * widget.widthPercent;
     // return widget.child ?? const SizedBox.shrink();
     return Semantics(
       scopesRoute: true,

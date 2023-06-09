@@ -100,7 +100,6 @@ class _WelcomePageState extends State<WelcomePage> {
         children: [
           Consumer<LaunchProvider>(
             builder: (context, provider, child) {
-              Log.i("provider.launchInfo?.launchType:${provider.launchInfo?.launchType}");
               return provider.launchInfo == null
                   ? Center(
                       child: Text(

@@ -68,7 +68,6 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
 
   ///黄历
   Widget huangliPage(String title, String url) {
-    print('黄历：$url');
     return SimplePage(
         title: title,
         requestCallback: () async {

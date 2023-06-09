@@ -68,7 +68,7 @@ class _PictureViewerState extends State<PictureViewer> {
         PhotoView.customChild(
           wantKeepAlive: true,
           backgroundDecoration: const BoxDecoration(color: Colors.black),
-          customSize: MediaQuery.of(context).size,
+          customSize: MediaQuery.sizeOf(context),
           enableRotation: false,
           minScale: PhotoViewComputedScale.contained * 1,
           maxScale: PhotoViewComputedScale.covered * 10,

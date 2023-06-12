@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:nothing/common/prefix_header.dart';
-import 'package:nothing/utils/string_extension.dart';
 
 import '../model/file_model.dart';
 

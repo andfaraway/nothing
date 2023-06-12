@@ -25,7 +25,6 @@ import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/page/welcome_page.dart';
-import 'package:nothing/utils/string_extension.dart';
 import 'package:nothing/widgets/app_webview.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
@@ -70,12 +69,10 @@ class AppRoute {
   static final RoutePage login = RoutePage(name: '/loginRoute', page: ({Object? arguments}) => const LoginPage());
   static final RoutePage home = RoutePage(name: '/homeRoute', page: ({Object? arguments}) => const HomePage());
   static final RoutePage profile = RoutePage(name: '/profileRoute', page: ({Object? arguments}) => const Profile());
-
   static final RoutePage favorite =
       RoutePage(name: '/favoriteRoute', page: ({Object? arguments}) => const FavoritePage());
   static final RoutePage feedback =
       RoutePage(name: '/feedbackRoute', page: ({Object? arguments}) => const FeedbackPage());
-
   static final RoutePage message = RoutePage(name: '/messageRoute', page: ({Object? arguments}) => const MessagePage());
   static final RoutePage releaseVersion =
       RoutePage(name: '/releaseVersionRoute', page: ({Object? arguments}) => const ReleaseVersion());
@@ -85,7 +82,6 @@ class AppRoute {
   static final RoutePage setting = RoutePage(name: '/settingRoute', page: ({Object? arguments}) => const SettingPage());
   static final RoutePage uploadFile =
       RoutePage(name: '/uploadFileRoute', page: ({Object? arguments}) => const UploadFile());
-
   static final RoutePage information =
       RoutePage(name: '/informationRoute', page: ({Object? arguments}) => const InformationPage());
   static final RoutePage livePhoto =
@@ -109,13 +105,10 @@ class AppRoute {
           ));
   static final RoutePage someThings =
       RoutePage(name: '/someThingsRoute', page: ({Object? arguments}) => const SomeThings());
-
   static final RoutePage videoPlayPage =
       RoutePage(name: '/videoPlayPageRoute', page: ({Object? arguments}) => const VideoPlayPage());
-
   static final RoutePage musicPage =
       RoutePage(name: '/musicPageRoute', page: ({Object? arguments}) => const MusicPage());
-
   static final RoutePage webView =
       RoutePage(name: '/webViewRoute', page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
 

@@ -38,7 +38,7 @@ class _PhotoShowState extends State<PhotoShow> {
   void initState() {
     super.initState();
 
-    _catalog = widget.arguments ?? '';
+    _catalog = widget.arguments ?? 'deskTopImage';
     getImages(_catalog);
   }
 
@@ -132,6 +132,7 @@ class _PhotoShowState extends State<PhotoShow> {
   }
 
   Future<void> getImages(String? catalog) async {
+    catalog ??= 'deskTop';
     var response = await API.getImages(catalog) ?? [];
     _data.clear();
     for (Map<String, dynamic> map in response) {
@@ -144,6 +145,7 @@ class _PhotoShowState extends State<PhotoShow> {
     _data.sort((a, b) {
       return a.name!.compareTo(b.name!);
     });
+
     _initIndex = HiveBoxes.get(HiveKey.photoShowIndex, defaultValue: 0);
     setState(() {});
   }

@@ -4,13 +4,25 @@ import 'package:intl/intl.dart' show DateFormat;
 
 import '../utils/log_utils.dart';
 
-extension ObjectEx on Object {
+extension ObjectEx on dynamic {
   String? toJsonString() {
     try {
       return json.encode(this);
     } catch (e) {
       return null;
     }
+  }
+
+  bool objectIsEmpty() {
+    if (this == null) {
+      return true;
+    }
+
+    if (this is String || this is Map || this is Set || this is List) {
+      return this.isEmpty;
+    }
+
+    return false;
   }
 }
 
@@ -68,8 +80,8 @@ extension StringEx on String {
   }
 }
 
-extension MapExt on Map {
-  get removeEmptyValue => this..removeWhere((key, value) => value == null || value == '');
+extension MapExt<E, V> on Map<E, V> {
+  Map<E, V> removeEmptyValue() => this..removeWhere((key, value) => value == null || value == '');
 }
 
 extension IteratorExt<E> on Iterable<E> {

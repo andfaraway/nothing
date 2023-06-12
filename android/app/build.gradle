@@ -45,8 +45,7 @@ android {
         versionName flutterVersionName
 
         ndk {
-            //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
 
         manifestPlaceholders = [
@@ -61,13 +60,17 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.debug
         }
     }
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "Nothing" + ".apk"
+            def version = variant.versionName // 版本号
+            // def createTime = new Date().format('MM_dd') // 打包时间 09_25
+            outputFileName = "nothing_${version}.apk"
         }
     }
 }

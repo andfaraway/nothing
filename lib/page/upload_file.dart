@@ -19,8 +19,6 @@ class UploadFile extends StatefulWidget {
 
 class _UploadFileState extends State<UploadFile> {
   late LaunchInfo launchInfo;
-  PickedFile? imageFile;
-  PickedFile? bgImageFile;
 
   /// 选择图片的类型 0.image 1.image_background
   int imageType = 0;
@@ -135,36 +133,17 @@ class _UploadFileState extends State<UploadFile> {
                         selectFile();
                       }),
                   required: true),
-              50.hSizedBox,
+              25.hSizedBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
-                        ),
-                        width: 100.w,
-                        height: 100.w,
-                        child: imageFile?.path == null ? const SizedBox.shrink() : Image.asset(imageFile?.path ?? ''),
-                      ),
-                      10.hSizedBox,
-                      const Text('image')
-                    ],
+                    children: [_imageBox(url: launchInfo.image), 10.hSizedBox, const Text('image')],
                   ),
-                  100.wSizedBox,
+                  50.wSizedBox,
                   Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
-                        ),
-                        width: 100.w,
-                        height: 100.w,
-                        child:
-                            bgImageFile?.path == null ? const SizedBox.shrink() : Image.asset(bgImageFile?.path ?? ''),
-                      ),
+                      _imageBox(url: launchInfo.backgroundImage),
                       10.hSizedBox,
                       const Text('image_background')
                     ],
@@ -175,6 +154,27 @@ class _UploadFileState extends State<UploadFile> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _imageBox({required String? url}) {
+    Widget child;
+
+    if (url != null) {
+      child = AppImage.network(url);
+    } else {
+      child = const SizedBox.shrink();
+    }
+
+    BorderRadiusGeometry borderRadius = BorderRadius.circular(AppSize.radiusMedium);
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColor.black.withOpacity(.2)),
+        borderRadius: borderRadius,
+      ),
+      width: 100.w,
+      height: 100.w,
+      child: ClipRRect(borderRadius: borderRadius, child: child),
     );
   }
 

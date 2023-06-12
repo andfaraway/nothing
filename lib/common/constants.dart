@@ -68,7 +68,6 @@ class Constants {
 
   static const String endLineTag = '没有更多了';
 
-  /// Fow news list.
   static final int appId = Platform.isIOS ? 274 : 273;
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
   static final String deviceType = Platform.isIOS ? 'iPhone' : 'Android';

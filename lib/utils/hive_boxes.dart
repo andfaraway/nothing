@@ -19,7 +19,7 @@ class HiveBoxes {
   static late Box<dynamic> launchBox;
 
   /// 设置表
-  static late Box<dynamic> settingsBox;
+  static late Box<dynamic> _settingsBox;
 
   /// 通用信息表(默认存储)
   static late Box<dynamic> _dataBox;
@@ -33,7 +33,7 @@ class HiveBoxes {
     await Future.wait(
       <Future<void>>[
         () async {
-          settingsBox = await Hive.openBox<dynamic>('${boxPrefix}_app_settings');
+          _settingsBox = await Hive.openBox<dynamic>('${boxPrefix}_app_settings');
         }(),
         () async {
           launchBox = await Hive.openBox<dynamic>('${boxPrefix}_app_launch');
@@ -47,7 +47,7 @@ class HiveBoxes {
 
   static Future<void> clearAll() async {
     await launchBox.clear();
-    await settingsBox.clear();
+    await _settingsBox.clear();
     await _dataBox.clear();
   }
 
@@ -71,6 +71,15 @@ class HiveBoxes {
     _dataBox.put('test', true);
     return _dataBox.get('test', defaultValue: false);
   }
+
+  /// 设置选择的主题色
+  static Future<void>? setColorTheme(int value) => _settingsBox.put(HiveKey.colorThemeIndex, value);
+
+  /// 获取设置的夜间模式
+  static bool getBrightnessDark() => _settingsBox.get(HiveKey.brightnessDark) ?? false;
+
+  /// 设置选择的夜间模式
+  static Future<void>? setBrightnessDark(bool value) => _settingsBox.put(HiveKey.brightnessDark, value);
 }
 
 class HiveAdapterTypeIds {
@@ -98,4 +107,6 @@ class HiveKey {
   static const String informationColor = 'informationColor';
 
   static const String fontFamily = 'fontFamily';
+
+  static const String brightnessDark = 'brightnessDark';
 }

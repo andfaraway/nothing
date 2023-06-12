@@ -82,7 +82,7 @@ class ThemesProvider with ChangeNotifier {
       themeIndex = 0;
     }
     _currentThemeGroup = supportThemeGroups[themeIndex];
-    _dark = HiveFieldUtils.getBrightnessDark();
+    _dark = HiveBoxes.getBrightnessDark();
 
     int? intColor = HiveBoxes.get(HiveKey.informationColor);
     if (intColor != null) {
@@ -102,7 +102,7 @@ class ThemesProvider with ChangeNotifier {
   void resetTheme() {}
 
   void updateThemeColor(int themeIndex) {
-    HiveFieldUtils.setColorTheme(themeIndex);
+    HiveBoxes.setColorTheme(themeIndex);
     _currentThemeGroup = supportThemeGroups[themeIndex];
     notifyListeners();
     showToast('已更换主题色');

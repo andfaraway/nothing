@@ -11,7 +11,7 @@ export 'package:url_launcher/url_launcher_string.dart';
 
 export '../../generated/l10n.dart';
 export '../common/config.dart';
-export '../extensions/app_extensions.dart';
+export '../extensions/extensions.e.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';
 export '../utils/image.dart';

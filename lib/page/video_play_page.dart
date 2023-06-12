@@ -9,7 +9,7 @@ class VideoPlayPage extends StatefulWidget {
 }
 
 class _VideoPlayState extends State<VideoPlayPage> {
-  String url = '${ConstUrl.netServer}/something/1.mp4';
+  String url = '${Config.netServer}/something/1.mp4';
 
   @override
   void initState() {

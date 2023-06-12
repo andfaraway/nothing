@@ -2,7 +2,6 @@
 //  [Author] libin (https://www.imin.sg)
 //  [Date] 2022-02-15 18:21:40
 //
-
 import 'dart:core';
 
 import 'package:dio/dio.dart';
@@ -11,14 +10,12 @@ import 'package:nothing/model/version_update_model.dart';
 
 import 'http.dart';
 
-/// Definition of various sorts of APIs.
-/// 各项接口定义
 class API {
   const API._();
 
-  /// 生活小窍门
-  static Future<dynamic> getQiaomen() async {
-    return Http.get(ConstUrl.qiaomen);
+  /// 资讯
+  static Future<dynamic> informationApi(String? type) async {
+    return Http.get(ConstUrl.informationApi, params: {'kinds': type});
   }
 
   /// 登录
@@ -347,7 +344,7 @@ class API {
   }
 
   static Future<String> loadTips() async {
-    var response = await Http.get(ConstUrl.sayLove);
+    var response = await Http.get(ConstUrl.informationApi, params: {'kinds': InformationType.saylove});
     return response['newslist'].first['content'];
   }
 
@@ -374,10 +371,6 @@ class API {
 
 class ConstUrl {
   ConstUrl._();
-
-  static const netServer = 'http://1.14.252.115';
-
-  static const baseUrl = isDebug ? localUrl : '$netServer:5000';
 
   ///登录
   static const String login = '/login';
@@ -436,24 +429,25 @@ class ConstUrl {
   ///添加登录信息
   static const String pushDeviceToken = '/pushDeviceToken';
 
-  static const String tianApi = 'http://api.tianapi.com';
-  static const String secretKey = 'e1d306002add9c529feaa829d3969766';
+  /// 资讯
+  static const String informationApi = '/informationApi';
+}
 
-  ///生活小窍门
-  static const String qiaomen = '$tianApi/qiaomen/index?key=$secretKey';
+class InformationType {
+  const InformationType._();
+
+  /// 生活小窍门
+  static const String qiaomen = 'qiaomen';
 
   ///健康提示
-  static const String healthTips = '$tianApi/healthtip/index?key=$secretKey';
+  static const String healthtip = 'healthtip';
 
   ///彩虹屁
-  static const String caihongpi = '$tianApi/caihongpi/index?key=$secretKey';
-
-  ///今日头条新闻
-  static const String topNews = '$tianApi/topnews/index?key=$secretKey';
+  static const String caihongpi = 'caihongpi';
 
   ///中国老黄历
-  static const String huangli = '$tianApi/lunar/index?key=$secretKey';
+  static const String lunar = 'lunar';
 
   ///土味情话
-  static const String sayLove = '$tianApi/saylove/index?key=$secretKey';
+  static const String saylove = 'saylove';
 }

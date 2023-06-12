@@ -17,9 +17,6 @@ export 'platform_channel.dart';
 export 'screens.dart';
 export 'singleton.dart';
 
-const bool isDebug = false;
-const String localUrl = 'http://10.0.21.146:5000';
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 NavigatorState get navigatorState => navigatorKey.currentState!;

@@ -7,19 +7,19 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:nothing/common/constants.dart';
 
-import 'api.dart';
+import '../common/config.dart';
 import 'interceptors.dart';
 
 class Http {
   static final BaseOptions _options = BaseOptions(
 
-      ///Api地址
-      baseUrl: ConstUrl.baseUrl,
+      //Api地址
+      baseUrl: Config.baseUrl,
 
-      ///打开超时时间
+      //打开超时时间
       connectTimeout: const Duration(seconds: 20),
 
-      ///接收超时时间
+      //接收超时时间
       receiveTimeout: const Duration(seconds: 30),
 
       //是否不使用缓存

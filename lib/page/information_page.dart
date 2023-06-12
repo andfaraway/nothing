@@ -4,7 +4,6 @@
 //
 import 'package:nothing/common/prefix_header.dart';
 
-import '../http/http.dart';
 import '../model/interface_model.dart';
 import 'simple_page.dart';
 
@@ -30,12 +29,12 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   void initState() {
     super.initState();
 
-    _interfaceList.add(InterfaceModel(tag: 1, title: '生活小窍门', page: genericPage('生活小窍门', ConstUrl.qiaomen)));
-    _interfaceList.add(InterfaceModel(
-        tag: 0,
-        title: '黄历',
-        page: huangliPage('黄历', '${ConstUrl.huangli}&date=${DateFormat('yyyy-MM-dd').format(DateTime.now())}')));
-    _interfaceList.add(InterfaceModel(tag: 2, title: '健康提示', page: genericPage('健康提示', ConstUrl.healthTips)));
+    _interfaceList
+        .add(InterfaceModel(tag: 1, title: '生活小窍门', page: genericPage(title: '生活小窍门', type: InformationType.qiaomen)));
+    _interfaceList
+        .add(InterfaceModel(tag: 0, title: '黄历', page: huangliPage(title: '黄历', type: InformationType.lunar)));
+    _interfaceList
+        .add(InterfaceModel(tag: 2, title: '健康提示', page: genericPage(title: '健康提示', type: InformationType.healthtip)));
 
     _tabController = TabController(length: _interfaceList.length, vsync: this);
 
@@ -52,12 +51,12 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   }
 
   ///通用界面
-  Widget genericPage(String title, String url) {
+  Widget genericPage({String? title, String? type}) {
     return SimplePage(
         title: title,
         justify: true,
         requestCallback: () async {
-          var s = await Http.get(url);
+          var s = await API.informationApi(type);
           var dataStr = s['newslist'].first['content'];
           if (dataStr is String) {
             return dataStr.replaceAll('XXX', '娜娜');
@@ -67,11 +66,11 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   }
 
   ///黄历
-  Widget huangliPage(String title, String url) {
+  Widget huangliPage({String? title, String? type}) {
     return SimplePage(
         title: title,
         requestCallback: () async {
-          var s = await Http.get(url);
+          var s = await API.informationApi(type);
           Map map = s['newslist'].first;
           String str = '';
           String jieri = ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)

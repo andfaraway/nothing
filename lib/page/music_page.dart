@@ -31,21 +31,21 @@ class _MusicPageState extends State<MusicPage> {
     //   ),
     // ),
     AudioSource.uri(
-      Uri.parse("${ConstUrl.netServer}/music/badukongjian/bandaotiehe.mp3"),
+      Uri.parse("${Config.netServer}/music/badukongjian/bandaotiehe.mp3"),
       tag: MediaItem(
         id: '${_nextMediaId++}',
         album: "八度空间-周杰伦",
         title: "半岛铁盒",
-        artUri: Uri.parse('${ConstUrl.netServer}/src/handsomeman.jpeg'),
+        artUri: Uri.parse('${Config.netServer}/src/handsomeman.jpeg'),
       ),
     ),
     AudioSource.uri(
-      Uri.parse("${ConstUrl.netServer}/music/qqmusic_体面..m4a"),
+      Uri.parse("${Config.netServer}/music/qqmusic_体面..m4a"),
       tag: MediaItem(
         id: '${_nextMediaId++}',
         album: "于文文",
         title: "体面",
-        artUri: Uri.parse('${ConstUrl.netServer}/src/handsomeman.jpeg'),
+        artUri: Uri.parse('${Config.netServer}/src/handsomeman.jpeg'),
       ),
     ),
   ]);

@@ -39,8 +39,8 @@ class _WelcomePageState extends State<WelcomePage> {
             barrierColor: Colors.black38,
             barrierDismissible: true,
             builder: (_) => PrivacyDiaLog(
-                  userAgreementUrl: '${ConstUrl.netServer}/userAgreement.html',
-                  privacyPolicyUrl: '${ConstUrl.netServer}/privacyPolicy.html',
+                  userAgreementUrl: '${Config.netServer}/userAgreement.html',
+                  privacyPolicyUrl: '${Config.netServer}/privacyPolicy.html',
                   continueCallback: () async {
                     await HiveBoxes.put(HiveKey.agreement, true);
                     initData();

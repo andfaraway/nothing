@@ -448,6 +448,9 @@ class InformationType {
   ///中国老黄历
   static const String lunar = 'lunar';
 
+  /// 头条
+  static const String topNews = 'topNews';
+
   ///土味情话
   static const String saylove = 'saylove';
 }

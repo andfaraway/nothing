@@ -4,8 +4,6 @@
 
 import 'package:nothing/common/prefix_header.dart';
 
-import '../http/http.dart';
-
 typedef RequestCallback = Future Function();
 
 class TopNewsPage extends StatefulWidget {
@@ -71,7 +69,7 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
   }
 
   _loadData() async {
-    List list = (await Http.get(ConstUrl.topNews))['newslist'];
+    List list = (await API.informationApi(InformationType.topNews))['newslist'];
     newsList = list.map((e) => TopNewsModel.fromJson(e)).toList();
     _controller.completed(success: true);
     setState(() {});

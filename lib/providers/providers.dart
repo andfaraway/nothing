@@ -8,7 +8,6 @@ import 'package:nothing/common/constants.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../common/style.dart';
-import '../common/theme.dart';
 import '../http/api.dart';
 
 export 'package:provider/provider.dart';

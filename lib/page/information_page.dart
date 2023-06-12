@@ -129,10 +129,10 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
           controller: controller,
           labelColor: Colors.white,
           //选中的颜色
-          labelStyle: TS.m13c43.copyWith(fontSize: 13),
+          labelStyle: AppTextStyle.bodyMedium,
           unselectedLabelColor: AppColor.secondlyColor,
           //未选中的颜色
-          unselectedLabelStyle: TS.m13c43.copyWith(fontSize: 13),
+          unselectedLabelStyle: AppTextStyle.bodyMedium,
           isScrollable: true,
           indicatorPadding: EdgeInsets.symmetric(horizontal: -9.w),
           labelPadding: EdgeInsets.symmetric(horizontal: 13.w),

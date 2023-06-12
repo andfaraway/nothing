@@ -78,6 +78,13 @@ class AppColor {
   static Color get errorColor => const Color(0xffFF7575);
 }
 
+/*  theme textStyle */
+FontWeight get weightRegular => FontWeight.w400;
+
+FontWeight get weightMedium => FontWeight.w500;
+
+FontWeight get weightBold => FontWeight.w700;
+
 class AppTextStyle {
   const AppTextStyle._();
 

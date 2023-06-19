@@ -4,10 +4,17 @@
 //
 import 'package:path_provider/path_provider.dart';
 
+import '../common/constants.dart';
+
 class PathUtils {
   PathUtils._();
 
   static Future<void> init() async {
+    if (isWeb) {
+      documentPath = '';
+      tempPath = '';
+      return;
+    }
     documentPath = (await getApplicationDocumentsDirectory()).path;
     tempPath = (await getTemporaryDirectory()).path;
   }

@@ -1,17 +1,17 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:nothing/utils/permission_helper.dart';
-import 'package:nothing/utils/toast_utils.dart';
+import 'package:nothing/utils/web_import.dart';
 
+import '../common/constants.dart';
 import '../common/style.dart';
-import 'log_utils.dart';
 
 class AppImage {
   AppImage._();
@@ -72,6 +72,22 @@ class AppImage {
           ),
       errorWidget: (_, __, ___) => errorWidget ?? placeholder ?? Container(),
     );
+  }
+
+  static Widget file(
+    File? asset, {
+    Key? key,
+    double? width,
+    double? height,
+    Color? color,
+    BoxFit fit = BoxFit.cover,
+  }) {
+    if (asset == null) return const SizedBox.shrink();
+    if (isWeb) {
+      return ExtendedImage.network(asset as String);
+    } else {
+      return ExtendedImage.file(asset);
+    }
   }
 }
 

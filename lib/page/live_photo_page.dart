@@ -2,10 +2,9 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-05-25 11:21:13
 //
-import 'dart:io';
-
 import 'package:live_photo_maker/live_photo_maker.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/utils/web_import.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import 'image_editor_widget.dart';
@@ -41,7 +40,7 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                     },
                     behavior: HitTestBehavior.opaque,
                     child: firstImage != null
-                        ? Image.file(firstImage!)
+                        ? AppImage.file(firstImage!)
                         : Container(
                             color: Colors.green,
                             height: double.infinity,
@@ -61,7 +60,7 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                     },
                     behavior: HitTestBehavior.opaque,
                     child: secondImage != null
-                        ? Image.file(secondImage!)
+                        ? AppImage.file(secondImage!)
                         : Container(
                             color: Colors.cyan,
                             height: double.infinity,
@@ -104,9 +103,10 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
       return;
     }
 
-    File? imageFile = await result.first.originFile;
+    dynamic imageFile = await result.first.originFile;
     if (!mounted) return;
-    File? file = await AppRoute.pushPage(context, SimpleImageEditor(imageFile!));
+    dynamic file =
+        await AppRoute.pushPage(context, SimpleImageEditor(imageFile!));
 
     if (index == 0) {
       firstImage = file;

@@ -225,7 +225,7 @@ class _UploadFileState extends State<UploadFile> {
 
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: file?.path ?? '',
-      aspectRatioPresets: Platform.isAndroid
+      aspectRatioPresets: Constants.isAndroid
           ? [
               CropAspectRatioPreset.square,
               CropAspectRatioPreset.ratio3x2,

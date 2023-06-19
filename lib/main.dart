@@ -14,8 +14,6 @@ void main() async {
 
   await NotificationUtils.jPushInit();
 
-  Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
-
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
   runApp(const MyApp());

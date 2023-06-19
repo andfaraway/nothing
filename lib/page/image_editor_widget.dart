@@ -1,8 +1,9 @@
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/utils/web_import.dart';
 
 class SimpleImageEditor extends StatefulWidget {
   final File image;
@@ -62,14 +63,14 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
     }
   }
 
-  Future<File> saveImageToTemp(Uint8List imageByte) async {
+  Future<dynamic> saveImageToTemp(Uint8List imageByte) async {
     String path = '${PathUtils.tempPath}/${widget.image.path.split('/').last}';
-    File file = File(path);
+    io.File file = io.File(path);
     if (await file.exists()) {
       file.delete();
     }
     //生成file文件格式
-    file = await File(path).create();
+    file = await io.File(path).create();
     //转成file文件
     file.writeAsBytesSync(imageByte);
     return file;

@@ -93,6 +93,7 @@ class AppTextStyle {
   static Future<bool> loadFont({
     required name,
   }) async {
+    if (PathUtils.fontPath.objectIsEmpty()) return false;
     String path = '${PathUtils.fontPath}/$name';
     Log.i('load fonts path:$path');
     File file = File(path);
@@ -173,7 +174,8 @@ class AppSize {
 class AppPadding {
   AppPadding._();
 
-  static EdgeInsets get main => EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
+  static EdgeInsets get main =>
+      EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
 
   static double get horizontal => 17;
 
@@ -181,21 +183,27 @@ class AppPadding {
 }
 
 class AppOverlayStyle {
-  static SystemUiOverlayStyle light = SystemUiOverlayStyle(
-    systemNavigationBarColor: Platform.isAndroid ? null : Colors.black,
-    systemNavigationBarDividerColor: null,
-    statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-    statusBarBrightness: Brightness.dark,
-  );
+  static SystemUiOverlayStyle light = isWeb
+      ? const SystemUiOverlayStyle()
+      : SystemUiOverlayStyle(
+          systemNavigationBarColor: Constants.isIOS ? Colors.black : null,
+          systemNavigationBarDividerColor: null,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Constants.isIOS ? Brightness.dark : null,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        );
 
-  static SystemUiOverlayStyle dark = SystemUiOverlayStyle(
-    systemNavigationBarColor: Platform.isAndroid ? null : Colors.white,
-    systemNavigationBarDividerColor: null,
-    statusBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Platform.isAndroid ? null : Brightness.light,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
-  );
+  static SystemUiOverlayStyle dark = isWeb
+      ? const SystemUiOverlayStyle()
+      : SystemUiOverlayStyle(
+          systemNavigationBarColor: Constants.isIOS ? Colors.white : null,
+          systemNavigationBarDividerColor: null,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Constants.isIOS ? Brightness.light : null,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        );
 }

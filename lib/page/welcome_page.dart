@@ -29,7 +29,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
     bool agreement = HiveBoxes.get(HiveKey.agreement, defaultValue: false);
 
-    if (agreement) {
+    if (agreement || isWeb) {
       initData();
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {

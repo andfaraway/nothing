@@ -97,7 +97,7 @@ dependencies:
   just_audio_background: ^0.0.1-beta.10
   audio_session: ^0.1.15
   rxdart: ^0.27.7
-  flutter_smart_dialog: ^4.9.0+6
+  flutter_smart_dialog: ^4.9.2
   file_preview: ^1.1.6
   flutter_image_compress: ^2.0.3
   share_plus: ^7.0.2

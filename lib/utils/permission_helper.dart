@@ -1,7 +1,6 @@
-import 'dart:io';
-
-import 'package:nothing/utils/toast_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../common/constants.dart';
 
 /// 检查照相机权限
 Future<bool> checkPermissionCamera({
@@ -24,9 +23,13 @@ Future<bool> checkPermissionCamera({
 Future<bool> checkPermissionPhotos({
   bool isShowToast = true,
 }) async {
-  PermissionStatus status = Platform.isIOS ? (await Permission.photos.status) : (await Permission.storage.status);
+  PermissionStatus status = Constants.isIOS
+      ? (await Permission.photos.status)
+      : (await Permission.storage.status);
   if (status.isDenied) {
-    status = Platform.isIOS ? (await Permission.photos.request()) : (await Permission.storage.request());
+    status = Constants.isIOS
+        ? (await Permission.photos.request())
+        : (await Permission.storage.request());
   }
   if (!status.isGranted && !status.isLimited) {
     if (isShowToast) {
@@ -41,10 +44,13 @@ Future<bool> checkPermissionPhotos({
 Future<bool> checkPermissionSavePhoto({
   bool isShowToast = true,
 }) async {
-  PermissionStatus status =
-      Platform.isIOS ? (await Permission.photosAddOnly.status) : (await Permission.storage.status);
+  PermissionStatus status = Constants.isIOS
+      ? (await Permission.photosAddOnly.status)
+      : (await Permission.storage.status);
   if (status.isDenied) {
-    status = Platform.isIOS ? (await Permission.photosAddOnly.request()) : (await Permission.storage.request());
+    status = Constants.isIOS
+        ? (await Permission.photosAddOnly.request())
+        : (await Permission.storage.request());
   }
   if (!status.isGranted) {
     if (isShowToast) {

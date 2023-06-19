@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -28,17 +26,18 @@ class DeviceUtils {
   }
 
   static Future<void> getModel() async {
-    if (Platform.isAndroid) {
+    if (Constants.isAndroid) {
       deviceInfo = await _deviceInfoPlugin.androidInfo;
       final AndroidDeviceInfo androidInfo = deviceInfo as AndroidDeviceInfo;
 
       final String model = '${androidInfo.brand} ${androidInfo.product}';
       deviceModel = model;
-    } else if (Platform.isIOS) {
+    } else if (Constants.isIOS) {
       deviceInfo = await _deviceInfoPlugin.iosInfo;
       final IosDeviceInfo iosInfo = deviceInfo as IosDeviceInfo;
 
-      final String model = '${iosInfo.model} ${iosInfo.utsname.machine} ${iosInfo.systemVersion}';
+      final String model =
+          '${iosInfo.model} ${iosInfo.utsname.machine} ${iosInfo.systemVersion}';
       deviceModel = model;
     }
 
@@ -46,7 +45,7 @@ class DeviceUtils {
   }
 
   // static Future<void> getDevicePushToken() async {
-  //   if (Platform.isIOS) {
+  //   if (Constants.isIOS) {
   //     final String _savedToken = HiveFieldUtils.getDevicePushToken();
   //     final String _tempToken = await ChannelUtils.iOSGetPushToken();
   //     if (_savedToken != null) {
@@ -66,7 +65,8 @@ class DeviceUtils {
     // if (HiveFieldUtils.getDeviceUuid() != null) {
     //   deviceUuid = HiveFieldUtils.getDeviceUuid();
     // } else {
-    if (Platform.isIOS) {
+    if (isWeb) return;
+    if (Constants.isIOS) {
       deviceInfo = await _deviceInfoPlugin.iosInfo;
       deviceUuid = (deviceInfo as IosDeviceInfo).identifierForVendor!;
     } else {
@@ -81,7 +81,8 @@ class DeviceUtils {
   /// supported devices.
   /// 在支持的手机上尝试以最高的刷新率显示
   static void setHighestRefreshRate() {
-    if (Platform.isAndroid && (deviceInfo as AndroidDeviceInfo).version.sdkInt >= 23) {
+    if (Constants.isAndroid &&
+        (deviceInfo as AndroidDeviceInfo).version.sdkInt >= 23) {
       FlutterDisplayMode.setHighRefreshRate();
     }
   }
@@ -112,13 +113,13 @@ class DeviceUtils {
   }
 
   static Future<String> getDeviceInfo() async {
-    if (Platform.isAndroid) {
+    if (Constants.isAndroid) {
       deviceInfo = await _deviceInfoPlugin.androidInfo;
       final AndroidDeviceInfo androidInfo = deviceInfo as AndroidDeviceInfo;
 
       final String model = '${androidInfo.brand} ${androidInfo.product}';
       deviceModel = model;
-    } else if (Platform.isIOS) {
+    } else if (Constants.isIOS) {
       deviceInfo = await _deviceInfoPlugin.iosInfo;
       final IosDeviceInfo iosInfo = deviceInfo as IosDeviceInfo;
 

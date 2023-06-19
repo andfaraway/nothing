@@ -1,7 +1,7 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info/device_info.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 export 'package:flutter/material.dart';
@@ -39,15 +39,23 @@ class Constants {
   const Constants._();
 
   static Future<void> init() async {
+    if (isWeb) return;
     DeviceInfoPlugin plugin = DeviceInfoPlugin();
-    if (Platform.isIOS) {
+    if (Constants.isIOS) {
       IosDeviceInfo iosInfo = await plugin.iosInfo;
       Constants.isPhysicalDevice = iosInfo.isPhysicalDevice;
     } else {
       AndroidDeviceInfo androidInfo = await plugin.androidInfo;
       isPhysicalDevice = androidInfo.isPhysicalDevice;
     }
+
+    Singleton.welcomeLoadResult =
+        await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }
+
+  static bool get isIOS => isWeb ? false : Constants.isIOS;
+
+  static bool get isAndroid => isWeb ? false : Constants.isAndroid;
 
   static bool isPhysicalDevice = false;
 
@@ -61,16 +69,17 @@ class Constants {
   static late BuildContext context;
 
   /// 中文
-  static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true : false;
+  static final bool isChinese =
+      (Intl.getCurrentLocale() == 'zh') ? true : false;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
 
   static const String endLineTag = '没有更多了';
 
-  static final int appId = Platform.isIOS ? 274 : 273;
+  static final int appId = Constants.isIOS ? 274 : 273;
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
-  static final String deviceType = Platform.isIOS ? 'iPhone' : 'Android';
+  static final String deviceType = Constants.isIOS ? 'iPhone' : 'Android';
 
   /// 检查更新
   static Future<dynamic> checkUpdate(BuildContext context, {Map? data}) async {
@@ -103,7 +112,8 @@ class Constants {
   }
 
   static Future<void> insertLaunch() async {
-    if (Platform.isIOS && !Constants.isPhysicalDevice) return;
+    if (isWeb) return;
+    if (Constants.isIOS && !Constants.isPhysicalDevice) return;
 
     Map<String, dynamic>? param = {};
     param['userid'] = Singleton().currentUser.userId;
@@ -111,7 +121,8 @@ class Constants {
     //推送别名
     param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
     //推送注册id
-    param['registrationID'] = await NotificationUtils.jPush?.getRegistrationID();
+    param['registrationID'] =
+        await NotificationUtils.jPush?.getRegistrationID();
     //电量
     param['battery'] = await DeviceUtils.battery();
     //设备信息
@@ -134,3 +145,5 @@ class Constants {
     AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
   }
 }
+
+bool get isWeb => kIsWeb;

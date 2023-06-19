@@ -40,7 +40,7 @@ Future<String> captureImage() async {
   // 直接保存，返回的就是保存后的文件
   File saveFile = await File("${applicationDir.path}${DateTime.now().toIso8601String()}.jpg").writeAsBytes(pngBytes);
   filePath = saveFile.path;
-  // if (Platform.isAndroid) {
+  // if (Constants.isAndroid) {
   //   // 如果是Android 的话，直接使用image_gallery_saver就可以了
   //   // 图片byte数据转化unit8
   //   Uint8List images = byteData!.buffer.asUint8List();
@@ -51,7 +51,7 @@ Future<String> captureImage() async {
   //   filePath = saveFile.path;
   //
   //
-  // } else if (Platform.isIOS) {
+  // } else if (Constants.isIOS) {
   //   // 图片byte数据转化unit8
   //
   // }
@@ -61,7 +61,7 @@ Future<String> captureImage() async {
 
 //申请存本地相册权限
 Future<bool> getPormiation() async {
-  if (Platform.isIOS) {
+  if (Constants.isIOS) {
     var status = await Permission.photos.status;
     if (status.isDenied) {
       Map<Permission, PermissionStatus> statuses = await [
@@ -94,10 +94,11 @@ void savePhoto() async {
 
   var status = await Permission.photos.status;
   if (permition) {
-    if (Platform.isIOS) {
+    if (Constants.isIOS) {
       if (status.isGranted) {
         Uint8List images = byteData!.buffer.asUint8List();
-        final result = await ImageGallerySaver.saveImage(images, quality: 60, name: "hello");
+        final result = await ImageGallerySaver.saveImage(images,
+            quality: 60, name: "hello");
         EasyLoading.showToast("保存成功");
       }
       if (status.isDenied) {
@@ -137,9 +138,10 @@ Future<void> saveLocalPhoto({String? saveName, required String localPath}) async
   var status = await Permission.photos.status;
   print(status);
   if (permition) {
-    if (Platform.isIOS) {
+    if (Constants.isIOS) {
       if (status.isGranted) {
-        final result = await ImageGallerySaver.saveFile(localPath, name: saveName);
+        final result =
+            await ImageGallerySaver.saveFile(localPath, name: saveName);
         EasyLoading.showToast("保存成功");
       }
       if (status.isDenied) {

@@ -183,7 +183,7 @@ class AppPadding {
 }
 
 class AppOverlayStyle {
-  static SystemUiOverlayStyle light = isWeb
+  static SystemUiOverlayStyle light = Constants.isWeb
       ? const SystemUiOverlayStyle()
       : SystemUiOverlayStyle(
           systemNavigationBarColor: Constants.isIOS ? Colors.black : null,
@@ -195,7 +195,7 @@ class AppOverlayStyle {
           statusBarBrightness: Brightness.dark,
         );
 
-  static SystemUiOverlayStyle dark = isWeb
+  static SystemUiOverlayStyle dark = Constants.isWeb
       ? const SystemUiOverlayStyle()
       : SystemUiOverlayStyle(
           systemNavigationBarColor: Constants.isIOS ? Colors.white : null,

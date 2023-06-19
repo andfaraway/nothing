@@ -83,7 +83,7 @@ class AppImage {
     BoxFit fit = BoxFit.cover,
   }) {
     if (asset == null) return const SizedBox.shrink();
-    if (isWeb) {
+    if (Constants.isWeb) {
       return ExtendedImage.network(asset as String);
     } else {
       return ExtendedImage.file(asset);

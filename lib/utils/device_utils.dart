@@ -65,7 +65,7 @@ class DeviceUtils {
     // if (HiveFieldUtils.getDeviceUuid() != null) {
     //   deviceUuid = HiveFieldUtils.getDeviceUuid();
     // } else {
-    if (isWeb) return;
+    if (Constants.isWeb) return;
     if (Constants.isIOS) {
       deviceInfo = await _deviceInfoPlugin.iosInfo;
       deviceUuid = (deviceInfo as IosDeviceInfo).identifierForVendor!;

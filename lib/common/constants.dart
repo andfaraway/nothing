@@ -39,7 +39,7 @@ class Constants {
   const Constants._();
 
   static Future<void> init() async {
-    if (isWeb) return;
+    if (Constants.isWeb) return;
     DeviceInfoPlugin plugin = DeviceInfoPlugin();
     if (Constants.isIOS) {
       IosDeviceInfo iosInfo = await plugin.iosInfo;
@@ -52,6 +52,8 @@ class Constants {
     Singleton.welcomeLoadResult =
         await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }
+
+  static bool get isWeb => kIsWeb;
 
   static bool get isIOS => isWeb ? false : Constants.isIOS;
 
@@ -112,7 +114,7 @@ class Constants {
   }
 
   static Future<void> insertLaunch() async {
-    if (isWeb) return;
+    if (Constants.isWeb) return;
     if (Constants.isIOS && !Constants.isPhysicalDevice) return;
 
     Map<String, dynamic>? param = {};
@@ -145,5 +147,3 @@ class Constants {
     AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
   }
 }
-
-bool get isWeb => kIsWeb;

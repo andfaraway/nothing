@@ -74,10 +74,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   GlobalWidgetsLocalizations.delegate
                 ],
                 supportedLocales: S.delegate.supportedLocales,
-                initialRoute: AppRoute.welcome.name,
+                initialRoute: Constants.isWeb
+                    ? AppRoute.root.name
+                    : AppRoute.welcome.name,
                 onGenerateRoute: onGenerateRoute,
                 scrollBehavior: const CupertinoScrollBehavior(),
-                navigatorObservers: [FlutterSmartDialog.observer, AppNavigatorObserver()],
+                navigatorObservers: [
+                  FlutterSmartDialog.observer,
+                  AppNavigatorObserver()
+                ],
                 builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
               ),
             ),

@@ -10,7 +10,7 @@ class PathUtils {
   PathUtils._();
 
   static Future<void> init() async {
-    if (isWeb) {
+    if (Constants.isWeb) {
       documentPath = '';
       tempPath = '';
       return;

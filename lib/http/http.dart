@@ -23,9 +23,16 @@ class Http {
       receiveTimeout: const Duration(seconds: 30),
 
       //是否不使用缓存
-      extra: {'refresh': true},
+      extra: {
+        'refresh': true
+      },
       //请求头
-      headers: {'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9'});
+      headers: {
+        'Accept-Language':
+            Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      });
 
   // 创建 Dio 实例
   static final Dio _dio = Dio(_options)
@@ -34,11 +41,15 @@ class Http {
 
   // _request所有的请求都会走这里
   static Future<dynamic> _request<T>(String path,
-      {String method = 'GET', Map<String, dynamic>? params, dynamic data, ProgressCallback? onSendProgress}) async {
+      {String method = 'GET',
+      Map<String, dynamic>? params,
+      dynamic data,
+      ProgressCallback? onSendProgress}) async {
     try {
       _dio.options.method = method;
       _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
-      Response response = await _dio.request(path, data: data, queryParameters: params, onSendProgress: onSendProgress);
+      Response response = await _dio.request(path,
+          data: data, queryParameters: params, onSendProgress: onSendProgress);
       return response.data;
     } catch (error) {
       return Future.error(error);
@@ -49,11 +60,17 @@ class Http {
     return _request(path, method: 'GET', params: params);
   }
 
-  static Future<dynamic> post<T>(String path, {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
-    return _request(path, method: 'POST', params: params, data: data, onSendProgress: onSendProgress);
+  static Future<dynamic> post<T>(String path,
+      {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress}) {
+    return _request(path,
+        method: 'POST',
+        params: params,
+        data: data,
+        onSendProgress: onSendProgress);
   }
 
-  static Future<Object?> uploadFile<T>(String url, {dynamic data, ProgressCallback? onSendProgress}) {
+  static Future<Object?> uploadFile<T>(String url,
+      {dynamic data, ProgressCallback? onSendProgress}) {
     _dio.options.headers['AuthToken'] = Singleton().currentUser.token;
     return _dio.post(url, data: data, onSendProgress: onSendProgress);
   }

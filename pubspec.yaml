@@ -107,6 +107,8 @@ dependencies:
   confetti: ^0.7.0
   extra_hittest_area: ^0.1.0
 
+  dotted_border: ^2.0.0+3
+  desktop_drop: ^0.4.1
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0

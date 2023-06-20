@@ -271,7 +271,12 @@ class _UploadFileState extends State<UploadFile> {
 
     EasyLoading.show();
     // 上传文件
-    var data = await API.uploadFile(file?.path ?? '', fileName ?? '');
+    var data = await API.uploadFile(
+        path: file?.path ?? '',
+        fileName: fileName ?? '',
+        onSendProgress: (progress) {
+          EasyLoading.showProgress(progress);
+        });
     String url = data['url'];
     if (imageType == 0) {
       launchInfo.image = url;

@@ -22,5 +22,5 @@ class PathUtils {
   static late String documentPath;
   static late String tempPath;
 
-  static get fontPath => '${PathUtils.documentPath}/fonts';
+  static get fontPath => Constants.isWeb ? '' : '${PathUtils.documentPath}/fonts';
 }

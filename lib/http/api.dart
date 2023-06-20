@@ -264,14 +264,15 @@ class API {
   }
 
   /// 上传文件
-  static uploadFile(String imagePath, String fileName) async {
-    List list = imagePath.split('.');
+  static uploadFile({required String path, String? fileName, ValueChanged<double>? onSendProgress}) async {
+    List list = path.split('.');
     String houzhui = list.last;
     if (houzhui.length == 1) {
       houzhui = 'jpg';
     }
+    fileName ??= path.split('/').last;
 
-    MultipartFile f = await MultipartFile.fromFile(imagePath, filename: fileName);
+    MultipartFile f = await MultipartFile.fromFile(path, filename: fileName);
     FormData formData = FormData.fromMap({
       'file': f,
       //传参信息
@@ -281,7 +282,7 @@ class API {
 
     return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
-      EasyLoading.showProgress(s);
+      onSendProgress?.call(s);
     });
   }
 

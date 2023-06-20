@@ -76,6 +76,7 @@ class ThemesProvider with ChangeNotifier {
   }
 
   Future<void> initTheme() async {
+    if (Constants.isWeb) return;
     int themeIndex = HiveBoxes.get(HiveKey.colorThemeIndex, defaultValue: 0);
     if (themeIndex >= supportThemeGroups.length) {
       HiveBoxes.put(HiveKey.colorThemeIndex, 0);

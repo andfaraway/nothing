@@ -1,13 +1,11 @@
-import 'dart:ui' as ui;
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nothing/common/constants.dart';
 
 class Screens {
   const Screens._();
 
-  static MediaQueryData get mediaQuery => MediaQueryData.fromView(ui.window);
+  static MediaQueryData get mediaQuery => MediaQueryData.fromView(View.of(currentContext));
 
   static double fixedFontSize(double fontSize) => fontSize / textScaleFactor;
 
@@ -62,6 +60,12 @@ extension AppSizeExtension on num {
 
   //高度间隔
   Widget get hSizedBox => SizedBox(height: ScreenUtil().setHeight(this).toDouble());
+
+  //间隔H
+  Widget get sizedBoxH => SizedBox(height: toDouble());
+
+  //间隔W
+  Widget get sizedBoxW => SizedBox(width: toDouble());
 
   //宽度间隔
   Widget get wSizedBox => SizedBox(width: ScreenUtil().setWidth(this).toDouble());

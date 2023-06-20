@@ -24,7 +24,7 @@ import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
-import 'package:nothing/page/welcome_page.dart';
+import 'package:nothing/utils/web_import.dart';
 import 'package:nothing/widgets/app_webview.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
@@ -32,31 +32,35 @@ typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 class AppRoute {
   const AppRoute._();
 
-  static List<RoutePage> routePages = [
-    AppRoute.welcome,
-    AppRoute.root,
-    AppRoute.login,
-    AppRoute.home,
-    AppRoute.profile,
-    AppRoute.favorite,
-    AppRoute.feedback,
-    AppRoute.message,
-    AppRoute.releaseVersion,
-    AppRoute.sayHi,
-    AppRoute.themeSetting,
-    AppRoute.uploadFile,
-    AppRoute.information,
-    AppRoute.livePhoto,
-    AppRoute.weddingAbout,
-    AppRoute.photoShow,
-    AppRoute.filePreviewPage,
-    AppRoute.fileManagement,
-    AppRoute.someThings,
-    AppRoute.videoPlayPage,
-    AppRoute.musicPage,
-    AppRoute.setting,
-    AppRoute.webView
-  ];
+  static String get initialRoute => AppRoute.welcome.name;
+
+  static List<RoutePage> get routePages => Constants.isWeb
+      ? [AppRoute.welcome]
+      : [
+          AppRoute.welcome,
+          AppRoute.root,
+          AppRoute.login,
+          AppRoute.home,
+          AppRoute.profile,
+          AppRoute.favorite,
+          AppRoute.feedback,
+          AppRoute.message,
+          AppRoute.releaseVersion,
+          AppRoute.sayHi,
+          AppRoute.themeSetting,
+          AppRoute.uploadFile,
+          AppRoute.information,
+          AppRoute.livePhoto,
+          AppRoute.weddingAbout,
+          AppRoute.photoShow,
+          AppRoute.filePreviewPage,
+          AppRoute.fileManagement,
+          AppRoute.someThings,
+          AppRoute.videoPlayPage,
+          AppRoute.musicPage,
+          AppRoute.setting,
+          AppRoute.webView
+        ];
 
   static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
     RoutePage? routePage = AppRoute.routePages.firstWhereOrNull((element) => element.name == routeName);

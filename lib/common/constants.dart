@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:device_info/device_info.dart';
@@ -50,14 +51,14 @@ class Constants {
     }
 
     Singleton.welcomeLoadResult =
-        await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
+    await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }
 
   static bool get isWeb => kIsWeb;
 
-  static bool get isIOS => isWeb ? false : Constants.isIOS;
+  static bool get isIOS => isWeb ? false : Platform.isIOS;
 
-  static bool get isAndroid => isWeb ? false : Constants.isAndroid;
+  static bool get isAndroid => isWeb ? false : Platform.isAndroid;
 
   static bool isPhysicalDevice = false;
 
@@ -72,7 +73,7 @@ class Constants {
 
   /// 中文
   static final bool isChinese =
-      (Intl.getCurrentLocale() == 'zh') ? true : false;
+  (Intl.getCurrentLocale() == 'zh') ? true : false;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
@@ -124,7 +125,7 @@ class Constants {
     param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
     //推送注册id
     param['registrationID'] =
-        await NotificationUtils.jPush?.getRegistrationID();
+    await NotificationUtils.jPush?.getRegistrationID();
     //电量
     param['battery'] = await DeviceUtils.battery();
     //设备信息

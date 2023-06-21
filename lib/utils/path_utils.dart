@@ -13,6 +13,7 @@ class PathUtils {
     if (Constants.isWeb) {
       documentPath = '';
       tempPath = '';
+      webPath = '';
       return;
     }
     documentPath = (await getApplicationDocumentsDirectory()).path;
@@ -21,6 +22,7 @@ class PathUtils {
 
   static late String documentPath;
   static late String tempPath;
+  static late String webPath;
 
-  static get fontPath => Constants.isWeb ? '' : '${PathUtils.documentPath}/fonts';
+  static String get fontPath => Constants.isWeb ? '' : '${PathUtils.documentPath}/fonts';
 }

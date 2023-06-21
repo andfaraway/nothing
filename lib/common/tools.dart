@@ -11,7 +11,8 @@ class Tools {
     return value is String ? value : '';
   }
 
-  static String formatBytes(int bytes, {int decimalPlaces = 1}) {
+  static String formatBytes(int? bytes, {int decimalPlaces = 1}) {
+    if (bytes == null) return '';
     if (bytes < 1024) {
       return '${_formatDecimal(bytes.toDouble(), decimalPlaces)}B';
     } else if (bytes < 1024 * 1024) {

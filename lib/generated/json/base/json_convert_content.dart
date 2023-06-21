@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:nothing/model/favorite_model.dart';
 import 'package:nothing/model/file_model.dart';
+import 'package:nothing/model/image_compression_model.dart';
 import 'package:nothing/model/login_model.dart';
 import 'package:nothing/model/message_model.dart';
 import 'package:nothing/model/server_image_model.dart';
@@ -21,6 +22,7 @@ class JsonConvert {
   static final Map<String, JsonConvertFunction> convertFuncMap = {
     (FavoriteModel).toString(): FavoriteModel.fromJson,
     (FileModel).toString(): FileModel.fromJson,
+    (ImageCompressionModel).toString(): ImageCompressionModel.fromJson,
     (LoginModel).toString(): LoginModel.fromJson,
     (MessageModel).toString(): MessageModel.fromJson,
     (ServerImageModel).toString(): ServerImageModel.fromJson,
@@ -109,6 +111,10 @@ class JsonConvert {
     }
     if (<FileModel>[] is M) {
       return data.map<FileModel>((Map<String, dynamic> e) => FileModel.fromJson(e)).toList() as M;
+    }
+    if (<ImageCompressionModel>[] is M) {
+      return data.map<ImageCompressionModel>((Map<String, dynamic> e) => ImageCompressionModel.fromJson(e)).toList()
+          as M;
     }
     if (<LoginModel>[] is M) {
       return data.map<LoginModel>((Map<String, dynamic> e) => LoginModel.fromJson(e)).toList() as M;

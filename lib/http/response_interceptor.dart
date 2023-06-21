@@ -17,7 +17,7 @@ class ResponseInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    Log.n('${response.requestOptions.path}\n$response\n', tag: 'response');
+    Log.n(response.data, tag: 'response - ${response.requestOptions.path}');
     if (response.statusCode == 200 && response.data is Map) {
       int code = response.data['code'];
       if (code == 200) {

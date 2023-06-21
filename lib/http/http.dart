@@ -97,6 +97,7 @@ class Http {
         deleteOnError: false,
       );
     } catch (e) {
+      Log.n('error = $e');
       return null;
     }
   }

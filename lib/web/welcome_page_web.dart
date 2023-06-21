@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:html' as html;
+import 'dart:typed_data';
+
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/model/image_compression_model.dart';
 
 import '../http/download_manager.dart';
 
@@ -145,15 +150,16 @@ class UploadWidget extends StatefulWidget {
 
 class _UploadWidgetState extends State<UploadWidget> {
   late XFile file;
+
   final ValueNotifier<int> _fileSize = ValueNotifier(20);
-  final ValueNotifier<int> _afterFileSize = ValueNotifier(10);
+  final ValueNotifier<ImageCompressionModel?> _imageCompressionModel = ValueNotifier(null);
 
   @override
   void initState() {
     super.initState();
     file = widget.controller.file!;
 
-    file.length().then((value) {
+    file.length().then((value) async {
       _fileSize.value = value;
     });
 
@@ -167,7 +173,11 @@ class _UploadWidgetState extends State<UploadWidget> {
   }
 
   Future<void> startUpload() async {
-    API.uploadFile(path: widget.controller.path, onSendProgress: (progress) => widget.controller.progress = progress);
+    Uint8List bytes = await file.readAsBytes();
+    var s = await API.uploadFileWithBytes(
+        bytes: bytes, fileName: file.name, onSendProgress: (progress) => widget.controller.progress = progress);
+    print('s = ${json.encode(s)}');
+    _imageCompressionModel.value = ImageCompressionModel.fromJson(s);
   }
 
   @override
@@ -175,7 +185,6 @@ class _UploadWidgetState extends State<UploadWidget> {
     return ValueListenableBuilder(
       valueListenable: widget.controller,
       builder: (context, controller, child) {
-        print('controller = ${controller.path}');
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -192,42 +201,45 @@ class _UploadWidgetState extends State<UploadWidget> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: LinearProgressIndicator(
-                          value: controller.progress,
+                          value: controller.progress ?? 0,
                           color: Colors.green,
                           backgroundColor: Colors.grey,
                         ),
                       ),
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: _afterFileSize,
-                      builder: (context, size, child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              Tools.formatBytes(size),
-                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
               Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    AppButton.customButton(
-                      child: Text(
-                        'download',
-                        textAlign: TextAlign.end,
-                        style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
-                      ),
-                    ),
-                  ],
-                ),
+                child: ValueListenableBuilder(
+                    valueListenable: _imageCompressionModel,
+                    builder: (context, model, child) {
+                      if (model == null) return const SizedBox.shrink();
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              Tools.formatBytes(model.byteSizeAfter),
+                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
+                            ),
+                          ),
+                          AppButton.customButton(
+                            onTap: () => _download(model),
+                            child: Text(
+                              'download',
+                              textAlign: TextAlign.end,
+                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
+                            ),
+                          ),
+                          10.sizedBoxW,
+                          Text(
+                            model.ratio ?? '',
+                            style: AppTextStyle.titleMedium.copyWith(fontWeight: weightBold),
+                          )
+                        ],
+                      );
+                    }),
               )
             ],
           ),
@@ -256,5 +268,16 @@ class _UploadWidgetState extends State<UploadWidget> {
         ],
       ),
     );
+  }
+
+  Future<void> _download(ImageCompressionModel model) async {
+    String url = '${model.serverHost}/${model.output}';
+    downloadFile(url, model.fileNameBefore);
+  }
+
+  void downloadFile(String url, String fileName) {
+    html.AnchorElement anchorElement = html.AnchorElement(href: url);
+    anchorElement.download = fileName;
+    anchorElement.click();
   }
 }

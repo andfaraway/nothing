@@ -29,7 +29,7 @@ class Log {
       } else {
         return;
       }
-      _printLog(message, '🌐 $tag', stackTrace, level: Level.INFO, format: false);
+      _printLog(message, '🌐 $tag', stackTrace, level: Level.SHOUT, format: false);
     }
   }
 

@@ -3,6 +3,7 @@
 //  [Date] 2022-02-15 18:21:40
 //
 import 'dart:core';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:nothing/common/prefix_header.dart';
@@ -286,6 +287,28 @@ class API {
     });
   }
 
+  /// 上传文件
+  static uploadFileWithBytes(
+      {required Uint8List bytes,
+      String? fileName,
+      String? type = 'launchImage',
+      int quality = 70,
+      ValueChanged<double>? onSendProgress}) async {
+    MultipartFile f = MultipartFile.fromBytes(bytes, filename: fileName);
+    FormData formData = FormData.fromMap({
+      'file': f,
+      //传参信息
+      "type": type,
+      "quality": quality,
+      "fileName": fileName
+    });
+
+    return Http.post(ConstUrl.imageCompress, data: formData, onSendProgress: (a, b) {
+      double s = double.parse(a.toString()) / double.parse(b.toString());
+      onSendProgress?.call(s);
+    });
+  }
+
   static const String _secret = 'lalalala';
 
   /// 获取文件
@@ -420,6 +443,9 @@ class ConstUrl {
 
   ///上传文件
   static const String uploadFile = '/uploadFile';
+
+  ///压缩图片
+  static const String imageCompress = '/imageCompress';
 
   ///获取每日提示
   static const String getTips = '/getTips';

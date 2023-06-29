@@ -275,6 +275,7 @@ class _UploadFileState extends State<UploadFile> {
         path: file?.path ?? '',
         fileName: fileName ?? '',
         onSendProgress: (progress) {
+          print('progress = $progress');
           EasyLoading.showProgress(progress);
         });
     String url = data['url'];

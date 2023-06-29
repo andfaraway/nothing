@@ -282,6 +282,7 @@ class API {
     });
 
     return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
+      print('a=$a,b=$b');
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     });

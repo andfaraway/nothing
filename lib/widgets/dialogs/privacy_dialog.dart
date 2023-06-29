@@ -19,8 +19,76 @@ class PrivacyDiaLog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InlineSpan span = TextSpan(children: [
-      TextSpan(text: 'Nothing深知个人信息对您的重要性，因此我们将竭尽全力保障用忽的隐私信息安全\n\n', style: defaultStyle),
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.black26,
+          alignment: Alignment.center,
+          child: Container(
+            decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Colors.white),
+            constraints: BoxConstraints(
+              minWidth: Screens.width * 0.8,
+              minHeight: 0,
+              maxWidth: Screens.width * 0.8,
+              maxHeight: Screens.height * 0.4,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text.rich(_textSpan()),
+                        ],
+                      ),
+                    ),
+                  ),
+                  15.hSizedBox,
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        continueCallback();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith((states) => Colors.cyan),
+                      ),
+                      child: Text(
+                        S.current.agree_continue,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () async {
+                        exit(0);
+                      },
+                      child: Text(
+                        S.current.disagree_quite,
+                        style: const TextStyle(color: AppColor.blackLight),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  InlineSpan _textSpan() {
+    return TextSpan(children: [
+      TextSpan(text: 'Nothing深知个人信息对您的重要性，因此我们将竭尽全力保障用户的隐私信息安全\n\n', style: defaultStyle),
       TextSpan(text: '您可以阅读完整版', style: defaultStyle),
       TextSpan(
           text: '《用户协议》',
@@ -43,70 +111,7 @@ class PrivacyDiaLog extends StatelessWidget {
               }
             }),
       TextSpan(text: '详细了解我们如何保护您的权益。\n\n', style: defaultStyle),
-      TextSpan(text: '我们将严格按照政策要求使用和保护您的个人信息，如您统一以上内容，请点击同意，开始使用我们的产品与服务。\n', style: defaultStyle),
+      TextSpan(text: '我们将严格按照政策要求使用和保护您的个人信息，如您同意以上内容，请点击同意，开始使用我们的产品与服务。\n', style: defaultStyle),
     ]);
-
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.black26,
-        alignment: Alignment.center,
-        child: Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Colors.white),
-          constraints: BoxConstraints(
-            minWidth: Screens.width * 0.8,
-            minHeight: 0,
-            maxWidth: Screens.width * 0.8,
-            maxHeight: Screens.height * 0.4,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text.rich(span),
-                      ],
-                    ),
-                  ),
-                ),
-                15.hSizedBox,
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      continueCallback();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.cyan),
-                    ),
-                    child: Text(
-                      S.current.agree_continue,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () async {
-                      exit(0);
-                    },
-                    child: Text(
-                      S.current.disagree_quite,
-                      style: const TextStyle(color: AppColor.blackLight),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:typed_data';
 
@@ -19,7 +18,15 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   // final List<XFile> _list = [XFile('path', mimeType: 'image/gpeg', name: '_7ae1b074-c031-45c6-97a1-503cc069de0f.jpeg', length: 102458)];
-  final List<XFile> _list = [];
+  // final List<DownloadController> _list = [
+  //   DownloadController(DownloadModel(
+  //     file: XFile('fsfda', length: 1124, name: 'test1'),
+  //   )),
+  //   DownloadController(DownloadModel(
+  //     file: XFile('fsfda', length: 132568, name: 'test2'),
+  //   )),
+  // ];
+  final List<DownloadController> _list = [];
 
   bool _dragging = false;
 
@@ -36,7 +43,12 @@ class _WelcomePageState extends State<WelcomePage> {
             DropTarget(
               onDragDone: (detail) {
                 setState(() {
-                  _list.addAll(detail.files);
+                  List<DownloadController> list = detail.files
+                      .map((e) => DownloadController(
+                            DownloadModel(file: e),
+                          ))
+                      .toList();
+                  _list.addAll(list);
                 });
               },
               onDragEntered: (detail) {
@@ -72,10 +84,10 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              final XFile? imageList = await picker.pickImage(source: ImageSource.gallery);
-                              if (imageList == null) return;
+                              final XFile? file = await picker.pickImage(source: ImageSource.gallery);
+                              if (file == null) return;
                               setState(() {
-                                _list.add(imageList);
+                                _list.add(DownloadController(DownloadModel(file: file)));
                               });
                             },
                             child: Container(
@@ -113,23 +125,14 @@ class _WelcomePageState extends State<WelcomePage> {
             50.sizedBoxH,
             Visibility(
               visible: _list.isNotEmpty,
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: AppSize.screenWidth - 50,
-                  minWidth: 200.w,
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.borderColor), color: AppColor.scaffoldBackgroundColor),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: _list.map((file) {
-                    return UploadWidget(
-                      controller: DownloadController(
-                        DownloadModel(file: file),
-                      ),
-                    );
-                  }).toList(),
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: _list.map((controller) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: UploadWidget(controller: controller),
+                  );
+                }).toList(),
               ),
             )
           ],
@@ -152,7 +155,6 @@ class _UploadWidgetState extends State<UploadWidget> {
   late XFile file;
 
   final ValueNotifier<int> _fileSize = ValueNotifier(20);
-  final ValueNotifier<ImageCompressionModel?> _imageCompressionModel = ValueNotifier(null);
 
   @override
   void initState() {
@@ -176,101 +178,117 @@ class _UploadWidgetState extends State<UploadWidget> {
     Uint8List bytes = await file.readAsBytes();
     var s = await API.uploadFileWithBytes(
         bytes: bytes, fileName: file.name, onSendProgress: (progress) => widget.controller.progress = progress);
-    print('s = ${json.encode(s)}');
-    _imageCompressionModel.value = ImageCompressionModel.fromJson(s);
+    widget.controller.imageCompressionModel = ImageCompressionModel.fromJson(s);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: widget.controller,
-      builder: (context, controller, child) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Flexible(child: child!),
-              Flexible(
-                child: Row(
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: AppSize.screenWidth - 50,
+        minWidth: 200.w,
+      ),
+      decoration: BoxDecoration(
+          border: Border.all(color: AppColor.borderColor),
+          color: AppColor.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(7)),
+      child: ValueListenableBuilder(
+        valueListenable: widget.controller,
+        builder: (context, controller, child) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 1),
-                      width: 300,
-                      height: 30,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: LinearProgressIndicator(
-                          value: controller.progress ?? 0,
-                          color: Colors.green,
-                          backgroundColor: Colors.grey,
-                        ),
+                    child!,
+                  ],
+                ),
+                Row(
+                  children: [
+                    ValueListenableBuilder(
+                      valueListenable: _fileSize,
+                      builder: (context, size, child) {
+                        return Text(
+                          Tools.formatBytes(size),
+                          style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
+                        );
+                      },
+                    ),
+                    Visibility(
+                      visible: controller.imageCompressionModel != null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            ' -> ${Tools.formatBytes(controller.imageCompressionModel?.byteSizeAfter)}        ',
+                            style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
+                          ),
+                          Text(
+                            controller.imageCompressionModel?.ratio ?? '',
+                            style: AppTextStyle.titleMedium.copyWith(fontWeight: weightBold),
+                          )
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-              Flexible(
-                child: ValueListenableBuilder(
-                    valueListenable: _imageCompressionModel,
-                    builder: (context, model, child) {
-                      if (model == null) return const SizedBox.shrink();
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      width: 300,
+                      height: 30,
+                      child: Stack(
                         children: [
-                          Expanded(
-                            child: Text(
-                              Tools.formatBytes(model.byteSizeAfter),
-                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
+                          SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: LinearProgressIndicator(
+                                value: controller.progress ?? 0,
+                                color: Colors.green,
+                                backgroundColor: Colors.grey,
+                              ),
                             ),
                           ),
-                          AppButton.customButton(
-                            onTap: () => _download(model),
-                            child: Text(
-                              'download',
-                              textAlign: TextAlign.end,
-                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Visibility(
+                              visible: controller.imageCompressionModel != null,
+                              child: AppButton.customButton(
+                                onTap: () => _download(controller.imageCompressionModel),
+                                child: Text(
+                                  'download',
+                                  textAlign: TextAlign.end,
+                                  style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
+                                ),
+                              ),
                             ),
-                          ),
-                          10.sizedBoxW,
-                          Text(
-                            model.ratio ?? '',
-                            style: AppTextStyle.titleMedium.copyWith(fontWeight: weightBold),
                           )
                         ],
-                      );
-                    }),
-              )
-            ],
-          ),
-        );
-      },
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              file.name,
-              style: AppTextStyle.titleMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          10.sizedBoxW,
-          ValueListenableBuilder(
-            valueListenable: _fileSize,
-            builder: (context, size, child) {
-              return Text(
-                Tools.formatBytes(size),
-                style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
-              );
-            },
-          ),
-        ],
+          );
+        },
+        child: Text(
+          file.name,
+          style: AppTextStyle.titleMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
 
-  Future<void> _download(ImageCompressionModel model) async {
+  Future<void> _download(ImageCompressionModel? model) async {
+    if (model == null) return;
     String url = '${model.serverHost}/${model.output}';
     downloadFile(url, model.fileNameBefore);
   }

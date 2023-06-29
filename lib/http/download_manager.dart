@@ -1,6 +1,7 @@
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 import '../common/constants.dart';
+import '../model/image_compression_model.dart';
 
 class DownloadModel {
   String path;
@@ -8,14 +9,10 @@ class DownloadModel {
   double? progress;
   String tips;
   XFile? file;
+  ImageCompressionModel? imageCompressionModel;
 
-  DownloadModel({
-    this.path = '',
-    this.inProgress = false,
-    this.progress,
-    this.tips = '',
-    this.file,
-  });
+  DownloadModel(
+      {this.path = '', this.inProgress = false, this.progress, this.tips = '', this.file, this.imageCompressionModel});
 }
 
 class DownloadController extends ValueNotifier<DownloadModel> {
@@ -30,6 +27,8 @@ class DownloadController extends ValueNotifier<DownloadModel> {
   String get tips => value.tips;
 
   XFile? get file => value.file;
+
+  ImageCompressionModel? get imageCompressionModel => value.imageCompressionModel;
 
   set path(String newPath) {
     super.value.path = newPath;
@@ -53,6 +52,11 @@ class DownloadController extends ValueNotifier<DownloadModel> {
 
   set file(XFile? newFile) {
     super.value.file = newFile;
+    notifyListeners();
+  }
+
+  set imageCompressionModel(ImageCompressionModel? value) {
+    super.value.imageCompressionModel = value;
     notifyListeners();
   }
 }

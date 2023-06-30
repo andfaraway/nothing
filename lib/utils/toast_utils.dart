@@ -11,7 +11,11 @@ import '../common/prefix_header.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
 void showToast(String text, {int timeInSecForIosWeb = 1}) {
-  Fluttertoast.showToast(msg: text, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: timeInSecForIosWeb);
+  Fluttertoast.showToast(
+      msg: text,
+      gravity: Constants.isWeb ? ToastGravity.CENTER : ToastGravity.BOTTOM,
+      timeInSecForIosWeb: timeInSecForIosWeb,
+      webPosition: Constants.isWeb ? 'center' : 'left');
 }
 
 void showCenterToast(String text) {
@@ -30,10 +34,10 @@ void showHttpLoading() {
   EasyLoading.instance
     ..loadingStyle = EasyLoadingStyle.custom
 
-    ///背景颜色
+  ///背景颜色
     ..backgroundColor = const Color(0xfff4f7fb)
 
-    ///进度颜色
+  ///进度颜色
     ..indicatorColor = const Color(0xff0082CD)
     ..textColor = const Color(0xff0082CD)
     ..textStyle = const TextStyle(fontSize: 12)

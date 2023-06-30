@@ -289,10 +289,10 @@ class API {
   }
 
   /// 上传文件
-  static uploadFileWithBytes(
+  static imageCompress(
       {required Uint8List bytes,
       String? fileName,
-      String? type = 'launchImage',
+      String? type = 'imageCompress',
       int quality = 70,
       ValueChanged<double>? onSendProgress}) async {
     MultipartFile f = MultipartFile.fromBytes(bytes, filename: fileName);

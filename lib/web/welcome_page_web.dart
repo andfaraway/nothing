@@ -32,6 +32,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   final ImagePicker picker = ImagePicker();
 
+  final ValueNotifier<int> _quality = ValueNotifier(70);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,30 @@ class _WelcomePageState extends State<WelcomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            50.hSizedBox,
+            20.hSizedBox,
+            IntrinsicWidth(
+              child: ValueListenableBuilder(
+                  valueListenable: _quality,
+                  builder: (context, value, child) {
+                    return Row(
+                      // mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('压缩系数：$value'),
+                        Slider(
+                          value: value.toDouble(),
+                          overlayColor: MaterialStateProperty.all(Colors.transparent),
+                          onChanged: (value) {
+                            _quality.value = value.round();
+                          },
+                          min: 0,
+                          max: 100,
+                        )
+                      ],
+                    );
+                  }),
+            ),
+            20.hSizedBox,
             DropTarget(
               onDragDone: (detail) {
                 setState(() {
@@ -84,6 +109,8 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           InkWell(
                             onTap: () async {
+                              showToast('text');
+                              return;
                               final XFile? file = await picker.pickImage(source: ImageSource.gallery);
                               if (file == null) return;
                               setState(() {
@@ -111,7 +138,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           ),
                           15.hSizedBox,
                           Text(
-                            '点击按钮选择要压缩的文件,或拖拽文件到此区域\n(支持WEBP，PNG或者JPEG)',
+                            '选择要压缩的文件,或拖拽文件到此区域\n(支持WEBP，PNG或者JPEG)',
                             style: AppTextStyle.bodyMedium,
                             textAlign: TextAlign.center,
                           )
@@ -122,15 +149,19 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
-            50.sizedBoxH,
+            30.sizedBoxH,
             Visibility(
               visible: _list.isNotEmpty,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                verticalDirection: VerticalDirection.up,
                 children: _list.map((controller) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: UploadWidget(controller: controller),
+                    child: UploadWidget(
+                      controller: controller,
+                      quality: _quality.value,
+                    ),
                   );
                 }).toList(),
               ),
@@ -143,9 +174,10 @@ class _WelcomePageState extends State<WelcomePage> {
 }
 
 class UploadWidget extends StatefulWidget {
+  final int quality;
   final DownloadController controller;
 
-  const UploadWidget({Key? key, required this.controller}) : super(key: key);
+  const UploadWidget({Key? key, required this.controller, this.quality = 70}) : super(key: key);
 
   @override
   State<UploadWidget> createState() => _UploadWidgetState();
@@ -175,10 +207,15 @@ class _UploadWidgetState extends State<UploadWidget> {
   }
 
   Future<void> startUpload() async {
+    print('widget.q = ${widget.quality}');
     Uint8List bytes = await file.readAsBytes();
-    var s = await API.uploadFileWithBytes(
-        bytes: bytes, fileName: file.name, onSendProgress: (progress) => widget.controller.progress = progress);
+    var s = await API.imageCompress(
+        bytes: bytes,
+        fileName: file.name,
+        quality: widget.quality,
+        onSendProgress: (progress) => widget.controller.progress = progress);
     widget.controller.imageCompressionModel = ImageCompressionModel.fromJson(s);
+    widget.controller.complete = true;
   }
 
   @override
@@ -199,11 +236,7 @@ class _UploadWidgetState extends State<UploadWidget> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    child!,
-                  ],
-                ),
+                child!,
                 Row(
                   children: [
                     ValueListenableBuilder(
@@ -211,7 +244,7 @@ class _UploadWidgetState extends State<UploadWidget> {
                       builder: (context, size, child) {
                         return Text(
                           Tools.formatBytes(size),
-                          style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
+                          style: AppTextStyle.titleMedium.copyWith(color: AppColor.errorColor),
                         );
                       },
                     ),
@@ -220,8 +253,9 @@ class _UploadWidgetState extends State<UploadWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const Text('   ->   '),
                           Text(
-                            ' -> ${Tools.formatBytes(controller.imageCompressionModel?.byteSizeAfter)}        ',
+                            '${Tools.formatBytes(controller.imageCompressionModel?.byteSizeAfter)}        ',
                             style: AppTextStyle.titleMedium.copyWith(color: AppColor.doneColor),
                           ),
                           Text(
@@ -257,11 +291,18 @@ class _UploadWidgetState extends State<UploadWidget> {
                           Align(
                             alignment: Alignment.center,
                             child: Visibility(
+                              visible: controller.imageCompressionModel == null && controller.progress == 1,
+                              child: const Text('压缩中..'),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Visibility(
                               visible: controller.imageCompressionModel != null,
                               child: AppButton.customButton(
                                 onTap: () => _download(controller.imageCompressionModel),
                                 child: Text(
-                                  'download',
+                                  '下载',
                                   textAlign: TextAlign.end,
                                   style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
                                 ),
@@ -271,17 +312,33 @@ class _UploadWidgetState extends State<UploadWidget> {
                         ],
                       ),
                     ),
+                    Visibility(
+                      visible: controller.complete,
+                      child: AppButton.customButton(
+                        child: Text(
+                          '重试',
+                          style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ],
             ),
           );
         },
-        child: Text(
-          file.name,
-          style: AppTextStyle.titleMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        child: Row(
+          children: [
+            Flexible(
+              child: Text(
+                file.name,
+                style: AppTextStyle.titleMedium,
+                maxLines: 2,
+                textAlign: TextAlign.justify,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );

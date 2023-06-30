@@ -5,14 +5,14 @@ import '../model/image_compression_model.dart';
 
 class DownloadModel {
   String path;
-  bool inProgress;
+  bool complete;
   double? progress;
   String tips;
   XFile? file;
   ImageCompressionModel? imageCompressionModel;
 
   DownloadModel(
-      {this.path = '', this.inProgress = false, this.progress, this.tips = '', this.file, this.imageCompressionModel});
+      {this.path = '', this.complete = false, this.progress, this.tips = '', this.file, this.imageCompressionModel});
 }
 
 class DownloadController extends ValueNotifier<DownloadModel> {
@@ -20,7 +20,7 @@ class DownloadController extends ValueNotifier<DownloadModel> {
 
   String get path => value.path;
 
-  bool get inProgress => value.inProgress;
+  bool get complete => value.complete;
 
   double? get progress => value.progress;
 
@@ -35,8 +35,8 @@ class DownloadController extends ValueNotifier<DownloadModel> {
     notifyListeners();
   }
 
-  set inProgress(bool inProgress) {
-    super.value.inProgress = inProgress;
+  set complete(bool inProgress) {
+    super.value.complete = inProgress;
     notifyListeners();
   }
 

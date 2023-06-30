@@ -109,8 +109,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              showToast('text');
-                              return;
                               final XFile? file = await picker.pickImage(source: ImageSource.gallery);
                               if (file == null) return;
                               setState(() {

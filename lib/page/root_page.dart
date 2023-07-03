@@ -35,9 +35,8 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, provider, child) {
-      _tabController.index = provider.pageIndex;
-
+    return Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
+      _tabController.index = homeProvider.pageIndex;
       return Scaffold(
         drawer: const CustomDrawer(),
         drawerEnableOpenDragGesture: false,
@@ -72,7 +71,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
           splashSpeedInMilliseconds: 0,
           leftCornerRadius: 10,
           rightCornerRadius: 10,
-          onTap: (index) => provider.pageIndex = index,
+          onTap: (index) => homeProvider.pageIndex = index,
           itemCount: _rootBars.length,
           tabBuilder: (int index, bool isActive) {
             BarItem item = _rootBars[index];

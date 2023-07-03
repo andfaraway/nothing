@@ -24,19 +24,19 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   Future<void> loadData() async {
-    List? list = await API.getFavorite();
-    _refreshController.completed(success: true);
-    if (list == null) {
-      showToast(S.current.request_failed);
-      return;
-    }
+    AppResponse response = await API.getFavorite();
 
-    dataList.clear();
-    for (Map<String, dynamic> map in list) {
-      FavoriteModel model = FavoriteModel.fromJson(map);
-      dataList.add(model);
+    if (response.isSuccess) {
+      dataList.clear();
+      for (Map<String, dynamic> map in response.dataList) {
+        FavoriteModel model = FavoriteModel.fromJson(map);
+        dataList.add(model);
+      }
+      setState(() {});
+      _refreshController.completed(success: true);
+    } else {
+      showToast(S.current.request_failed);
     }
-    setState(() {});
   }
 
   @override

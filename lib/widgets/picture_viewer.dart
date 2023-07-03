@@ -88,16 +88,13 @@ class _PictureViewerState extends State<PictureViewer> {
                           progressCallback: (current, total) {
                             EasyLoading.showProgress(current / (widget.imageSize ?? total));
                           });
-                      EasyLoading.dismiss();
                     }),
                 SheetButtonModel(
                     title: S.current.save_original_image,
                     textStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: () async {
-                      EasyLoading.show();
                       await saveNetworkImg(
                           imgUrl: imageUrl.replaceAll("s/", ""), progressCallback: (current, total) {});
-                      EasyLoading.dismiss();
                     }),
                 SheetButtonModel(
                     title: S.current.cancel,

@@ -18,20 +18,29 @@ class ResponseInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     Log.n(response.data, tag: 'response - ${response.requestOptions.path}');
+    dynamic data = response.data;
+    AppResponse httpResponse = AppResponse(code: AppResponseCode.serverError);
+
     if (response.statusCode == 200 && response.data is Map) {
-      int code = response.data['code'];
-      if (code == 200) {
-        if (response.data['data'] != null) {
-          response.data = response.data['data'];
+      Map receiveData = data;
+      int code = int.tryParse('${receiveData['code']}') ?? 0;
+      httpResponse.code = code;
+      httpResponse.data = receiveData['data'];
+      if (code != AppResponseCode.normal) {
+        dynamic error = receiveData['error'];
+        if (error is Map<String, dynamic>) {
+          httpResponse.error = ErrorModel.fromJson(error);
         }
-      } else if (code == 600) {
-        // 登录超时，跳转登录页面
-        return;
-      } else {
-        showToast(response.data['msg']);
-        return;
       }
     }
+
+    if (httpResponse.code == AppResponseCode.serverError) {
+      httpResponse.error = ErrorModel()
+        ..code = data['code']
+        ..message = '请求失败';
+    }
+
+    response.data = httpResponse;
     super.onResponse(response, handler);
   }
 

@@ -116,15 +116,16 @@ class _FileManagementState extends State<FileManagement> {
   }
 
   Future<void> loadFiles(String? catalog) async {
-    var s = await API.getFiles(catalog);
-    if (s == null) return;
-    currentCatalog = catalog;
-    files.clear();
-    for (Map<String, dynamic> map in s) {
-      FileModel model = FileModel.fromJson(map);
-      files.add(model);
+    AppResponse response = await API.getFiles(catalog);
+    if (response.isSuccess) {
+      currentCatalog = catalog;
+      files.clear();
+      for (Map<String, dynamic> map in response.dataList) {
+        FileModel model = FileModel.fromJson(map);
+        files.add(model);
+      }
+      setState(() {});
     }
-    setState(() {});
   }
 
   Future<void> onTap(FileModel model) async {

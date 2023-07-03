@@ -26,8 +26,6 @@ class _UploadFileState extends State<UploadFile> {
   @override
   void initState() {
     super.initState();
-    print(context.read<LaunchProvider>().launchInfo);
-
     launchInfo = context.read<LaunchProvider>().launchInfo ?? LaunchInfo();
   }
 
@@ -53,11 +51,13 @@ class _UploadFileState extends State<UploadFile> {
                     'image': launchInfo.image,
                     'image_background': launchInfo.backgroundImage,
                   };
-                  await API.insertLaunchInfo(param);
-                  showToast(S.current.success);
-                  setState(() {
-                    launchInfo = LaunchInfo();
-                  });
+                  AppResponse response = await API.insertLaunchInfo(param);
+                  if (response.isSuccess) {
+                    showToast(S.current.success);
+                    setState(() {
+                      launchInfo = LaunchInfo();
+                    });
+                  }
                 },
                 child: Text(
                   S.current.upload,
@@ -218,9 +218,9 @@ class _UploadFileState extends State<UploadFile> {
       source = ImageSource.gallery;
     }
     ImagePicker picker = ImagePicker();
-    PickedFile? file = await picker.getImage(source: source).catchError((error) {
-      print('picker error : $error');
+    XFile? file = await picker.pickImage(source: source).catchError((error) {
       openAppSettings();
+      return null;
     });
 
     CroppedFile? croppedFile = await ImageCropper().cropImage(
@@ -268,24 +268,21 @@ class _UploadFileState extends State<UploadFile> {
     final DateTime now = DateTime.now();
     String fileName =
         '${now.year.toString().padLeft(2, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}.jpg';
-
-    EasyLoading.show();
-    // 上传文件
-    var data = await API.uploadFile(
+    AppResponse response = await API.uploadFile(
         path: file?.path ?? '',
-        fileName: fileName ?? '',
+        fileName: fileName,
         onSendProgress: (progress) {
-          print('progress = $progress');
           EasyLoading.showProgress(progress);
         });
-    String url = data['url'];
-    if (imageType == 0) {
-      launchInfo.image = url;
-    } else if (imageType == 1) {
-      launchInfo.backgroundImage = url;
+    if (response.isSuccess) {
+      String url = response.dataMap['url'];
+      if (imageType == 0) {
+        launchInfo.image = url;
+      } else if (imageType == 1) {
+        launchInfo.backgroundImage = url;
+      }
+      setState(() {});
+      showToast(S.current.success);
     }
-    setState(() {});
-    EasyLoading.dismiss();
-    showToast(S.current.success);
   }
 }

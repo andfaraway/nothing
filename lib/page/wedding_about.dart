@@ -163,29 +163,27 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> addWedding() async {
-    EasyLoading.show();
     await API.insertWedding(title: '代办事项');
     await loadWeddings();
   }
 
   Future<void> loadWeddings() async {
-    List<dynamic> data = await API.getWeddings();
-    todoList.clear();
-    for (Map<String, dynamic> map in data) {
-      WeddingModel model = WeddingModel.fromJson(map);
-      todoList.add(model);
+    AppResponse response = await API.getWeddings();
+    if (response.isSuccess) {
+      todoList.clear();
+      for (Map<String, dynamic> map in response.dataList) {
+        WeddingModel model = WeddingModel.fromJson(map);
+        todoList.add(model);
+      }
+      setState(() {});
     }
-    setState(() {});
   }
 
   Future<void> insertWedding() async {
-    EasyLoading.show();
-    var a = await API.getWeddings();
-    print(a.toString());
+    await API.getWeddings();
   }
 
   Future<void> updateWedding(WeddingModel model) async {
-    EasyLoading.show();
     await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
   }
 
@@ -197,7 +195,9 @@ class _WeddingAboutState extends State<WeddingAbout> {
   }
 
   Future<void> deleteWedding(WeddingModel model) async {
-    EasyLoading.show();
-    await API.deleteWedding(model.id);
+    AppResponse response = await API.deleteWedding(model.id);
+    if (response.isSuccess) {
+      showTopToast('删除成功');
+    }
   }
 }

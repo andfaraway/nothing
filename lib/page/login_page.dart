@@ -21,12 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  /// 是否允许登陆
-  final ValueNotifier<bool> _loginButtonEnabled = ValueNotifier<bool>(false);
-
-  /// 是否开启密码显示
-  final ValueNotifier<bool> _isObscure = ValueNotifier<bool>(true);
-
   /// 键盘是否出现
   final ValueNotifier<bool> _keyboardAppeared = ValueNotifier<bool>(false);
 
@@ -51,8 +45,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> loginButtonPressed() async {
-    Map<String, dynamic>? map = await API.login(_username.value, _password.value);
-    if (map != null) {
+    AppResponse response = await API.login(username: _username.value, password: _password.value);
+    if (response.isSuccess) {
+      Map<String, dynamic> map = response.dataMap;
       map['userId'] = map['id'];
       Singleton().currentUser = UserInfoModel.fromJson(map);
       NotificationUtils.register();
@@ -219,12 +214,10 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () async {
         UMShareUserInfo info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
         if (info.error == null) {
-          Map<String, dynamic>? map =
+          AppResponse response =
               await API.thirdLogin(name: info.name, platform: 1, openId: info.openid, icon: info.iconurl);
-          print('第三方登录：$map');
-          if (map != null) {
-            Singleton().currentUser = UserInfoModel.fromJson(map);
-
+          if (response.isSuccess) {
+            Singleton().currentUser = UserInfoModel.fromJson(response.dataMap);
             if (mounted) {
               NotificationUtils.register();
               AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);

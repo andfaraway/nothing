@@ -85,31 +85,29 @@ class Constants {
   static final String deviceType = Constants.isIOS ? 'iPhone' : 'Android';
 
   /// 检查更新
-  static Future<dynamic> checkUpdate(BuildContext context, {Map? data}) async {
-    if (data == null) {
-      String version = await DeviceUtils.version();
-      data = await API.checkUpdate('ios', version);
-    }
-
-    if (data != null && data['update'] == true) {
-      if (currentContext.mounted) {
-        showIOSAlert(
-          context: currentContext,
-          title: S.current.version_update,
-          content: data['content'],
-          cancelOnPressed: () {
-            print('currentContext=$currentContext');
-            Navigator.pop(currentContext);
-          },
-          confirmOnPressed: () async {
-            String url = data!['path'];
-            if (await canLaunchUrlString(url)) {
-              await launchUrlString(url);
-            } else {
-              throw 'Could not launch $url';
-            }
-          },
-        );
+  static Future<void> checkUpdate() async {
+    AppResponse response = await API.checkUpdate(platform: 'ios', version: DeviceUtils.appVersion);
+    if (response.isSuccess) {
+      Map<String, dynamic> data = response.dataMap;
+      if (data['update'] == true) {
+        if (currentContext.mounted) {
+          showIOSAlert(
+            context: currentContext,
+            title: S.current.version_update,
+            content: data['content'],
+            cancelOnPressed: () {
+              Navigator.pop(currentContext);
+            },
+            confirmOnPressed: () async {
+              String url = data['path'];
+              if (await canLaunchUrlString(url)) {
+                await launchUrlString(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
+          );
+        }
       }
     }
   }
@@ -124,8 +122,7 @@ class Constants {
     //推送别名
     param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
     //推送注册id
-    param['registrationID'] =
-    await NotificationUtils.jPush?.getRegistrationID();
+    param['registrationID'] = await NotificationUtils.jPush?.getRegistrationID();
     //电量
     param['battery'] = await DeviceUtils.battery();
     //设备信息
@@ -133,7 +130,7 @@ class Constants {
     //网络
     param['network'] = await DeviceUtils.network();
     //版本
-    param['version'] = await DeviceUtils.version();
+    param['version'] = DeviceUtils.appVersion;
 
     API.insertLaunch(param);
   }

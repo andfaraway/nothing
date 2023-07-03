@@ -51,19 +51,25 @@ class HiveBoxes {
     await _dataBox.clear();
   }
 
-  static put(dynamic key, dynamic value) {
-    _dataBox.put(key, value);
+  static put(dynamic key, dynamic value, {bool isSetting = false}) {
+    isSetting ? _settingsBox.put(key, value) : _dataBox.put(key, value);
   }
 
-  static dynamic get(dynamic key, {dynamic defaultValue}) {
-    return _dataBox.get(key, defaultValue: defaultValue);
+  static dynamic get(dynamic key, {dynamic defaultValue, bool isSetting = false}) {
+    return isSetting
+        ? _settingsBox.get(key, defaultValue: defaultValue)
+        : _dataBox.get(key, defaultValue: defaultValue);
   }
 
-  static delete(dynamic key) {
-    _dataBox.delete(key);
+  static delete(dynamic key, {bool isSetting = false}) {
+    isSetting ? _settingsBox.clear() : _dataBox.delete(key);
   }
 
-  static Future<int> clear() {
+  static Future<int> clear({bool all = false}) {
+    if (all) {
+      _settingsBox.clear();
+      launchBox.clear();
+    }
     return _dataBox.clear();
   }
 

@@ -106,13 +106,11 @@ class _WeddingDetailState extends State<WeddingDetailPage> {
   }
 
   Future<void> addWedding() async {
-    EasyLoading.show();
     await API.insertWedding(title: '代办事项');
   }
 
   Future<void> insertWedding() async {
-    EasyLoading.show();
-    var a = await API.getWeddings();
+    await API.getWeddings();
   }
 
   Future<void> updateWedding(WeddingModel model) async {
@@ -120,13 +118,11 @@ class _WeddingDetailState extends State<WeddingDetailPage> {
       showToast("标题不能为空");
       return;
     }
-    EasyLoading.show();
     await API.updateWedding(id: model.id, title: model.title, content: model.content, done: model.done);
     showToast(S.current.success);
   }
 
   Future<dynamic> deleteWedding(WeddingModel model) async {
-    EasyLoading.show();
     return API.deleteWedding(model.id);
   }
 }

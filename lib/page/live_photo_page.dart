@@ -126,7 +126,6 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
     EasyLoading.show(dismissOnTap: false);
     bool success = await LivePhotoMaker.create(
         firstImagePath: firstImage!.path, secondImagePath: secondImage!.path, width: movWidth, height: movHeight);
-    EasyLoading.dismiss();
     if (success) {
       showToast(S.current.success);
     } else {

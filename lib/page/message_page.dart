@@ -23,20 +23,20 @@ class _MessagePageState extends State<MessagePage> {
 
   Future<void> loadData() async {
     String? alias = HiveBoxes.get(HiveKey.pushAlias);
-    List? list = await API.getMessages(alias);
-    if (list == null) {
-      showToast(S.current.request_failed);
+    AppResponse response = await API.getMessages(alias);
+    if (response.isSuccess) {
+      dataList.clear();
+      for (Map<String, dynamic> map in response.dataList) {
+        MessageModel model = MessageModel.fromJson(map);
+        dataList.add(model);
+      }
       _refreshController.refreshCompleted();
-      return;
+      setState(() {});
+    } else {
+      showToast(S.current.request_failed);
     }
 
-    dataList.clear();
-    for (Map<String, dynamic> map in list) {
-      MessageModel model = MessageModel.fromJson(map);
-      dataList.add(model);
-    }
     _refreshController.refreshCompleted();
-    setState(() {});
   }
 
   @override

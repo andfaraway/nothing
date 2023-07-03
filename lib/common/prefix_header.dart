@@ -14,6 +14,7 @@ export '../common/config.dart';
 export '../extensions/extensions.e.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';
+export '../http/http.dart';
 export '../utils/image.dart';
 export '../utils/keyboard.dart';
 export '../widgets/app_widget.dart';
@@ -28,3 +29,4 @@ export 'constants.dart';
 export 'screens.dart';
 export 'style.dart';
 export 'tools.dart';
+

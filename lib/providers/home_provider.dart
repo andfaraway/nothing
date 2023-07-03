@@ -11,11 +11,35 @@ class HomeProvider extends ChangeNotifier {
 
   int get pageIndex => _pageIndex;
 
-  set pageIndex(int index) {
-    if (_pageIndex == index) {
+  set pageIndex(int value) {
+    if (_pageIndex == value) {
       return;
     }
-    _pageIndex = index;
+    _pageIndex = value;
+    notifyListeners();
+  }
+
+  String _drawerTitle = '';
+
+  String get drawerTitle => _drawerTitle;
+
+  set drawerTitle(String value) {
+    if (_drawerTitle == value) {
+      return;
+    }
+    _drawerTitle = value;
+    notifyListeners();
+  }
+
+  Map<String, dynamic> _drawerContent = {};
+
+  Map<String, dynamic> get drawerContent => _drawerContent;
+
+  set drawerContent(Map<String, dynamic> value) {
+    if (_drawerContent == value) {
+      return;
+    }
+    _drawerContent = value;
     notifyListeners();
   }
 }

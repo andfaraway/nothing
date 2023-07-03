@@ -93,15 +93,16 @@ class _SayHiState extends State<SayHi> {
   Future<void> sendBtnOnPressed() async {
     if (_canSend.value) {
       _canSend.value = false;
-      await API.sayHello(user, text);
+      AppResponse response = await API.sayHello(user, text);
+      if (response.isSuccess) {
+        showToast('发送成功');
+      }
     }
     _canSend.value = true;
-    showToast('发送成功');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _canSend.dispose();
   }

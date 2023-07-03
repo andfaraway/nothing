@@ -27,7 +27,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     super.initState();
 
-    bool agreement = HiveBoxes.get(HiveKey.agreement, defaultValue: false);
+    bool agreement = HiveBoxes.get(HiveKey.agreement, defaultValue: false, isSetting: true);
 
     if (agreement) {
       initData();
@@ -42,7 +42,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   userAgreementUrl: '${Config.netServer}/userAgreement.html',
                   privacyPolicyUrl: '${Config.netServer}/privacyPolicy.html',
                   continueCallback: () async {
-                    await HiveBoxes.put(HiveKey.agreement, true);
+                    await HiveBoxes.put(HiveKey.agreement, true, isSetting: true);
                     initData();
                   },
                 ));
@@ -69,9 +69,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Future<void> initData() async {
     LaunchProvider provider = context.read<LaunchProvider>();
-    Map<String, dynamic>? map = await API.getLaunchInfo();
-    if (map != null) {
-      provider.launchInfo = LaunchInfo.fromJson(map);
+    AppResponse response = await API.getLaunchInfo();
+    if (response.isSuccess) {
+      provider.launchInfo = LaunchInfo.fromJson(response.dataMap);
     }
 
     timeCount.value = provider.launchInfo?.timeCount ?? timeCount.value;

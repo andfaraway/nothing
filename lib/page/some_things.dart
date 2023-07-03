@@ -1,7 +1,6 @@
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/widgets/custom_dropdown_button.dart';
 
-import '../http/http.dart';
 
 class SomeThings extends StatefulWidget {
   const SomeThings({Key? key}) : super(key: key);
@@ -92,17 +91,16 @@ class _SomeThingsState extends State<SomeThings> {
   Future<void> _onLoad() async {
     pageIndex += 1;
     List<dynamic> data = await getData(pageIndex, pageSize, clean: false);
-
     _controller.completed(success: true, noMore: data.isEmpty);
     setState(() {});
   }
 
   Future<List<dynamic>> getData(int pageIndex, int pageSize, {bool clean = false}) async {
     if (clean) dataList.clear();
-    List<dynamic> data = [];
+    late AppResponse response;
     if (currentPage == pagesName[0]) {
-      data = await API.getLogins(pageIndex, pageSize);
-      for (Map<String, dynamic> map in data) {
+      response = await API.getLogins(pageIndex, pageSize);
+      for (Map<String, dynamic> map in response.dataList) {
         RecordModel model = RecordModel(
             title: map['username'],
             subTitle: '${map['network']} ${map['battery']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
@@ -111,8 +109,8 @@ class _SomeThingsState extends State<SomeThings> {
         dataList.add(model);
       }
     } else if (currentPage == pagesName[1]) {
-      data = await API.getFeedback(pageIndex, pageSize);
-      for (Map<String, dynamic> map in data) {
+      response = await API.getFeedback(pageIndex, pageSize);
+      for (Map<String, dynamic> map in response.dataList) {
         RecordModel model = RecordModel(
             title: map['nickname'],
             subTitle: '${map['content']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
@@ -121,27 +119,28 @@ class _SomeThingsState extends State<SomeThings> {
         dataList.add(model);
       }
     }
-    return data;
+    return response.dataList;
   }
 
   Future<List<dynamic>> getCommonData(String table, int pageIndex, int pageSize, {bool clean = false}) async {
     if (clean) dataList.clear();
-    Map<String, dynamic> params = {"table": table, "page": pageIndex, "size": pageSize};
-    List<dynamic> response = await Http.get('/getCommonInfo', params: params);
-    for (Map<String, dynamic> map in response) {
-      String str = '';
-      for (int i = 0; i < map.keys.length; i++) {
-        String key = map.keys.elementAt(i);
-        str += '$key:${map[key]}';
-        if (i < map.keys.length - 1) {
-          str += '\n';
+    AppResponse response = await API.getCommonInfo(table: table, pageIndex: pageIndex, pageSize: pageSize);
+    if (response.isSuccess) {
+      for (Map<String, dynamic> map in response.dataList) {
+        String str = '';
+        for (int i = 0; i < map.keys.length; i++) {
+          String key = map.keys.elementAt(i);
+          str += '$key:${map[key]}';
+          if (i < map.keys.length - 1) {
+            str += '\n';
+          }
         }
+        RecordModel model =
+            RecordModel(title: str, trailingText: map['date'].toString().dataFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
+        dataList.add(model);
       }
-      RecordModel model =
-          RecordModel(title: str, trailingText: map['date'].toString().dataFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
-      dataList.add(model);
     }
-    return response;
+    return response.dataList;
   }
 }
 

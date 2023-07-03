@@ -9,7 +9,9 @@ class DeviceUtils {
   const DeviceUtils._();
 
   static Future<void> init() async {
+    await getModel();
     await DeviceUtils.getDeviceUuid();
+    appVersion = await _getVersion();
   }
 
   static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
@@ -18,6 +20,8 @@ class DeviceUtils {
   static String deviceModel = 'Device';
   static String? devicePushToken;
   static String? deviceUuid;
+
+  static String appVersion = '';
 
   static Future<void> initDeviceInfo() async {
     await getModel();
@@ -106,7 +110,7 @@ class DeviceUtils {
     return connectivityResult.toString().split('.').last;
   }
 
-  static Future<String> version() async {
+  static Future<String> _getVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     return version;

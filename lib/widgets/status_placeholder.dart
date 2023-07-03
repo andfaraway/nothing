@@ -1,6 +1,5 @@
 import 'package:nothing/common/prefix_header.dart';
 
-import '../http/http.dart';
 
 enum StatusPlaceholderType {
   custom,
@@ -48,9 +47,9 @@ StatusPlaceholderType? codeToStatusType(int? code, bool hasData) {
   if (hasData) {
     return null;
   }
-  if (code == ResponseCode.normal) {
+  if (code == AppResponseCode.normal) {
     return StatusPlaceholderType.empty;
-  } else if (code == ResponseCode.networkError) {
+  } else if (code == AppResponseCode.networkError) {
     return StatusPlaceholderType.networkError;
   }
   return StatusPlaceholderType.serverError;

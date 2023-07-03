@@ -77,14 +77,15 @@ class _FontsSettingState extends State<FontsSetting> {
   }
 
   _loadData() async {
-    List<dynamic>? s = await API.getFiles('src/fonts/') ?? [];
+    AppResponse response = await API.getFiles('src/fonts/');
+    if (response.isSuccess) {
+      _dataList.clear();
+      _dataList.add(FileModel()..name = AppTextStyle.fontFamilyNameDefault);
 
-    _dataList.clear();
-    _dataList.add(FileModel()..name = AppTextStyle.fontFamilyNameDefault);
+      _dataList.addAll(response.dataList.map((e) => FileModel.fromJson(e)).toList());
+      _dataList.removeWhere((element) => element.isDir);
 
-    _dataList.addAll(s.map((e) => FileModel.fromJson(e)).toList());
-    _dataList.removeWhere((element) => element.isDir);
-
-    setState(() {});
+      setState(() {});
+    }
   }
 }

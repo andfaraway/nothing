@@ -10,6 +10,14 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../common/prefix_header.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
+void showLoading({String? msg}) {
+  EasyLoading.show();
+}
+
+void hideLoading() {
+  EasyLoading.dismiss();
+}
+
 void showToast(String text, {int timeInSecForIosWeb = 1}) {
   Fluttertoast.showToast(
       msg: text,
@@ -42,7 +50,6 @@ void showHttpLoading() {
     ..textColor = const Color(0xff0082CD)
     ..textStyle = const TextStyle(fontSize: 12)
     ..indicatorType = EasyLoadingIndicatorType.wave;
-  EasyLoading.show();
 }
 
 void hideHttpLoading() {

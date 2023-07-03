@@ -29,13 +29,14 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Future<void> loadData() async {
-    List<dynamic>? dataList = await API.getSettingModule(accountType: Singleton().currentUser.accountType);
-    if (dataList == null) return;
-    for (Map<String, dynamic> map in dataList) {
-      SettingConfigModel model = SettingConfigModel.fromJson(map);
-      _settingList.add(model);
+    AppResponse response = await API.getSettingModule(accountType: Singleton().currentUser.accountType);
+    if (response.isSuccess) {
+      for (Map<String, dynamic> map in response.dataList) {
+        SettingConfigModel model = SettingConfigModel.fromJson(map);
+        _settingList.add(model);
+      }
+      setState(() {});
     }
-    setState(() {});
   }
 
   @override

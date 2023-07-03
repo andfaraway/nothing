@@ -42,7 +42,6 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
               style: const TextStyle(color: Colors.white),
             ),
             onTap: () async {
-              EasyLoading.show();
               await save(sendNotification.value);
             },
           ),
@@ -136,16 +135,19 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
 
   Future<void> updateVersionInfo() async {
     if (model == null) return;
-    await API.updateVersionInfo(model!);
-    showToast(S.current.success);
+    AppResponse response = await API.addVersionInfo(model!);
+    if (response.isSuccess) {
+      showToast(S.current.success);
+    }
   }
 
   /// 检查更新
   Future<void> getLastVersionInfo() async {
-    String version = await DeviceUtils.version();
-    Map<String, dynamic> data = await API.checkUpdate('ios', version) ?? {};
-    model = VersionUpdateModel.fromJson(data);
-    tempId = model?.id;
-    setState(() {});
+    AppResponse response = await API.checkUpdate(platform: 'ios', version: DeviceUtils.appVersion);
+    if (response.isSuccess) {
+      model = VersionUpdateModel.fromJson(response.dataMap);
+      tempId = model?.id;
+      setState(() {});
+    }
   }
 }

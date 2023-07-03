@@ -7,10 +7,10 @@ import 'package:nothing/common/prefix_header.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await DeviceUtils.init();
   await PathUtils.init();
   await HiveBoxes.init();
   await Constants.init();
-  await DeviceUtils.init();
 
   await NotificationUtils.jPushInit();
 
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
       Future.delayed(const Duration(seconds: 8), () async {
         //检查更新
-        await Constants.checkUpdate(context);
+        await Constants.checkUpdate();
       });
     });
   }

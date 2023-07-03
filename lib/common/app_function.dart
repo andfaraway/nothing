@@ -14,35 +14,40 @@ Function? functionWithString(BuildContext context, String functionStr) {
     url = functionStr.split('web:').last;
     functionStr = 'web';
   }
-  print('url = $functionStr');
+  Log.d('url = $functionStr');
   Function? f;
   switch (functionStr) {
     case 'checkUpdate':
       f = () async {
-        String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
-        if (data != null && data['update'] == true) {
-          String url = data['path'];
-          if (await canLaunchUrlString(url)) {
-            await launchUrlString(url);
+        AppResponse response =
+            await API.checkUpdate(platform: Platform.operatingSystem, version: DeviceUtils.appVersion);
+        if (response.isSuccess) {
+          Map<String, dynamic>? data = response.dataMap;
+          if (data['update'] == true) {
+            String url = data['path'];
+            if (await canLaunchUrlString(url)) {
+              await launchUrlString(url);
+            } else {
+              throw 'Could not launch $url';
+            }
           } else {
-            throw 'Could not launch $url';
+            showToast('当前已是最新版本: v${DeviceUtils.appVersion}');
           }
-        } else {
-          showToast('当前已是最新版本: v$version');
         }
       };
       break;
     case 'goUpdate':
       f = () async {
-        String version = await DeviceUtils.version();
-        Map<String, dynamic>? data = await API.checkUpdate(Platform.operatingSystem, version);
-        if (data != null) {
-          String url = data['path'];
-          if (await canLaunchUrlString(url)) {
-            await launchUrlString(url);
-          } else {
-            throw 'Could not launch $url';
+        AppResponse response =
+            await API.checkUpdate(platform: Platform.operatingSystem, version: DeviceUtils.appVersion);
+        if (response.isSuccess) {
+          if (response.dataMap.isNotEmpty) {
+            String url = response.dataMap['path'];
+            if (await canLaunchUrlString(url)) {
+              await launchUrlString(url);
+            } else {
+              throw 'Could not launch $url';
+            }
           }
         }
       };

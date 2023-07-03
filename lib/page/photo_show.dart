@@ -133,21 +133,23 @@ class _PhotoShowState extends State<PhotoShow> {
 
   Future<void> getImages(String? catalog) async {
     catalog ??= 'deskTop';
-    var response = await API.getImages(catalog) ?? [];
-    _data.clear();
-    for (Map<String, dynamic> map in response) {
-      ServerImageModel model = ServerImageModel.fromJson(map);
-      model.imageUrl = '${model.prefix}${model.name}';
-      if (model.imageUrl!.contains('.')) {
-        _data.add(model);
+    AppResponse response = await API.getImages(catalog);
+    if (response.isSuccess) {
+      _data.clear();
+      for (Map<String, dynamic> map in response.dataList) {
+        ServerImageModel model = ServerImageModel.fromJson(map);
+        model.imageUrl = '${model.prefix}${model.name}';
+        if (model.imageUrl!.contains('.')) {
+          _data.add(model);
+        }
       }
-    }
-    _data.sort((a, b) {
-      return a.name!.compareTo(b.name!);
-    });
+      _data.sort((a, b) {
+        return a.name!.compareTo(b.name!);
+      });
 
-    _initIndex = HiveBoxes.get(HiveKey.photoShowIndex, defaultValue: 0);
-    setState(() {});
+      _initIndex = HiveBoxes.get(HiveKey.photoShowIndex, defaultValue: 0);
+      setState(() {});
+    }
   }
 
   void changeCatalog() {

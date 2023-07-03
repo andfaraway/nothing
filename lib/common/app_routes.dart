@@ -143,8 +143,8 @@ class AppRoute {
     Navigator.maybePop(buildContext, arguments);
   }
 
-  static Future<void> popUntil(BuildContext context, String routeName) async {
-    Navigator.popUntil(context, (route) {
+  static Future<dynamic> popUntil({required String routeName, BuildContext? context}) async {
+    return Navigator.popUntil(context ?? currentContext, (route) {
       if (route.settings.name == routeName) {
         return true;
       }

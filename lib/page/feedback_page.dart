@@ -2,7 +2,6 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-01-17 16:09:34
 //
-import 'package:nothing/extensions/function_extension.dart';
 import 'package:nothing/widgets/login_button.dart';
 
 import '../common/prefix_header.dart';
@@ -94,18 +93,16 @@ class _FeedbackPageState extends State<FeedbackPage> {
       return null;
     }
     hideKeyboard(context);
-    EasyLoading.show();
     var result = await API.addFeedback(content, nickname);
-    if (result == null) {
-      showToast('反馈失败');
-    } else {
+    if (result.isSuccess) {
       showToast('反馈成功');
       setState(() {
         content = '';
         controller.text = content;
       });
+    } else {
+      showToast('反馈失败');
     }
-    EasyLoading.dismiss();
   }
 
   @override

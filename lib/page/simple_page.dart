@@ -71,8 +71,9 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
                         padding: EdgeInsets.only(left: 30, right: 30, bottom: Screens.navigationBarHeight),
                         child: GestureDetector(
                           onDoubleTap: () async {
-                            var result = await API.addFavorite(contentText.trim().toString(), source: widget.title);
-                            if (result != null) {
+                            AppResponse result =
+                                await API.addFavorite(contentText.trim().toString(), source: widget.title);
+                            if (result.isSuccess) {
                               showToast('收藏成功！');
                             }
                           },

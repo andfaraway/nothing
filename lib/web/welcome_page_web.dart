@@ -289,8 +289,14 @@ class _UploadWidgetState extends State<UploadWidget> {
                           Align(
                             alignment: Alignment.center,
                             child: Visibility(
-                              visible: controller.imageCompressionModel == null && controller.progress == 1,
-                              child: const Text('压缩中..'),
+                              visible:
+                                  controller.imageCompressionModel == null &&
+                                      controller.progress == 1,
+                              child: Text(
+                                '压缩中..',
+                                style: AppTextStyle.titleMedium
+                                    .copyWith(color: AppColor.white),
+                              ),
                             ),
                           ),
                           Align(
@@ -302,7 +308,9 @@ class _UploadWidgetState extends State<UploadWidget> {
                                 child: Text(
                                   '下载',
                                   textAlign: TextAlign.end,
-                                  style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
+                                  style: AppTextStyle.titleMedium.copyWith(
+                                      color: AppColor.white,
+                                      decoration: TextDecoration.underline),
                                 ),
                               ),
                             ),
@@ -313,11 +321,16 @@ class _UploadWidgetState extends State<UploadWidget> {
                     Visibility(
                       visible: controller.complete,
                       child: AppButton.customButton(
-                        child: Text(
-                          '重试',
-                          style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
-                        ),
-                      ),
+                          child: Text(
+                            '重试',
+                            style: AppTextStyle.titleMedium
+                                .copyWith(color: AppColor.specialColor),
+                          ),
+                          onTap: () {
+                            controller.complete = false;
+                            controller.imageCompressionModel = null;
+                            startUpload();
+                          }),
                     )
                   ],
                 ),

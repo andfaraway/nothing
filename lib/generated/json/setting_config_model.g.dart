@@ -39,7 +39,7 @@ SettingConfigModel $SettingConfigModelFromJson(Map<String, dynamic> json) {
   if (icon != null) {
     settingConfigModel.icon = icon;
   }
-  final dynamic arguments = jsonConvert.convert<dynamic>(json['arguments']);
+  final dynamic? arguments = jsonConvert.convert<dynamic>(json['arguments']);
   if (arguments != null) {
     settingConfigModel.arguments = arguments;
   }

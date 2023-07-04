@@ -32,6 +32,8 @@ class API {
   /// 检查更新
   static Future<AppResponse> checkUpdate(
       {required String platform, required String version, bool needLoading = false}) async {
+    if (Constants.isWeb)
+      return AppResponse()..code = AppResponseCode.serverError;
     Map<String, dynamic> param = {
       'platform': platform,
       'version': version,
@@ -258,15 +260,16 @@ class API {
       "name": fileName
     });
 
-    return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
+    return Http.post(ConstUrl.uploadFile, data: formData,
+        onSendProgress: (a, b) {
       print('a=$a,b=$b');
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     });
   }
 
-  /// 上传文件
-  static imageCompress(
+  /// 图片压缩
+  static Future<AppResponse> imageCompress(
       {required Uint8List bytes,
       String? fileName,
       String? type = 'imageCompress',
@@ -281,10 +284,11 @@ class API {
       "fileName": fileName
     });
 
-    return Http.post(ConstUrl.imageCompress, data: formData, onSendProgress: (a, b) {
+    return Http.post(ConstUrl.imageCompress, data: formData,
+        onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
-    });
+    }, needLoading: false);
   }
 
   static const String _secret = 'lalalala';

@@ -44,7 +44,6 @@ class DeviceUtils {
           '${iosInfo.model} ${iosInfo.utsname.machine} ${iosInfo.systemVersion}';
       deviceModel = model;
     }
-
     Log.d('deviceModel: $deviceModel');
   }
 
@@ -111,6 +110,7 @@ class DeviceUtils {
   }
 
   static Future<String> _getVersion() async {
+    if (Constants.isWeb) return '';
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     return version;

@@ -24,18 +24,20 @@ import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
-import 'package:nothing/utils/web_import.dart';
+import 'package:nothing/web/image_compression.dart';
 import 'package:nothing/widgets/app_webview.dart';
+
+import '../page/welcome_page.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
 
 class AppRoute {
   const AppRoute._();
 
-  static String get initialRoute => AppRoute.welcome.name;
+  static String get initialRoute => routePages.first.name;
 
   static List<RoutePage> get routePages => Constants.isWeb
-      ? [AppRoute.welcome]
+      ? [AppRoute.imageCompression]
       : [
           AppRoute.welcome,
           AppRoute.root,
@@ -107,24 +109,33 @@ class AppRoute {
       page: ({Object? arguments}) => FileManagement(
             arguments: arguments,
           ));
-  static final RoutePage someThings =
-      RoutePage(name: '/someThingsRoute', page: ({Object? arguments}) => const SomeThings());
-  static final RoutePage videoPlayPage =
-      RoutePage(name: '/videoPlayPageRoute', page: ({Object? arguments}) => const VideoPlayPage());
-  static final RoutePage musicPage =
-      RoutePage(name: '/musicPageRoute', page: ({Object? arguments}) => const MusicPage());
-  static final RoutePage webView =
-      RoutePage(name: '/webViewRoute', page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
+  static final RoutePage someThings = RoutePage(
+      name: '/someThingsRoute',
+      page: ({Object? arguments}) => const SomeThings());
+  static final RoutePage videoPlayPage = RoutePage(
+      name: '/videoPlayPageRoute',
+      page: ({Object? arguments}) => const VideoPlayPage());
+  static final RoutePage musicPage = RoutePage(
+      name: '/musicPageRoute',
+      page: ({Object? arguments}) => const MusicPage());
+  static final RoutePage webView = RoutePage(
+      name: '/webViewRoute',
+      page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
+  static final RoutePage imageCompression = RoutePage(
+      name: '/imageCompressionRoute',
+      page: ({Object? arguments}) => const ImageCompressionPage());
 
   static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
     context ??= currentContext;
-    dynamic value = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+    dynamic value =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return page;
     }));
     return value;
   }
 
-  static Future<dynamic> pushNamePage(BuildContext? context, String routeName, {Object? arguments}) async {
+  static Future<dynamic> pushNamePage(BuildContext? context, String routeName,
+      {Object? arguments}) async {
     context ??= currentContext;
     dynamic value = await Navigator.pushNamed(context, routeName, arguments: arguments);
     return value;

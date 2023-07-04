@@ -11,7 +11,8 @@ ImageCompressionModel $ImageCompressionModelFromJson(Map<String, dynamic> json) 
   if (byteSizeBefore != null) {
     imageCompressionModel.byteSizeBefore = byteSizeBefore;
   }
-  final String? fileNameBefore = jsonConvert.convert<String>(json['fileNameBefore']);
+  final String? fileNameBefore =
+      jsonConvert.convert<String>(json['fileNameBefore']);
   if (fileNameBefore != null) {
     imageCompressionModel.fileNameBefore = fileNameBefore;
   }

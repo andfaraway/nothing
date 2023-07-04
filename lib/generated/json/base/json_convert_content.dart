@@ -17,10 +17,9 @@ import 'package:nothing/model/wedding_model.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
-typedef EnumConvertFunction<T> = T Function(String value);
 
 class JsonConvert {
-  static final Map<String, JsonConvertFunction> convertFuncMap = {
+  static final Map<String, JsonConvertFunction> _convertFuncMap = {
     (ErrorModel).toString(): ErrorModel.fromJson,
     (FavoriteModel).toString(): FavoriteModel.fromJson,
     (FileModel).toString(): FileModel.fromJson,
@@ -33,111 +32,135 @@ class JsonConvert {
     (WeddingModel).toString(): WeddingModel.fromJson,
   };
 
-  T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
+  T? convert<T>(dynamic value) {
     if (value == null) {
       return null;
     }
+    return asT<T>(value);
+  }
+
+  List<T?>? convertList<T>(List<dynamic>? value) {
+    if (value == null) {
+      return null;
+    }
+    try {
+      return value.map((dynamic e) => asT<T>(e)).toList();
+    } catch (e, stackTrace) {
+      debugPrint('asT<$T> $e $stackTrace');
+      return <T>[];
+    }
+  }
+
+  List<T>? convertListNotNull<T>(dynamic value) {
+    if (value == null) {
+      return null;
+    }
+    try {
+      return (value as List<dynamic>).map((dynamic e) => asT<T>(e)!).toList();
+    } catch (e, stackTrace) {
+      debugPrint('asT<$T> $e $stackTrace');
+      return <T>[];
+    }
+  }
+
+  T? asT<T extends Object?>(dynamic value) {
     if (value is T) {
       return value;
     }
-    try {
-      return _asT<T>(value, enumConvert: enumConvert);
-    } catch (e, stackTrace) {
-      debugPrint('asT<$T> $e $stackTrace');
-      return null;
-    }
-  }
-
-  List<T?>? convertList<T>(List<dynamic>? value, {EnumConvertFunction? enumConvert}) {
-    if (value == null) {
-      return null;
-    }
-    try {
-      return value.map((dynamic e) => _asT<T>(e, enumConvert: enumConvert)).toList();
-    } catch (e, stackTrace) {
-      debugPrint('asT<$T> $e $stackTrace');
-      return <T>[];
-    }
-  }
-
-  List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
-    if (value == null) {
-      return null;
-    }
-    try {
-      return (value as List<dynamic>).map((dynamic e) => _asT<T>(e, enumConvert: enumConvert)!).toList();
-    } catch (e, stackTrace) {
-      debugPrint('asT<$T> $e $stackTrace');
-      return <T>[];
-    }
-  }
-
-  T? _asT<T extends Object?>(dynamic value, {EnumConvertFunction? enumConvert}) {
     final String type = T.toString();
-    final String valueS = value.toString();
-    if (enumConvert != null) {
-      return enumConvert(valueS) as T;
-    } else if (type == "String") {
-      return valueS as T;
-    } else if (type == "int") {
-      final int? intValue = int.tryParse(valueS);
-      if (intValue == null) {
-        return double.tryParse(valueS)?.toInt() as T?;
+    try {
+      final String valueS = value.toString();
+      if (type == "String") {
+        return valueS as T;
+      } else if (type == "int") {
+        final int? intValue = int.tryParse(valueS);
+        if (intValue == null) {
+          return double.tryParse(valueS)?.toInt() as T?;
+        } else {
+          return intValue as T;
+        }
+      } else if (type == "double") {
+        return double.parse(valueS) as T;
+      } else if (type == "DateTime") {
+        return DateTime.parse(valueS) as T;
+      } else if (type == "bool") {
+        if (valueS == '0' || valueS == '1') {
+          return (valueS == '1') as T;
+        }
+        return (valueS == 'true') as T;
+      } else if (type == "Map" || type.startsWith("Map<")) {
+        return value as T;
       } else {
-        return intValue as T;
+        if (_convertFuncMap.containsKey(type)) {
+          return _convertFuncMap[type]!(value) as T;
+        } else {
+          throw UnimplementedError('$type unimplemented');
+        }
       }
-    } else if (type == "double") {
-      return double.parse(valueS) as T;
-    } else if (type == "DateTime") {
-      return DateTime.parse(valueS) as T;
-    } else if (type == "bool") {
-      if (valueS == '0' || valueS == '1') {
-        return (valueS == '1') as T;
-      }
-      return (valueS == 'true') as T;
-    } else if (type == "Map" || type.startsWith("Map<")) {
-      return value as T;
-    } else {
-      if (convertFuncMap.containsKey(type)) {
-        return convertFuncMap[type]!(Map<String, dynamic>.from(value)) as T;
-      } else {
-        throw UnimplementedError('$type unimplemented');
-      }
+    } catch (e, stackTrace) {
+      debugPrint('asT<$T> $e $stackTrace');
+      return null;
     }
   }
 
   //list is returned by type
   static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
     if (<ErrorModel>[] is M) {
-      return data.map<ErrorModel>((Map<String, dynamic> e) => ErrorModel.fromJson(e)).toList() as M;
+      return data
+          .map<ErrorModel>((Map<String, dynamic> e) => ErrorModel.fromJson(e))
+          .toList() as M;
     }
     if (<FavoriteModel>[] is M) {
-      return data.map<FavoriteModel>((Map<String, dynamic> e) => FavoriteModel.fromJson(e)).toList() as M;
+      return data
+          .map<FavoriteModel>(
+              (Map<String, dynamic> e) => FavoriteModel.fromJson(e))
+          .toList() as M;
     }
     if (<FileModel>[] is M) {
-      return data.map<FileModel>((Map<String, dynamic> e) => FileModel.fromJson(e)).toList() as M;
+      return data
+          .map<FileModel>((Map<String, dynamic> e) => FileModel.fromJson(e))
+          .toList() as M;
     }
     if (<ImageCompressionModel>[] is M) {
-      return data.map<ImageCompressionModel>((Map<String, dynamic> e) => ImageCompressionModel.fromJson(e)).toList()
-          as M;
+      return data
+          .map<ImageCompressionModel>(
+              (Map<String, dynamic> e) => ImageCompressionModel.fromJson(e))
+          .toList() as M;
     }
     if (<LoginModel>[] is M) {
-      return data.map<LoginModel>((Map<String, dynamic> e) => LoginModel.fromJson(e)).toList() as M;
+      return data
+          .map<LoginModel>((Map<String, dynamic> e) => LoginModel.fromJson(e))
+          .toList() as M;
     }
     if (<MessageModel>[] is M) {
-      return data.map<MessageModel>((Map<String, dynamic> e) => MessageModel.fromJson(e)).toList() as M;
+      return data
+          .map<MessageModel>(
+              (Map<String, dynamic> e) => MessageModel.fromJson(e))
+          .toList() as M;
     }
     if (<ServerImageModel>[] is M) {
-      return data.map<ServerImageModel>((Map<String, dynamic> e) => ServerImageModel.fromJson(e)).toList() as M;
+      return data
+          .map<ServerImageModel>(
+              (Map<String, dynamic> e) => ServerImageModel.fromJson(e))
+          .toList() as M;
     }
     if (<SettingConfigModel>[] is M) {
-      return data.map<SettingConfigModel>((Map<String, dynamic> e) => SettingConfigModel.fromJson(e)).toList() as M;
+      return data
+          .map<SettingConfigModel>(
+              (Map<String, dynamic> e) => SettingConfigModel.fromJson(e))
+          .toList() as M;
     }
     if (<VersionUpdateModel>[] is M) {
-      return data.map<VersionUpdateModel>((Map<String, dynamic> e) => VersionUpdateModel.fromJson(e)).toList() as M;
+      return data
+          .map<VersionUpdateModel>(
+              (Map<String, dynamic> e) => VersionUpdateModel.fromJson(e))
+          .toList() as M;
     }
     if (<WeddingModel>[] is M) {
-      return data.map<WeddingModel>((Map<String, dynamic> e) => WeddingModel.fromJson(e)).toList() as M;
+      return data
+          .map<WeddingModel>(
+              (Map<String, dynamic> e) => WeddingModel.fromJson(e))
+          .toList() as M;
     }
 
     debugPrint("${M.toString()} not found");
@@ -147,9 +170,10 @@ class JsonConvert {
 
   static M? fromJsonAsT<M>(dynamic json) {
     if (json is List) {
-      return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
+      return _getListChildType<M>(
+          json.map((e) => e as Map<String, dynamic>).toList());
     } else {
-      return jsonConvert.convert<M>(json);
+      return jsonConvert.asT<M>(json);
     }
   }
 }

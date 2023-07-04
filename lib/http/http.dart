@@ -30,7 +30,8 @@ class Http {
       },
       //请求头
       headers: {
-        'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
+        'Accept-Language':
+            Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*'
       });
@@ -40,19 +41,43 @@ class Http {
     ..interceptors.add(CacheInterceptor())
     ..interceptors.add(ResponseInterceptor());
 
-  static Future<AppResponse> get(String path, {Map<String, dynamic>? params, bool needLoading = true}) {
-    return _request(path, method: 'GET', params: params, needLoading: needLoading);
+  static Future<AppResponse> get(String path,
+      {Map<String, dynamic>? params,
+      bool needLoading = true,
+      bool needErrorToast = true}) {
+    return _request(path,
+        method: 'GET',
+        params: params,
+        needLoading: needLoading,
+        needErrorToast: needErrorToast);
   }
 
   static Future<AppResponse> post<T>(String path,
-      {Map<String, dynamic>? params, data, ProgressCallback? onSendProgress, bool needLoading = true}) {
+      {Map<String, dynamic>? params,
+      data,
+      ProgressCallback? onSendProgress,
+      bool needLoading = true,
+      bool needErrorToast = true}) {
     return _request(path,
-        method: 'POST', params: params, data: data, onSendProgress: onSendProgress, needLoading: needLoading);
+        method: 'POST',
+        params: params,
+        data: data,
+        onSendProgress: onSendProgress,
+        needLoading: needLoading,
+        needErrorToast: needErrorToast);
   }
 
   static Future<AppResponse> uploadFile<T>(String path,
-      {Map<String, dynamic>? data, ProgressCallback? onSendProgress, bool needLoading = true}) {
-    return _request(path, method: 'POST', data: data, onSendProgress: onSendProgress, needLoading: needLoading);
+      {Map<String, dynamic>? data,
+      ProgressCallback? onSendProgress,
+      bool needLoading = true,
+      bool needErrorToast = true}) {
+    return _request(path,
+        method: 'POST',
+        data: data,
+        onSendProgress: onSendProgress,
+        needLoading: needLoading,
+        needErrorToast: needErrorToast);
   }
 
   // _request所有的请求都会走这里
@@ -64,7 +89,7 @@ class Http {
     ProgressCallback? onSendProgress,
     CancelToken? cancelToken,
     bool needLoading = true,
-  }) async {
+        bool needErrorToast = true}) async {
     late AppResponse httpResponse;
     if (needLoading) showLoading();
     try {
@@ -82,7 +107,9 @@ class Http {
             AppRoute.popUntil(routeName: AppRoute.login.name);
           }
         }
-        showToast(httpResponse.error?.message ?? '服务器开小差了');
+        if (needErrorToast) {
+          showToast(httpResponse.error?.message ?? '服务器开小差了');
+        }
       }
     } on DioError catch (error) {
       httpResponse = AppResponse(

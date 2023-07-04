@@ -7,12 +7,13 @@ import 'package:nothing/generated/json/error_model.g.dart';
 class ErrorModel {
   int? code;
   String? type;
-  String message = '';
-  String remark = '';
+  String? message;
+  String? remark;
 
   ErrorModel();
 
-  factory ErrorModel.fromJson(Map<String, dynamic> json) => $ErrorModelFromJson(json);
+  factory ErrorModel.fromJson(Map<String, dynamic> json) =>
+      $ErrorModelFromJson(json);
 
   Map<String, dynamic> toJson() => $ErrorModelToJson(this);
 

@@ -277,6 +277,23 @@ class _UploadWidgetState extends State<UploadWidget> {
                         ],
                       ),
                     ),
+                    Visibility(
+                      visible: controller.complete,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 28.0),
+                        child: AppButton.customButton(
+                            child: Text(
+                              '重试',
+                              style: AppTextStyle.titleMedium
+                                  .copyWith(color: AppColor.specialColor),
+                            ),
+                            onTap: () {
+                              controller.complete = false;
+                              controller.imageCompressionModel = null;
+                              startUpload();
+                            }),
+                      ),
+                    )
                   ],
                 ),
                 Row(
@@ -352,20 +369,6 @@ class _UploadWidgetState extends State<UploadWidget> {
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: controller.complete,
-                      child: AppButton.customButton(
-                          child: Text(
-                            '重试',
-                            style: AppTextStyle.titleMedium
-                                .copyWith(color: AppColor.specialColor),
-                          ),
-                          onTap: () {
-                            controller.complete = false;
-                            controller.imageCompressionModel = null;
-                            startUpload();
-                          }),
-                    )
                   ],
                 ),
               ],
@@ -392,12 +395,9 @@ class _UploadWidgetState extends State<UploadWidget> {
   Future<void> _download(ImageCompressionModel? model) async {
     if (model == null) return;
     String url = '${model.serverHost}/${model.output}';
-    downloadFile(url, model.fileNameBefore);
-  }
 
-  void downloadFile(String url, String fileName) {
     html.AnchorElement anchorElement = html.AnchorElement(href: url);
-    anchorElement.download = fileName;
+    anchorElement.download = model.fileNameBefore;
     anchorElement.click();
   }
 }

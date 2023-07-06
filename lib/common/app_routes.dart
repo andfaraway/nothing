@@ -24,7 +24,8 @@ import 'package:nothing/page/theme_setting.dart';
 import 'package:nothing/page/upload_file.dart';
 import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
-import 'package:nothing/web/image_compression.dart';
+import 'package:nothing/page/image_compression.dart'
+    if (dart.library.html) 'package:nothing/web/image_compression.dart';
 import 'package:nothing/widgets/app_webview.dart';
 
 import '../page/welcome_page.dart';

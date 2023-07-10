@@ -1,16 +1,17 @@
-import 'dart:io' if (dart.library.html) 'dart:html' as html;
 import 'dart:typed_data';
 
-import 'package:desktop_drop/desktop_drop.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/image_compression_model.dart';
+import 'package:nothing/utils/photo_save.dart';
 
 import '../http/download_manager.dart';
 
 class ImageCompressionPage extends StatefulWidget {
-  const ImageCompressionPage({Key? key}) : super(key: key);
+  final Object? arguments;
+
+  const ImageCompressionPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   State<ImageCompressionPage> createState() => _ImageCompressionPageState();
@@ -37,119 +38,86 @@ class _ImageCompressionPageState extends State<ImageCompressionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.arguments == null ? null : AppWidget.appbar(title: widget.arguments.toString()),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        padding: AppPadding.main,
         child: Column(
           children: [
-            20.hSizedBox,
-            IntrinsicWidth(
-              child: ValueListenableBuilder(
-                  valueListenable: _quality,
-                  builder: (context, value, child) {
-                    return Row(
-                      // mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('压缩系数：$value'),
-                        Slider(
+            ValueListenableBuilder(
+                valueListenable: _quality,
+                builder: (context, value, child) {
+                  return Row(
+                    // mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '压缩系数：$value',
+                        style: AppTextStyle.titleMedium,
+                      ),
+                      Expanded(
+                        child: Slider(
                           value: value.toDouble(),
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          overlayColor: MaterialStateProperty.all(Colors.transparent),
                           onChanged: (value) {
                             _quality.value = value.round();
                           },
                           min: 0,
                           max: 100,
-                        )
-                      ],
-                    );
-                  }),
-            ),
+                        ),
+                      )
+                    ],
+                  );
+                }),
             20.hSizedBox,
-            DropTarget(
-              onDragDone: (detail) {
-                setState(() {
-                  List<DownloadController> list = detail.files
-                      .map((e) => DownloadController(
-                            DownloadModel(file: e),
-                          ))
-                      .toList();
-                  _list.addAll(list);
-                });
-              },
-              onDragEntered: (detail) {
-                setState(() {
-                  _dragging = true;
-                });
-              },
-              onDragExited: (detail) {
-                setState(() {
-                  _dragging = false;
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DottedBorder(
-                    color: Colors.black,
-                    borderType: BorderType.RRect,
-                    strokeWidth: 1,
-                    radius: const Radius.circular(15),
-                    child: Container(
-                      width: Constants.isWeb ? 200.w : double.infinity,
-                      height: 200.h,
-                      decoration: BoxDecoration(
-                          color:
-                              _dragging ? Colors.blueGrey : Colors.transparent,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              final XFile? file = await picker.pickImage(
-                                  source: ImageSource.gallery);
-                              if (file == null) return;
-                              setState(() {
-                                _list.add(DownloadController(
-                                    DownloadModel(file: file)));
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.cyan,
-                                  borderRadius: BorderRadius.circular(7)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 24),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: AppImage.asset(R.iconsDownloadCloud,
-                                        color: Colors.white),
-                                  ),
-                                  Text(
-                                    '立刻上传',
-                                    style: AppTextStyle.titleMedium
-                                        .copyWith(color: Colors.white),
-                                  )
-                                ],
-                              ),
+            DottedBorder(
+              color: Colors.black,
+              borderType: BorderType.RRect,
+              strokeWidth: 1,
+              radius: const Radius.circular(15),
+              child: Container(
+                margin: AppPadding.main,
+                width: Constants.isWeb ? 200.w : double.infinity,
+                decoration: BoxDecoration(
+                    color: _dragging ? Colors.blueGrey : Colors.transparent, borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        final XFile? file = await picker.pickImage(source: ImageSource.gallery);
+                        if (file == null) return;
+                        setState(() {
+                          _list.add(DownloadController(DownloadModel(file: file)));
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(color: Colors.cyan, borderRadius: BorderRadius.circular(7)),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: AppImage.asset(R.iconsUpload, color: Colors.white),
                             ),
-                          ),
-                          15.hSizedBox,
-                          Text(
-                            '选择要压缩的文件,或拖拽文件到此区域\n(支持WEBP，PNG或者JPEG)',
-                            style: AppTextStyle.bodyMedium,
-                            textAlign: TextAlign.center,
-                          )
-                        ],
+                            Text(
+                              '立刻上传',
+                              style: AppTextStyle.titleMedium.copyWith(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    15.hSizedBox,
+                    Text(
+                      '支持WEBP，PNG或者JPEG',
+                      style: AppTextStyle.bodyMedium,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
             ),
             30.sizedBoxH,
@@ -277,6 +245,74 @@ class _UploadWidgetState extends State<UploadWidget> {
                         ],
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
+                        height: 30,
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: LinearProgressIndicator(
+                                  value: controller.progress ?? 0,
+                                  color: Colors.green,
+                                  backgroundColor: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Visibility(
+                                visible: controller.imageCompressionModel == null &&
+                                    controller.progress == 1 &&
+                                    !controller.complete,
+                                child: Text(
+                                  '压缩中..',
+                                  style: AppTextStyle.titleMedium.copyWith(color: AppColor.white),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Visibility(
+                                visible: controller.imageCompressionModel != null,
+                                child: AppButton.customButton(
+                                  onTap: () => _download(controller.imageCompressionModel),
+                                  child: Text(
+                                    '下载',
+                                    textAlign: TextAlign.end,
+                                    style: AppTextStyle.titleMedium
+                                        .copyWith(color: AppColor.white, decoration: TextDecoration.underline),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Visibility(
+                                visible: controller.complete && controller.imageCompressionModel == null,
+                                child: AppButton.customButton(
+                                  onTap: () => _download(controller.imageCompressionModel),
+                                  child: Text(
+                                    '失败',
+                                    textAlign: TextAlign.end,
+                                    style: AppTextStyle.titleMedium.copyWith(color: AppColor.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Visibility(
                       visible: controller.complete,
                       child: Padding(
@@ -284,8 +320,7 @@ class _UploadWidgetState extends State<UploadWidget> {
                         child: AppButton.customButton(
                             child: Text(
                               '重试',
-                              style: AppTextStyle.titleMedium
-                                  .copyWith(color: AppColor.specialColor),
+                              style: AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor),
                             ),
                             onTap: () {
                               controller.complete = false;
@@ -294,81 +329,6 @@ class _UploadWidgetState extends State<UploadWidget> {
                             }),
                       ),
                     )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 2),
-                      padding: const EdgeInsets.symmetric(horizontal: 1),
-                      width: 300,
-                      height: 30,
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: double.infinity,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: LinearProgressIndicator(
-                                value: controller.progress ?? 0,
-                                color: Colors.green,
-                                backgroundColor: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Visibility(
-                              visible:
-                                  controller.imageCompressionModel == null &&
-                                      controller.progress == 1 &&
-                                      !controller.complete,
-                              child: Text(
-                                '压缩中..',
-                                style: AppTextStyle.titleMedium
-                                    .copyWith(color: AppColor.white),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Visibility(
-                              visible: controller.imageCompressionModel != null,
-                              child: AppButton.customButton(
-                                onTap: () =>
-                                    _download(controller.imageCompressionModel),
-                                child: Text(
-                                  '下载',
-                                  textAlign: TextAlign.end,
-                                  style: AppTextStyle.titleMedium.copyWith(
-                                      color: AppColor.white,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Visibility(
-                              visible: controller.complete &&
-                                  controller.imageCompressionModel == null,
-                              child: AppButton.customButton(
-                                onTap: () =>
-                                    _download(controller.imageCompressionModel),
-                                child: Text(
-                                  '失败',
-                                  textAlign: TextAlign.end,
-                                  style: AppTextStyle.titleMedium
-                                      .copyWith(color: AppColor.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -381,7 +341,7 @@ class _UploadWidgetState extends State<UploadWidget> {
               child: Text(
                 file.name,
                 style: AppTextStyle.titleMedium,
-                maxLines: 2,
+                maxLines: 1,
                 textAlign: TextAlign.justify,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -395,9 +355,6 @@ class _UploadWidgetState extends State<UploadWidget> {
   Future<void> _download(ImageCompressionModel? model) async {
     if (model == null) return;
     String url = '${model.serverHost}/${model.output}';
-
-    // html.AnchorElement anchorElement = html.AnchorElement(href: url);
-    // anchorElement.download = model.fileNameBefore;
-    // anchorElement.click();
+    saveNetworkImg(imgUrl: url);
   }
 }

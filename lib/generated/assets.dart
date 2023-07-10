@@ -21,6 +21,7 @@ class R {
   static const String iconsMenu = 'assets/images/icons/menu.svg';
   static const String iconsSquare = 'assets/images/icons/square.svg';
   static const String iconsSuccessIcon = 'assets/images/icons/success_icon.svg';
+  static const String iconsUpload = 'assets/images/icons/upload.svg';
   static const String imagesArrowRight = 'assets/images/arrow_right.svg';
   static const String imagesChevronLeft = 'assets/images/chevron-left.svg';
   static const String imagesChevronRight = 'assets/images/chevron-right.svg';

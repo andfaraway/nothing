@@ -10,7 +10,9 @@ import 'package:nothing/model/image_compression_model.dart';
 import '../http/download_manager.dart';
 
 class ImageCompressionPage extends StatefulWidget {
-  const ImageCompressionPage({Key? key}) : super(key: key);
+  final Object? arguments;
+
+  const ImageCompressionPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   State<ImageCompressionPage> createState() => _ImageCompressionPageState();
@@ -127,8 +129,7 @@ class _ImageCompressionPageState extends State<ImageCompressionPage> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
-                                    child: AppImage.asset(R.iconsDownloadCloud,
-                                        color: Colors.white),
+                                    child: AppImage.asset(R.iconsUpload, color: Colors.white),
                                   ),
                                   Text(
                                     '立刻上传',

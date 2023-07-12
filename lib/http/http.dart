@@ -219,7 +219,7 @@ class Handler {
   }
 
   static bool get isLogin {
-    return Handler.accessToken != null;
+    return HiveBoxes.get(HiveKey.accessToken) != null;
   }
 
   static void logout() {

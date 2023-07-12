@@ -136,8 +136,7 @@ class Constants {
   }
 
   static bool get isLogin {
-    String? userId = Singleton().currentUser.userId;
-    return userId != null && userId.isNotEmpty;
+    return Handler.isLogin;
   }
 
   static void logout() {

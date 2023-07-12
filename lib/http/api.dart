@@ -32,8 +32,9 @@ class API {
   /// 检查更新
   static Future<AppResponse> checkUpdate(
       {required String platform, required String version, bool needLoading = false}) async {
-    if (Constants.isWeb)
+    if (Constants.isWeb) {
       return AppResponse()..code = AppResponseCode.serverError;
+    }
     Map<String, dynamic> param = {
       'platform': platform,
       'version': version,
@@ -180,7 +181,7 @@ class API {
   /// 获取启动页信息
   static Future<AppResponse> getLaunchInfo({String? date}) async {
     Map<String, dynamic>? param = date == null ? null : {'date': date};
-    return Http.get(ConstUrl.getLaunchInfo, params: param);
+    return Http.get(ConstUrl.getLaunchInfo, params: param, needLoading: false);
   }
 
   /// 插入启动页信息

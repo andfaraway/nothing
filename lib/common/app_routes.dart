@@ -28,6 +28,7 @@ import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/widgets/app_webview.dart';
 
+import '../page/poetry.dart';
 import '../page/welcome_page.dart';
 
 typedef ArgumentsWidgetBuilder = Widget Function(dynamic arguments);
@@ -63,7 +64,8 @@ class AppRoute {
           AppRoute.musicPage,
           AppRoute.setting,
           AppRoute.webView,
-          AppRoute.imageCompression
+          AppRoute.imageCompression,
+          AppRoute.poetry
         ];
 
   static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
@@ -121,6 +123,8 @@ class AppRoute {
       RoutePage(name: '/webViewRoute', page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
   static final RoutePage imageCompression = RoutePage(
       name: '/imageCompressionRoute', page: ({Object? arguments}) => ImageCompressionPage(arguments: arguments));
+  static final RoutePage poetry =
+      RoutePage(name: '/poetryRoute', page: ({Object? arguments}) => PoetryPage(arguments: arguments));
 
   static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
     context ??= currentContext;

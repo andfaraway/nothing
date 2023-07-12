@@ -10,7 +10,7 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:url_launcher/url_launcher_string.dart';
 
 export '../../generated/l10n.dart';
-export '../common/config.dart';
+export '../config.dart';
 export '../extensions/extensions.e.dart';
 export '../generated/assets.dart';
 export '../http/api.dart';

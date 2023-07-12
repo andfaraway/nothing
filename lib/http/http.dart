@@ -9,7 +9,7 @@ import 'package:nothing/common/app_routes.dart';
 import 'package:nothing/common/constants.dart';
 import 'package:nothing/model/error_model.dart';
 
-import '../common/config.dart';
+import '../config.dart';
 import 'interceptors.dart';
 
 class Http {
@@ -30,8 +30,7 @@ class Http {
       },
       //请求头
       headers: {
-        'Accept-Language':
-            Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
+        'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*'
       });
@@ -42,14 +41,8 @@ class Http {
     ..interceptors.add(ResponseInterceptor());
 
   static Future<AppResponse> get(String path,
-      {Map<String, dynamic>? params,
-      bool needLoading = true,
-      bool needErrorToast = true}) {
-    return _request(path,
-        method: 'GET',
-        params: params,
-        needLoading: needLoading,
-        needErrorToast: needErrorToast);
+      {Map<String, dynamic>? params, bool needLoading = true, bool needErrorToast = true}) {
+    return _request(path, method: 'GET', params: params, needLoading: needLoading, needErrorToast: needErrorToast);
   }
 
   static Future<AppResponse> post<T>(String path,
@@ -81,34 +74,32 @@ class Http {
   }
 
   // _request所有的请求都会走这里
-  static Future<AppResponse> _request<T>(
-    String path, {
-    String method = 'GET',
-    Map<String, dynamic>? params,
-    dynamic data,
-    ProgressCallback? onSendProgress,
-    CancelToken? cancelToken,
-    bool needLoading = true,
-        bool needErrorToast = true}) async {
+  static Future<AppResponse> _request<T>(String path,
+      {String method = 'GET',
+      Map<String, dynamic>? params,
+      dynamic data,
+      ProgressCallback? onSendProgress,
+      CancelToken? cancelToken,
+      bool needLoading = true,
+      bool needErrorToast = true}) async {
     late AppResponse httpResponse;
     if (needLoading) showLoading();
     try {
       _dio.options.method = method;
-      _dio.options.headers['AuthToken'] = Handler.accessToken;
+      _dio.options.headers['Authorization'] = Handler.accessToken;
       Response response = await _dio.request(path,
           data: data, queryParameters: params, onSendProgress: onSendProgress, cancelToken: cancelToken);
       httpResponse = response.data;
-
       if (!httpResponse.isSuccess) {
         if (httpResponse.code == AppResponseCode.tokenError) {
           if (Handler.isLogin) {
             Handler.logout();
             await Future.delayed(const Duration(milliseconds: 300));
-            AppRoute.popUntil(routeName: AppRoute.login.name);
+            await AppRoute.popUntil(routeName: AppRoute.login.name);
           }
         }
         if (needErrorToast) {
-          showToast(httpResponse.error?.message ?? '服务器开小差了');
+          showToast(httpResponse.msg ?? '服务器开小差了');
         }
       }
     } on DioError catch (error) {
@@ -133,7 +124,7 @@ class Http {
 
     try {
       Dio dio = Dio();
-      dio.options.headers['AuthToken'] = Handler.accessToken;
+      dio.options.headers['Authorization'] = Handler.accessToken;
       dio.options.headers[HttpHeaders.acceptEncodingHeader] = "*";
       Response response = await dio.download(
         url,
@@ -156,6 +147,15 @@ class Http {
         code: AppResponseCode.networkError,
         error: ErrorModel()..message = error.toString(),
       );
+
+      if (httpResponse.code == AppResponseCode.tokenError) {
+        if (Handler.isLogin) {
+          Handler.logout();
+          await Future.delayed(const Duration(milliseconds: 300));
+          await AppRoute.popUntil(routeName: AppRoute.login.name);
+        }
+      }
+
       showToast('网络繁忙');
     }
     if (needLoading) hideLoading();
@@ -166,7 +166,7 @@ class Http {
 class AppResponseCode {
   static const int normal = 0;
   static const int networkError = -1;
-  static const int serverError = -2;
+  static const int serverError = 500;
   static const int fileError = -3;
   static const int tokenError = 401;
 }
@@ -175,6 +175,7 @@ class AppResponse {
   int? code;
   Object? data;
   ErrorModel? error;
+  String? msg;
 
   Map<String, dynamic> get dataMap {
     if (data is Map) {
@@ -199,19 +200,26 @@ class AppResponse {
 
   bool get isSuccess => code == AppResponseCode.normal;
 
-  AppResponse({
-    this.code,
-    this.data,
-    this.error,
-  });
+  AppResponse({this.code, this.data, this.error, this.msg});
 }
 
 class Handler {
-  static String? get accessToken => 'Bearer ${Singleton().currentUser.token}';
+  static String? get accessToken {
+    String? token = HiveBoxes.get(HiveKey.accessToken);
+    if (token != null) {
+      token = 'Bearer $token';
+    }
+    return token;
+  }
+
+  static set accessToken(String? token) {
+    if ('Bearer $token' != Handler.accessToken) {
+      HiveBoxes.put(HiveKey.accessToken, token);
+    }
+  }
 
   static bool get isLogin {
-    String? accessToken = Singleton().currentUser.token;
-    return (accessToken ?? '').isNotEmpty;
+    return Handler.accessToken != null;
   }
 
   static void logout() {

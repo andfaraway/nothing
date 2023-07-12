@@ -98,6 +98,8 @@ class HiveAdapterTypeIds {
 class HiveKey {
   const HiveKey._();
 
+  static const String accessToken = 'access_token';
+
   static const String agreement = 'agreement';
   static const String photoShowIndex = "photoShowIndex";
   static const String userInfo = 'userInfo';

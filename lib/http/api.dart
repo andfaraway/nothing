@@ -14,7 +14,7 @@ class API {
 
   /// 登录
   static Future<AppResponse> login({required String username, required String password}) async {
-    Map<String, dynamic> param = {'username': username, 'password': password};
+    Map<String, dynamic> param = {'username': username, 'password': password.getMd5()};
     return Http.post(ConstUrl.login, params: param);
   }
 

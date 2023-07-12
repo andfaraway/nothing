@@ -17,6 +17,9 @@ import 'package:nothing/common/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../http/api.dart';
+import '../http/http.dart';
+
 //全局key-截图key
 final GlobalKey boundaryKey = GlobalKey();
 
@@ -175,10 +178,10 @@ Future<String?> saveToDocument({required String url, required String saveName}) 
 
   // 本地图片路径
   String localPath = '${PathUtils.documentPath}/$saveName';
-  Response s = await NetUtils.download(urlPath: url, savePath: localPath, onReceiveProgress: (a, b) {});
+  AppResponse s = await API.downloadFile(url: url, savePath: localPath);
 
   // 下载完成，记录状态
-  if (s.statusCode == 200) {
+  if (s.isSuccess) {
     return saveName;
   } else {
     Log.d("download error ${s.toString()}");

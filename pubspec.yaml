@@ -109,6 +109,7 @@ dependencies:
 
   dotted_border: ^2.0.0+3
   desktop_drop: ^0.4.1
+  crypto: ^3.0.3
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0

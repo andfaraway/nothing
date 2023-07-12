@@ -47,16 +47,15 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> loginButtonPressed() async {
     AppResponse response = await API.login(username: _username.value, password: _password.value);
     if (response.isSuccess) {
-      Map<String, dynamic> map = response.dataMap;
-      map['userId'] = map['id'];
-      Singleton().currentUser = UserInfoModel.fromJson(map);
+      Handler.accessToken = response.dataMap['access_token'];
+      String? nickName = response.dataMap['nick_name'];
       NotificationUtils.register();
       if (mounted) {
         AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
-        showToast("hello ${Singleton().currentUser.username}");
+        if (nickName != null) {
+          showToast("hello $nickName");
+        }
       }
-    } else {
-      showToast("登录失败");
     }
   }
 

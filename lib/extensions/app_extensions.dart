@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../utils/log_utils.dart';
@@ -39,6 +41,12 @@ extension StringEx on String {
   double toDouble() => double.parse(this);
 
   int toInt() => int.parse(this);
+
+  String getMd5() {
+    Uint8List content = const Utf8Encoder().convert(this);
+    Digest digest = md5.convert(content);
+    return digest.toString();
+  }
 
   /// 根据时间戳格式化时间
   ///

@@ -50,8 +50,7 @@ class Constants {
       isPhysicalDevice = androidInfo.isPhysicalDevice;
     }
 
-    Singleton.welcomeLoadResult =
-    await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
+    Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }
 
   static bool get isWeb => kIsWeb;
@@ -59,6 +58,12 @@ class Constants {
   static bool get isIOS => isWeb ? false : Platform.isIOS;
 
   static bool get isAndroid => isWeb ? false : Platform.isAndroid;
+
+  static String get platform => isIOS
+      ? 'ios'
+      : isAndroid
+          ? 'android'
+          : 'web';
 
   static bool isPhysicalDevice = false;
 
@@ -72,8 +77,7 @@ class Constants {
   static late BuildContext context;
 
   /// 中文
-  static final bool isChinese =
-  (Intl.getCurrentLocale() == 'zh') ? true : false;
+  static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true : false;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
@@ -84,37 +88,12 @@ class Constants {
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
   static final String deviceType = Constants.isIOS ? 'iPhone' : 'Android';
 
-  /// 检查更新
-  static Future<void> checkUpdate() async {
-    AppResponse response = await API.checkUpdate(platform: 'ios', version: DeviceUtils.appVersion);
-    if (response.isSuccess) {
-      Map<String, dynamic> data = response.dataMap;
-      if (data['update'] == true) {
-        if (currentContext.mounted) {
-          showIOSAlert(
-            context: currentContext,
-            title: S.current.version_update,
-            content: data['content'],
-            cancelOnPressed: () {
-              Navigator.pop(currentContext);
-            },
-            confirmOnPressed: () async {
-              String url = data['path'];
-              if (await canLaunchUrlString(url)) {
-                await launchUrlString(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            },
-          );
-        }
-      }
-    }
-  }
+  /// 获取当天时间字符串
+  static String get nowString => DateTime.now().format('yyyyMMdd');
 
-  static Future<void> insertLaunch() async {
-    if (Constants.isWeb) return;
-    if (Constants.isIOS && !Constants.isPhysicalDevice) return;
+  static Future<AppResponse> insertLaunch() async {
+    if (Constants.isWeb) return AppResponse();
+    if (Constants.isIOS && !Constants.isPhysicalDevice) return AppResponse();
 
     Map<String, dynamic>? param = {};
     param['userid'] = Singleton().currentUser.userId;
@@ -132,7 +111,7 @@ class Constants {
     //版本
     param['version'] = DeviceUtils.appVersion;
 
-    API.insertLaunch(param);
+    return API.insertLaunch(param);
   }
 
   static bool get isLogin {

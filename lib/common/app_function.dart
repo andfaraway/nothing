@@ -2,8 +2,6 @@
 //  [Author] libin (https://github.com/andfaraway/nothing)
 //  [Date] 2022-04-29 16:43:59
 //
-import 'dart:io';
-
 import 'package:nothing/widgets/app_webview.dart';
 
 import 'prefix_header.dart';
@@ -18,12 +16,12 @@ Function? functionWithString(BuildContext context, String functionStr) {
   Function? f;
   switch (functionStr) {
     case 'checkUpdate':
+    case 'goUpdate':
       f = () async {
-        AppResponse response =
-            await API.checkUpdate(platform: Platform.operatingSystem, version: DeviceUtils.appVersion);
+        AppResponse response = await API.checkUpdate();
         if (response.isSuccess) {
           Map<String, dynamic>? data = response.dataMap;
-          if (data['update'] == true) {
+          if (data['update'] == true || functionStr == 'goUpdate') {
             String url = data['path'];
             if (await canLaunchUrlString(url)) {
               await launchUrlString(url);
@@ -32,22 +30,6 @@ Function? functionWithString(BuildContext context, String functionStr) {
             }
           } else {
             showToast('当前已是最新版本: v${DeviceUtils.appVersion}');
-          }
-        }
-      };
-      break;
-    case 'goUpdate':
-      f = () async {
-        AppResponse response =
-            await API.checkUpdate(platform: Platform.operatingSystem, version: DeviceUtils.appVersion);
-        if (response.isSuccess) {
-          if (response.dataMap.isNotEmpty) {
-            String url = response.dataMap['path'];
-            if (await canLaunchUrlString(url)) {
-              await launchUrlString(url);
-            } else {
-              throw 'Could not launch $url';
-            }
           }
         }
       };

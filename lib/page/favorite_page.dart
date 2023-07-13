@@ -84,7 +84,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    model.date?.dataFormat() ?? '',
+                    model.date?.dateFormat() ?? '',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.placeholderColor),
                   )
                 ],

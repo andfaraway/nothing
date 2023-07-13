@@ -43,13 +43,34 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       Constants.context = context;
       Constants.isDark = Theme.of(context).brightness == Brightness.dark;
 
-      Future.delayed(const Duration(seconds: 1), () async {
+      Future.delayed(const Duration(seconds: 3), () async {
         await Constants.insertLaunch();
-      });
 
-      Future.delayed(const Duration(seconds: 8), () async {
-        //检查更新
-        await Constants.checkUpdate();
+        AppResponse response = await API.checkUpdate(needLoading: false);
+        if (response.isSuccess) {
+          API.refreshToken();
+          Map<String, dynamic> data = response.dataMap;
+          if (data['update'] == true) {
+            if (currentContext.mounted) {
+              showIOSAlert(
+                context: currentContext,
+                title: S.current.version_update,
+                content: data['content'],
+                cancelOnPressed: () {
+                  Navigator.pop(currentContext);
+                },
+                confirmOnPressed: () async {
+                  String url = data['path'];
+                  if (await canLaunchUrlString(url)) {
+                    await launchUrlString(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+              );
+            }
+          }
+        }
       });
     });
   }

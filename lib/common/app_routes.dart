@@ -140,11 +140,9 @@ class AppRoute {
     return value;
   }
 
-  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext? context, String newRouteName,
-      {Object? arguments}) async {
+  static Future<dynamic> pushNamedAndRemoveUntil(BuildContext? context, String routeName, {Object? arguments}) async {
     context ??= currentContext;
-    dynamic value =
-        await Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => false, arguments: arguments);
+    dynamic value = await Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false, arguments: arguments);
     return value;
   }
 

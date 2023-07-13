@@ -99,6 +99,8 @@ class HiveKey {
   const HiveKey._();
 
   static const String accessToken = 'access_token';
+  static const String refreshToken = 'refresh_token';
+  static const String refreshDate = 'refreshDate';
 
   static const String agreement = 'agreement';
   static const String photoShowIndex = "photoShowIndex";

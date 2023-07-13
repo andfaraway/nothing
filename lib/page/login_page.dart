@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     AppResponse response = await API.login(username: _username.value, password: _password.value);
     if (response.isSuccess) {
       Handler.accessToken = response.dataMap['access_token'];
+      Handler.refreshToken = response.dataMap['refresh_token'];
       String? nickName = response.dataMap['nick_name'];
       NotificationUtils.register();
       if (mounted) {
@@ -216,7 +217,8 @@ class _LoginPageState extends State<LoginPage> {
           AppResponse response =
               await API.thirdLogin(name: info.name, platform: 1, openId: info.openid, icon: info.iconurl);
           if (response.isSuccess) {
-            Singleton().currentUser = UserInfoModel.fromJson(response.dataMap);
+            Handler.accessToken = response.dataMap['access_token'];
+            Handler.refreshToken = response.dataMap['refresh_token'];
             if (mounted) {
               NotificationUtils.register();
               AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);

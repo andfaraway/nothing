@@ -98,7 +98,7 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                     ),
                     Text(
-                      model.date?.dataFormat() ?? '',
+                      model.date?.dateFormat() ?? '',
                       style: AppTextStyle.titleMedium.placeholderColor,
                     )
                   ],

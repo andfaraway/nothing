@@ -143,7 +143,7 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
 
   /// 检查更新
   Future<void> getLastVersionInfo() async {
-    AppResponse response = await API.checkUpdate(platform: 'ios', version: DeviceUtils.appVersion);
+    AppResponse response = await API.checkUpdate();
     if (response.isSuccess) {
       model = VersionUpdateModel.fromJson(response.dataMap);
       tempId = model?.id;

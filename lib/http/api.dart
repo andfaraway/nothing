@@ -29,15 +29,29 @@ class API {
     return Http.post(ConstUrl.thirdLogin, params: param);
   }
 
+  /// 刷新token
+  static Future<bool> refreshToken() async {
+    if (!Handler.isLogin) return false;
+    if (HiveBoxes.get(HiveKey.refreshDate) == Constants.nowString) return false;
+
+    AppResponse response = await Http.get(ConstUrl.refreshToken, needLoading: false, refresh: true);
+    if (response.isSuccess) {
+      Handler.accessToken = response.dataMap['access_token'];
+      HiveBoxes.put(HiveKey.refreshDate, Constants.nowString);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /// 检查更新
-  static Future<AppResponse> checkUpdate(
-      {required String platform, required String version, bool needLoading = false}) async {
+  static Future<AppResponse> checkUpdate({bool needLoading = false}) async {
     if (Constants.isWeb) {
       return AppResponse()..code = AppResponseCode.serverError;
     }
     Map<String, dynamic> param = {
-      'platform': platform,
-      'version': version,
+      'platform': Constants.platform,
+      'version': DeviceUtils.appVersion,
     };
     return Http.post(ConstUrl.checkUpdate, params: param, needLoading: needLoading);
   }
@@ -261,8 +275,7 @@ class API {
       "name": fileName
     });
 
-    return Http.post(ConstUrl.uploadFile, data: formData,
-        onSendProgress: (a, b) {
+    return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
       print('a=$a,b=$b');
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
@@ -285,8 +298,7 @@ class API {
       "fileName": fileName
     });
 
-    return Http.post(ConstUrl.imageCompress, data: formData,
-        onSendProgress: (a, b) {
+    return Http.post(ConstUrl.imageCompress, data: formData, onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     }, needLoading: false);
@@ -376,6 +388,9 @@ class ConstUrl {
 
   ///登录
   static const String login = '/login';
+
+  ///刷新token
+  static const String refreshToken = '/refreshToken';
 
   ///第三方登录
   static const String thirdLogin = '/thirdLogin';

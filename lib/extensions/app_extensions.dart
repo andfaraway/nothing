@@ -51,7 +51,7 @@ extension StringEx on String {
   /// 根据时间戳格式化时间
   ///
   /// [format] 不为空 返回格式化字符串; null，返回距离当前时间
-  String dataFormat({String? format}) {
+  String dateFormat({String? format}) {
     late DateTime date;
     try {
       date = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
@@ -85,6 +85,12 @@ extension StringEx on String {
       //大于1月显示具体日期
       return DateFormat('yyyy-MM-dd').format(date);
     }
+  }
+}
+
+extension DateTimeEx on DateTime {
+  String format(String? format) {
+    return DateFormat(format).format(this);
   }
 }
 

@@ -103,7 +103,7 @@ class _SomeThingsState extends State<SomeThings> {
       for (Map<String, dynamic> map in response.dataList) {
         RecordModel model = RecordModel(
             title: map['username'],
-            subTitle: '${map['network']} ${map['battery']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
+            subTitle: '${map['network']} ${map['battery']}\n${map['date'].toString().dateFormat(format: 'HH:mm:ss '
                 'yyyy/MM/dd')} ',
             trailingText: map['version']);
         dataList.add(model);
@@ -113,7 +113,7 @@ class _SomeThingsState extends State<SomeThings> {
       for (Map<String, dynamic> map in response.dataList) {
         RecordModel model = RecordModel(
             title: map['nickname'],
-            subTitle: '${map['content']}\n${map['date'].toString().dataFormat(format: 'HH:mm:ss '
+            subTitle: '${map['content']}\n${map['date'].toString().dateFormat(format: 'HH:mm:ss '
                 'yyyy/MM/dd')}',
             trailingText: map['version']);
         dataList.add(model);
@@ -136,7 +136,7 @@ class _SomeThingsState extends State<SomeThings> {
           }
         }
         RecordModel model =
-            RecordModel(title: str, trailingText: map['date'].toString().dataFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
+            RecordModel(title: str, trailingText: map['date'].toString().dateFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
         dataList.add(model);
       }
     }

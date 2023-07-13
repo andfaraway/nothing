@@ -44,7 +44,6 @@ class DeviceUtils {
           '${iosInfo.model} ${iosInfo.utsname.machine} ${iosInfo.systemVersion}';
       deviceModel = model;
     }
-    Log.d('deviceModel: $deviceModel');
   }
 
   // static Future<void> getDevicePushToken() async {
@@ -65,9 +64,6 @@ class DeviceUtils {
   // }
 
   static Future<void> getDeviceUuid() async {
-    // if (HiveFieldUtils.getDeviceUuid() != null) {
-    //   deviceUuid = HiveFieldUtils.getDeviceUuid();
-    // } else {
     if (Constants.isWeb) return;
     if (Constants.isIOS) {
       deviceInfo = await _deviceInfoPlugin.iosInfo;
@@ -77,7 +73,6 @@ class DeviceUtils {
       // await HiveFieldUtils.setDeviceUuid(const Uuid().v4());
     }
     // }
-    Log.d('deviceUuid: $deviceUuid');
   }
 
   /// Set default display mode to compatible with the highest refresh rate on

@@ -40,24 +40,42 @@ class Http {
     ..interceptors.add(CacheInterceptor())
     ..interceptors.add(ResponseInterceptor());
 
-  static Future<AppResponse> get(String path,
-      {Map<String, dynamic>? params, bool needLoading = true, bool needErrorToast = true}) {
-    return _request(path, method: 'GET', params: params, needLoading: needLoading, needErrorToast: needErrorToast);
+  static Future<AppResponse> get(
+    String path, {
+    Map<String, dynamic>? params,
+    bool needLoading = true,
+    bool needErrorToast = true,
+    bool refresh = false,
+  }) {
+    return _request(
+      path,
+      method: 'GET',
+      params: params,
+      needLoading: needLoading,
+      needErrorToast: needErrorToast,
+      refresh: refresh,
+    );
   }
 
-  static Future<AppResponse> post<T>(String path,
-      {Map<String, dynamic>? params,
-      data,
-      ProgressCallback? onSendProgress,
-      bool needLoading = true,
-      bool needErrorToast = true}) {
-    return _request(path,
-        method: 'POST',
-        params: params,
-        data: data,
-        onSendProgress: onSendProgress,
-        needLoading: needLoading,
-        needErrorToast: needErrorToast);
+  static Future<AppResponse> post<T>(
+    String path, {
+    Map<String, dynamic>? params,
+    data,
+    ProgressCallback? onSendProgress,
+    bool needLoading = true,
+    bool needErrorToast = true,
+    bool refresh = false,
+  }) {
+    return _request(
+      path,
+      method: 'POST',
+      params: params,
+      data: data,
+      onSendProgress: onSendProgress,
+      needLoading: needLoading,
+      needErrorToast: needErrorToast,
+      refresh: refresh,
+    );
   }
 
   static Future<AppResponse> uploadFile<T>(String path,
@@ -74,19 +92,22 @@ class Http {
   }
 
   // _request所有的请求都会走这里
-  static Future<AppResponse> _request<T>(String path,
-      {String method = 'GET',
-      Map<String, dynamic>? params,
-      dynamic data,
-      ProgressCallback? onSendProgress,
-      CancelToken? cancelToken,
-      bool needLoading = true,
-      bool needErrorToast = true}) async {
+  static Future<AppResponse> _request<T>(
+    String path, {
+    String method = 'GET',
+    Map<String, dynamic>? params,
+    dynamic data,
+    ProgressCallback? onSendProgress,
+    CancelToken? cancelToken,
+    bool needLoading = true,
+    bool needErrorToast = true,
+    bool refresh = false,
+  }) async {
     late AppResponse httpResponse;
     if (needLoading) showLoading();
     try {
       _dio.options.method = method;
-      _dio.options.headers['Authorization'] = Handler.accessToken;
+      _dio.options.headers['Authorization'] = refresh ? Handler.refreshToken : Handler.accessToken;
       Response response = await _dio.request(path,
           data: data, queryParameters: params, onSendProgress: onSendProgress, cancelToken: cancelToken);
       httpResponse = response.data;
@@ -94,8 +115,9 @@ class Http {
         if (httpResponse.code == AppResponseCode.tokenError) {
           if (Handler.isLogin) {
             Handler.logout();
-            await Future.delayed(const Duration(milliseconds: 300));
-            await AppRoute.popUntil(routeName: AppRoute.login.name);
+            await Future.delayed(const Duration(milliseconds: 300), () {
+              AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
+            });
           }
         }
         if (needErrorToast) {
@@ -215,6 +237,20 @@ class Handler {
   static set accessToken(String? token) {
     if ('Bearer $token' != Handler.accessToken) {
       HiveBoxes.put(HiveKey.accessToken, token);
+    }
+  }
+
+  static String? get refreshToken {
+    String? token = HiveBoxes.get(HiveKey.refreshToken);
+    if (token != null) {
+      token = 'Bearer $token';
+    }
+    return token;
+  }
+
+  static set refreshToken(String? token) {
+    if ('Bearer $token' != Handler.refreshToken) {
+      HiveBoxes.put(HiveKey.refreshToken, token);
     }
   }
 

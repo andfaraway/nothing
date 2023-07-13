@@ -95,7 +95,6 @@ class AppTextStyle {
   }) async {
     if (PathUtils.fontPath.objectIsEmpty()) return false;
     String path = '${PathUtils.fontPath}/$name';
-    Log.i('load fonts path:$path');
     File file = File(path);
     if (!file.existsSync()) return false;
     Uint8List bytes = file.readAsBytesSync();

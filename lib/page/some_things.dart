@@ -31,6 +31,7 @@ class _SomeThingsState extends State<SomeThings> {
 
   @override
   Widget build(BuildContext context) {
+    print(currentPage);
     return Scaffold(
       appBar: AppWidget.appbar(
         titleWidget: SizedBox(
@@ -59,16 +60,16 @@ class _SomeThingsState extends State<SomeThings> {
               title: model.title == null
                   ? null
                   : Text(
-                      model.title!,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
+                model.title!,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               subtitle: model.subTitle == null ? null : Text(model.subTitle!),
               trailing: model.trailingText == null
                   ? null
                   : Text(
-                      model.trailingText!,
-                      textAlign: TextAlign.center,
-                    ),
+                model.trailingText!,
+                textAlign: TextAlign.center,
+              ),
             );
           },
           itemCount: dataList.length,

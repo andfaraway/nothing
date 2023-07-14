@@ -29,12 +29,18 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   void initState() {
     super.initState();
 
-    _interfaceList
-        .add(InterfaceModel(tag: 1, title: '生活小窍门', page: genericPage(title: '生活小窍门', type: InformationType.qiaomen)));
-    _interfaceList
-        .add(InterfaceModel(tag: 0, title: '黄历', page: huangliPage(title: '黄历', type: InformationType.lunar)));
-    _interfaceList
-        .add(InterfaceModel(tag: 2, title: '健康提示', page: genericPage(title: '健康提示', type: InformationType.healthtip)));
+    _interfaceList.add(InterfaceModel(
+        tag: 1,
+        title: '生活小窍门',
+        page: genericPage(title: '生活小窍门', type: InformationType.qiaomen, backgroundColor: AppColor.randomColors[0])));
+    _interfaceList.add(InterfaceModel(
+        tag: 0,
+        title: '黄历',
+        page: huangliPage(title: '黄历', type: InformationType.lunar, backgroundColor: AppColor.randomColors[1])));
+    _interfaceList.add(InterfaceModel(
+        tag: 2,
+        title: '健康提示',
+        page: genericPage(title: '健康提示', type: InformationType.healthtip, backgroundColor: AppColor.randomColors[2])));
 
     _tabController = TabController(length: _interfaceList.length, vsync: this);
 
@@ -51,9 +57,10 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   }
 
   ///通用界面
-  Widget genericPage({String? title, String? type}) {
+  Widget genericPage({String? title, String? type, Color? backgroundColor}) {
     return SimplePage(
         title: title,
+        backgroundColor: backgroundColor,
         justify: true,
         requestCallback: () async {
           AppResponse response = await API.informationApi(type);
@@ -68,9 +75,10 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
   }
 
   ///黄历
-  Widget huangliPage({String? title, String? type}) {
+  Widget huangliPage({String? title, String? type, Color? backgroundColor}) {
     return SimplePage(
         title: title,
+        backgroundColor: backgroundColor,
         requestCallback: () async {
           AppResponse response = await API.informationApi(type);
           if (response.isSuccess) {
@@ -96,14 +104,14 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
     return DefaultTabController(
       length: _tabController.length,
       child: Scaffold(
-        appBar: AppWidget.appbar(title: '资讯'),
+        // appBar: AppWidget.appbar(title: '资讯'),
         body: Column(
           children: [
-            _subSegmentedWidget(
-                key: _globalKey,
-                height: _segmentH,
-                titles: _interfaceList.map((e) => e.title).toList(),
-                controller: _tabController),
+            // _subSegmentedWidget(
+            //     key: _globalKey,
+            //     height: _segmentH,
+            //     titles: _interfaceList.map((e) => e.title).toList(),
+            //     controller: _tabController),
             Expanded(
               child: TabBarView(
                 controller: _tabController,

@@ -31,6 +31,7 @@ class LDropdownButton extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
+        value: items.first,
         hint: SizedBox(
           width: double.infinity,
           child: Center(
@@ -45,7 +46,7 @@ class LDropdownButton extends StatelessWidget {
             ),
           ),
         ),
-        // style: const TextStyle(color: Colors.white, fontSize: 24),
+        style: const TextStyle(color: Colors.white, fontSize: 24),
         disabledHint: const SizedBox.shrink(),
         items: [
           ...items.map(

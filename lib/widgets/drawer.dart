@@ -37,7 +37,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       callback: (open) {
         if (open) {
           if (homeProvider.drawerTitle.isEmpty) {
-            API.loadTips().then((response) {
+            API.getLoveTips().then((response) {
               if (response.isSuccess) {
                 homeProvider.drawerTitle = response.dataMap['newslist'].first['content']?.replaceAll('娶', '嫁');
               }
@@ -56,136 +56,129 @@ class _CustomDrawerState extends State<CustomDrawer> {
       widthPercent: 0.69,
       child: SafeArea(
         top: false,
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              Container(
-                color: themesProvider.currentThemeGroup.themeColor,
-                child: Column(
-                  children: [
-                    Container(
-                      height: Screens.topSafeHeight + 70,
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: kDrawerMarginLeft,
-                          right: kDrawerMarginLeft,
-                        ),
-                        child: GestureDetector(
-                          onLongPressEnd: (details) {
-                            setState(() {
-                              showToast("${Singleton().currentUser.username} bye");
-                              Constants.logout();
-                            });
-                          },
-                          onTap: () async {
-                            if (Singleton().currentUser.username != null) {
-                              showToast("hello ${Singleton().currentUser.username}");
-                            }
-                          },
-                          child: Singleton().currentUser.avatar == null
-                              ? Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: SpinKitSpinningLines(
-                              duration: const Duration(seconds: 5),
-                              color: Colors.white.withOpacity(0.5),
-                              size: 50,
-                            ),
-                          )
-                              : CircleAvatar(
-                              backgroundImage: NetworkImage(Singleton().currentUser.avatar!),
-                                  backgroundColor: themesProvider.currentThemeGroup.themeColor,
-                                  radius: 25),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.red,
+              child: Column(
+                children: [
+                  Container(
+                    height: Screens.topSafeHeight + 70,
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: kDrawerMarginLeft,
+                        right: kDrawerMarginLeft,
+                      ),
+                      child: GestureDetector(
+                        onLongPressEnd: (details) {
+                          setState(() {
+                            showToast("${Singleton().currentUser.username} bye");
+                            Constants.logout();
+                          });
+                        },
+                        onTap: () async {
+                          if (Singleton().currentUser.username != null) {
+                            showToast("hello ${Singleton().currentUser.username}");
+                          }
+                        },
+                        child: Singleton().currentUser.avatar == null
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: SpinKitSpinningLines(
+                                  duration: const Duration(seconds: 5),
+                                  color: Colors.white.withOpacity(0.5),
+                                  size: 50,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(Singleton().currentUser.avatar!),
+                                backgroundColor: themesProvider.currentThemeGroup.themeColor,
+                                radius: 25),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(left: kDrawerMarginLeft, right: kDrawerMarginLeft, bottom: kDrawerMarginLeft),
+                      child: GestureDetector(
+                        onDoubleTap: () async {
+                          AppResponse response = await API.addFavorite(homeProvider.drawerTitle.trim(), source: '看着顺眼');
+                          if (response.isSuccess) {
+                            showToast('收藏成功！');
+                          }
+                        }.throttle(),
+                        child: Text(
+                          homeProvider.drawerTitle,
+                          style: const TextStyle(color: Colors.white, fontSize: 22),
+                          textAlign: TextAlign.start,
                         ),
                       ),
                     ),
-                    Container(
-                      height: 150,
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: kDrawerMarginLeft, right: kDrawerMarginLeft, bottom: kDrawerMarginLeft),
-                        child: GestureDetector(
-                          onDoubleTap: () async {
-                            AppResponse response =
-                                await API.addFavorite(homeProvider.drawerTitle.trim(), source: '看着顺眼');
-                            if (response.isSuccess) {
-                              showToast('收藏成功！');
-                            }
-                          }.throttle(),
-                          child: Text(
-                            homeProvider.drawerTitle,
-                            style: const TextStyle(color: Colors.white, fontSize: 22),
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                  left: kDrawerMarginLeft, right: kDrawerMarginLeft, top: kDrawerMarginLeft, bottom: kDrawerMarginLeft),
+              child: todayTipsWidget(homeProvider.drawerContent),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ValueListenableBuilder(
+                        valueListenable: drawerConfigList,
+                        builder: (context, List<SettingConfigModel> list, child) {
+                          return Column(
+                            children: list.map((e) {
+                              return cellWidget(
+                                icon: (e.icon?.isEmpty == null || e.icon?.isEmpty == true)
+                                    ? null
+                                    : CachedNetworkImage(
+                                        imageUrl: e.icon!,
+                                        errorWidget: (context, string, child) => const SizedBox.shrink(),
+                                      ),
+                                title: e.module ?? '',
+                                onTap: e.onTap != null
+                                    ? () {
+                                        functionWithString(context, e.onTap!)?.call();
+                                      }
+                                    : () {
+                                        AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
+                                      },
+                                onLongPress: e.onLongPress == null
+                                    ? null
+                                    : () {
+                                        functionWithString(context, e.onLongPress!)?.call();
+                                      },
+                              );
+                            }).toList(),
+                          );
+                        }),
+                    cellWidget(
+                      icon: AppImage.asset(
+                        R.imagesSetUp,
+                        width: 40.w,
+                        height: 40.w,
                       ),
+                      title: S.current.setting,
+                      onTap: () {
+                        AppRoute.pushNamePage(context, AppRoute.setting.name);
+                      },
                     ),
                   ],
                 ),
               ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(
-                    left: kDrawerMarginLeft,
-                    right: kDrawerMarginLeft,
-                    top: kDrawerMarginLeft,
-                    bottom: kDrawerMarginLeft),
-                child: todayTipsWidget(homeProvider.drawerContent),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ValueListenableBuilder(
-                          valueListenable: drawerConfigList,
-                          builder: (context, List<SettingConfigModel> list, child) {
-                            return Column(
-                              children: list.map((e) {
-                                return cellWidget(
-                                  icon: (e.icon?.isEmpty == null || e.icon?.isEmpty == true)
-                                      ? null
-                                      : CachedNetworkImage(
-                                          imageUrl: e.icon!,
-                                          errorWidget: (context, string, child) => const SizedBox.shrink(),
-                                        ),
-                                  title: e.module ?? '',
-                                  onTap: e.onTap != null
-                                      ? () {
-                                          functionWithString(context, e.onTap!)?.call();
-                                        }
-                                      : () {
-                                          AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
-                                        },
-                                  onLongPress: e.onLongPress == null
-                                      ? null
-                                      : () {
-                                          functionWithString(context, e.onLongPress!)?.call();
-                                        },
-                                );
-                              }).toList(),
-                            );
-                          }),
-                      cellWidget(
-                        icon: AppImage.asset(
-                          R.imagesSetUp,
-                          width: 40.w,
-                          height: 40.w,
-                        ),
-                        title: S.current.setting,
-                        onTap: () {
-                          AppRoute.pushNamePage(context, AppRoute.setting.name);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -277,7 +270,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   /// 初始化数据
   Future<void> loadData() async {
-    API.loadTips().then((response) {
+    API.getLoveTips().then((response) {
       if (response.isSuccess) {
         context.read<HomeProvider>().drawerTitle = response.dataMap['newslist'].first['content']?.replaceAll('娶', '嫁');
       }
@@ -289,16 +282,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
       }
     });
 
-    AppResponse response = await API.getSettingModule(accountType: Singleton().currentUser.accountType);
-    if (response.isSuccess) {
-      List<SettingConfigModel> settingList = [];
-      for (Map<String, dynamic> map in response.dataList) {
-        SettingConfigModel model = SettingConfigModel.fromJson(map);
-        if (model.drawer == null) continue;
-        settingList.add(model);
+    await API.getSettingModule(accountType: Singleton().currentUser.accountType).then((response) {
+      if (response.isSuccess) {
+        List<SettingConfigModel> settingList = [];
+        for (Map<String, dynamic> map in response.dataList) {
+          SettingConfigModel model = SettingConfigModel.fromJson(map);
+          if (model.drawer == null) continue;
+          settingList.add(model);
+        }
+        settingList.sort((a, b) => a.drawer!.compareTo(b.drawer!));
+        drawerConfigList.value = settingList;
       }
-      settingList.sort((a, b) => a.drawer!.compareTo(b.drawer!));
-      drawerConfigList.value = settingList;
-    }
+    });
+
+    API.getUserInfo().then((response) {
+      if (response.isSuccess) {
+        Singleton().currentUser = UserInfoModel.fromJson(response.dataMap);
+
+        print('response.data = ${response.data}');
+      }
+    });
   }
 }

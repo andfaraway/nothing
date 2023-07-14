@@ -10,13 +10,20 @@ import '../common/prefix_header.dart';
 typedef RequestCallback = Future<String> Function();
 
 class SimplePage extends StatefulWidget {
-  const SimplePage({Key? key, this.title, this.requestCallback, this.justify = false, this.initialRefresh = true})
+  const SimplePage(
+      {Key? key,
+      this.title,
+      this.requestCallback,
+      this.justify = false,
+      this.initialRefresh = true,
+      this.backgroundColor})
       : super(key: key);
 
   final String? title;
   final RequestCallback? requestCallback;
   final bool justify;
   final bool initialRefresh;
+  final Color? backgroundColor;
 
   @override
   State<SimplePage> createState() => _SimplePageState();
@@ -47,7 +54,7 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
     return Consumer<ThemesProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          backgroundColor: provider.informationBgColor,
+          backgroundColor: widget.backgroundColor ?? provider.informationBgColor,
           body: SafeArea(
             child: AppRefresher(
               onRefresh: () async {

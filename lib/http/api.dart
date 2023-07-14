@@ -29,6 +29,11 @@ class API {
     return Http.post(ConstUrl.thirdLogin, params: param);
   }
 
+  /// 获取用户信息
+  static Future<AppResponse> getUserInfo() {
+    return Http.get(ConstUrl.getUserInfo, needLoading: false);
+  }
+
   /// 刷新token
   static Future<bool> refreshToken() async {
     if (!Handler.isLogin) return false;
@@ -358,7 +363,8 @@ class API {
     );
   }
 
-  static Future<AppResponse> loadTips() async {
+  /// 土味情话
+  static Future<AppResponse> getLoveTips() async {
     return Http.get(ConstUrl.informationApi, params: {'kinds': InformationType.saylove}, needLoading: false);
   }
 
@@ -394,6 +400,9 @@ class ConstUrl {
 
   ///第三方登录
   static const String thirdLogin = '/thirdLogin';
+
+  ///获取用户信息
+  static const String getUserInfo = '/getUserInfo';
 
   ///检查更新
   static const String checkUpdate = '/checkUpdate';

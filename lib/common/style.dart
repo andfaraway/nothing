@@ -76,6 +76,13 @@ class AppColor {
 
 //  错误颜色
   static Color get errorColor => const Color(0xffFF7575);
+
+  static List<Color> get randomColors => const [
+        Color(0xff95e1d3),
+        Color(0xffeaffd0),
+        Color(0xfffce38a),
+        Color(0xfff38181),
+      ];
 }
 
 /*  theme textStyle */
@@ -173,8 +180,7 @@ class AppSize {
 class AppPadding {
   AppPadding._();
 
-  static EdgeInsets get main =>
-      EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
+  static EdgeInsets get main => EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
 
   static double get horizontal => 17;
 
@@ -185,11 +191,10 @@ class AppOverlayStyle {
   static SystemUiOverlayStyle light = Constants.isWeb
       ? const SystemUiOverlayStyle()
       : SystemUiOverlayStyle(
-          systemNavigationBarColor: Constants.isIOS ? Colors.black : null,
+    systemNavigationBarColor: Constants.isIOS ? Colors.black : null,
           systemNavigationBarDividerColor: null,
           statusBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness:
-              Constants.isIOS ? Brightness.dark : null,
+          systemNavigationBarIconBrightness: Constants.isIOS ? Brightness.dark : null,
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.dark,
         );
@@ -197,11 +202,10 @@ class AppOverlayStyle {
   static SystemUiOverlayStyle dark = Constants.isWeb
       ? const SystemUiOverlayStyle()
       : SystemUiOverlayStyle(
-          systemNavigationBarColor: Constants.isIOS ? Colors.white : null,
+    systemNavigationBarColor: Constants.isIOS ? Colors.white : null,
           systemNavigationBarDividerColor: null,
           statusBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness:
-              Constants.isIOS ? Brightness.light : null,
+          systemNavigationBarIconBrightness: Constants.isIOS ? Brightness.light : null,
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
         );

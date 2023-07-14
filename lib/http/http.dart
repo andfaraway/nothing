@@ -107,7 +107,9 @@ class Http {
     if (needLoading) showLoading();
     try {
       _dio.options.method = method;
-      _dio.options.headers['Authorization'] = refresh ? Handler.refreshToken : Handler.accessToken;
+      if (Handler.isLogin) {
+        _dio.options.headers['Authorization'] = refresh ? Handler.refreshToken : Handler.accessToken;
+      }
       Response response = await _dio.request(path,
           data: data, queryParameters: params, onSendProgress: onSendProgress, cancelToken: cancelToken);
       httpResponse = response.data;
@@ -146,7 +148,9 @@ class Http {
 
     try {
       Dio dio = Dio();
-      dio.options.headers['Authorization'] = Handler.accessToken;
+      if (Handler.isLogin) {
+        dio.options.headers['Authorization'] = Handler.accessToken;
+      }
       dio.options.headers[HttpHeaders.acceptEncodingHeader] = "*";
       Response response = await dio.download(
         url,

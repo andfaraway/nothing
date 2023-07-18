@@ -18,6 +18,7 @@ class R {
   static const String iconsFailure = 'assets/images/icons/failure.svg';
   static const String iconsFile = 'assets/images/icons/file.png';
   static const String iconsFolder = 'assets/images/icons/folder.png';
+  static const String iconsGift = 'assets/images/icons/gift.png';
   static const String iconsMenu = 'assets/images/icons/menu.svg';
   static const String iconsSquare = 'assets/images/icons/square.svg';
   static const String iconsSuccessIcon = 'assets/images/icons/success_icon.svg';

@@ -77,6 +77,8 @@ class AppColor {
 //  错误颜色
   static Color get errorColor => const Color(0xffFF7575);
 
+  static Color get tabColor => const Color(0xffeaffd0);
+
   static List<Color> get randomColors => const [
         Color(0xff95e1d3),
         Color(0xffeaffd0),

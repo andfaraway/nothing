@@ -32,7 +32,7 @@ class _PictureViewerState extends State<PictureViewer> {
   void initState() {
     super.initState();
     imageUrl = widget.imageUrl;
-    originalImageUrl = widget.imageUrl.replaceAll("s/", "");
+    originalImageUrl = widget.imageUrl.replaceAll('compression/', '');
 
     // 若不含压缩标记，不显示原图按钮
     if (imageUrl == originalImageUrl) {
@@ -94,7 +94,7 @@ class _PictureViewerState extends State<PictureViewer> {
                     textStyle: Theme.of(context).textTheme.titleMedium,
                     onTap: () async {
                       await saveNetworkImg(
-                          imgUrl: imageUrl.replaceAll("s/", ""), progressCallback: (current, total) {});
+                          imgUrl: imageUrl.replaceAll('compression/', ''), progressCallback: (current, total) {});
                     }),
                 SheetButtonModel(
                     title: S.current.cancel,

@@ -59,7 +59,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: Column(
           children: [
             Container(
-              color: Colors.red,
+              color: const Color(0xff95e1d3),
               child: Column(
                 children: [
                   Container(

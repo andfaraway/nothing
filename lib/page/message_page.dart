@@ -15,28 +15,12 @@ class _MessagePageState extends State<MessagePage> {
 
   List<MessageModel> dataList = [];
 
+  int _pageNum = 0;
+
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  Future<void> loadData() async {
-    String? alias = HiveBoxes.get(HiveKey.pushAlias);
-    AppResponse response = await API.getMessages(alias);
-    if (response.isSuccess) {
-      dataList.clear();
-      for (Map<String, dynamic> map in response.dataList) {
-        MessageModel model = MessageModel.fromJson(map);
-        dataList.add(model);
-      }
-      _refreshController.refreshCompleted();
-      setState(() {});
-    } else {
-      showToast(S.current.request_failed);
-    }
-
-    _refreshController.refreshCompleted();
+    _loadData();
   }
 
   @override
@@ -48,7 +32,12 @@ class _MessagePageState extends State<MessagePage> {
       ),
       body: AppRefresher(
         onRefresh: () {
-          loadData();
+          _pageNum = 0;
+          _loadData();
+        },
+        onLoading: () {
+          _pageNum++;
+          _loadData();
         },
         controller: _refreshController,
         child: dataList.isEmpty
@@ -72,7 +61,7 @@ class _MessagePageState extends State<MessagePage> {
             title: '确定删除吗？',
             onConfirm: () async {
               await API.deleteMessages(model.id.toString());
-              loadData();
+              _loadData();
             });
       },
       child: Padding(
@@ -123,5 +112,26 @@ class _MessagePageState extends State<MessagePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadData() async {
+    bool noMore = false;
+    String? alias = HiveBoxes.get(HiveKey.pushAlias);
+    AppResponse response = await API.getMessages(alias: alias, pageNum: _pageNum);
+    if (response.isSuccess) {
+      if (_pageNum == 0) {
+        dataList.clear();
+      }
+      if (response.dataList.isEmpty) {
+        noMore = true;
+      }
+      for (Map<String, dynamic> map in response.dataList) {
+        MessageModel model = MessageModel.fromJson(map);
+        dataList.add(model);
+      }
+      setState(() {});
+    }
+
+    _refreshController.completed(success: response.isSuccess, noMore: noMore, resetFooterState: true);
   }
 }

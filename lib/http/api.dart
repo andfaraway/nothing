@@ -137,8 +137,8 @@ class API {
   }
 
   /// 获取消息列表
-  static Future<AppResponse> getMessages(String? alias) async {
-    Map<String, dynamic> param = {'alias': alias};
+  static Future<AppResponse> getMessages({String? alias, int pageNum = 0, int pageSize = 10}) async {
+    Map<String, dynamic> param = {'alias': alias, 'pageNum': pageNum, 'pageSize': pageSize};
     return Http.post(ConstUrl.getMessages, params: param);
   }
 

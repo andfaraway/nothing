@@ -42,6 +42,7 @@ class R {
   static const String tabActivity = 'assets/images/tab/activity.svg';
   static const String tabAperture = 'assets/images/tab/aperture.svg';
   static const String tabBookmark = 'assets/images/tab/bookmark.svg';
+  static const String tabColor = 'assets/images/tab/color.svg';
   static const String tabHeart = 'assets/images/tab/heart.svg';
   static const String tabMail = 'assets/images/tab/mail.svg';
   static const String tabMusic = 'assets/images/tab/music.svg';

@@ -111,29 +111,36 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
     );
   }
 
-  _loadData() {
+  void _loadData() {
+    double iconSize = 24.w;
     _rootBars = [
       BarItem(
-          icon: AppImage.asset(R.tabRss, color: AppColor.secondlyColor),
-          activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor),
+          icon: AppImage.asset(R.tabRss, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
+          activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor, width: iconSize, height: iconSize),
           label: '信息',
           page: AppRoute.home.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabMail, color: AppColor.secondlyColor),
-          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor),
+          icon: AppImage.asset(R.tabMail, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
+          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, width: iconSize, height: iconSize),
           label: '信息',
           page: AppRoute.message.page.call()),
+      // BarItem(
+      //     icon: AppImage.asset(R.tabAperture, color: AppColor.secondlyColor,width: iconSize,height: iconSize),
+      //     activeIcon: AppImage.asset(R.tabAperture, color: AppColor.errorColor,width: iconSize,height: iconSize),
+      //     label: '图片',
+      //     page: AppRoute.photoShow.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabAperture, color: AppColor.secondlyColor),
-          activeIcon: AppImage.asset(R.tabAperture, color: AppColor.errorColor),
-          label: '图片',
-          page: AppRoute.photoShow.page.call()),
+          icon: AppImage.asset(R.tabColor, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
+          activeIcon: AppImage.asset(R.tabColor, color: AppColor.errorColor, width: iconSize, height: iconSize),
+          label: '色彩板',
+          page: AppRoute.funnyColors.page.call()),
       BarItem(
-          icon: AppImage.asset(R.tabUser, color: AppColor.secondlyColor),
-          activeIcon: AppImage.asset(R.tabUser, color: AppColor.errorColor),
+          icon: AppImage.asset(R.tabUser, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
+          activeIcon: AppImage.asset(R.tabUser, color: AppColor.errorColor, width: iconSize, height: iconSize),
           label: '我的',
           page: AppRoute.profile.page.call()),
     ];
+    Handler.getUserInfo();
   }
 }
 

@@ -9,7 +9,10 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final ScrollController _scrollController = ScrollController();
 
   final ValueNotifier<double> _rotate = ValueNotifier(0);

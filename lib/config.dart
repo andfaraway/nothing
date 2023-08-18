@@ -1,4 +1,4 @@
-const bool isDebug = false;
+const bool isDebug = true;
 
 class Config {
   Config._();

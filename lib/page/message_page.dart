@@ -10,7 +10,7 @@ class MessagePage extends StatefulWidget {
   State<MessagePage> createState() => _MessagePageState();
 }
 
-class _MessagePageState extends State<MessagePage> {
+class _MessagePageState extends State<MessagePage> with AutomaticKeepAliveClientMixin {
   late final AppRefreshController _refreshController = AppRefreshController(autoRefresh: true);
 
   List<MessageModel> dataList = [];
@@ -134,4 +134,7 @@ class _MessagePageState extends State<MessagePage> {
 
     _refreshController.completed(success: response.isSuccess, noMore: noMore, resetFooterState: true);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

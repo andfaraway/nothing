@@ -294,13 +294,5 @@ class _CustomDrawerState extends State<CustomDrawer> {
         drawerConfigList.value = settingList;
       }
     });
-
-    API.getUserInfo().then((response) {
-      if (response.isSuccess) {
-        Singleton().currentUser = UserInfoModel.fromJson(response.dataMap);
-
-        print('response.data = ${response.data}');
-      }
-    });
   }
 }

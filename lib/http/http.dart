@@ -10,6 +10,7 @@ import 'package:nothing/common/constants.dart';
 import 'package:nothing/model/error_model.dart';
 
 import '../config.dart';
+import 'api.dart';
 import 'interceptors.dart';
 
 class Http {
@@ -260,6 +261,14 @@ class Handler {
 
   static bool get isLogin {
     return HiveBoxes.get(HiveKey.accessToken) != null;
+  }
+
+  static Future<void> getUserInfo() async {
+    await API.getUserInfo().then((response) {
+      if (response.isSuccess) {
+        Singleton().currentUser = UserInfoModel.fromJson(response.dataMap);
+      }
+    });
   }
 
   static void logout() {

@@ -28,6 +28,7 @@ import 'package:nothing/page/video_play_page.dart';
 import 'package:nothing/page/wedding_about.dart';
 import 'package:nothing/widgets/app_webview.dart';
 
+import '../page/colors/funny_colors.dart';
 import '../page/poetry.dart';
 import '../page/welcome_page.dart';
 
@@ -65,7 +66,8 @@ class AppRoute {
           AppRoute.setting,
           AppRoute.webView,
           AppRoute.imageCompression,
-          AppRoute.poetry
+          AppRoute.poetry,
+          AppRoute.funnyColors
         ];
 
   static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
@@ -125,6 +127,8 @@ class AppRoute {
       name: '/imageCompressionRoute', page: ({Object? arguments}) => ImageCompressionPage(arguments: arguments));
   static final RoutePage poetry =
       RoutePage(name: '/poetryRoute', page: ({Object? arguments}) => PoetryPage(arguments: arguments));
+  static final RoutePage funnyColors =
+      RoutePage(name: '/funnyColors', page: ({Object? arguments}) => const FunnyColors());
 
   static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
     context ??= currentContext;

@@ -219,10 +219,11 @@ class _LoginPageState extends State<LoginPage> {
           if (response.isSuccess) {
             Handler.accessToken = response.dataMap['access_token'];
             Handler.refreshToken = response.dataMap['refresh_token'];
+            String? nickName = response.dataMap['nick_name'];
             if (mounted) {
               NotificationUtils.register();
               AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
-              showToast("hello ${Singleton().currentUser.username}");
+              showToast("hello $nickName");
             }
           } else {
             showToast("登录失败");

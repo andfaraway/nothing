@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -46,6 +47,13 @@ extension StringEx on String {
     Uint8List content = const Utf8Encoder().convert(this);
     Digest digest = md5.convert(content);
     return digest.toString();
+  }
+
+  Color? toColor() {
+    RegExp exp = RegExp(r'^#([0-9A-Fa-f]{6})$');
+    bool isValid = exp.hasMatch(this); // true
+    if (!isValid) return null;
+    return Color(int.parse(substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   /// 根据时间戳格式化时间
@@ -95,7 +103,8 @@ extension DateTimeEx on DateTime {
 }
 
 extension MapExt<E, V> on Map<E, V> {
-  Map<E, V> removeEmptyValue() => this..removeWhere((key, value) => value == null || value == '');
+  Map<E, V> removeEmptyValue() =>
+      this..removeWhere((key, value) => value == null || value == '' || value == [] || value == {});
 }
 
 extension IteratorExt<E> on Iterable<E> {

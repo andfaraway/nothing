@@ -44,7 +44,7 @@ class Http {
   static Future<AppResponse> get(
     String path, {
     Map<String, dynamic>? params,
-    bool needLoading = true,
+    bool needLoading = false,
     bool needErrorToast = true,
     bool refresh = false,
   }) {

@@ -18,10 +18,11 @@ void hideLoading() {
   EasyLoading.dismiss();
 }
 
-void showToast(String text, {int timeInSecForIosWeb = 1}) {
+void showToast(String text, {int timeInSecForIosWeb = 1, ToastGravity? gravity}) {
   Fluttertoast.showToast(
       msg: text,
-      gravity: Constants.isWeb ? ToastGravity.CENTER : ToastGravity.BOTTOM,
+      gravity: Constants.isWeb ? ToastGravity.CENTER : (gravity ?? ToastGravity.BOTTOM),
+      backgroundColor: Colors.black45,
       timeInSecForIosWeb: timeInSecForIosWeb,
       webPosition: Constants.isWeb ? 'center' : 'left');
 }

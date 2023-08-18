@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 class Tools {
   static Map<String, dynamic> safeJson(dynamic value) {
     return value is Map<String, dynamic> ? value : <String, dynamic>{};
@@ -38,5 +40,16 @@ class Tools {
       return formatted.substring(0, formatted.length - 2);
     }
     return formatted;
+  }
+
+  /// 复制到剪切板
+  static Future<bool> copyString(String copyStr) async {
+    Clipboard.setData(ClipboardData(text: copyStr));
+    ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    if (data?.text == copyStr) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

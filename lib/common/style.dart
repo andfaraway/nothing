@@ -159,6 +159,13 @@ class AppTextStyle {
         fontWeight: weightMedium,
         letterSpacing: 1.sp,
       );
+
+  static TextStyle get labelLarge => TextStyle(
+        fontSize: 9.sp,
+        color: AppColor.mainColor,
+        fontWeight: weightMedium,
+        letterSpacing: 1.sp,
+      );
 }
 
 extension TextStyleExtension on TextStyle {

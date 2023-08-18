@@ -114,6 +114,17 @@ class API {
     return Http.get(ConstUrl.getCommonInfo, params: params);
   }
 
+  /// 获取颜色models
+  static Future<AppResponse> getColorModels() async {
+    return Http.get(ConstUrl.getColorModels);
+  }
+
+  /// 获取推荐颜色
+  static Future<AppResponse> getBeautifulColors({String model = 'default', List<String> colors = const []}) async {
+    Map<String, dynamic> params = {"model": model, "colors": colors}.removeEmptyValue();
+    return Http.get(ConstUrl.getBeautifulColors, params: params);
+  }
+
   /// 注册推送 userId, 推送id：pushToken, 别名：alias
   static Future<AppResponse> registerNotification(
       {String? userId, String? pushToken, String? alias, String? registrationId, String? identifier}) async {
@@ -499,6 +510,12 @@ class ConstUrl {
 
   /// 获取通用信息
   static const String getCommonInfo = '/getCommonInfo';
+
+  /// 获取颜色models
+  static const String getColorModels = '/getColorModels';
+
+  /// 获取推荐颜色
+  static const String getBeautifulColors = '/getBeautifulColors';
 }
 
 class InformationType {

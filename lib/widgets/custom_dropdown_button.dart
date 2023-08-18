@@ -39,14 +39,14 @@ class LDropdownButton extends StatelessWidget {
               builder: (context, String? value, child) {
                 return Text(
                   value ?? '',
-                  style: const TextStyle(color: Colors.white, fontSize: 22),
+                  style: AppTextStyle.titleMedium,
                 );
               },
               valueListenable: currentValue,
             ),
           ),
         ),
-        style: const TextStyle(color: Colors.white, fontSize: 24),
+        style: AppTextStyle.titleMedium,
         disabledHint: const SizedBox.shrink(),
         items: [
           ...items.map(

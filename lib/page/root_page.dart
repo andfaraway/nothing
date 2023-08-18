@@ -117,7 +117,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
       BarItem(
           icon: AppImage.asset(R.tabRss, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
           activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor, width: iconSize, height: iconSize),
-          label: '信息',
+          label: '资讯',
           page: AppRoute.home.page.call()),
       BarItem(
           icon: AppImage.asset(R.tabMail, color: AppColor.secondlyColor, width: iconSize, height: iconSize),

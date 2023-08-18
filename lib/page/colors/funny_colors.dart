@@ -234,7 +234,10 @@ class _FunnyColorsState extends State<FunnyColors> {
   Future<void> _loadData() async {
     await API.getColorModels().then((value) {
       if (value.isSuccess) {
-        _models = value.dataList.cast<String>();
+        _models.clear();
+        value.dataList.cast<String>().forEach((element) {
+          _models.add(element.length == 6 ? '${element}0' : element);
+        });
         setState(() {});
       }
     });

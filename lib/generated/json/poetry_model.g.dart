@@ -23,6 +23,10 @@ PoetryModel $PoetryModelFromJson(Map<String, dynamic> json) {
   if (content != null) {
     poetryModel.content = content;
   }
+  final bool? expand = jsonConvert.convert<bool>(json['expand']);
+  if (expand != null) {
+    poetryModel.expand = expand;
+  }
   return poetryModel;
 }
 
@@ -33,6 +37,7 @@ Map<String, dynamic> $PoetryModelToJson(PoetryModel entity) {
   data['book'] = entity.book;
   data['dynasty'] = entity.dynasty;
   data['content'] = entity.content;
+  data['expand'] = entity.expand;
   return data;
 }
 
@@ -43,12 +48,14 @@ extension PoetryModelExtension on PoetryModel {
     String? book,
     String? dynasty,
     String? content,
+    bool? expand,
   }) {
     return PoetryModel()
       ..title = title ?? this.title
       ..author = author ?? this.author
       ..book = book ?? this.book
       ..dynasty = dynasty ?? this.dynasty
-      ..content = content ?? this.content;
+      ..content = content ?? this.content
+      ..expand = expand ?? this.expand;
   }
 }

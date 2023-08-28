@@ -403,8 +403,9 @@ class API {
   /// 获取诗歌
   static Future<AppResponse> getPoetry(
       {String? keyword, PoetryModel? model, int pageNum = 0, int pageSize = 10}) async {
+    keyword = keyword?.trim();
     Map<String, dynamic> params = model?.toJson() ?? {};
-    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword});
+    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword}.removeEmptyValue());
     return Http.get(
       ConstUrl.getPoetry,
       params: params.removeEmptyValue(),

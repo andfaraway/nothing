@@ -12,6 +12,7 @@ class PoetryModel {
   String? book;
   String? dynasty;
   String? content;
+  bool expand = false;
 
   PoetryModel();
 

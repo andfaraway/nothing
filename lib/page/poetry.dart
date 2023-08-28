@@ -15,8 +15,6 @@ class PoetryPage extends StatefulWidget {
 }
 
 class _PoetryPageState extends State<PoetryPage> {
-  String? text;
-
   final List<PoetryModel> _poetries = [];
 
   Timer? _timer;
@@ -24,7 +22,7 @@ class _PoetryPageState extends State<PoetryPage> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadData(keyword: '李白');
   }
 
   @override
@@ -39,14 +37,16 @@ class _PoetryPageState extends State<PoetryPage> {
     return KeyboardHideOnTap(
       child: Scaffold(
         appBar: AppWidget.appbar(title: 'Poetry'),
-        // backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: Container(
           padding: AppPadding.main,
           width: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [_searchBar(), 17.hSizedBox, _searchResultWidget()],
-            ),
+          child: Column(
+            children: [
+              _searchBar(),
+              17.hSizedBox,
+              Expanded(child: _searchResultWidget()),
+            ],
           ),
         ),
       ),
@@ -55,17 +55,16 @@ class _PoetryPageState extends State<PoetryPage> {
 
   Widget _searchBar() {
     return TextField(
-      // controller: TextEditingController(text: _initColors[index]),
+      controller: TextEditingController(text: '李白'),
       style: AppTextStyle.titleMedium,
       textAlign: TextAlign.center,
-
       decoration: InputDecoration(
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           borderSide: BorderSide.none,
         ),
         constraints: BoxConstraints(maxHeight: 40.h),
-        fillColor: AppColor.disabledColor,
+        fillColor: AppColor.scaffoldBackgroundColor,
         contentPadding: EdgeInsets.zero,
         filled: true,
         hintText: '搜索',
@@ -86,32 +85,62 @@ class _PoetryPageState extends State<PoetryPage> {
   }
 
   Widget _searchResultWidget() {
-    return Column(
-      children: _poetries
-          .map((e) => Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: Colors.white),
-                margin: EdgeInsets.only(bottom: AppPadding.main.bottom),
-                padding: AppPadding.cell,
-                child: Row(
-                  children: [
-                    Text(
-                      e.title ?? '',
-                      style: AppTextStyle.bodyMedium,
+    return SingleChildScrollView(
+      child: Column(
+        children: _poetries
+            .map((e) => InkWell(
+                  onTap: () {
+                    setState(() {
+                      e.expand = !e.expand;
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: const Color(0xFFEEF2FF),
                     ),
-                    12.sizedBoxW,
-                    Text(
-                      e.author ?? '',
-                      style: AppTextStyle.bodyMedium,
-                    )
-                  ],
-                ),
-              ))
-          .toList(),
+                    margin: EdgeInsets.only(bottom: AppPadding.main.bottom),
+                    padding: AppPadding.cell,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          e.title ?? '',
+                          style: AppTextStyle.bodyMedium,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              e.dynasty ?? '',
+                              style: AppTextStyle.labelLarge,
+                            ),
+                            8.wSizedBox,
+                            Text(
+                              e.author ?? '',
+                              style: AppTextStyle.labelLarge.copyWith(color: AppColor.errorColor),
+                            ),
+                          ],
+                        ),
+                        if (e.expand)
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Text(
+                              e.content ?? '',
+                              style: AppTextStyle.titleMedium,
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 
-  Future<void> _loadData() async {
-    AppResponse response = await API.getPoetry();
+  Future<void> _loadData({String? keyword}) async {
+    AppResponse response = await API.getPoetry(keyword: keyword);
     if (response.isSuccess) {
       _poetries.clear();
       _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
@@ -120,7 +149,7 @@ class _PoetryPageState extends State<PoetryPage> {
   }
 
   Future<void> _search(String keyword) async {
-    AppResponse response = await API.getPoetry(keyword: keyword);
+    AppResponse response = await API.getPoetry(keyword: keyword, pageSize: 20);
     if (response.isSuccess) {
       _poetries.clear();
       _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());

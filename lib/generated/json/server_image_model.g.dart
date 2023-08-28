@@ -35,3 +35,20 @@ Map<String, dynamic> $ServerImageModelToJson(ServerImageModel entity) {
   data['imageUrl'] = entity.imageUrl;
   return data;
 }
+
+extension ServerImageModelExtension on ServerImageModel {
+  ServerImageModel copyWith({
+    String? id,
+    String? name,
+    int? size,
+    String? prefix,
+    String? imageUrl,
+  }) {
+    return ServerImageModel()
+      ..id = id ?? this.id
+      ..name = name ?? this.name
+      ..size = size ?? this.size
+      ..prefix = prefix ?? this.prefix
+      ..imageUrl = imageUrl ?? this.imageUrl;
+  }
+}

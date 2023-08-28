@@ -30,3 +30,18 @@ Map<String, dynamic> $FavoriteModelToJson(FavoriteModel entity) {
   data['date'] = entity.date;
   return data;
 }
+
+extension FavoriteModelExtension on FavoriteModel {
+  FavoriteModel copyWith({
+    String? favoriteId,
+    String? content,
+    String? xSource,
+    String? date,
+  }) {
+    return FavoriteModel()
+      ..favoriteId = favoriteId ?? this.favoriteId
+      ..content = content ?? this.content
+      ..xSource = xSource ?? this.xSource
+      ..date = date ?? this.date;
+  }
+}

@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:nothing/common/prefix_header.dart';
+
+import '../model/poetry_model.dart';
 
 /// 诗歌
 class PoetryPage extends StatefulWidget {
@@ -13,64 +17,114 @@ class PoetryPage extends StatefulWidget {
 class _PoetryPageState extends State<PoetryPage> {
   String? text;
 
+  final List<PoetryModel> _poetries = [];
+
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer?.cancel();
+    _timer = null;
   }
 
   @override
   Widget build(BuildContext context) {
-    _loadData();
-    return Scaffold(
-      appBar: AppWidget.appbar(title: ''),
-      body: Container(
-        padding: AppPadding.main,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                text ?? '',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.headLineMedium,
-              )
-            ],
+    return KeyboardHideOnTap(
+      child: Scaffold(
+        appBar: AppWidget.appbar(title: 'Poetry'),
+        // backgroundColor: Colors.white,
+        body: Container(
+          padding: AppPadding.main,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [_searchBar(), 17.hSizedBox, _searchResultWidget()],
+            ),
           ),
         ),
       ),
     );
   }
 
-  _loadData() {
-    text = '''蜀道难
-朝代：唐代
+  Widget _searchBar() {
+    return TextField(
+      // controller: TextEditingController(text: _initColors[index]),
+      style: AppTextStyle.titleMedium,
+      textAlign: TextAlign.center,
 
-作者：李白
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide.none,
+        ),
+        constraints: BoxConstraints(maxHeight: 40.h),
+        fillColor: AppColor.disabledColor,
+        contentPadding: EdgeInsets.zero,
+        filled: true,
+        hintText: '搜索',
+        hintStyle: AppTextStyle.titleMedium.copyWith(color: AppColor.disabledColor, fontWeight: weightMedium),
+      ),
+      onChanged: (value) {
+        if (_timer?.isActive == true) {
+          _timer?.cancel();
+        }
+        _timer = Timer(
+            const Duration(milliseconds: 500),
+            () {
+              _search(value);
+              _timer?.cancel();
+            }.throttle());
+      },
+    );
+  }
 
-原文：
+  Widget _searchResultWidget() {
+    return Column(
+      children: _poetries
+          .map((e) => Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: Colors.white),
+                margin: EdgeInsets.only(bottom: AppPadding.main.bottom),
+                padding: AppPadding.cell,
+                child: Row(
+                  children: [
+                    Text(
+                      e.title ?? '',
+                      style: AppTextStyle.bodyMedium,
+                    ),
+                    12.sizedBoxW,
+                    Text(
+                      e.author ?? '',
+                      style: AppTextStyle.bodyMedium,
+                    )
+                  ],
+                ),
+              ))
+          .toList(),
+    );
+  }
 
-噫吁嚱，危乎高哉！蜀道之难，难于上青天！
-蚕丛及鱼凫，开国何茫然！
-尔来四万八千岁，不与秦塞通人烟。
-西当太白有鸟道，可以横绝峨眉巅。
-地崩山摧壮士死，然后天梯石栈相钩连。
-上有六龙回日之高标，下有冲波逆折之回川。
-黄鹤之飞尚不得过，猿猱欲度愁攀援。
-青泥何盘盘，百步九折萦岩峦。
-扪参历井仰胁息，以手抚膺坐长叹。
-问君西游何时还？畏途巉岩不可攀。
-但见悲鸟号古木，雄飞雌从绕林间。
-又闻子规啼夜月，愁空山。
-蜀道之难,难于上青天，使人听此凋朱颜！
-连峰去天不盈尺，枯松倒挂倚绝壁。
-飞湍瀑流争喧豗，砯崖转石万壑雷。
-其险也如此，嗟尔远道之人胡为乎来哉！
-剑阁峥嵘而崔嵬，一夫当关，万夫莫开。
-所守或匪亲，化为狼与豺。
-朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。
-锦城虽云乐，不如早还家。
-蜀道之难,难于上青天，侧身西望长咨嗟！
-''';
-    setState(() {});
+  Future<void> _loadData() async {
+    AppResponse response = await API.getPoetry();
+    if (response.isSuccess) {
+      _poetries.clear();
+      _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
+      setState(() {});
+    }
+  }
+
+  Future<void> _search(String keyword) async {
+    AppResponse response = await API.getPoetry(keyword: keyword);
+    if (response.isSuccess) {
+      _poetries.clear();
+      _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
+      setState(() {});
+    }
   }
 }

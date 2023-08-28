@@ -11,8 +11,7 @@ ImageCompressionModel $ImageCompressionModelFromJson(Map<String, dynamic> json) 
   if (byteSizeBefore != null) {
     imageCompressionModel.byteSizeBefore = byteSizeBefore;
   }
-  final String? fileNameBefore =
-      jsonConvert.convert<String>(json['fileNameBefore']);
+  final String? fileNameBefore = jsonConvert.convert<String>(json['fileNameBefore']);
   if (fileNameBefore != null) {
     imageCompressionModel.fileNameBefore = fileNameBefore;
   }
@@ -35,4 +34,21 @@ Map<String, dynamic> $ImageCompressionModelToJson(ImageCompressionModel entity) 
   data['output'] = entity.output;
   data['serverHost'] = entity.serverHost;
   return data;
+}
+
+extension ImageCompressionModelExtension on ImageCompressionModel {
+  ImageCompressionModel copyWith({
+    int? byteSizeAfter,
+    int? byteSizeBefore,
+    String? fileNameBefore,
+    String? output,
+    String? serverHost,
+  }) {
+    return ImageCompressionModel()
+      ..byteSizeAfter = byteSizeAfter ?? this.byteSizeAfter
+      ..byteSizeBefore = byteSizeBefore ?? this.byteSizeBefore
+      ..fileNameBefore = fileNameBefore ?? this.fileNameBefore
+      ..output = output ?? this.output
+      ..serverHost = serverHost ?? this.serverHost;
+  }
 }

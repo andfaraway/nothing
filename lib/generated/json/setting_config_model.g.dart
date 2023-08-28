@@ -39,7 +39,7 @@ SettingConfigModel $SettingConfigModelFromJson(Map<String, dynamic> json) {
   if (icon != null) {
     settingConfigModel.icon = icon;
   }
-  final dynamic? arguments = jsonConvert.convert<dynamic>(json['arguments']);
+  final dynamic arguments = json['arguments'];
   if (arguments != null) {
     settingConfigModel.arguments = arguments;
   }
@@ -59,4 +59,31 @@ Map<String, dynamic> $SettingConfigModelToJson(SettingConfigModel entity) {
   data['icon'] = entity.icon;
   data['arguments'] = entity.arguments;
   return data;
+}
+
+extension SettingConfigModelExtension on SettingConfigModel {
+  SettingConfigModel copyWith({
+    String? id,
+    String? module,
+    String? accountType,
+    String? routeName,
+    String? onTap,
+    String? onLongPress,
+    String? sort,
+    String? drawer,
+    String? icon,
+    dynamic arguments,
+  }) {
+    return SettingConfigModel()
+      ..id = id ?? this.id
+      ..module = module ?? this.module
+      ..accountType = accountType ?? this.accountType
+      ..routeName = routeName ?? this.routeName
+      ..onTap = onTap ?? this.onTap
+      ..onLongPress = onLongPress ?? this.onLongPress
+      ..sort = sort ?? this.sort
+      ..drawer = drawer ?? this.drawer
+      ..icon = icon ?? this.icon
+      ..arguments = arguments ?? this.arguments;
+  }
 }

@@ -30,3 +30,18 @@ Map<String, dynamic> $ErrorModelToJson(ErrorModel entity) {
   data['remark'] = entity.remark;
   return data;
 }
+
+extension ErrorModelExtension on ErrorModel {
+  ErrorModel copyWith({
+    int? code,
+    String? type,
+    String? message,
+    String? remark,
+  }) {
+    return ErrorModel()
+      ..code = code ?? this.code
+      ..type = type ?? this.type
+      ..message = message ?? this.message
+      ..remark = remark ?? this.remark;
+  }
+}

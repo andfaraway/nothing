@@ -7,6 +7,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/model/poetry_model.dart';
 import 'package:nothing/model/version_update_model.dart';
 
 class API {
@@ -398,6 +399,17 @@ class API {
       return true;
     }
   }
+
+  /// 获取诗歌
+  static Future<AppResponse> getPoetry(
+      {String? keyword, PoetryModel? model, int pageNum = 0, int pageSize = 10}) async {
+    Map<String, dynamic> params = model?.toJson() ?? {};
+    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword});
+    return Http.get(
+      ConstUrl.getPoetry,
+      params: params.removeEmptyValue(),
+    );
+  }
 }
 
 class ConstUrl {
@@ -516,6 +528,9 @@ class ConstUrl {
 
   /// 获取推荐颜色
   static const String getBeautifulColors = '/getBeautifulColors';
+
+  /// 获取诗歌
+  static const String getPoetry = '/getPoetry';
 }
 
 class InformationType {

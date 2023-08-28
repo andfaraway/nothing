@@ -11,12 +11,12 @@ class FunnyColors extends StatefulWidget {
 }
 
 class _FunnyColorsState extends State<FunnyColors> {
-  List<String> _models = const ['default', 'ui'];
+  final List<String> _models = ['default', 'ui'];
   late String _model;
   List<String> _colors = const [];
   final List<String> _initColors = ['#6a2c70', '', '', '', '#f9ed69'];
 
-  ValueNotifier<bool> _requesting = ValueNotifier(false);
+  final ValueNotifier<bool> _requesting = ValueNotifier(false);
 
   @override
   void initState() {
@@ -218,8 +218,8 @@ class _FunnyColorsState extends State<FunnyColors> {
                     _requesting.value = false;
                   },
                   child: Container(
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.greenAccent),
                     child: Text(

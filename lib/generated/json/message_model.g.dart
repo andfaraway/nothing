@@ -35,3 +35,20 @@ Map<String, dynamic> $MessageModelToJson(MessageModel entity) {
   data['type'] = entity.type;
   return data;
 }
+
+extension MessageModelExtension on MessageModel {
+  MessageModel copyWith({
+    int? id,
+    String? date,
+    String? title,
+    String? content,
+    int? type,
+  }) {
+    return MessageModel()
+      ..id = id ?? this.id
+      ..date = date ?? this.date
+      ..title = title ?? this.title
+      ..content = content ?? this.content
+      ..type = type ?? this.type;
+  }
+}

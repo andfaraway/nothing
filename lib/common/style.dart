@@ -191,6 +191,8 @@ class AppPadding {
 
   static EdgeInsets get main => EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
 
+  static EdgeInsets get cell => EdgeInsets.symmetric(horizontal: 17.w, vertical: 12.h);
+
   static double get horizontal => 17;
 
   static double get vertical => 17;

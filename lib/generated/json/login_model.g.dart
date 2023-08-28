@@ -50,3 +50,26 @@ Map<String, dynamic> $LoginModelToJson(LoginModel entity) {
   data['battery'] = entity.battery;
   return data;
 }
+
+extension LoginModelExtension on LoginModel {
+  LoginModel copyWith({
+    String? userid,
+    String? username,
+    String? date,
+    String? alias,
+    String? version,
+    String? deviceInfo,
+    String? network,
+    String? battery,
+  }) {
+    return LoginModel()
+      ..userid = userid ?? this.userid
+      ..username = username ?? this.username
+      ..date = date ?? this.date
+      ..alias = alias ?? this.alias
+      ..version = version ?? this.version
+      ..deviceInfo = deviceInfo ?? this.deviceInfo
+      ..network = network ?? this.network
+      ..battery = battery ?? this.battery;
+  }
+}

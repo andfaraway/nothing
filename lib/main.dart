@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await DeviceUtils.init();
   await PathUtils.init();
@@ -30,6 +32,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
+
     WidgetsBinding.instance.addObserver(this);
     platformChannel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'deviceToken') {
@@ -122,7 +126,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      case AppLifecycleState.hidden:
     }
   }
 }

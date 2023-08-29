@@ -32,7 +32,7 @@ class R {
   static const String imagesLoadError = 'assets/images/load_error.png';
   static const String imagesLogOut = 'assets/images/log-out.svg';
   static const String imagesMessage = 'assets/images/message.svg';
-  static const String imagesNothingToDo = 'assets/images/nothing_to_do.png';
+  static const String imagesNothingToDo = 'assets/images/nothingToDo.png';
   static const String imagesRing1 = 'assets/images/ring_1.png';
   static const String imagesRing2 = 'assets/images/ring_2.png';
   static const String imagesSetUp = 'assets/images/set_up.svg';

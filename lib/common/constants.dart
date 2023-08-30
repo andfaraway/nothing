@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nothing/common/prefix_header.dart';
@@ -51,6 +52,8 @@ class Constants {
     }
 
     Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
+
+    bugsnag.start(apiKey: '4fd3ffbad81d0bdd92652a79e208b91d');
   }
 
   static bool get isWeb => kIsWeb;

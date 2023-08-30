@@ -55,7 +55,7 @@ class _PoetryPageState extends State<PoetryPage> {
 
   Widget _searchBar() {
     return TextField(
-      controller: TextEditingController(text: '李白'),
+      // controller: TextEditingController(text: '李白'),
       style: AppTextStyle.titleMedium,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -126,7 +126,7 @@ class _PoetryPageState extends State<PoetryPage> {
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Text(
-                              e.content ?? '',
+                              e.contentDes,
                               style: AppTextStyle.titleMedium,
                             ),
                           )
@@ -149,6 +149,7 @@ class _PoetryPageState extends State<PoetryPage> {
   }
 
   Future<void> _search(String keyword) async {
+    if (keyword.isEmpty) return;
     AppResponse response = await API.getPoetry(keyword: keyword, pageSize: 20);
     if (response.isSuccess) {
       _poetries.clear();

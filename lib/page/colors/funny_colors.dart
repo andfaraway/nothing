@@ -238,7 +238,9 @@ class _FunnyColorsState extends State<FunnyColors> {
         value.dataList.cast<String>().forEach((element) {
           _models.add(element.length == 6 ? '${element}0' : element);
         });
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
   }

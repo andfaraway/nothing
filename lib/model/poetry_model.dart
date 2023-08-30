@@ -14,6 +14,16 @@ class PoetryModel {
   String? content;
   bool expand = false;
 
+  String get contentDes =>
+      content
+          ?.replaceAll('。', '。\n')
+          .replaceAll('！', '！\n')
+          .replaceAll('!', '！\n')
+          .replaceAll('；', '；\n')
+          .replaceAll(';', '；\n')
+          .replaceAll(')', '）\n') ??
+      '';
+
   PoetryModel();
 
   factory PoetryModel.fromJson(Map<String, dynamic> json) => $PoetryModelFromJson(json);

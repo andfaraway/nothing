@@ -1,7 +1,9 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:confetti/confetti.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nothing/widgets/drawer.dart';
 
+import '../common/exception_report_util.dart';
 import '../common/prefix_header.dart';
 
 class RootPage extends StatefulWidget {
@@ -56,6 +58,12 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             ),
             floatingActionButton: InkWell(
               onTap: () {
+                showMaterialModalBottomSheet(
+                    context: context,
+                    builder: (_) {
+                      return const ExceptionTestPage();
+                    });
+                return;
                 if (_confettiController.state == ConfettiControllerState.playing) {
                   _confettiController.stop();
                 } else {

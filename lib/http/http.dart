@@ -263,6 +263,10 @@ class Handler {
     return HiveBoxes.get(HiveKey.accessToken) != null;
   }
 
+  static String get deviceToken {
+    return HiveBoxes.get(HiveKey.deviceToken, defaultValue: '');
+  }
+
   static Future<void> getUserInfo() async {
     await API.getUserInfo().then((response) {
       if (response.isSuccess) {

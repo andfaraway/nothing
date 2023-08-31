@@ -42,12 +42,13 @@ class Log {
     String tag = _TAG,
     StackTrace? stackTrace,
     bool withStackTrace = true,
+    bool isError = true,
   }) {
     _printLog(
       message,
       '$tag ❌',
       stackTrace,
-      isError: true,
+      isError: isError,
       level: Level.SEVERE,
       withStackTrace: withStackTrace,
     );

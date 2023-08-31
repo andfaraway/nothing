@@ -119,4 +119,6 @@ class HiveKey {
   static const String fontFamily = 'fontFamily';
 
   static const String brightnessDark = 'brightnessDark';
+
+  static const String deviceToken = 'deviceToken';
 }

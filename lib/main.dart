@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,15 +11,10 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  await DeviceUtils.init();
-  await PathUtils.init();
-  await HiveBoxes.init();
-  await Constants.init();
-
-  await NotificationUtils.jPushInit();
-
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
+
+  await Constants.init();
   runApp(const MyApp());
 }
 
@@ -35,20 +32,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     FlutterNativeSplash.remove();
 
     WidgetsBinding.instance.addObserver(this);
-    platformChannel.setMethodCallHandler((MethodCall call) async {
-      if (call.method == 'deviceToken') {
-        String deviceToken = call.arguments.toString();
-        API.pushDeviceToken(Singleton().currentUser.userId, deviceToken);
-        Log.d('deviceToken：${call.arguments.toString()}');
-      }
-    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Constants.context = context;
       Constants.isDark = Theme.of(context).brightness == Brightness.dark;
 
       Future.delayed(const Duration(seconds: 3), () async {
-        await Constants.insertLaunch();
+        await API.insertLaunch();
 
         AppResponse response = await API.checkUpdate(needLoading: false);
         if (response.isSuccess) {

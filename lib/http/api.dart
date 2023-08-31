@@ -57,7 +57,7 @@ class API {
     }
     Map<String, dynamic> param = {
       'platform': Constants.platform,
-      'version': DeviceUtils.appVersion,
+      'version': DeviceUtils.deviceInfo.package.version,
     };
     return Http.post(ConstUrl.checkUpdate, params: param, needLoading: needLoading);
   }
@@ -199,13 +199,28 @@ class API {
       'userid': Singleton().currentUser.userId,
       'content': content,
       'nickname': nickname,
-      'version': DeviceUtils.appVersion
+      'version': DeviceUtils.deviceInfo.package.version
     };
     return Http.post(ConstUrl.addFeedback, params: param);
   }
 
   /// 插入登录表
-  static Future<AppResponse> insertLaunch(Map<String, dynamic>? param) async {
+  static Future<AppResponse> insertLaunch() async {
+    if (Constants.isWeb) return AppResponse();
+    if (!DeviceUtils.deviceInfo.device.info.isPhysicalDevice) return AppResponse();
+
+    Map<String, dynamic> param = {};
+    param['userid'] = Singleton().currentUser.userId;
+    param['username'] = Singleton().currentUser.username;
+    //推送别名
+    param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
+    await DeviceUtils.refreshRuntimeInfo();
+    //推送注册id
+    param['registrationID'] = DeviceUtils.deviceInfo.runtime.deviceToken;
+    param['battery'] = DeviceUtils.deviceInfo.runtime.battery;
+    param['network'] = DeviceUtils.deviceInfo.runtime.network;
+    param['device_info'] = DeviceUtils.deviceInfo.device.info.deviceInfo;
+
     return Http.post(ConstUrl.insertLaunch, params: param);
   }
 
@@ -293,7 +308,6 @@ class API {
     });
 
     return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
-      print('a=$a,b=$b');
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     });
@@ -410,6 +424,11 @@ class API {
       ConstUrl.getPoetry,
       params: params.removeEmptyValue(),
     );
+  }
+
+  /// 上报异常
+  static Future<AppResponse> exceptionReport(Map<String, dynamic> data) async {
+    return Http.post(ConstUrl.exceptionReport, data: data.removeEmptyValue());
   }
 }
 
@@ -532,6 +551,9 @@ class ConstUrl {
 
   /// 获取诗歌
   static const String getPoetry = '/getPoetry';
+
+  /// 上报错误
+  static const String exceptionReport = '/exceptionReport';
 }
 
 class InformationType {

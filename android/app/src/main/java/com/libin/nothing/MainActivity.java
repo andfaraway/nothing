@@ -35,13 +35,16 @@ public class MainActivity extends FlutterActivity {
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.addCategory(Intent.CATEGORY_HOME);
                         startActivity(i);
+                        result.success(null);
                     } else if (call.method.equals("welcomeLoad")) {
                         result.success(null);
-                    } else if (call.method.equals("'getBatteryLevel'")) {
+                    } else if (call.method.equals("getBatteryLevel")) {
                         BatteryManager manager = (BatteryManager) getSystemService(BATTERY_SERVICE);
                         int battery =
                                 manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);///当前电量百分比
-                        result.success(battery + "");
+                        result.success(battery);
+                    } else{
+                        result.notImplemented();
                     }
                 }
         );

@@ -29,7 +29,7 @@ Function? functionWithString(BuildContext context, String functionStr) {
               throw 'Could not launch $url';
             }
           } else {
-            showToast('当前已是最新版本: v${DeviceUtils.appVersion}');
+            showToast('当前已是最新版本: v${DeviceUtils.deviceInfo.package.version}');
           }
         }
       };

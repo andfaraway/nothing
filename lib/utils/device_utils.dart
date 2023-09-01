@@ -56,7 +56,7 @@ class DeviceUtils {
 
   static Future<String> _battery() async {
     if (!Constants.isPhysicalDevice) return '100%';
-    int battery = await platformChannel.invokeMethod(ChannelKey.getBatteryLevel + '1');
+    int battery = await platformChannel.invokeMethod(ChannelKey.getBatteryLevel);
     if (battery == -1) {
       return "unknown";
     } else {

@@ -1,24 +1,17 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nothing/common/constants.dart';
 
 import '../http/api.dart';
 
 class ExceptionReportUtil {
-  static void init() async {
+  static void init() {
+    if (Constants.isDebugMode) return;
+
     FlutterError.onError = (FlutterErrorDetails details) {
-      StackTrace stackTrace = details.stack ?? StackTrace.current;
-      if (details.stack == null) {
-        print('details.stack = $stackTrace');
-        print('details.stack = ********* \n${StackTrace.fromString(details.toString())}');
-        print('details.stack = &&&&&&&&&& \n${StackTrace.fromString(details.toString())}');
-      } else {
-        print('details.stack = null \n${StackTrace.fromString(details.toString())}');
-      }
-      // _reportError(details.exception, stackTrace,isFlutterError: true);
+      StackTrace stackTrace = StackTrace.fromString(details.toString());
       Zone.current.handleUncaughtError(details.exception, stackTrace);
     };
 
@@ -28,22 +21,15 @@ class ExceptionReportUtil {
     };
   }
 
-  static Future<void> _reportError(Object obj, StackTrace stack, {bool isFlutterError = false}) async {
-    Log.e(obj.toString(), tag: 'obj $isFlutterError', stackTrace: stack);
-    if (obj.runtimeType == MissingPluginException) {
-      return;
-    } else {}
-
-    // DeviceUtils.refreshRuntimeInfo();
+  static Future<void> _reportError(Object obj, StackTrace stack) async {
+    DeviceUtils.refreshRuntimeInfo();
     Map<String, dynamic> data = {
       'type': obj.runtimeType.toString(),
       'des': obj.toString(),
       'stack': stack.toString(),
       'deviceInfo': DeviceUtils.deviceInfo,
     };
-    if (!Constants.isDebugMode) {
-      await API.exceptionReport(data);
-    }
+    await API.exceptionReport(data);
   }
 }
 
@@ -85,7 +71,7 @@ class ExceptionTestPage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              await DeviceUtils.refreshRuntimeInfo();
+              await platformChannel.invokeMethod(ChannelKey.getBatteryLevel + '1');
             },
             child: const Text('_TypeError'),
           ),

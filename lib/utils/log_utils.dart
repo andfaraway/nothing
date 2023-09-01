@@ -65,11 +65,10 @@ class Log {
   }) {
     if (isError) {
       dev.log(
-        '${DateFormat('[HH:mm:ss]').format(currentTime)} An error occurred.',
+        '${DateFormat('[HH:mm:ss]').format(currentTime)} ${format ? _messageFormat(message) : message}',
         time: currentTime,
         name: tag ?? _TAG,
         level: level.value,
-        error: message,
         stackTrace: stackTrace ?? (isError && withStackTrace ? StackTrace.current : null),
       );
     } else {

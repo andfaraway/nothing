@@ -32,8 +32,9 @@ class Http {
       //请求头
       headers: {
         'Accept-Language': Constants.isChinese ? 'zh-CN,zh;q=0.9' : 'en-US,en;q=0.9',
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*'
+        'Access-Control-Allow-Headers': '*',
       });
 
   // 创建 Dio 实例

@@ -31,7 +31,7 @@ class LDropdownButton extends StatelessWidget {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
-        value: items.first,
+        value: items.firstWhereOrNull((element) => element.text == initText),
         hint: SizedBox(
           width: double.infinity,
           child: Center(

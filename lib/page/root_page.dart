@@ -41,7 +41,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    _loadData();
     return Stack(
       children: [
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {

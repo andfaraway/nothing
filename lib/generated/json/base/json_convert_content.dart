@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:nothing/model/device_info_model.dart';
 import 'package:nothing/model/error_model.dart';
+import 'package:nothing/model/exception_model.dart';
 import 'package:nothing/model/favorite_model.dart';
 import 'package:nothing/model/file_model.dart';
 import 'package:nothing/model/image_compression_model.dart';
@@ -36,6 +37,7 @@ class JsonConvert {
         (DeviceInfoRuntimeInfo).toString(): DeviceInfoRuntimeInfo.fromJson,
         (DeviceInfoPackageInfo).toString(): DeviceInfoPackageInfo.fromJson,
         (ErrorModel).toString(): ErrorModel.fromJson,
+        (ExceptionModel).toString(): ExceptionModel.fromJson,
         (FavoriteModel).toString(): FavoriteModel.fromJson,
         (FileModel).toString(): FileModel.fromJson,
         (ImageCompressionModel).toString(): ImageCompressionModel.fromJson,
@@ -172,6 +174,9 @@ class JsonConvert {
     }
     if (<ErrorModel>[] is M) {
       return data.map<ErrorModel>((Map<String, dynamic> e) => ErrorModel.fromJson(e)).toList() as M;
+    }
+    if (<ExceptionModel>[] is M) {
+      return data.map<ExceptionModel>((Map<String, dynamic> e) => ExceptionModel.fromJson(e)).toList() as M;
     }
     if (<FavoriteModel>[] is M) {
       return data.map<FavoriteModel>((Map<String, dynamic> e) => FavoriteModel.fromJson(e)).toList() as M;

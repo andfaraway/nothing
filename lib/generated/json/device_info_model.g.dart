@@ -520,6 +520,10 @@ DeviceInfoRuntimeInfo $DeviceInfoRuntimeInfoFromJson(Map<String, dynamic> json) 
   if (battery != null) {
     deviceInfoRuntimeInfo.battery = battery;
   }
+  final String? deviceToken = jsonConvert.convert<String>(json['deviceToken']);
+  if (deviceToken != null) {
+    deviceInfoRuntimeInfo.deviceToken = deviceToken;
+  }
   final String? date = jsonConvert.convert<String>(json['date']);
   if (date != null) {
     deviceInfoRuntimeInfo.date = date;
@@ -531,6 +535,7 @@ Map<String, dynamic> $DeviceInfoRuntimeInfoToJson(DeviceInfoRuntimeInfo entity) 
   final Map<String, dynamic> data = <String, dynamic>{};
   data['network'] = entity.network;
   data['battery'] = entity.battery;
+  data['deviceToken'] = entity.deviceToken;
   data['date'] = entity.date;
   return data;
 }
@@ -539,11 +544,13 @@ extension DeviceInfoRuntimeInfoExtension on DeviceInfoRuntimeInfo {
   DeviceInfoRuntimeInfo copyWith({
     String? network,
     String? battery,
+    String? deviceToken,
     String? date,
   }) {
     return DeviceInfoRuntimeInfo()
       ..network = network ?? this.network
       ..battery = battery ?? this.battery
+      ..deviceToken = deviceToken ?? this.deviceToken
       ..date = date ?? this.date;
   }
 }

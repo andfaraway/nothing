@@ -34,7 +34,7 @@ extension StringEx on String {
     try {
       return json.decode(this);
     } catch (e) {
-      Log.d('toJson error$e');
+      Log.d('toJson error:$e');
       return {};
     }
   }

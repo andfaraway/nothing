@@ -190,7 +190,7 @@ class API {
   /// 获取反馈
   static Future<AppResponse> getFeedback(int pageIndex, int pageSize) async {
     Map<String, dynamic> param = {'userid': Singleton().currentUser.userId, 'page': pageIndex, 'size': pageSize};
-    return Http.post(ConstUrl.getFeedback, params: param);
+    return Http.get(ConstUrl.getFeedback, params: param);
   }
 
   /// 添加反馈
@@ -430,6 +430,12 @@ class API {
   static Future<AppResponse> exceptionReport(Map<String, dynamic> data) async {
     return Http.post(ConstUrl.exceptionReport, data: data.removeEmptyValue());
   }
+
+  /// 获取异常
+  static Future<AppResponse> getExceptions(int pageIndex, int pageSize) async {
+    Map<String, dynamic> param = {'page': pageIndex, 'size': pageSize};
+    return Http.get(ConstUrl.getExceptions, params: param);
+  }
 }
 
 class ConstUrl {
@@ -480,7 +486,7 @@ class ConstUrl {
   ///删除收藏
   static const String deleteFavorite = '/deleteFavorite';
 
-  ///添加反馈
+  ///获取反馈
   static const String getFeedback = '/getFeedback';
 
   ///添加反馈
@@ -554,6 +560,9 @@ class ConstUrl {
 
   /// 上报错误
   static const String exceptionReport = '/exceptionReport';
+
+  /// 获取异常信息
+  static const String getExceptions = '/getExceptions';
 }
 
 class InformationType {

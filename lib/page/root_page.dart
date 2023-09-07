@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:confetti/confetti.dart';
 import 'package:nothing/widgets/drawer.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../common/prefix_header.dart';
 
@@ -18,16 +21,25 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   final ConfettiController _confettiController = ConfettiController(duration: const Duration(seconds: 10));
 
+  final GlobalKey _tabBarKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     _loadData();
+
+    Handler.getUserInfo();
 
     _tabController = TabController(
       length: _rootBars.length,
       vsync: this,
       animationDuration: Duration.zero,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      RenderBox renderBox = _tabBarKey.currentContext!.findRenderObject() as RenderBox;
+      AppSize.tabBarHeight = renderBox.size.height;
+    });
   }
 
   @override
@@ -39,6 +51,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    _loadData();
     return Stack(
       children: [
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
@@ -53,53 +66,13 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
               physics: const NeverScrollableScrollPhysics(),
               children: _rootBars.map((e) => e.page).toList(),
             ),
-            floatingActionButton: InkWell(
-              onTap: () {
-                // showMaterialModalBottomSheet(
-                //     context: context,
-                //     builder: (_) {
-                //       return const ExceptionTestPage();
-                //     });
-                // return;
-                if (_confettiController.state == ConfettiControllerState.playing) {
-                  _confettiController.stop();
-                } else {
-                  _confettiController.play();
-                }
-              },
-              child: AppImage.asset(R.iconsGift, width: 44.r, height: 44.r),
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-              // elevation: 0.5,
-              // gapWidth: 44.0.w,
-              shadow: BoxShadow(
-                offset: const Offset(0.0, 1.0),
-                blurRadius: 1.0,
-                color: Colors.black.withOpacity(0.1),
-              ),
-              backgroundColor: AppColor.tabColor,
-              activeIndex: _tabController.index,
-              gapLocation: GapLocation.center,
-              notchSmoothness: NotchSmoothness.defaultEdge,
-              splashSpeedInMilliseconds: 0,
-              leftCornerRadius: 10,
-              rightCornerRadius: 10,
-              onTap: (index) => homeProvider.pageIndex = index,
-              itemCount: _rootBars.length,
-              tabBuilder: (int index, bool isActive) {
-                BarItem item = _rootBars[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      isActive ? item.activeIcon : item.icon,
-                    ],
-                  ),
-                );
-              }, //other params
-            ),
+            // floatingActionButton: _floatingActionButton(),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+            bottomNavigationBar: _salomonBottomBar(onTap: (index) {
+              setState(() {
+                homeProvider.pageIndex = index;
+              });
+            }),
           );
         }),
         Align(
@@ -116,44 +89,148 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
     );
   }
 
+  Widget _floatingActionButton() {
+    return InkWell(
+      onTap: () {
+        // showMaterialModalBottomSheet(
+        //     context: context,
+        //     builder: (_) {
+        //       return const ExceptionTestPage();
+        //     });
+        // return;
+        if (_confettiController.state == ConfettiControllerState.playing) {
+          _confettiController.stop();
+        } else {
+          _confettiController.play();
+        }
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          builder: (context) {
+            return Center(
+              child: Container(
+                width: 200,
+                height: 200,
+                color: Colors.green,
+              ),
+            );
+          },
+        );
+      },
+      child: AppImage.asset(R.iconsGift, width: 44.r, height: 44.r),
+    );
+  }
+
+  Widget _salomonBottomBar({required Function(int) onTap}) {
+    return RepaintBoundary(
+      key: _tabBarKey,
+      child: ClipRect(
+        child: BackdropFilter(
+          //毛玻璃
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+          child: SalomonBottomBar(
+            backgroundColor: AppColor.white.withOpacity(.7),
+            margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            currentIndex: _tabController.index,
+            onTap: onTap,
+            items: _rootBars
+                .map(
+                  (item) => SalomonBottomBarItem(
+                    icon: item.icon,
+                    title: Text(item.label),
+                    selectedColor: item.selectedColor,
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomNavigationBar({required Function(int) onTap}) {
+    return AnimatedBottomNavigationBar.builder(
+      // elevation: 0.5,
+      // gapWidth: 44.0.w,
+      shadow: BoxShadow(
+        offset: const Offset(0.0, 1.0),
+        blurRadius: 1.0,
+        color: Colors.black.withOpacity(0.1),
+      ),
+      backgroundColor: AppColor.tabColor,
+      activeIndex: _tabController.index,
+      gapLocation: GapLocation.center,
+      notchSmoothness: NotchSmoothness.defaultEdge,
+      splashSpeedInMilliseconds: 0,
+      leftCornerRadius: 10,
+      rightCornerRadius: 10,
+      onTap: onTap,
+      itemCount: _rootBars.length,
+      tabBuilder: (int index, bool isActive) {
+        BarItem item = _rootBars[index];
+        return Container(
+            width: item.size,
+            height: item.size,
+            margin: const EdgeInsets.all(8.0),
+            alignment: Alignment.center,
+            child: isActive ? item.activeIcon : item.icon);
+      }, //other params
+    );
+  }
+
   void _loadData() {
-    double iconSize = 24.w;
     _rootBars = [
       BarItem(
-          icon: AppImage.asset(R.tabRss, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
-          activeIcon: AppImage.asset(R.tabRss, color: AppColor.errorColor, width: iconSize, height: iconSize),
-          label: '资讯',
-          page: AppRoute.home.page.call()),
+        icon: const Icon(Icons.home),
+        activeIcon: const Icon(Icons.home),
+        label: '资讯',
+        page: AppRoute.home.page.call(),
+        selectedColor: Colors.purple,
+      ),
       BarItem(
-          icon: AppImage.asset(R.tabMail, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
-          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, width: iconSize, height: iconSize),
-          label: '信息',
-          page: AppRoute.message.page.call()),
+        icon: const Icon(Icons.mail_outline),
+        activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, fit: BoxFit.contain),
+        label: '信息',
+        page: AppRoute.message.page.call(),
+        selectedColor: Colors.pinkAccent,
+      ),
       // BarItem(
-      //     icon: AppImage.asset(R.tabAperture, color: AppColor.secondlyColor,width: iconSize,height: iconSize),
-      //     activeIcon: AppImage.asset(R.tabAperture, color: AppColor.errorColor,width: iconSize,height: iconSize),
-      //     label: '图片',
-      //     page: AppRoute.photoShow.page.call()),
+      //   icon: const Icon(Icons.data_usage),
+      //   activeIcon: const Icon(Icons.data_usage),
+      //   label: '色彩板',
+      //   page: AppRoute.funnyColors.page.call(),
+      //   selectedColor: Colors.orange,
+      // ),
       BarItem(
-          icon: AppImage.asset(R.tabColor, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
-          activeIcon: AppImage.asset(R.tabColor, color: AppColor.errorColor, width: iconSize, height: iconSize),
-          label: '色彩板',
-          page: AppRoute.funnyColors.page.call()),
+        icon: const Icon(Icons.book),
+        activeIcon: const Icon(Icons.book),
+        label: '诗歌',
+        page: AppRoute.poetry.page.call(),
+        selectedColor: AppRoute.poetry.pageColor,
+      ),
       BarItem(
-          icon: AppImage.asset(R.tabUser, color: AppColor.secondlyColor, width: iconSize, height: iconSize),
-          activeIcon: AppImage.asset(R.tabUser, color: AppColor.errorColor, width: iconSize, height: iconSize),
+          icon: const Icon(Icons.person),
+          activeIcon: const Icon(Icons.person),
           label: '我的',
-          page: AppRoute.profile.page.call()),
+          page: AppRoute.profile.page.call(),
+          selectedColor: Colors.teal),
     ];
-    Handler.getUserInfo();
   }
 }
 
 class BarItem {
-  const BarItem({required this.icon, required this.activeIcon, required this.label, required this.page});
+  const BarItem(
+      {required this.icon,
+      required this.activeIcon,
+      required this.label,
+      required this.page,
+      required this.selectedColor,
+      this.size = 24});
 
   final Widget icon;
+  final double size;
   final Widget activeIcon;
   final String label;
   final Widget page;
+  final Color selectedColor;
 }

@@ -7,6 +7,8 @@ import 'package:nothing/common/prefix_header.dart';
 class AppColor {
   const AppColor._();
 
+  static const Color transparent = Color(0x00FFFFFF);
+
   static const Color white = Color(0xFFFFFFFF);
 
   static const Color black = Color(0xFF333333);
@@ -174,6 +176,8 @@ extension TextStyleExtension on TextStyle {
 
 class AppSize {
   const AppSize._();
+
+  static double tabBarHeight = 0;
 
   static double get screenWidth => Screens.width;
 

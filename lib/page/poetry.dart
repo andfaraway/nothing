@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/widgets/highlight_text_widget.dart';
+import 'package:nothing/widgets/search_bar_widget.dart';
 
 import '../model/poetry_model.dart';
 
@@ -14,127 +17,142 @@ class PoetryPage extends StatefulWidget {
   State<PoetryPage> createState() => _PoetryPageState();
 }
 
-class _PoetryPageState extends State<PoetryPage> {
+class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMixin {
   final List<PoetryModel> _poetries = [];
-
-  Timer? _timer;
+  PoetryModel? _currentPoetry;
+  String _keyword = '李白';
 
   @override
   void initState() {
     super.initState();
-    _loadData(keyword: '李白');
+    _loadData(keyword: _keyword);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer?.cancel();
-    _timer = null;
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return KeyboardHideOnTap(
-      child: Scaffold(
-        appBar: AppWidget.appbar(title: 'Poetry'),
-        backgroundColor: Colors.white,
-        body: Container(
-          padding: AppPadding.main,
-          width: double.infinity,
-          child: Column(
-            children: [
-              _searchBar(),
-              17.hSizedBox,
-              Expanded(child: _searchResultWidget()),
-            ],
+      child: KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+        return Scaffold(
+          backgroundColor: AppRoute.poetry.pageColor,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                SearchBarWidget(
+                  initText: _keyword,
+                  onChanged: (keyword) => _search(keyword),
+                ),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Visibility(visible: _currentPoetry != null, child: _contentWidget(_currentPoetry)),
+                    Visibility(
+                      visible: isKeyboardVisible,
+                      child: _searchResultWidget(),
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _searchBar() {
-    return TextField(
-      // controller: TextEditingController(text: '李白'),
-      style: AppTextStyle.titleMedium,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          borderSide: BorderSide.none,
-        ),
-        constraints: BoxConstraints(maxHeight: 40.h),
-        fillColor: AppColor.scaffoldBackgroundColor,
-        contentPadding: EdgeInsets.zero,
-        filled: true,
-        hintText: '搜索',
-        hintStyle: AppTextStyle.titleMedium.copyWith(color: AppColor.disabledColor, fontWeight: weightMedium),
-      ),
-      onChanged: (value) {
-        if (_timer?.isActive == true) {
-          _timer?.cancel();
-        }
-        _timer = Timer(
-            const Duration(milliseconds: 500),
-            () {
-              _search(value);
-              _timer?.cancel();
-            }.throttle());
-      },
+        );
+      }),
     );
   }
 
   Widget _searchResultWidget() {
-    return SingleChildScrollView(
-      child: Column(
-        children: _poetries
-            .map((e) => InkWell(
-                  onTap: () {
-                    setState(() {
-                      e.expand = !e.expand;
-                    });
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: const Color(0xFFEEF2FF),
-                    ),
-                    margin: EdgeInsets.only(bottom: AppPadding.main.bottom),
-                    padding: AppPadding.cell,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.title ?? '',
-                          style: AppTextStyle.bodyMedium,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              e.dynasty ?? '',
-                              style: AppTextStyle.labelLarge,
-                            ),
-                            8.wSizedBox,
-                            Text(
-                              e.author ?? '',
-                              style: AppTextStyle.labelLarge.copyWith(color: AppColor.errorColor),
-                            ),
-                          ],
-                        ),
-                        if (e.expand)
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: Text(
-                              e.contentDes,
-                              style: AppTextStyle.titleMedium,
-                            ),
-                          )
-                      ],
-                    ),
+    if (_poetries.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: EdgeInsets.only(top: 17.h),
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        itemBuilder: (context, index) {
+          PoetryModel model = _poetries[index];
+          String originalText = '';
+          if (_keyword.isNotEmpty && model.content.contains(_keyword)) {
+            print('_keyword=$_keyword');
+            RegExp regExp = RegExp(r'[^\。\！\？]*' + _keyword + r'[^\。\！\？]*[\。\！\？]');
+            Iterable<Match> matches = regExp.allMatches(model.content);
+            print('matches=${matches.firstOrNull?.group(0)}');
+            String result = matches.map((match) => match.group(0)).join('\n');
+            originalText = result;
+          }
+
+          return InkWell(
+            onTap: () {
+              hideKeyboard(context);
+              setState(() {
+                _currentPoetry = model;
+              });
+            },
+            child: Container(
+              padding: AppPadding.main.copyWith(bottom: 5, top: 5),
+              color: AppColor.white.withOpacity(1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HighlightTextWidget(
+                    style: AppTextStyle.titleMedium.copyWith(fontWeight: weightBold),
+                    originalText: model.title,
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
                   ),
-                ))
-            .toList(),
+                  HighlightTextWidget(
+                    style: AppTextStyle.bodyMedium,
+                    originalText: '${model.author} ${model.dynasty}《${model.book}》',
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
+                  ),
+                  HighlightTextWidget(
+                    style: AppTextStyle.titleMedium,
+                    originalText: originalText,
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        itemCount: _poetries.length,
+        shrinkWrap: true,
+      ),
+    );
+  }
+
+  Widget _contentWidget(PoetryModel? model) {
+    if (model == null) {
+      return const SizedBox.shrink();
+    }
+    return DefaultTextStyle(
+      style: AppTextStyle.titleMedium,
+      child: Padding(
+        padding: AppPadding.main,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: AppSize.tabBarHeight),
+          child: Column(
+            children: [
+              Text(model.title),
+              Text('${model.author} · ${model.dynasty} · 《${model.book}》'),
+              17.hSizedBox,
+              HighlightTextWidget(
+                style: AppTextStyle.bodyLarge,
+                originalText: model.contentDes,
+                highlightRegexList: const [r'\((.*?)\)'],
+                highlightStyles: [
+                  AppTextStyle.labelLarge.copyWith(color: AppColor.specialColor),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -144,17 +162,34 @@ class _PoetryPageState extends State<PoetryPage> {
     if (response.isSuccess) {
       _poetries.clear();
       _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
+      if (_poetries.isNotEmpty && keyword != null) {
+        _currentPoetry = _poetries.firstWhereOrNull((element) => element.title.contains('蜀道难'));
+      }
       setState(() {});
     }
   }
 
   Future<void> _search(String keyword) async {
+    keyword = extractChineseCharacters(keyword);
+    _keyword = keyword;
     if (keyword.isEmpty) return;
-    AppResponse response = await API.getPoetry(keyword: keyword, pageSize: 20);
+    AppResponse response = await API.getPoetry(keyword: keyword, pageSize: 100);
     if (response.isSuccess) {
       _poetries.clear();
       _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
       setState(() {});
     }
   }
+
+  String extractChineseCharacters(String input) {
+    // 使用正则表达式匹配中文字符
+    RegExp regExp = RegExp(r'[\u4e00-\u9fa5]+');
+    Iterable<Match> matches = regExp.allMatches(input);
+    // 将匹配到的中文字符合并成一个字符串
+    String chineseText = matches.map((match) => match.group(0)).join('');
+    return chineseText;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

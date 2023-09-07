@@ -10,7 +10,7 @@ class FunnyColors extends StatefulWidget {
   State<FunnyColors> createState() => _FunnyColorsState();
 }
 
-class _FunnyColorsState extends State<FunnyColors> {
+class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClientMixin {
   final List<String> _models = ['default', 'ui'];
   late String _model;
   List<String> _colors = const [];
@@ -33,9 +33,9 @@ class _FunnyColorsState extends State<FunnyColors> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return KeyboardHideOnTap(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppWidget.appbar(title: 'funny colors'),
         body: Padding(
           padding: AppPadding.main,
@@ -244,4 +244,7 @@ class _FunnyColorsState extends State<FunnyColors> {
       }
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -16,6 +16,8 @@ class HighlightTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (originalText.isEmpty) return const SizedBox.shrink();
+
     Map<String, TextStyle> textStyles = {};
 
     // 使用正则表达式找到并拆分高亮字符串

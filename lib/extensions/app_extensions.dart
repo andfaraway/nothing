@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../utils/log_utils.dart';
@@ -105,6 +105,22 @@ extension DateTimeEx on DateTime {
 extension MapExt<E, V> on Map<E, V> {
   Map<E, V> removeEmptyValue() =>
       this..removeWhere((key, value) => value == null || value == '' || value == [] || value == {});
+}
+
+extension EdgeInsetsEx on EdgeInsets {
+  EdgeInsets copyWith({
+    double? left,
+    double? top,
+    double? right,
+    double? bottom,
+  }) {
+    return EdgeInsets.only(
+      left: left ?? this.left,
+      top: top ?? this.top,
+      right: right ?? this.right,
+      bottom: bottom ?? this.bottom,
+    );
+  }
 }
 
 extension IteratorExt<E> on Iterable<E> {

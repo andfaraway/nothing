@@ -25,7 +25,7 @@ class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMi
   @override
   void initState() {
     super.initState();
-    _loadData(keyword: _keyword);
+    _search(_keyword, initCurrentPoetry: true);
   }
 
   @override
@@ -145,9 +145,10 @@ class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMi
               HighlightTextWidget(
                 style: AppTextStyle.bodyLarge,
                 originalText: model.contentDes,
-                highlightRegexList: const [r'\((.*?)\)'],
+                highlightRegexList: [r'\((.*?)\)', _keyword],
                 highlightStyles: [
-                  AppTextStyle.labelLarge.copyWith(color: AppColor.specialColor),
+                  AppTextStyle.labelLarge,
+                  AppTextStyle.bodyLarge.copyWith(color: AppColor.specialColor),
                 ],
               )
             ],
@@ -157,19 +158,7 @@ class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMi
     );
   }
 
-  Future<void> _loadData({String? keyword}) async {
-    AppResponse response = await API.getPoetry(keyword: keyword);
-    if (response.isSuccess) {
-      _poetries.clear();
-      _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
-      if (_poetries.isNotEmpty && keyword != null) {
-        _currentPoetry = _poetries.firstWhereOrNull((element) => element.title.contains('蜀道难'));
-      }
-      setState(() {});
-    }
-  }
-
-  Future<void> _search(String keyword) async {
+  Future<void> _search(String keyword, {bool initCurrentPoetry = false}) async {
     keyword = extractChineseCharacters(keyword);
     _keyword = keyword;
     if (keyword.isEmpty) return;
@@ -177,6 +166,9 @@ class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMi
     if (response.isSuccess) {
       _poetries.clear();
       _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
+      if (initCurrentPoetry) {
+        _currentPoetry = _poetries.firstWhereOrNull((element) => element.title.contains('蜀道难'));
+      }
       setState(() {});
     }
   }

@@ -49,13 +49,6 @@ extension StringEx on String {
     return digest.toString();
   }
 
-  Color? toColor() {
-    RegExp exp = RegExp(r'^#([0-9A-Fa-f]{6})$');
-    bool isValid = exp.hasMatch(this); // true
-    if (!isValid) return null;
-    return Color(int.parse(substring(1, 7), radix: 16) + 0xFF000000);
-  }
-
   /// 根据时间戳格式化时间
   ///
   /// [format] 不为空 返回格式化字符串; null，返回距离当前时间

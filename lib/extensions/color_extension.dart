@@ -25,3 +25,20 @@ extension ColorExtension on Color {
 
   Color get adaptiveColor => (red * 0.299 + green * 0.587 + blue * 0.144) > 186 ? Colors.black : Colors.white;
 }
+
+class HexColor extends Color {
+  HexColor(super.value);
+
+  factory HexColor.fromHex(String hexCode) {
+    if (hexCode.length == 9) {
+      hexCode = hexCode.replaceFirst('#', '0x');
+    } else if (hexCode.length == 7) {
+      hexCode = hexCode.replaceFirst('#', '0xFF');
+    } else if (hexCode.length == 6) {
+      hexCode = '0xFF$hexCode';
+    } else {
+      hexCode = '0xFFFFFFFF';
+    }
+    return HexColor(int.parse(hexCode));
+  }
+}

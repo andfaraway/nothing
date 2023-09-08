@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:confetti/confetti.dart';
-import 'package:nothing/widgets/drawer.dart';
+import 'package:nothing/widgets/app_drawer.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../common/prefix_header.dart';
@@ -57,8 +57,8 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
           _tabController.index = homeProvider.pageIndex;
           return Scaffold(
-            drawer: const CustomDrawer(),
-            drawerEnableOpenDragGesture: false,
+            drawer: const AppDrawer(),
+            drawerEnableOpenDragGesture: true,
             extendBody: true,
             resizeToAvoidBottomInset: false,
             body: TabBarView(

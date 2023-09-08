@@ -115,7 +115,7 @@ class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClient
   Widget _initColorWidget() {
     return Row(
       children: List.generate(_initColors.length, (index) {
-        final ValueNotifier<Color?> bgColor = ValueNotifier(_initColors[index].toColor());
+        final ValueNotifier<Color?> bgColor = ValueNotifier(HexColor.fromHex(_initColors[index]));
         return Flexible(
           child: ValueListenableBuilder(
               valueListenable: bgColor,
@@ -129,14 +129,14 @@ class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClient
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide.none,
                     ),
-                    fillColor: _initColors[index].toColor(),
+                    fillColor: HexColor.fromHex(_initColors[index]),
                     filled: true,
                     hintText: 'undefine',
                     hintStyle: AppTextStyle.labelLarge.copyWith(color: AppColor.disabledColor),
                   ),
                   onChanged: (value) {
                     _initColors[index] = value;
-                    bgColor.value = value.toColor();
+                    bgColor.value = HexColor.fromHex(_initColors[index]);
                   },
                 );
               }),
@@ -166,7 +166,7 @@ class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClient
                   Expanded(
                       child: Container(
                     decoration: BoxDecoration(
-                      color: color.toColor(),
+                      color: HexColor.fromHex(color),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(index == 0 ? radius : 0),
                         bottomLeft: Radius.circular(index == 0 ? radius : 0),
@@ -195,7 +195,7 @@ class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClient
         builder: (context, requesting, child) {
           return requesting
               ? SpinKitPouringHourGlass(
-                  color: '#febc8b'.toColor()!,
+            color: HexColor.fromHex('#febc8b'),
                   size: 54,
                 )
               : InkWell(

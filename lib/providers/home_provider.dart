@@ -42,4 +42,16 @@ class HomeProvider extends ChangeNotifier {
     _drawerContent = value;
     notifyListeners();
   }
+
+  List<SettingConfigModel> _drawerSettings = [];
+
+  List<SettingConfigModel> get drawerSettings => _drawerSettings;
+
+  set drawerSettings(List<SettingConfigModel> value) {
+    if (_drawerSettings == value) {
+      return;
+    }
+    _drawerSettings = value;
+    notifyListeners();
+  }
 }

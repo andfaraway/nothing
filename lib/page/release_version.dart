@@ -39,7 +39,8 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
             padding: AppPadding.main,
             child: Text(
               S.current.save,
-              style: const TextStyle(color: Colors.white),
+              style: AppTextStyle.titleMedium
+                  .copyWith(color: context.watch<ThemesProvider>().currentThemeGroup.themeColor.adaptiveColor),
             ),
             onTap: () async {
               await save(sendNotification.value);
@@ -59,12 +60,14 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
             children: [
               Row(
                 children: [
-                  const Text("send notification"),
+                  const Expanded(child: Text("send notification")),
                   ValueListenableBuilder(
                     builder: (context, bool send, child) {
                       return Switch(
                           value: send,
+                          // inactiveThumbColor:AppColor.doneColor,
                           activeColor: AppColor.red,
+                          inactiveTrackColor: AppColor.underwayColor,
                           onChanged: (value) {
                             sendNotification.value = value;
                           });

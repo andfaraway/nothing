@@ -19,8 +19,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   late final TabController _tabController;
 
-  final ConfettiController _confettiController = ConfettiController(duration: const Duration(seconds: 10));
-
   final GlobalKey _tabBarKey = GlobalKey();
 
   @override
@@ -45,7 +43,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     _tabController.dispose();
-    _confettiController.dispose();
     super.dispose();
   }
 
@@ -78,7 +75,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         Align(
           alignment: Alignment.topCenter,
           child: ConfettiWidget(
-            confettiController: _confettiController,
+            confettiController: Tools.confettiController,
             numberOfParticles: 50,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
@@ -98,11 +95,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         //       return const ExceptionTestPage();
         //     });
         // return;
-        if (_confettiController.state == ConfettiControllerState.playing) {
-          _confettiController.stop();
-        } else {
-          _confettiController.play();
-        }
         showDialog(
           context: context,
           barrierColor: Colors.transparent,

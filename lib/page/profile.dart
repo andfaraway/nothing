@@ -82,7 +82,6 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           ],
           pinned: true,
           stretch: true,
-          // toolbarHeight:200,
           expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
@@ -91,7 +90,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
               // StretchMode.blurBackground,
               StretchMode.zoomBackground
             ],
-            background: AppImage.network('http://1.14.252.115/src/handsomeman.jpeg', fit: BoxFit.cover),
+            background: AppImage.asset(R.imagesHandsomeman, fit: BoxFit.cover),
           ),
         ),
         SliverPadding(

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -10,11 +9,8 @@ import 'package:nothing/common/prefix_header.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-  SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
-
   await Constants.init();
+
   runApp(const MyApp());
 }
 
@@ -44,14 +40,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           API.refreshToken();
           Map<String, dynamic> data = response.dataMap;
           if (data['update'] == true) {
+            int force = data['force'];
             if (currentContext.mounted) {
               showIOSAlert(
                 context: currentContext,
                 title: S.current.version_update,
                 content: data['content'],
-                cancelOnPressed: () {
-                  Navigator.pop(currentContext);
-                },
+                cancelOnPressed: force == 1
+                    ? null
+                    : () {
+                        Navigator.pop(currentContext);
+                      },
                 confirmOnPressed: () async {
                   String url = data['path'];
                   if (await canLaunchUrlString(url)) {

@@ -10,6 +10,8 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  final ValueNotifier<bool> _loading = ValueNotifier(false);
+
   @override
   void initState() {
     super.initState();
@@ -67,11 +69,30 @@ class _AppDrawerState extends State<AppDrawer> {
                         ],
                       ),
                     ),
-                    InkWell(
-                        onTap: () {
-                          _loadData(force: true);
-                        },
-                        child: const Icon(Icons.refresh))
+                    ValueListenableBuilder(
+                        valueListenable: _loading,
+                        builder: (context, loading, child) {
+                          return loading
+                              ? InkWell(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: AppColor.mainColor,
+                                    ),
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    Tools.startGift();
+                                    _loading.value = true;
+                                    await _loadData(force: true);
+                                    _loading.value = false;
+                                    Tools.stopGift();
+                                  },
+                                  child: const Icon(Icons.refresh),
+                                );
+                        })
                   ],
                 ),
               ),
@@ -90,12 +111,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       Column(
                         children: homeProvider.drawerSettings.map((e) {
                           return _cellWidget(
-                            icon: (e.icon?.isEmpty == null || e.icon?.isEmpty == true)
-                                ? null
-                                : CachedNetworkImage(
-                                    imageUrl: e.icon!,
-                                    errorWidget: (context, string, child) => const SizedBox.shrink(),
-                                  ),
+                            icon: _iconWithTitle(e.module ?? ''),
                             title: e.module ?? '',
                             onTap: e.onTap != null
                                 ? () {
@@ -113,11 +129,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         }).toList(),
                       ),
                       _cellWidget(
-                        icon: AppImage.asset(
-                          R.imagesSetUp,
-                          width: 40.w,
-                          height: 40.w,
-                        ),
+                        icon: const Icon(Icons.settings),
                         title: S.current.setting,
                         onTap: () {
                           AppRoute.pushNamePage(context, AppRoute.setting.name);
@@ -137,23 +149,21 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget _beautifulWords(String text) {
     text = text.trim();
     return Container(
-      // color: ,
+      // color: Colors.red,
       // height: 150,
       alignment: Alignment.bottomLeft,
-      child: Padding(
-        padding: EdgeInsets.only(left: 11.r, right: 11.r, bottom: 11.r),
-        child: GestureDetector(
-          onDoubleTap: () async {
-            AppResponse response = await API.addFavorite(text, source: '看着顺眼');
-            if (response.isSuccess) {
-              showToast('收藏成功！');
-            }
-          }.throttle(),
-          child: Text(
-            text,
-            style: AppTextStyle.titleMedium,
-            textAlign: TextAlign.start,
-          ),
+      padding: EdgeInsets.only(left: 13.r, right: 13.r, top: 11.r, bottom: 11.r),
+      child: GestureDetector(
+        onDoubleTap: () async {
+          AppResponse response = await API.addFavorite(text, source: '看着顺眼');
+          if (response.isSuccess) {
+            showToast('收藏成功！');
+          }
+        }.throttle(),
+        child: Text(
+          text,
+          style: AppTextStyle.titleMedium.copyWith(fontFamily: '.SF UI Display'),
+          textAlign: TextAlign.start,
         ),
       ),
     );
@@ -183,32 +193,42 @@ class _AppDrawerState extends State<AppDrawer> {
 
     String date1 = map['first_dic']['date'];
     String date2 = map['second_dic']['date'];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          map['tips_name'],
-          style: TextStyle(color: Colors.black, fontSize: 16.sp),
+    return Container(
+      padding: AppPadding.main,
+      decoration: BoxDecoration(
+        color: HexColor.fromHex('C78D65'),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: <BoxShadow>[
+          BoxShadow(color: AppColor.black.withOpacity(.4), offset: const Offset(2, 2), blurRadius: 4),
+        ],
+      ),
+      child: DefaultTextStyle(
+        style: AppTextStyle.titleMedium.copyWith(color: AppColor.white),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              map['tips_name'],
+            ),
+            Text(
+              map['date_str'] + '\n',
+            ),
+            Text(
+              map['wish_str'],
+            ),
+            if (map['week_distance'] != null) _holidayDistanceWidget('周末', '', map['week_distance'].toString(), '天'),
+            _holidayDistanceWidget(dayName1, date1, dayStr1, timeStr1),
+            _holidayDistanceWidget(dayName2, date2, dayStr2, timeStr2),
+          ],
         ),
-        Text(
-          map['date_str'] + '\n',
-          style: TextStyle(color: Colors.black, fontSize: 16.sp),
-        ),
-        Text(
-          map['wish_str'],
-          style: TextStyle(color: Colors.black, fontSize: 16.sp),
-        ),
-        if (map['week_distance'] != null) _holidayDistanceWidget('周末', '', map['week_distance'].toString(), '天'),
-        _holidayDistanceWidget(dayName1, date1, dayStr1, timeStr1),
-        _holidayDistanceWidget(dayName2, date2, dayStr2, timeStr2),
-      ],
+      ),
     );
   }
 
   Widget _holidayDistanceWidget(String holidayName, String date, String days, String timeStr) {
-    TextStyle defaultStyle = TextStyle(color: Colors.black, fontSize: 16.sp);
-    TextStyle vipStyle = TextStyle(color: Colors.red, fontSize: 16.sp);
-
+    TextStyle defaultStyle = AppTextStyle.titleMedium.copyWith(color: AppColor.white);
+    TextStyle vipStyle =
+        AppTextStyle.displayMedium.copyWith(color: Colors.blueGrey, decoration: TextDecoration.lineThrough);
     InlineSpan span = TextSpan(children: [
       TextSpan(text: '离$holidayName$date还有', style: defaultStyle),
       TextSpan(text: ' $days ', style: vipStyle),
@@ -228,18 +248,24 @@ class _AppDrawerState extends State<AppDrawer> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 24, height: 24, child: icon),
-            const SizedBox(
-              width: 12,
-            ),
+            12.wSizedBox,
             Expanded(
-                child: Text(
-              title ?? '',
-              style: Theme.of(context).textTheme.titleMedium,
-            )),
+              child: Text(
+                title ?? '',
+                style: AppTextStyle.titleMedium,
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _iconWithTitle(String title) {
+    return switch (title) {
+      '消息' => const Icon(Icons.mail_outline),
+      String() => const SizedBox(),
+    };
   }
 
   /// 初始化数据

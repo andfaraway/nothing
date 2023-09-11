@@ -62,36 +62,40 @@ void showIOSAlert(
     String? title,
     String? content,
     String? confirmText,
+    bool btnCanPop = false,
     VoidCallback? cancelOnPressed,
     VoidCallback? confirmOnPressed}) {
   showDialog<bool>(
       context: context,
       useSafeArea: false,
-      barrierColor: Colors.black38,
+      barrierColor: Colors.black12,
       barrierDismissible: false,
-      builder: (_) => CupertinoAlertDialog(
-              title: title == null ? null : Text(title),
-              content: content == null
-                  ? null
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(content),
+      builder: (_) => WillPopScope(
+            onWillPop: () => Future(() => btnCanPop),
+            child: CupertinoAlertDialog(
+                title: title == null ? null : Text(title),
+                content: content == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(content),
+                      ),
+                actions: <Widget>[
+                  if (cancelOnPressed != null)
+                    CupertinoDialogAction(
+                      onPressed: cancelOnPressed,
+                      child: Text(S.current.cancel),
                     ),
-              actions: <Widget>[
-                if (cancelOnPressed != null)
-                  CupertinoDialogAction(
-                    onPressed: cancelOnPressed,
-                    child: Text(S.current.cancel),
-                  ),
-                if (confirmOnPressed != null)
-                  CupertinoDialogAction(
-                    onPressed: confirmOnPressed,
-                    child: Text(
-                      confirmText ?? S.current.confirm,
-                      style: const TextStyle(color: AppColor.red),
-                    ),
-                  )
-              ]));
+                  if (confirmOnPressed != null)
+                    CupertinoDialogAction(
+                      onPressed: confirmOnPressed,
+                      child: Text(
+                        confirmText ?? S.current.confirm,
+                        style: const TextStyle(color: AppColor.red),
+                      ),
+                    )
+                ]),
+          ));
 }
 
 void showTopToast(String text) {

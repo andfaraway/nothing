@@ -68,7 +68,7 @@ class AppImage {
       placeholder: (_, __) =>
           placeholder ??
           Container(
-            color: AppColor.placeholderColor,
+            color: AppColor.transparent,
           ),
       errorWidget: (_, __, ___) => errorWidget ?? placeholder ?? Container(),
     );

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 import 'exception_report_util.dart';
@@ -46,6 +47,13 @@ class Constants {
     await DeviceUtils.init();
     await PathUtils.init();
     await NotificationUtils.jPushInit();
+
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
+
+    PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
     Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }

@@ -39,8 +39,8 @@ class LaunchWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          CachedNetworkImage(
-            imageUrl: backgroundImage ?? image,
+          AppImage.network(
+            backgroundImage ?? image,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -66,8 +66,8 @@ class LaunchWidget extends StatelessWidget {
                     SizedBox(
                         width: 274.r,
                         height: 274.r,
-                        child: CachedNetworkImage(
-                          imageUrl: image,
+                        child: AppImage.network(
+                          image,
                           fit: BoxFit.fitHeight,
                           width: double.infinity,
                           height: double.infinity,

@@ -39,6 +39,10 @@ class R {
   static const String imagesSettings = 'assets/images/settings.svg';
   static const String imagesVersionUpdate = 'assets/images/version_update.png';
   static const String imagesZixun = 'assets/images/zixun.svg';
+  static const String lottieAnimation1 = 'assets/lottie/animation_1.json';
+  static const String lottieAnimation2 = 'assets/lottie/animation_2.json';
+  static const String lottieAnimation3 = 'assets/lottie/animation_3.json';
+  static const String lottieAnimationLove = 'assets/lottie/animation_love.json';
   static const String tabActivity = 'assets/images/tab/activity.svg';
   static const String tabAperture = 'assets/images/tab/aperture.svg';
   static const String tabBookmark = 'assets/images/tab/bookmark.svg';

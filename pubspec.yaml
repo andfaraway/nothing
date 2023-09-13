@@ -115,6 +115,7 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   flutter_keyboard_visibility: ^5.4.1
 
+  lottie: ^2.6.0
 
 dependency_overrides:
   intl: ^0.18.1
@@ -159,6 +160,7 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/tab/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

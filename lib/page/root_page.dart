@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:confetti/confetti.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nothing/widgets/app_drawer.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -56,6 +57,9 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
           return Scaffold(
             drawer: const AppDrawer(),
             drawerEnableOpenDragGesture: true,
+            onEndDrawerChanged: (open) {
+              print('open=$open');
+            },
             extendBody: true,
             resizeToAvoidBottomInset: false,
             body: TabBarView(
@@ -63,7 +67,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
               physics: const NeverScrollableScrollPhysics(),
               children: _rootBars.map((e) => e.page).toList(),
             ),
-            // floatingActionButton: _floatingActionButton(),
+            floatingActionButton: _floatingActionButton(),
             // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
             bottomNavigationBar: _salomonBottomBar(onTap: (index) {
               setState(() {
@@ -95,16 +99,30 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         //       return const ExceptionTestPage();
         //     });
         // return;
+
+        // showDialog(
+        //   context: context,
+        //   barrierColor: Colors.transparent,
+        //   builder: (context) {
+        //     return Center(
+        //       child: Container(
+        //         width: 200,
+        //         height: 200,
+        //         color: Colors.green,
+        //       ),
+        //     );
+        //   },
+        // );
+
         showDialog(
           context: context,
           barrierColor: Colors.transparent,
           builder: (context) {
             return Center(
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.green,
-              ),
+              child: Lottie.asset(R.lottieAnimationLove, width: 200, height: 200, repeat: false,
+                  onLoaded: (LottieComposition s) {
+                Future.delayed(s.duration, () => Navigator.pop(context));
+              }),
             );
           },
         );

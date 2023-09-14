@@ -247,3 +247,36 @@ class SheetButtonModel {
 
   SheetButtonModel({required this.title, this.onTap, this.icon, this.textStyle, this.bottomLine = true});
 }
+
+class AppToast {
+  static final List<OverlayEntry> _toasts = [];
+
+  static OverlayEntry? _overlayEntry;
+
+  static OverlayEntry show({required BuildContext context, required Widget Function(BuildContext) builder}) {
+    //1、创建 overlayEntry
+    OverlayEntry overlayEntry = OverlayEntry(builder: builder);
+
+    //插入到 Overlay中显示 OverlayEntry
+    Overlay.of(context).insert(overlayEntry);
+
+    _toasts.add(overlayEntry);
+    return overlayEntry;
+  }
+
+  static void remove({OverlayEntry? overlayEntry}) {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+    } else {
+      _toasts.lastOrNull?.remove();
+      _toasts.removeLast();
+    }
+  }
+
+  static void removeAll() {
+    for (OverlayEntry element in _toasts) {
+      element.remove();
+    }
+    _toasts.clear();
+  }
+}

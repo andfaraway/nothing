@@ -53,7 +53,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 padding: EdgeInsets.all(11.r),
                 child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 100.r,
                       height: 100.r,
                       child: Stack(

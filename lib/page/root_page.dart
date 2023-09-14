@@ -149,7 +149,16 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         //   },
         // );
       },
-      child: AppImage.asset(R.iconsGift, width: 44.r, height: 44.r),
+      child: Lottie.asset(
+        R.lottieAnimationChicken,
+        width: 88.r,
+        height: 88.r,
+        repeat: true,
+        onLoaded: (LottieComposition s) {
+          // Future.delayed(s.duration, () => AppToast.remove());
+        },
+      ),
+      // child: AppImage.asset(R.iconsGift, width: 44.r, height: 44.r),
     );
   }
 

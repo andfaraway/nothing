@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 import '../model/setting_config_model.dart';
@@ -52,8 +53,28 @@ class _AppDrawerState extends State<AppDrawer> {
                 padding: EdgeInsets.all(11.r),
                 child: Row(
                   children: [
-                    CircleAvatar(backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''), radius: 25),
-                    15.wSizedBox,
+                    Container(
+                      width: 100.r,
+                      height: 100.r,
+                      child: Stack(
+                        children: [
+                          Align(
+                              alignment: Alignment.center,
+                              child: CircleAvatar(
+                                  backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''), radius: 25)),
+                          Lottie.asset(
+                            R.lottieAnimationAvatar,
+                            width: double.infinity,
+                            height: double.infinity,
+                            repeat: false,
+                            onLoaded: (LottieComposition s) {
+                              // Future.delayed(s.duration, () => AppToast.remove());
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    5.wSizedBox,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

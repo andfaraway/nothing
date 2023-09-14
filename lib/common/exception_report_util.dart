@@ -9,7 +9,6 @@ import '../http/api.dart';
 class ExceptionReportUtil {
   static void init() {
     if (Constants.isDebugMode) return;
-
     FlutterError.onError = (FlutterErrorDetails details) {
       StackTrace stackTrace = StackTrace.fromString(details.toString());
       Zone.current.handleUncaughtError(details.exception, stackTrace);

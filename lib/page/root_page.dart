@@ -104,11 +104,9 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
           context: context,
           builder: (context) {
             return IgnorePointer(
-              child: Container(
-                color: Colors.black,
-                height: double.infinity,
+              child: Center(
                 child: Lottie.asset(
-                  R.lottieAnimationFunny,
+                  R.lottieAnimationLove,
                   width: double.infinity,
                   height: double.infinity,
                   repeat: false,
@@ -120,25 +118,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             );
           },
         );
-
-        // AppToast.show(
-        //   context: context,
-        //   builder: (context) {
-        //     return IgnorePointer(
-        //       child: Center(
-        //         child: Lottie.asset(
-        //           R.lottieAnimationLove,
-        //           width: double.infinity,
-        //           height: double.infinity,
-        //           repeat: false,
-        //           onLoaded: (LottieComposition s) {
-        //             Future.delayed(s.duration, () => AppToast.remove());
-        //           },
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
       },
       child: Lottie.asset(
         R.lottieAnimationChicken,

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nothing/common/prefix_header.dart';
 
@@ -26,145 +27,181 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(builder: (context, homeProvider, child) {
-      return Container(
-        width: AppSize.screenWidth * 0.87,
-        height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 11.w),
-        margin: EdgeInsets.only(right: 11.w),
-        decoration: BoxDecoration(
-          color: HexColor.fromHex('#FFFAF4F0'),
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 2, //阴影范围
-                spreadRadius: 0.1, //阴影浓度
-                color: Colors.grey.withOpacity(0.2)),
-          ],
-          border: Border.all(color: Colors.grey.withOpacity(0.2)),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(16.r),
-            bottomRight: Radius.circular(16.r),
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Consumer<HomeProvider>(builder: (context, homeProvider, child) {
+        return Container(
+          width: AppSize.screenWidth * 0.87,
+          height: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 11.w),
+          margin: EdgeInsets.only(right: 11.w),
+          decoration: BoxDecoration(
+            color: HexColor.fromHex('#FFFAF4F0'),
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 2, //阴影范围
+                  spreadRadius: 0.1, //阴影浓度
+                  color: Colors.grey.withOpacity(0.2)),
+            ],
+            border: Border.all(color: Colors.grey.withOpacity(0.2)),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16.r),
+              bottomRight: Radius.circular(16.r),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(11.r),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 100.r,
-                      height: 100.r,
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.center,
-                              child: CircleAvatar(
-                                  backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''), radius: 25)),
-                          Lottie.asset(
-                            R.lottieAnimationAvatar,
-                            width: double.infinity,
-                            height: double.infinity,
-                            repeat: false,
-                            onLoaded: (LottieComposition s) {
-                              // Future.delayed(s.duration, () => AppToast.remove());
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                    5.wSizedBox,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            Singleton().currentUser.nickname ?? '',
-                            style: AppTextStyle.titleMedium.copyWith(letterSpacing: .1, fontWeight: weightBold),
-                          ),
-                          Text(
-                            'my love',
-                            style: AppTextStyle.bodySmall.copyWith(letterSpacing: .1),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: _loading,
-                        builder: (context, loading, child) {
-                          return loading
-                              ? InkWell(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      color: AppColor.mainColor,
-                                    ),
-                                  ),
-                                )
-                              : InkWell(
-                                  onTap: () async {
-                                    Tools.startGift();
-                                    _loading.value = true;
-                                    await _loadData(force: true);
-                                    _loading.value = false;
-                                    Tools.stopGift();
-                                  },
-                                  child: const Icon(Icons.refresh),
-                                );
-                        })
-                  ],
-                ),
-              ),
-              _beautifulWords(homeProvider.drawerTitle),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(11.r),
-                child: _todayTipsWidget(homeProvider.drawerContent),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.end,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(11.r),
+                  child: Row(
                     children: [
-                      Column(
-                        children: homeProvider.drawerSettings.map((e) {
-                          return _cellWidget(
-                            icon: _iconWithTitle(e.module ?? ''),
-                            title: e.module ?? '',
-                            onTap: e.onTap != null
-                                ? () {
-                                    functionWithString(context, e.onTap!)?.call();
-                                  }
-                                : () {
-                                    AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
-                                  },
-                            onLongPress: e.onLongPress == null
-                                ? null
-                                : () {
-                                    functionWithString(context, e.onLongPress!)?.call();
-                                  },
-                          );
-                        }).toList(),
+                      SizedBox(
+                        width: 100.r,
+                        height: 100.r,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: InkWell(
+                                onTap: () {
+                                  AppToast.show(
+                                    context: context,
+                                    builder: (context) {
+                                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+                                      return IgnorePointer(
+                                        ignoring: false,
+                                        child: Container(
+                                          color: Colors.black,
+                                          height: double.infinity,
+                                          child: Lottie.asset(
+                                            R.lottieAnimationFunny,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            repeat: false,
+                                            onLoaded: (LottieComposition s) async {
+                                              await Future.delayed(s.duration, () => AppToast.remove());
+                                              await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                                                  overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''),
+                                  radius: 25,
+                                ),
+                              ),
+                            ),
+                            IgnorePointer(
+                              child: Lottie.asset(
+                                R.lottieAnimationAvatar,
+                                width: double.infinity,
+                                height: double.infinity,
+                                repeat: false,
+                                onLoaded: (LottieComposition s) {
+                                  // Future.delayed(s.duration, () => AppToast.remove());
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                      _cellWidget(
-                        icon: const Icon(Icons.settings),
-                        title: S.current.setting,
-                        onTap: () {
-                          AppRoute.pushNamePage(context, AppRoute.setting.name);
-                        },
+                      5.wSizedBox,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Singleton().currentUser.nickname ?? '',
+                              style: AppTextStyle.titleMedium.copyWith(letterSpacing: .1, fontWeight: weightBold),
+                            ),
+                            Text(
+                              'my love',
+                              style: AppTextStyle.bodySmall.copyWith(letterSpacing: .1),
+                            ),
+                          ],
+                        ),
                       ),
+                      ValueListenableBuilder(
+                          valueListenable: _loading,
+                          builder: (context, loading, child) {
+                            return loading
+                                ? InkWell(
+                                    child: SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: AppColor.mainColor,
+                                      ),
+                                    ),
+                                  )
+                                : InkWell(
+                                    onTap: () async {
+                                      Tools.startGift();
+                                      _loading.value = true;
+                                      await _loadData(force: true);
+                                      _loading.value = false;
+                                      Tools.stopGift();
+                                    },
+                                    child: const Icon(Icons.refresh),
+                                  );
+                          })
                     ],
                   ),
                 ),
-              ),
-            ],
+                _beautifulWords(homeProvider.drawerTitle),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(11.r),
+                  child: _todayTipsWidget(homeProvider.drawerContent),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          children: homeProvider.drawerSettings.map((e) {
+                            return _cellWidget(
+                              icon: _iconWithTitle(e.module ?? ''),
+                              title: e.module ?? '',
+                              onTap: e.onTap != null
+                                  ? () {
+                                      functionWithString(context, e.onTap!)?.call();
+                                    }
+                                  : () {
+                                      AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
+                                    },
+                              onLongPress: e.onLongPress == null
+                                  ? null
+                                  : () {
+                                      functionWithString(context, e.onLongPress!)?.call();
+                                    },
+                            );
+                          }).toList(),
+                        ),
+                        _cellWidget(
+                          icon: const Icon(Icons.settings),
+                          title: S.current.setting,
+                          onTap: () {
+                            AppRoute.pushNamePage(context, AppRoute.setting.name);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 
   Widget _beautifulWords(String text) {
@@ -249,7 +286,7 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget _holidayDistanceWidget(String holidayName, String date, String days, String timeStr) {
     TextStyle defaultStyle = AppTextStyle.titleMedium.copyWith(color: AppColor.white);
     TextStyle vipStyle =
-        AppTextStyle.displayMedium.copyWith(color: Colors.blueGrey, decoration: TextDecoration.lineThrough);
+    AppTextStyle.displayMedium.copyWith(color: Colors.blueGrey, decoration: TextDecoration.lineThrough);
     InlineSpan span = TextSpan(children: [
       TextSpan(text: '离$holidayName$date还有', style: defaultStyle),
       TextSpan(text: ' $days ', style: vipStyle),

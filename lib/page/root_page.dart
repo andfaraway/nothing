@@ -100,26 +100,15 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         //     });
         // return;
 
-        // showDialog(
-        //   context: context,
-        //   barrierColor: Colors.transparent,
-        //   builder: (context) {
-        //     return Center(
-        //       child: Container(
-        //         width: 200,
-        //         height: 200,
-        //         color: Colors.green,
-        //       ),
-        //     );
-        //   },
-        // );
         AppToast.show(
           context: context,
           builder: (context) {
             return IgnorePointer(
-              child: Center(
+              child: Container(
+                color: Colors.black,
+                height: double.infinity,
                 child: Lottie.asset(
-                  R.lottieAnimationLove,
+                  R.lottieAnimationFunny,
                   width: double.infinity,
                   height: double.infinity,
                   repeat: false,
@@ -131,20 +120,22 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             );
           },
         );
-        // showDialog(
+
+        // AppToast.show(
         //   context: context,
-        //   barrierColor: Colors.transparent,
-        //     barrierDismissible:false,
         //   builder: (context) {
-        //     return Center(
-        //       child: Lottie.asset(R.lottieAnimationLove, width: 200, height: 200, repeat: false,
+        //     return IgnorePointer(
+        //       child: Center(
+        //         child: Lottie.asset(
+        //           R.lottieAnimationLove,
+        //           width: double.infinity,
+        //           height: double.infinity,
+        //           repeat: false,
         //           onLoaded: (LottieComposition s) {
-        //         Future.delayed(s.duration, () {
-        //           if(context.mounted){
-        //             // Navigator.pop(context);
-        //           }
-        //         });
-        //       }),
+        //             Future.delayed(s.duration, () => AppToast.remove());
+        //           },
+        //         ),
+        //       ),
         //     );
         //   },
         // );

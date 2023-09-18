@@ -1,4 +1,6 @@
-import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:math';
+
 import 'package:lottie/lottie.dart';
 import 'package:nothing/common/prefix_header.dart';
 
@@ -11,17 +13,54 @@ class AppDrawer extends StatefulWidget {
   State<AppDrawer> createState() => _AppDrawerState();
 }
 
-class _AppDrawerState extends State<AppDrawer> {
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
+class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
+  final ValueNotifier<double> _rotate = ValueNotifier(0);
+
+  final GlobalKey _globalKey = GlobalKey();
+  late final Timer _timer;
+  late final AnimationController _lottieController;
+
+  final double _tempPart = pi / 64;
+  late double _onPart;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _onPart = _tempPart;
+
+    _lottieController = AnimationController(vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        RenderBox renderBox = _globalKey.currentContext!.findRenderObject() as RenderBox;
+        double offset = renderBox.localToGlobal(Offset.zero).dx;
+        double radio = offset.abs() / renderBox.size.width;
+
+        if (radio == 0) {
+          _rotate.value += _onPart;
+        } else {
+          _rotate.value = radio * (pi * 3);
+        }
+
+        if (radio < .4) {
+          if (_lottieController.isAnimating && !_lottieController.isCompleted) {
+            return;
+          }
+          _lottieController.forward();
+        } else {
+          _lottieController.reset();
+        }
+      });
+    });
   }
 
   @override
   void dispose() {
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+    _lottieController.dispose();
+    _rotate.dispose();
     super.dispose();
   }
 
@@ -31,6 +70,7 @@ class _AppDrawerState extends State<AppDrawer> {
       onWillPop: () => Future.value(false),
       child: Consumer<HomeProvider>(builder: (context, homeProvider, child) {
         return Container(
+          key: _globalKey,
           width: AppSize.screenWidth * 0.87,
           height: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 11.w),
@@ -68,23 +108,16 @@ class _AppDrawerState extends State<AppDrawer> {
                                   AppToast.show(
                                     context: context,
                                     builder: (context) {
-                                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
                                       return IgnorePointer(
                                         ignoring: false,
-                                        child: Container(
-                                          color: Colors.black,
+                                        child: Lottie.asset(
+                                          R.lottieAnimationLove,
+                                          width: double.infinity,
                                           height: double.infinity,
-                                          child: Lottie.asset(
-                                            R.lottieAnimationFunny,
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            repeat: false,
-                                            onLoaded: (LottieComposition s) async {
-                                              await Future.delayed(s.duration, () => AppToast.remove());
-                                              await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                                                  overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-                                            },
-                                          ),
+                                          repeat: false,
+                                          onLoaded: (LottieComposition s) async {
+                                            await Future.delayed(s.duration, () => AppToast.remove());
+                                          },
                                         ),
                                       );
                                     },
@@ -99,11 +132,12 @@ class _AppDrawerState extends State<AppDrawer> {
                             IgnorePointer(
                               child: Lottie.asset(
                                 R.lottieAnimationAvatar,
+                                controller: _lottieController,
                                 width: double.infinity,
                                 height: double.infinity,
                                 repeat: false,
-                                onLoaded: (LottieComposition s) {
-                                  // Future.delayed(s.duration, () => AppToast.remove());
+                                onLoaded: (LottieComposition composition) {
+                                  _lottieController.duration = composition.duration;
                                 },
                               ),
                             )
@@ -127,28 +161,14 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       ),
                       ValueListenableBuilder(
-                          valueListenable: _loading,
-                          builder: (context, loading, child) {
-                            return loading
-                                ? InkWell(
-                                    child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        color: AppColor.mainColor,
-                                      ),
-                                    ),
-                                  )
-                                : InkWell(
-                                    onTap: () async {
-                                      Tools.startGift();
-                                      _loading.value = true;
-                                      await _loadData(force: true);
-                                      _loading.value = false;
-                                      Tools.stopGift();
-                                    },
-                                    child: const Icon(Icons.refresh),
-                                  );
+                          valueListenable: _rotate,
+                          builder: (context, value, child) {
+                            return InkWell(
+                              onTap: _asyncBtnClick,
+                              child: Transform.rotate(
+                                  angle: _rotate.value * pi,
+                                  child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
+                            );
                           })
                     ],
                   ),
@@ -172,16 +192,16 @@ class _AppDrawerState extends State<AppDrawer> {
                               title: e.module ?? '',
                               onTap: e.onTap != null
                                   ? () {
-                                      functionWithString(context, e.onTap!)?.call();
-                                    }
+                                functionWithString(context, e.onTap!)?.call();
+                              }
                                   : () {
-                                      AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
-                                    },
+                                AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
+                              },
                               onLongPress: e.onLongPress == null
                                   ? null
                                   : () {
-                                      functionWithString(context, e.onLongPress!)?.call();
-                                    },
+                                functionWithString(context, e.onLongPress!)?.call();
+                              },
                             );
                           }).toList(),
                         ),
@@ -359,6 +379,17 @@ class _AppDrawerState extends State<AppDrawer> {
           provider.drawerContent = response.dataMap;
         }
       });
+    }
+  }
+
+  Future<void> _asyncBtnClick() async {
+    if (_onPart == _tempPart) {
+      _onPart = _tempPart * 5;
+      Tools.startGift();
+      await _loadData(force: true);
+      await Future.delayed(const Duration(seconds: 2));
+      _onPart = _tempPart;
+      Tools.stopGift();
     }
   }
 }

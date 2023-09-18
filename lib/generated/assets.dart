@@ -42,8 +42,10 @@ class R {
   static const String lottieAnimation404 = 'assets/lottie/animation_404.json';
   static const String lottieAnimationAvatar = 'assets/lottie/animation_avatar.json';
   static const String lottieAnimationChicken = 'assets/lottie/animation_chicken.json';
-  static const String lottieAnimationFunny = 'assets/lottie/animation_funny.json';
+  static const String lottieAnimationFunny = 'assets/lottie/Animation_funny.json';
+  static const String lottieAnimationFunnyBlack = 'assets/lottie/animation_funny_black.json';
   static const String lottieAnimationLove = 'assets/lottie/animation_love.json';
+  static const String lottieAnimationWalk = 'assets/lottie/Animation_walk.json';
   static const String tabActivity = 'assets/images/tab/activity.svg';
   static const String tabAperture = 'assets/images/tab/aperture.svg';
   static const String tabBookmark = 'assets/images/tab/bookmark.svg';

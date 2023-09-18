@@ -91,45 +91,19 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
   }
 
   Widget _floatingActionButton() {
-    return InkWell(
-      onTap: () {
-        // showMaterialModalBottomSheet(
-        //     context: context,
-        //     builder: (_) {
-        //       return const ExceptionTestPage();
-        //     });
-        // return;
-
-        AppToast.show(
-          context: context,
-          builder: (context) {
-            return IgnorePointer(
-              child: Center(
-                child: Lottie.asset(
-                  R.lottieAnimationLove,
-                  width: double.infinity,
-                  height: double.infinity,
-                  repeat: false,
-                  onLoaded: (LottieComposition s) {
-                    Future.delayed(s.duration, () => AppToast.remove());
-                  },
-                ),
-              ),
-            );
-          },
-        );
-      },
-      child: Lottie.asset(
-        R.lottieAnimationChicken,
-        width: 88.r,
-        height: 88.r,
-        repeat: true,
-        onLoaded: (LottieComposition s) {
-          // Future.delayed(s.duration, () => AppToast.remove());
+    return Builder(builder: (context) {
+      return InkWell(
+        onTap: () {
+          Scaffold.of(context).openDrawer();
         },
-      ),
-      // child: AppImage.asset(R.iconsGift, width: 44.r, height: 44.r),
-    );
+        child: Lottie.asset(
+          R.lottieAnimationWalk,
+          width: 88.r,
+          height: 88.r,
+          repeat: true,
+        ),
+      );
+    });
   }
 
   Widget _salomonBottomBar({required Function(int) onTap}) {

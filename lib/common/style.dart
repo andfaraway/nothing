@@ -7,6 +7,14 @@ import 'package:nothing/common/prefix_header.dart';
 class AppColor {
   const AppColor._();
 
+  static const List<Color> blacks = [
+    Color(0xFF343434),
+    Color(0xFF515151),
+    Color(0xFF616161),
+    Color(0xFF757575),
+    Color(0xFFACACAC),
+  ];
+
   static const Color transparent = Color(0x00FFFFFF);
 
   static const Color white = Color(0xFFFFFFFF);

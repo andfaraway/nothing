@@ -70,7 +70,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_native_image: ^0.0.6+1
   image_picker: ^0.8.7+5
-  image_cropper: ^4.0.1
+  image_cropper: ^5.0.0
   modal_bottom_sheet: ^3.0.0-pre
   hive_flutter: ^1.1.0
   build_runner: ^2.4.4
@@ -84,15 +84,16 @@ dependencies:
   # 系统风格弹框
   adaptive_dialog: ^1.8.3+1
   dropdown_button2: ^2.3.8
-  extended_image: ^8.0.2
+  extended_image: ^8.1.1
   image_editor: ^1.3.0
   image: ^4.0.17
   live_photo_maker: ^0.0.3
   video_player: ^2.6.1
-  fijkplayer:
-    git:
-      url: https://github.com/diegothucao/cfijkplayer.git
-      ref: master
+  fijkplayer: ^0.11.0
+#  fijkplayer:
+#    git:
+#      url: https://github.com/diegothucao/cfijkplayer.git
+#      ref: master
   just_audio: ^0.9.34
   just_audio_background: ^0.0.1-beta.10
   audio_session: ^0.1.15

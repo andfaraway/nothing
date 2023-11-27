@@ -7,6 +7,16 @@ import 'package:nothing/common/prefix_header.dart';
 class AppColor {
   const AppColor._();
 
+  static const List<Color> blacks = [
+    Color(0xFF343434),
+    Color(0xFF515151),
+    Color(0xFF616161),
+    Color(0xFF757575),
+    Color(0xFFACACAC),
+  ];
+
+  static const Color transparent = Color(0x00FFFFFF);
+
   static const Color white = Color(0xFFFFFFFF);
 
   static const Color black = Color(0xFF333333);
@@ -175,6 +185,8 @@ extension TextStyleExtension on TextStyle {
 class AppSize {
   const AppSize._();
 
+  static double tabBarHeight = 0;
+
   static double get screenWidth => Screens.width;
 
   static double get screenHeight => Screens.height;
@@ -190,6 +202,8 @@ class AppPadding {
   AppPadding._();
 
   static EdgeInsets get main => EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h);
+
+  static EdgeInsets get cell => EdgeInsets.symmetric(horizontal: 17.w, vertical: 12.h);
 
   static double get horizontal => 17;
 

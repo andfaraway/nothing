@@ -23,6 +23,8 @@ var channel: FlutterMethodChannel? = nil
                   result(notificationDic)
               }else if call.method == "getBatteryLevel"{
                   self.receiveBatteryLevel(result:result)
+              }else{
+                  result(FlutterMethodNotImplemented)
               }
           })
     GeneratedPluginRegistrant.register(with: self)

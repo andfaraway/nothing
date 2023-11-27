@@ -125,8 +125,10 @@ class AppRoute {
       RoutePage(name: '/webViewRoute', page: ({Object? arguments}) => AppWebView(url: arguments.toString()));
   static final RoutePage imageCompression = RoutePage(
       name: '/imageCompressionRoute', page: ({Object? arguments}) => ImageCompressionPage(arguments: arguments));
-  static final RoutePage poetry =
-      RoutePage(name: '/poetryRoute', page: ({Object? arguments}) => PoetryPage(arguments: arguments));
+  static final RoutePage poetry = RoutePage(
+      name: '/poetryRoute',
+      page: ({Object? arguments}) => PoetryPage(arguments: arguments),
+      pageColor: Colors.orangeAccent);
   static final RoutePage funnyColors =
       RoutePage(name: '/funnyColors', page: ({Object? arguments}) => const FunnyColors());
 
@@ -218,11 +220,13 @@ typedef RoutePageCallback = Widget Function({Object? arguments});
 class RoutePage {
   final String name;
   final RoutePageCallback page;
+  final Color pageColor;
   Middleware? middleware;
 
   RoutePage({
     required this.name,
     required this.page,
+    this.pageColor = Colors.white,
     this.middleware,
   });
 }

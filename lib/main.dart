@@ -1,21 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:nothing/common/prefix_header.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await DeviceUtils.init();
-  await PathUtils.init();
-  await HiveBoxes.init();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Constants.init();
 
-  await NotificationUtils.jPushInit();
-
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-  SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
   runApp(const MyApp());
 }
 
@@ -30,35 +25,32 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
+
     WidgetsBinding.instance.addObserver(this);
-    platformChannel.setMethodCallHandler((MethodCall call) async {
-      if (call.method == 'deviceToken') {
-        String deviceToken = call.arguments.toString();
-        API.pushDeviceToken(Singleton().currentUser.userId, deviceToken);
-        Log.d('deviceToken：${call.arguments.toString()}');
-      }
-    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Constants.context = context;
       Constants.isDark = Theme.of(context).brightness == Brightness.dark;
 
       Future.delayed(const Duration(seconds: 3), () async {
-        await Constants.insertLaunch();
+        await API.insertLaunch();
 
         AppResponse response = await API.checkUpdate(needLoading: false);
         if (response.isSuccess) {
           API.refreshToken();
           Map<String, dynamic> data = response.dataMap;
           if (data['update'] == true) {
+            int force = data['force'];
             if (currentContext.mounted) {
               showIOSAlert(
                 context: currentContext,
                 title: S.current.version_update,
                 content: data['content'],
-                cancelOnPressed: () {
-                  Navigator.pop(currentContext);
-                },
+                cancelOnPressed: force == 1
+                    ? null
+                    : () {
+                        Navigator.pop(currentContext);
+                      },
                 confirmOnPressed: () async {
                   String url = data['path'];
                   if (await canLaunchUrlString(url)) {
@@ -87,7 +79,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,
-                theme: themesProvider.currentThemeData,
+                theme: themesProvider.currentThemeData.copyWith(useMaterial3: true),
                 localizationsDelegates: const [
                   S.delegate,
                   GlobalMaterialLocalizations.delegate,
@@ -122,6 +114,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
+      case AppLifecycleState.hidden:
     }
   }
 }

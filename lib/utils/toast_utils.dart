@@ -62,36 +62,40 @@ void showIOSAlert(
     String? title,
     String? content,
     String? confirmText,
+    bool btnCanPop = false,
     VoidCallback? cancelOnPressed,
     VoidCallback? confirmOnPressed}) {
   showDialog<bool>(
       context: context,
       useSafeArea: false,
-      barrierColor: Colors.black38,
+      barrierColor: Colors.black12,
       barrierDismissible: false,
-      builder: (_) => CupertinoAlertDialog(
-              title: title == null ? null : Text(title),
-              content: content == null
-                  ? null
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(content),
+      builder: (_) => WillPopScope(
+            onWillPop: () => Future(() => btnCanPop),
+            child: CupertinoAlertDialog(
+                title: title == null ? null : Text(title),
+                content: content == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(content),
+                      ),
+                actions: <Widget>[
+                  if (cancelOnPressed != null)
+                    CupertinoDialogAction(
+                      onPressed: cancelOnPressed,
+                      child: Text(S.current.cancel),
                     ),
-              actions: <Widget>[
-                if (cancelOnPressed != null)
-                  CupertinoDialogAction(
-                    onPressed: cancelOnPressed,
-                    child: Text(S.current.cancel),
-                  ),
-                if (confirmOnPressed != null)
-                  CupertinoDialogAction(
-                    onPressed: confirmOnPressed,
-                    child: Text(
-                      confirmText ?? S.current.confirm,
-                      style: const TextStyle(color: AppColor.red),
-                    ),
-                  )
-              ]));
+                  if (confirmOnPressed != null)
+                    CupertinoDialogAction(
+                      onPressed: confirmOnPressed,
+                      child: Text(
+                        confirmText ?? S.current.confirm,
+                        style: const TextStyle(color: AppColor.red),
+                      ),
+                    )
+                ]),
+          ));
 }
 
 void showTopToast(String text) {
@@ -242,4 +246,37 @@ class SheetButtonModel {
   final bool bottomLine;
 
   SheetButtonModel({required this.title, this.onTap, this.icon, this.textStyle, this.bottomLine = true});
+}
+
+class AppToast {
+  static final List<OverlayEntry> _toasts = [];
+
+  static OverlayEntry? _overlayEntry;
+
+  static OverlayEntry show({required BuildContext context, required Widget Function(BuildContext) builder}) {
+    //1、创建 overlayEntry
+    OverlayEntry overlayEntry = OverlayEntry(builder: builder);
+
+    //插入到 Overlay中显示 OverlayEntry
+    Overlay.of(context).insert(overlayEntry);
+
+    _toasts.add(overlayEntry);
+    return overlayEntry;
+  }
+
+  static void remove({OverlayEntry? overlayEntry}) {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+    } else {
+      _toasts.lastOrNull?.remove();
+      _toasts.removeLast();
+    }
+  }
+
+  static void removeAll() {
+    for (OverlayEntry element in _toasts) {
+      element.remove();
+    }
+    _toasts.clear();
+  }
 }

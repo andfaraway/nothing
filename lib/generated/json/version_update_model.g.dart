@@ -45,3 +45,24 @@ Map<String, dynamic> $VersionUpdateModelToJson(VersionUpdateModel entity) {
   data['date'] = entity.date;
   return data;
 }
+
+extension VersionUpdateModelExtension on VersionUpdateModel {
+  VersionUpdateModel copyWith({
+    String? id,
+    String? platform,
+    String? version,
+    String? path,
+    String? title,
+    String? content,
+    String? date,
+  }) {
+    return VersionUpdateModel()
+      ..id = id ?? this.id
+      ..platform = platform ?? this.platform
+      ..version = version ?? this.version
+      ..path = path ?? this.path
+      ..title = title ?? this.title
+      ..content = content ?? this.content
+      ..date = date ?? this.date;
+  }
+}

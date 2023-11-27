@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:nothing/common/prefix_header.dart';
+
+import 'exception_report_util.dart';
 
 export 'package:flutter/material.dart';
 export 'package:nothing/generated/l10n.dart';
@@ -13,7 +15,6 @@ export '../extensions/extensions.e.dart';
 export '../model/models.dart';
 export '../providers/providers.dart';
 export '../utils/hive_boxes.dart';
-export '../utils/local_data_utils.dart';
 export 'platform_channel.dart';
 export 'screens.dart';
 export 'singleton.dart';
@@ -40,15 +41,19 @@ class Constants {
   const Constants._();
 
   static Future<void> init() async {
+    await HiveBoxes.init();
     if (Constants.isWeb) return;
-    DeviceInfoPlugin plugin = DeviceInfoPlugin();
-    if (Constants.isIOS) {
-      IosDeviceInfo iosInfo = await plugin.iosInfo;
-      Constants.isPhysicalDevice = iosInfo.isPhysicalDevice;
-    } else {
-      AndroidDeviceInfo androidInfo = await plugin.androidInfo;
-      isPhysicalDevice = androidInfo.isPhysicalDevice;
-    }
+    ExceptionReportUtil.init();
+    await DeviceUtils.init();
+    await PathUtils.init();
+    await NotificationUtils.jPushInit();
+
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(AppOverlayStyle.dark);
+
+    PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
     Singleton.welcomeLoadResult = await platformChannel.invokeMapMethod(ChannelKey.welcomeLoad);
   }
@@ -65,19 +70,16 @@ class Constants {
           ? 'android'
           : 'web';
 
-  static bool isPhysicalDevice = false;
-
   /// Whether force logger to print.
   static bool get forceLogging => false;
 
   ///暗黑模式
   static bool isDark = false;
 
-  ///
-  static late BuildContext context;
-
   /// 中文
   static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true : false;
+
+  static final bool isPhysicalDevice = DeviceUtils.deviceInfo.device.info.isPhysicalDevice;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
@@ -91,29 +93,6 @@ class Constants {
   /// 获取当天时间字符串
   static String get nowString => DateTime.now().format('yyyyMMdd');
 
-  static Future<AppResponse> insertLaunch() async {
-    if (Constants.isWeb) return AppResponse();
-    if (Constants.isIOS && !Constants.isPhysicalDevice) return AppResponse();
-
-    Map<String, dynamic>? param = {};
-    param['userid'] = Singleton().currentUser.userId;
-    param['username'] = Singleton().currentUser.username;
-    //推送别名
-    param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
-    //推送注册id
-    param['registrationID'] = await NotificationUtils.jPush?.getRegistrationID();
-    //电量
-    param['battery'] = await DeviceUtils.battery();
-    //设备信息
-    param['device_info'] = await DeviceUtils.getDeviceInfo();
-    //网络
-    param['network'] = await DeviceUtils.network();
-    //版本
-    param['version'] = DeviceUtils.appVersion;
-
-    return API.insertLaunch(param);
-  }
-
   static bool get isLogin {
     return Handler.isLogin;
   }
@@ -121,5 +100,12 @@ class Constants {
   static void logout() {
     Singleton.cleanData();
     AppRoute.pushNamedAndRemoveUntil(currentContext, AppRoute.login.name);
+  }
+
+  static bool get isDebugMode {
+    bool isDebugMode = false;
+    // 如果debug模式下会触发赋值，只有在debug模式下才会执行assert
+    assert(isDebugMode = true);
+    return isDebugMode;
   }
 }

@@ -73,3 +73,20 @@ VoidCallback throttle(
     throttle = Timer(duration, () {});
   };
 }
+
+/// 节流
+ValueChanged throttle1<T>(
+  T callback, [
+  Duration duration = const Duration(seconds: 1),
+]) {
+  assert(duration > Duration.zero);
+  Timer? throttle;
+  return (callback) {
+    // 执行第一次
+    if (throttle?.isActive ?? false) {
+      return;
+    }
+    callback.call();
+    throttle = Timer(duration, () {});
+  };
+}

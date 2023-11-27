@@ -57,6 +57,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       controller: _scrollController,
@@ -72,16 +73,15 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                 builder: (context, value, child) {
                   return Center(
                       child: Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: Transform.rotate(
-                        angle: _rotate.value * pi,
-                        child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
-                  ));
+                        padding: const EdgeInsets.only(right: 18.0),
+                        child: Transform.rotate(
+                            angle: _rotate.value * pi,
+                            child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
+                      ));
                 })
           ],
           pinned: true,
           stretch: true,
-          // toolbarHeight:200,
           expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
@@ -90,14 +90,14 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
               // StretchMode.blurBackground,
               StretchMode.zoomBackground
             ],
-            background: AppImage.network('http://1.14.252.115/src/handsomeman.jpeg', fit: BoxFit.cover),
+            background: AppImage.asset(R.imagesHandsomeman, fit: BoxFit.cover),
           ),
         ),
         SliverPadding(
           padding: AppPadding.main,
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 return _cellList[index];
               },
               childCount: _cellList.length,

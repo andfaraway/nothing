@@ -42,12 +42,13 @@ class Log {
     String tag = _TAG,
     StackTrace? stackTrace,
     bool withStackTrace = true,
+    bool isError = true,
   }) {
     _printLog(
       message,
       '$tag ❌',
       stackTrace,
-      isError: true,
+      isError: isError,
       level: Level.SEVERE,
       withStackTrace: withStackTrace,
     );
@@ -64,11 +65,10 @@ class Log {
   }) {
     if (isError) {
       dev.log(
-        '${DateFormat('[HH:mm:ss]').format(currentTime)} An error occurred.',
+        '${DateFormat('[HH:mm:ss]').format(currentTime)} ${format ? _messageFormat(message) : message}',
         time: currentTime,
         name: tag ?? _TAG,
         level: level.value,
-        error: message,
         stackTrace: stackTrace ?? (isError && withStackTrace ? StackTrace.current : null),
       );
     } else {

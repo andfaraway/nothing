@@ -1,6 +1,8 @@
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/model/exception_model.dart';
 import 'package:nothing/widgets/custom_dropdown_button.dart';
 
+import '../widgets/highlight_text_widget.dart';
 
 class SomeThings extends StatefulWidget {
   const SomeThings({Key? key}) : super(key: key);
@@ -10,9 +12,9 @@ class SomeThings extends StatefulWidget {
 }
 
 class _SomeThingsState extends State<SomeThings> {
-  late List<String> pagesName = [S.current.login, S.current.feedback];
+  late List<String> pagesName = [S.current.login, S.current.feedback, '错误收集'];
   String currentPage = S.current.login;
-  List<RecordModel> dataList = [];
+  List<RecordModel> _dataList = [];
 
   @override
   void initState() {
@@ -31,7 +33,6 @@ class _SomeThingsState extends State<SomeThings> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentPage);
     return Scaffold(
       appBar: AppWidget.appbar(
         titleWidget: SizedBox(
@@ -51,31 +52,74 @@ class _SomeThingsState extends State<SomeThings> {
         onRefresh: _onRefresh,
         onLoading: _onLoad,
         controller: _controller,
-        child: ListView.separated(
+        child: SingleChildScrollView(
           padding: AppPadding.main,
-          itemBuilder: (context, i) {
-            RecordModel model = dataList[i];
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: model.title == null
-                  ? null
-                  : Text(
-                model.title!,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              subtitle: model.subTitle == null ? null : Text(model.subTitle!),
-              trailing: model.trailingText == null
-                  ? null
-                  : Text(
-                model.trailingText!,
-                textAlign: TextAlign.center,
-              ),
-            );
-          },
-          itemCount: dataList.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider();
-          },
+          child: Column(
+            children: _dataList.map((e) => _cellWidget(e)).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _cellWidget(RecordModel e) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          e.expand = !e.expand;
+        });
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          color: const Color(0xFFEEF2FF),
+        ),
+        margin: EdgeInsets.only(bottom: AppPadding.main.bottom),
+        padding: AppPadding.cell,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    e.title ?? '',
+                    style: AppTextStyle.bodyMedium,
+                  ),
+                ),
+                Text(
+                  e.trailingText ?? '',
+                  style: AppTextStyle.bodyMedium,
+                )
+              ],
+            ),
+            Text(
+              e.subTitle ?? '',
+              style: AppTextStyle.labelLarge,
+            ),
+            if (e.expand)
+              Visibility(
+                visible: e.content != null,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10.h),
+                  child: HighlightTextWidget(
+                    style: AppTextStyle.titleMedium,
+                    originalText: e.content ?? '',
+                    highlightRegexList: const [
+                      r'package:[\w/]+\.dart',
+                      r'#\d+\s',
+                      // r'══\S*?══', // 匹配类似 ══...══ 的特殊字符
+                    ],
+                    highlightStyles: [
+                      // AppTextStyle.titleMedium.copyWith(color: Colors.red),
+                      AppTextStyle.titleMedium.copyWith(color: Colors.red),
+                      AppTextStyle.titleMedium.copyWith(color: Colors.blue), // 为特殊字符添加不同的样式
+                    ],
+                  ),
+                ),
+              )
+          ],
         ),
       ),
     );
@@ -97,8 +141,8 @@ class _SomeThingsState extends State<SomeThings> {
   }
 
   Future<List<dynamic>> getData(int pageIndex, int pageSize, {bool clean = false}) async {
-    if (clean) dataList.clear();
-    late AppResponse response;
+    if (clean) _dataList.clear();
+    AppResponse response = AppResponse();
     if (currentPage == pagesName[0]) {
       response = await API.getLogins(pageIndex, pageSize);
       for (Map<String, dynamic> map in response.dataList) {
@@ -107,38 +151,36 @@ class _SomeThingsState extends State<SomeThings> {
             subTitle: '${map['network']} ${map['battery']}\n${map['date'].toString().dateFormat(format: 'HH:mm:ss '
                 'yyyy/MM/dd')} ',
             trailingText: map['version']);
-        dataList.add(model);
+        _dataList.add(model);
       }
     } else if (currentPage == pagesName[1]) {
       response = await API.getFeedback(pageIndex, pageSize);
       for (Map<String, dynamic> map in response.dataList) {
+        print(' map = ${map['date']}');
         RecordModel model = RecordModel(
             title: map['nickname'],
-            subTitle: '${map['content']}\n${map['date'].toString().dateFormat(format: 'HH:mm:ss '
-                'yyyy/MM/dd')}',
-            trailingText: map['version']);
-        dataList.add(model);
+            subTitle: map['date'].toString().dateFormat(
+                format: 'HH:mm:ss '
+                    'yyyy/MM/dd'),
+            trailingText: map['version'],
+            content: map['content'],
+            expand: true);
+        _dataList.add(model);
       }
-    }
-    return response.dataList;
-  }
+    } else if (currentPage == pagesName[2]) {
+      response = await API.getExceptions(pageIndex, pageSize);
+      if (response.isSuccess) {
+        for (Map<String, dynamic> map in response.dataList) {
+          print(' map = ${map['date']}');
 
-  Future<List<dynamic>> getCommonData(String table, int pageIndex, int pageSize, {bool clean = false}) async {
-    if (clean) dataList.clear();
-    AppResponse response = await API.getCommonInfo(table: table, pageIndex: pageIndex, pageSize: pageSize);
-    if (response.isSuccess) {
-      for (Map<String, dynamic> map in response.dataList) {
-        String str = '';
-        for (int i = 0; i < map.keys.length; i++) {
-          String key = map.keys.elementAt(i);
-          str += '$key:${map[key]}';
-          if (i < map.keys.length - 1) {
-            str += '\n';
-          }
+          ExceptionModel exceptionModel = ExceptionModel.fromJson(map);
+          RecordModel model = RecordModel(
+              title: exceptionModel.type,
+              subTitle: exceptionModel.des,
+              trailingText: exceptionModel.date.toString().dateFormat(format: 'yyyy/MM/dd HH:mm:ss'),
+              content: exceptionModel.stack);
+          _dataList.add(model);
         }
-        RecordModel model =
-            RecordModel(title: str, trailingText: map['date'].toString().dateFormat(format: 'HH:mm:ss\nyyyy/MM/dd'));
-        dataList.add(model);
       }
     }
     return response.dataList;
@@ -150,6 +192,8 @@ class RecordModel {
   String? title;
   String? subTitle;
   String? trailingText;
+  String? content;
+  bool expand;
 
-  RecordModel({this.icon, this.title, this.subTitle, this.trailingText});
+  RecordModel({this.icon, this.title, this.subTitle, this.trailingText, this.content, this.expand = false});
 }

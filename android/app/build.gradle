@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.libin.nothing"
+        applicationId "com.libin1.nothing"
         // You can update the following values to match your application needs. 
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 24
@@ -49,10 +49,10 @@ android {
         }
 
         manifestPlaceholders = [
-                applicationName : "nothing",
-                JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "713db5486c35b95a967e3b3a", // NOTE: JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                applicationName: "nothing",
+                JPUSH_PKGNAME  : applicationId,
+                JPUSH_APPKEY   : "386f060ca3982c5576e4376c", // NOTE: JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL  : "developer-default", //暂时填写默认值即可.
         ]
     }
 

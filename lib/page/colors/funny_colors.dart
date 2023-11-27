@@ -10,13 +10,13 @@ class FunnyColors extends StatefulWidget {
   State<FunnyColors> createState() => _FunnyColorsState();
 }
 
-class _FunnyColorsState extends State<FunnyColors> {
-  List<String> _models = const ['default', 'ui'];
+class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClientMixin {
+  final List<String> _models = ['default', 'ui'];
   late String _model;
   List<String> _colors = const [];
   final List<String> _initColors = ['#6a2c70', '', '', '', '#f9ed69'];
 
-  ValueNotifier<bool> _requesting = ValueNotifier(false);
+  final ValueNotifier<bool> _requesting = ValueNotifier(false);
 
   @override
   void initState() {
@@ -33,9 +33,9 @@ class _FunnyColorsState extends State<FunnyColors> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return KeyboardHideOnTap(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppWidget.appbar(title: 'funny colors'),
         body: Padding(
           padding: AppPadding.main,
@@ -115,7 +115,7 @@ class _FunnyColorsState extends State<FunnyColors> {
   Widget _initColorWidget() {
     return Row(
       children: List.generate(_initColors.length, (index) {
-        final ValueNotifier<Color?> bgColor = ValueNotifier(_initColors[index].toColor());
+        final ValueNotifier<Color?> bgColor = ValueNotifier(HexColor.fromHex(_initColors[index]));
         return Flexible(
           child: ValueListenableBuilder(
               valueListenable: bgColor,
@@ -129,14 +129,14 @@ class _FunnyColorsState extends State<FunnyColors> {
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide.none,
                     ),
-                    fillColor: _initColors[index].toColor(),
+                    fillColor: HexColor.fromHex(_initColors[index]),
                     filled: true,
                     hintText: 'undefine',
                     hintStyle: AppTextStyle.labelLarge.copyWith(color: AppColor.disabledColor),
                   ),
                   onChanged: (value) {
                     _initColors[index] = value;
-                    bgColor.value = value.toColor();
+                    bgColor.value = HexColor.fromHex(_initColors[index]);
                   },
                 );
               }),
@@ -166,7 +166,7 @@ class _FunnyColorsState extends State<FunnyColors> {
                   Expanded(
                       child: Container(
                     decoration: BoxDecoration(
-                      color: color.toColor(),
+                      color: HexColor.fromHex(color),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(index == 0 ? radius : 0),
                         bottomLeft: Radius.circular(index == 0 ? radius : 0),
@@ -195,7 +195,7 @@ class _FunnyColorsState extends State<FunnyColors> {
         builder: (context, requesting, child) {
           return requesting
               ? SpinKitPouringHourGlass(
-                  color: '#febc8b'.toColor()!,
+            color: HexColor.fromHex('#febc8b'),
                   size: 54,
                 )
               : InkWell(
@@ -218,8 +218,8 @@ class _FunnyColorsState extends State<FunnyColors> {
                     _requesting.value = false;
                   },
                   child: Container(
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.greenAccent),
                     child: Text(
@@ -234,9 +234,17 @@ class _FunnyColorsState extends State<FunnyColors> {
   Future<void> _loadData() async {
     await API.getColorModels().then((value) {
       if (value.isSuccess) {
-        _models = value.dataList.cast<String>();
-        setState(() {});
+        _models.clear();
+        value.dataList.cast<String>().forEach((element) {
+          _models.add(element.length == 6 ? '${element}0' : element);
+        });
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

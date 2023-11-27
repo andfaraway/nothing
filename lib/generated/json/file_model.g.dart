@@ -45,3 +45,24 @@ Map<String, dynamic> $FileModelToJson(FileModel entity) {
   data['savePath'] = entity.savePath;
   return data;
 }
+
+extension FileModelExtension on FileModel {
+  FileModel copyWith({
+    bool? isDir,
+    String? name,
+    int? size,
+    String? type,
+    String? prefix,
+    String? catalog,
+    String? savePath,
+  }) {
+    return FileModel()
+      ..isDir = isDir ?? this.isDir
+      ..name = name ?? this.name
+      ..size = size ?? this.size
+      ..type = type ?? this.type
+      ..prefix = prefix ?? this.prefix
+      ..catalog = catalog ?? this.catalog
+      ..savePath = savePath ?? this.savePath;
+  }
+}

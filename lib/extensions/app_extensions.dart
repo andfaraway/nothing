@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../utils/log_utils.dart';
@@ -34,7 +34,7 @@ extension StringEx on String {
     try {
       return json.decode(this);
     } catch (e) {
-      Log.d('toJson error$e');
+      Log.d('toJson error:$e');
       return {};
     }
   }
@@ -47,13 +47,6 @@ extension StringEx on String {
     Uint8List content = const Utf8Encoder().convert(this);
     Digest digest = md5.convert(content);
     return digest.toString();
-  }
-
-  Color? toColor() {
-    RegExp exp = RegExp(r'^#([0-9A-Fa-f]{6})$');
-    bool isValid = exp.hasMatch(this); // true
-    if (!isValid) return null;
-    return Color(int.parse(substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   /// 根据时间戳格式化时间
@@ -107,27 +100,23 @@ extension MapExt<E, V> on Map<E, V> {
       this..removeWhere((key, value) => value == null || value == '' || value == [] || value == {});
 }
 
+extension EdgeInsetsEx on EdgeInsets {
+  EdgeInsets copyWith({
+    double? left,
+    double? top,
+    double? right,
+    double? bottom,
+  }) {
+    return EdgeInsets.only(
+      left: left ?? this.left,
+      top: top ?? this.top,
+      right: right ?? this.right,
+      bottom: bottom ?? this.bottom,
+    );
+  }
+}
+
 extension IteratorExt<E> on Iterable<E> {
-  E? get firstOrNull {
-    Iterator it = iterator;
-    if (!it.moveNext()) {
-      null;
-    }
-    return it.current;
-  }
-
-  E? get lastOrNull {
-    Iterator it = iterator;
-    if (!it.moveNext()) {
-      return null;
-    }
-    E result;
-    do {
-      result = it.current;
-    } while (it.moveNext());
-    return result;
-  }
-
   E? firstWhereOrNull(bool Function(E element) test, {E Function()? orElse}) {
     for (E element in this) {
       if (test(element)) return element;

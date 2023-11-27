@@ -25,6 +25,7 @@ class _MessagePageState extends State<MessagePage> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -43,12 +44,12 @@ class _MessagePageState extends State<MessagePage> with AutomaticKeepAliveClient
         child: dataList.isEmpty
             ? const RequestLoadingWidget()
             : ListView.builder(
-                itemBuilder: (context, index) {
-                  return messageWidget(dataList[index]);
-                },
-                itemCount: dataList.length,
-                shrinkWrap: true,
-              ),
+          itemBuilder: (context, index) {
+            return messageWidget(dataList[index]);
+          },
+          itemCount: dataList.length,
+          shrinkWrap: true,
+        ),
       ),
     );
   }

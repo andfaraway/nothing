@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/services.dart';
 
 class Tools {
@@ -51,5 +52,15 @@ class Tools {
     } else {
       return false;
     }
+  }
+
+  static final ConfettiController confettiController = ConfettiController(duration: const Duration(seconds: 10));
+
+  static startGift() {
+    confettiController.play();
+  }
+
+  static stopGift() {
+    confettiController.stop();
   }
 }

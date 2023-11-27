@@ -1,4 +1,11 @@
+import 'dart:async';
+
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/widgets/highlight_text_widget.dart';
+import 'package:nothing/widgets/search_bar_widget.dart';
+
+import '../model/poetry_model.dart';
 
 /// 诗歌
 class PoetryPage extends StatefulWidget {
@@ -10,29 +17,139 @@ class PoetryPage extends StatefulWidget {
   State<PoetryPage> createState() => _PoetryPageState();
 }
 
-class _PoetryPageState extends State<PoetryPage> {
-  String? text;
+class _PoetryPageState extends State<PoetryPage> with AutomaticKeepAliveClientMixin {
+  final List<PoetryModel> _poetries = [];
+  PoetryModel? _currentPoetry;
+  String _keyword = '李白';
 
   @override
   void initState() {
     super.initState();
+    _search(_keyword, initCurrentPoetry: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _loadData();
-    return Scaffold(
-      appBar: AppWidget.appbar(title: ''),
-      body: Container(
+    super.build(context);
+    return KeyboardHideOnTap(
+      child: KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+        return Scaffold(
+          backgroundColor: AppRoute.poetry.pageColor,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                SearchBarWidget(
+                  initText: _keyword,
+                  onChanged: (keyword) => _search(keyword),
+                ),
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Visibility(visible: _currentPoetry != null, child: _contentWidget(_currentPoetry)),
+                    Visibility(
+                      visible: isKeyboardVisible,
+                      child: _searchResultWidget(),
+                    ),
+                  ],
+                ))
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _searchResultWidget() {
+    if (_poetries.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: EdgeInsets.only(top: 17.h),
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        itemBuilder: (context, index) {
+          PoetryModel model = _poetries[index];
+          String originalText = '';
+          if (_keyword.isNotEmpty && model.content.contains(_keyword)) {
+            print('_keyword=$_keyword');
+            RegExp regExp = RegExp(r'[^\。\！\？]*' + _keyword + r'[^\。\！\？]*[\。\！\？]');
+            Iterable<Match> matches = regExp.allMatches(model.content);
+            print('matches=${matches.firstOrNull?.group(0)}');
+            String result = matches.map((match) => match.group(0)).join('\n');
+            originalText = result;
+          }
+
+          return InkWell(
+            onTap: () {
+              hideKeyboard(context);
+              setState(() {
+                _currentPoetry = model;
+              });
+            },
+            child: Container(
+              padding: AppPadding.main.copyWith(bottom: 5, top: 5),
+              color: AppColor.white.withOpacity(1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HighlightTextWidget(
+                    style: AppTextStyle.titleMedium.copyWith(fontWeight: weightBold),
+                    originalText: model.title,
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
+                  ),
+                  HighlightTextWidget(
+                    style: AppTextStyle.bodyMedium,
+                    originalText: '${model.author} ${model.dynasty}《${model.book}》',
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
+                  ),
+                  HighlightTextWidget(
+                    style: AppTextStyle.titleMedium,
+                    originalText: originalText,
+                    highlightRegexList: [_keyword],
+                    highlightStyles: [AppTextStyle.titleMedium.copyWith(color: AppColor.specialColor)],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        itemCount: _poetries.length,
+        shrinkWrap: true,
+      ),
+    );
+  }
+
+  Widget _contentWidget(PoetryModel? model) {
+    if (model == null) {
+      return const SizedBox.shrink();
+    }
+    return DefaultTextStyle(
+      style: AppTextStyle.titleMedium,
+      child: Padding(
         padding: AppPadding.main,
-        width: double.infinity,
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: AppSize.tabBarHeight),
           child: Column(
             children: [
-              Text(
-                text ?? '',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.headLineMedium,
+              Text(model.title),
+              Text('${model.author} · ${model.dynasty} · 《${model.book}》'),
+              17.hSizedBox,
+              HighlightTextWidget(
+                style: AppTextStyle.bodyLarge,
+                originalText: model.contentDes,
+                highlightRegexList: [r'\((.*?)\)', _keyword],
+                highlightStyles: [
+                  AppTextStyle.labelLarge,
+                  AppTextStyle.bodyLarge.copyWith(color: AppColor.specialColor),
+                ],
               )
             ],
           ),
@@ -41,36 +158,30 @@ class _PoetryPageState extends State<PoetryPage> {
     );
   }
 
-  _loadData() {
-    text = '''蜀道难
-朝代：唐代
-
-作者：李白
-
-原文：
-
-噫吁嚱，危乎高哉！蜀道之难，难于上青天！
-蚕丛及鱼凫，开国何茫然！
-尔来四万八千岁，不与秦塞通人烟。
-西当太白有鸟道，可以横绝峨眉巅。
-地崩山摧壮士死，然后天梯石栈相钩连。
-上有六龙回日之高标，下有冲波逆折之回川。
-黄鹤之飞尚不得过，猿猱欲度愁攀援。
-青泥何盘盘，百步九折萦岩峦。
-扪参历井仰胁息，以手抚膺坐长叹。
-问君西游何时还？畏途巉岩不可攀。
-但见悲鸟号古木，雄飞雌从绕林间。
-又闻子规啼夜月，愁空山。
-蜀道之难,难于上青天，使人听此凋朱颜！
-连峰去天不盈尺，枯松倒挂倚绝壁。
-飞湍瀑流争喧豗，砯崖转石万壑雷。
-其险也如此，嗟尔远道之人胡为乎来哉！
-剑阁峥嵘而崔嵬，一夫当关，万夫莫开。
-所守或匪亲，化为狼与豺。
-朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。
-锦城虽云乐，不如早还家。
-蜀道之难,难于上青天，侧身西望长咨嗟！
-''';
-    setState(() {});
+  Future<void> _search(String keyword, {bool initCurrentPoetry = false}) async {
+    keyword = extractChineseCharacters(keyword);
+    _keyword = keyword;
+    if (keyword.isEmpty) return;
+    AppResponse response = await API.getPoetry(keyword: keyword, pageSize: 100);
+    if (response.isSuccess) {
+      _poetries.clear();
+      _poetries.addAll(response.dataList.map((e) => PoetryModel.fromJson(e)).toList());
+      if (initCurrentPoetry) {
+        _currentPoetry = _poetries.firstWhereOrNull((element) => element.title.contains('蜀道难'));
+      }
+      setState(() {});
+    }
   }
+
+  String extractChineseCharacters(String input) {
+    // 使用正则表达式匹配中文字符
+    RegExp regExp = RegExp(r'[\u4e00-\u9fa5]+');
+    Iterable<Match> matches = regExp.allMatches(input);
+    // 将匹配到的中文字符合并成一个字符串
+    String chineseText = matches.map((match) => match.group(0)).join('');
+    return chineseText;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

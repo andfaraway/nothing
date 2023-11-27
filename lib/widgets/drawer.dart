@@ -36,21 +36,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return SmartDrawer(
       callback: (open) {
         if (open) {
-          if (homeProvider.drawerTitle.isEmpty) {
-            API.getLoveTips().then((response) {
-              if (response.isSuccess) {
-                homeProvider.drawerTitle = response.dataMap['newslist'].first['content']?.replaceAll('娶', '嫁');
-              }
-            });
-          }
 
-          if (homeProvider.drawerContent.isEmpty) {
-            API.getTips().then((response) {
-              if (response.isSuccess) {
-                homeProvider.drawerContent = response.dataMap;
-              }
-            });
-          }
         }
       },
       widthPercent: 0.69,

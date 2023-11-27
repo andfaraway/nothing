@@ -7,6 +7,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/model/poetry_model.dart';
 import 'package:nothing/model/version_update_model.dart';
 
 class API {
@@ -56,7 +57,7 @@ class API {
     }
     Map<String, dynamic> param = {
       'platform': Constants.platform,
-      'version': DeviceUtils.appVersion,
+      'version': DeviceUtils.deviceInfo.package.version,
     };
     return Http.post(ConstUrl.checkUpdate, params: param, needLoading: needLoading);
   }
@@ -189,7 +190,7 @@ class API {
   /// 获取反馈
   static Future<AppResponse> getFeedback(int pageIndex, int pageSize) async {
     Map<String, dynamic> param = {'userid': Singleton().currentUser.userId, 'page': pageIndex, 'size': pageSize};
-    return Http.post(ConstUrl.getFeedback, params: param);
+    return Http.get(ConstUrl.getFeedback, params: param);
   }
 
   /// 添加反馈
@@ -198,13 +199,28 @@ class API {
       'userid': Singleton().currentUser.userId,
       'content': content,
       'nickname': nickname,
-      'version': DeviceUtils.appVersion
+      'version': DeviceUtils.deviceInfo.package.version
     };
     return Http.post(ConstUrl.addFeedback, params: param);
   }
 
   /// 插入登录表
-  static Future<AppResponse> insertLaunch(Map<String, dynamic>? param) async {
+  static Future<AppResponse> insertLaunch() async {
+    if (Constants.isWeb) return AppResponse();
+    if (!DeviceUtils.deviceInfo.device.info.isPhysicalDevice) return AppResponse();
+
+    Map<String, dynamic> param = {};
+    param['userid'] = Singleton().currentUser.userId;
+    param['username'] = Singleton().currentUser.username;
+    //推送别名
+    param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
+    await DeviceUtils.refreshRuntimeInfo();
+    //推送注册id
+    param['registrationID'] = DeviceUtils.deviceInfo.runtime.deviceToken;
+    param['battery'] = DeviceUtils.deviceInfo.runtime.battery;
+    param['network'] = DeviceUtils.deviceInfo.runtime.network;
+    param['device_info'] = DeviceUtils.deviceInfo.device.info.deviceInfo;
+
     return Http.post(ConstUrl.insertLaunch, params: param);
   }
 
@@ -292,7 +308,6 @@ class API {
     });
 
     return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
-      print('a=$a,b=$b');
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     });
@@ -398,6 +413,29 @@ class API {
       return true;
     }
   }
+
+  /// 获取诗歌
+  static Future<AppResponse> getPoetry(
+      {String? keyword, PoetryModel? model, int pageNum = 0, int pageSize = 10}) async {
+    keyword = keyword?.trim();
+    Map<String, dynamic> params = model?.toJson() ?? {};
+    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword}.removeEmptyValue());
+    return Http.get(
+      ConstUrl.getPoetry,
+      params: params.removeEmptyValue(),
+    );
+  }
+
+  /// 上报异常
+  static Future<AppResponse> exceptionReport(Map<String, dynamic> data) async {
+    return Http.post(ConstUrl.exceptionReport, data: data.removeEmptyValue());
+  }
+
+  /// 获取异常
+  static Future<AppResponse> getExceptions(int pageIndex, int pageSize) async {
+    Map<String, dynamic> param = {'page': pageIndex, 'size': pageSize};
+    return Http.get(ConstUrl.getExceptions, params: param);
+  }
 }
 
 class ConstUrl {
@@ -448,7 +486,7 @@ class ConstUrl {
   ///删除收藏
   static const String deleteFavorite = '/deleteFavorite';
 
-  ///添加反馈
+  ///获取反馈
   static const String getFeedback = '/getFeedback';
 
   ///添加反馈
@@ -516,6 +554,15 @@ class ConstUrl {
 
   /// 获取推荐颜色
   static const String getBeautifulColors = '/getBeautifulColors';
+
+  /// 获取诗歌
+  static const String getPoetry = '/getPoetry';
+
+  /// 上报错误
+  static const String exceptionReport = '/exceptionReport';
+
+  /// 获取异常信息
+  static const String getExceptions = '/getExceptions';
 }
 
 class InformationType {

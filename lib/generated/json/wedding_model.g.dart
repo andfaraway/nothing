@@ -35,3 +35,20 @@ Map<String, dynamic> $WeddingModelToJson(WeddingModel entity) {
   data['sort'] = entity.sort;
   return data;
 }
+
+extension WeddingModelExtension on WeddingModel {
+  WeddingModel copyWith({
+    String? id,
+    String? title,
+    String? content,
+    String? done,
+    int? sort,
+  }) {
+    return WeddingModel()
+      ..id = id ?? this.id
+      ..title = title ?? this.title
+      ..content = content ?? this.content
+      ..done = done ?? this.done
+      ..sort = sort ?? this.sort;
+  }
+}

@@ -9,6 +9,7 @@ import 'package:provider/single_child_widget.dart';
 
 import '../common/style.dart';
 import '../http/api.dart';
+import '../model/setting_config_model.dart';
 
 export 'package:provider/provider.dart';
 

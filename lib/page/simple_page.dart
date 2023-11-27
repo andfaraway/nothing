@@ -3,8 +3,6 @@
 //  [Date] 2021-11-11 17:41:19
 //
 
-import 'package:extended_text/extended_text.dart';
-
 import '../common/prefix_header.dart';
 
 typedef RequestCallback = Future<String> Function();
@@ -84,10 +82,10 @@ class _SimplePageState extends State<SimplePage> with AutomaticKeepAliveClientMi
                               showToast('收藏成功！');
                             }
                           },
-                          child: ExtendedText(
-                            contentText.isEmpty ? '' : contentText,
+                          child: Text(
+                            '\t' * 8 + contentText.trim(),
                             style: TextStyle(color: provider.informationBgColor.adaptiveColor, fontSize: 22),
-                            textAlign: TextAlign.justify,
+                            textAlign: TextAlign.start,
                           ),
                         ),
                       ),

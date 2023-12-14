@@ -71,7 +71,7 @@ class _TopNewsPageState extends State<TopNewsPage> with AutomaticKeepAliveClient
   _loadData() async {
     AppResponse response = await API.informationApi(InformationType.topNews);
     if (response.isSuccess) {
-      List? list = response.dataMap['newslist'];
+      List? list = response.dataMap['result'];
       newsList = list?.map((e) => TopNewsModel.fromJson(e)).toList() ?? [];
       _controller.completed(success: true);
       setState(() {});

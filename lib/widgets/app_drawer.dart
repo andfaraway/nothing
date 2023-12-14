@@ -368,7 +368,8 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
     if (provider.drawerTitle.isEmpty || force) {
       API.getLoveTips().then((response) {
         if (response.isSuccess) {
-          provider.drawerTitle = response.dataMap['newslist'].first['content']?.replaceAll('娶', '嫁');
+          provider.drawerTitle =
+              response.dataMap['result']?['content']?.replaceAll('娶', '嫁');
         }
       });
     }

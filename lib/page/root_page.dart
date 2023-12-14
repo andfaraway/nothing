@@ -4,6 +4,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:confetti/confetti.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nothing/widgets/app_drawer.dart';
+import 'package:nothing/widgets/drag_move_box.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../common/prefix_header.dart';
@@ -57,23 +58,23 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
           return Scaffold(
             drawer: const AppDrawer(),
             drawerEnableOpenDragGesture: true,
-            onEndDrawerChanged: (open) {
-              print('open=$open');
-            },
+            onEndDrawerChanged: (open) {},
             extendBody: true,
             resizeToAvoidBottomInset: false,
-            body: TabBarView(
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: _rootBars.map((e) => e.page).toList(),
+            body: DragHoverBothSidesWidget(
+              key: UniqueKey(),
+              dragWidget: _floatingActionButton(),
+              child: TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: _rootBars.map((e) => e.page).toList(),
+              ),
             ),
-            floatingActionButton: _floatingActionButton(),
-            // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-            bottomNavigationBar: _salomonBottomBar(onTap: (index) {
-              setState(() {
-                homeProvider.pageIndex = index;
-              });
-            }),
+            // bottomNavigationBar: _salomonBottomBar(onTap: (index) {
+            //   setState(() {
+            //     homeProvider.pageIndex = index;
+            //   });
+            // }),
           );
         }),
         Align(

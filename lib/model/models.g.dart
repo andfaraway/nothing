@@ -74,7 +74,9 @@ class LaunchInfoAdapter extends TypeAdapter<LaunchInfo> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LaunchInfoAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is LaunchInfoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
@@ -130,5 +132,50 @@ class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserInfoModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is UserInfoModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class DragIconModelAdapter extends TypeAdapter<DragIconModel> {
+  @override
+  final int typeId = 2;
+
+  @override
+  DragIconModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return DragIconModel(
+      dx: fields[0] as double,
+      dy: fields[1] as double,
+      width: fields[2] as double,
+      height: fields[3] as double,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, DragIconModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.dx)
+      ..writeByte(1)
+      ..write(obj.dy)
+      ..writeByte(2)
+      ..write(obj.width)
+      ..writeByte(3)
+      ..write(obj.height);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DragIconModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

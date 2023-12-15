@@ -70,11 +70,11 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
                 children: _rootBars.map((e) => e.page).toList(),
               ),
             ),
-            // bottomNavigationBar: _salomonBottomBar(onTap: (index) {
-            //   setState(() {
-            //     homeProvider.pageIndex = index;
-            //   });
-            // }),
+            bottomNavigationBar: _salomonBottomBar(onTap: (index) {
+              setState(() {
+                homeProvider.pageIndex = index;
+              });
+            }),
           );
         }),
         Align(

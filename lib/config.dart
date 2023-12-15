@@ -7,7 +7,7 @@ class Config {
 
   static const String localUrl = 'http://192.168.1.8:8000';
 
-  static const String netServer = 'http://1.14.252.115';
+  static const String netServer = 'https://apis.libin.zone';
 
-  static const String baseUrl = isDebug ? localUrl : '$netServer:5000';
+  static const String baseUrl = isDebug ? localUrl : netServer;
 }

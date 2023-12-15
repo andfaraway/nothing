@@ -27,13 +27,15 @@ class HiveBoxes {
   static Future<void> openBoxes() async {
     Hive.registerAdapter(LaunchInfoAdapter());
     Hive.registerAdapter(UserInfoModelAdapter());
+    Hive.registerAdapter(DragIconModelAdapter());
 
     const String boxPrefix = 'nothing';
 
     await Future.wait(
       <Future<void>>[
         () async {
-          _settingsBox = await Hive.openBox<dynamic>('${boxPrefix}_app_settings');
+          _settingsBox =
+              await Hive.openBox<dynamic>('${boxPrefix}_app_settings');
         }(),
         () async {
           launchBox = await Hive.openBox<dynamic>('${boxPrefix}_app_launch');
@@ -93,6 +95,7 @@ class HiveAdapterTypeIds {
 
   static const int launchInfo = 0;
   static const int userInfo = 1;
+  static const int dragIconModel = 2;
 }
 
 class HiveKey {
@@ -121,4 +124,6 @@ class HiveKey {
   static const String brightnessDark = 'brightnessDark';
 
   static const String deviceToken = 'deviceToken';
+
+  static const String dragIconModel = 'dragIconModel';
 }

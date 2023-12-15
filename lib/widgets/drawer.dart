@@ -258,7 +258,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Future<void> loadData() async {
     API.getLoveTips().then((response) {
       if (response.isSuccess) {
-        context.read<HomeProvider>().drawerTitle = response.dataMap['newslist'].first['content']?.replaceAll('娶', '嫁');
+        context.read<HomeProvider>().drawerTitle =
+            response.dataMap['result']?['content']?.replaceAll('娶', '嫁');
       }
     });
 

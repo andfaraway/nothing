@@ -50,7 +50,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    _loadData();
     return Stack(
       children: [
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
@@ -62,7 +61,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             extendBody: true,
             resizeToAvoidBottomInset: false,
             body: DragHoverBothSidesWidget(
-              key: UniqueKey(),
               dragWidget: _floatingActionButton(),
               child: TabBarView(
                 controller: _tabController,
@@ -92,18 +90,20 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
   }
 
   Widget _floatingActionButton() {
-    return Builder(builder: (context) {
-      return InkWell(
-        onTap: () {
-          Scaffold.of(context).openDrawer();
-        },
-        child: Lottie.asset(
-          R.lottieAnimationWalk,
-          width: 88.r,
-          height: 88.r,
-          repeat: true,
-        ),
-      );
+    return Builder(
+        key: UniqueKey(),
+        builder: (context) {
+          return InkWell(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: Lottie.asset(
+              R.lottieAnimationWalk,
+              width: 88.r,
+              height: 88.r,
+              repeat: true,
+            ),
+          );
     });
   }
 

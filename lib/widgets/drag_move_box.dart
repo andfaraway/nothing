@@ -47,7 +47,6 @@ class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
   }
 
   void dragEnd(DragEndDetails details) {
-    print('dragEnd:$_dragIconModel');
     HiveBoxes.put(HiveKey.dragIconModel, _dragIconModel);
   }
 
@@ -73,7 +72,6 @@ class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('_dragIconModel=$_dragIconModel');
     return Stack(
       children: [
         if (widget.child != null) widget.child!,

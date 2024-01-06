@@ -14,7 +14,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomeWidgetState();
 }
 
-class _HomeWidgetState extends State<HomePage> {
+class _HomeWidgetState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   Widget? homeWidget;
 
   @override
@@ -24,7 +25,8 @@ class _HomeWidgetState extends State<HomePage> {
     // 初始界面
     String? homePage = context.read<LaunchProvider>().launchInfo?.homePage;
     if (homePage != null) {
-      ServerTargetModel targetModel = ServerTargetModel.fromString(context, homePage);
+      ServerTargetModel targetModel =
+          ServerTargetModel.fromString(context, homePage);
       if (targetModel.type == 0) {
         homeWidget = targetModel.page;
       } else {
@@ -44,8 +46,12 @@ class _HomeWidgetState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: homeWidget!,
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

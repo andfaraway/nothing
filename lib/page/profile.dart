@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:clay_containers/constants.dart';
+import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
 
-import 'flutter/flutter_stream.dart';
+import 'flutter/catalog_page.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -32,7 +34,17 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
       }
       _rotate.value = _scrollController.offset / 100;
     });
+  }
 
+  @override
+  void dispose() {
+    _rotate.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     _cellList = [
       _titleCell(
           icon: AppImage.asset(R.tabActivity),
@@ -54,20 +66,9 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           ),
           title: 'Flutter',
           onTap: () {
-            AppRoute.pushPage(context, const FlutterStream());
+            AppRoute.pushPage(context, const CatalogPage());
           }),
     ];
-  }
-
-  @override
-  void dispose() {
-    _rotate.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       controller: _scrollController,
@@ -83,11 +84,11 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
                 builder: (context, value, child) {
                   return Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 18.0),
-                        child: Transform.rotate(
-                            angle: _rotate.value * pi,
-                            child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
-                      ));
+                    padding: const EdgeInsets.only(right: 18.0),
+                    child: Transform.rotate(
+                        angle: _rotate.value * pi,
+                        child: AppImage.asset(R.imagesRing1, width: 25, height: 25, fit: BoxFit.cover)),
+                  ));
                 })
           ],
           pinned: true,
@@ -118,21 +119,28 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget _titleCell({required Widget icon, required String title, required VoidCallback? onTap}) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onTap,
-            child: Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColor.white),
-              height: 44,
+  Widget _titleCell({Widget? icon, required String title, required VoidCallback? onTap}) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppPadding.vertical),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: ClayContainer(
+          color: const Color(0xFFF2F2F2),
+          curveType: CurveType.none,
+          borderRadius: 75,
+          customBorderRadius: BorderRadius.only(
+            topRight: Radius.circular(18.r),
+            bottomLeft: Radius.circular(18.r),
+          ),
+          depth: 10,
+          // spread: 12,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.horizontal.w, vertical: AppPadding.horizontal.w),
+            child: Center(
               child: Row(
                 children: [
-                  AppPadding.horizontal.wSizedBox,
-                  icon,
+                  if (icon != null) icon,
                   AppPadding.horizontal.wSizedBox,
                   Text(
                     title,

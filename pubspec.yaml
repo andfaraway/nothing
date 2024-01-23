@@ -117,6 +117,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
 
   lottie: ^2.6.0
+  clay_containers: ^0.3.4
 
 dependency_overrides:
   intl: ^0.18.1

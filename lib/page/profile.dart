@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:nothing/common/prefix_header.dart';
 
+import 'flutter/flutter_stream.dart';
+
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -45,6 +47,14 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           title: '退出登录',
           onTap: () {
             showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
+          }),
+      _titleCell(
+          icon: const FlutterLogo(
+            size: 20,
+          ),
+          title: 'Flutter',
+          onTap: () {
+            AppRoute.pushPage(context, const FlutterStream());
           }),
     ];
   }

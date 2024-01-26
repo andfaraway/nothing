@@ -29,7 +29,7 @@ class _FlutterIsolateState extends State<FlutterIsolate> {
         child: InkWell(
           onTap: () async {
             DateTime beginTime = DateTime.now();
-            final result = await _begin();
+            await _begin();
             timeCount = '${DateTime.now().difference(beginTime).inMilliseconds}';
             setState(() {});
           },
@@ -55,16 +55,12 @@ class _FlutterIsolateState extends State<FlutterIsolate> {
 
   _begin() async {
     final s = await compute((message) {
-      print('begin = $message');
-      sum = 0;
+      int count = 0;
       for (int i = 0; i < 1000000000; i++) {
-        sum += i;
+        count += i;
       }
-      print('end = $message');
-
-      return message;
+      return count;
     }, 'message');
-    print('s = $s');
-    return sum;
+    sum = s;
   }
 }

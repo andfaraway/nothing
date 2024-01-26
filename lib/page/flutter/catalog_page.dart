@@ -1,6 +1,7 @@
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/page/flutter/flutter_cube.dart';
 import 'package:nothing/page/flutter/flutter_isolate.dart';
 import 'package:nothing/page/flutter/flutter_stream.dart';
 
@@ -27,6 +28,11 @@ class CatalogPage extends StatelessWidget {
                 title: 'Isolate',
                 onTap: () {
                   AppRoute.pushPage(context, const FlutterIsolate());
+                }),
+            _titleCell(
+                title: 'Cube',
+                onTap: () {
+                  AppRoute.pushPage(context, const FlutterCube());
                 }),
           ],
         ),

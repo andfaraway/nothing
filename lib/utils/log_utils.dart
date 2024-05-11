@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
-import '../common/prefix_header.dart';
-
 class Log {
+  static DateTime get currentTime => DateTime.now();
+
+  static bool apiLogOpen = true;
+
   const Log._();
 
   static const String _TAG = 'LOG';
@@ -19,7 +22,7 @@ class Log {
   }
 
   static void n(dynamic message, {String tag = 'network', StackTrace? stackTrace}) {
-    if (Config.apiLogOpen) {
+    if (apiLogOpen) {
       if (message != null) {
         try {
           if (message.isEmpty) {
@@ -29,7 +32,7 @@ class Log {
       } else {
         return;
       }
-      _printLog(message, '🌐 $tag', stackTrace, level: Level.SHOUT, format: false);
+      _printLog(message, '🌐 $tag', stackTrace, level: Level.SHOUT, format: true);
     }
   }
 
@@ -37,8 +40,7 @@ class Log {
     _printLog(message, '$tag ⚠️', stackTrace, level: Level.WARNING);
   }
 
-  static void e(
-    dynamic message, {
+  static void e(dynamic message, {
     String tag = _TAG,
     StackTrace? stackTrace,
     bool withStackTrace = true,
@@ -54,15 +56,14 @@ class Log {
     );
   }
 
-  static void _printLog(
-    dynamic message,
-    String? tag,
-    StackTrace? stackTrace, {
-    bool isError = false,
-    bool format = true,
-    Level level = Level.ALL,
-    bool withStackTrace = true,
-  }) {
+  static void _printLog(dynamic message,
+      String? tag,
+      StackTrace? stackTrace, {
+        bool isError = false,
+        bool format = true,
+        Level level = Level.ALL,
+        bool withStackTrace = true,
+      }) {
     if (isError) {
       dev.log(
         '${DateFormat('[HH:mm:ss]').format(currentTime)} ${format ? _messageFormat(message) : message}',
@@ -84,28 +85,12 @@ class Log {
 
   /// 格式化输出 message
   static dynamic _messageFormat(dynamic message) {
-    if (_isSerializable(message)) {
-      return const JsonEncoder.withIndent(' ').convert(message);
-    } else {
-      try {
-        return json.encode(message);
-      } catch (_) {
-        return message;
-      }
-    }
-  }
-
-  // 定义一个函数，接收一个对象作为参数，返回一个布尔值
-  static bool _isSerializable(dynamic object) {
-    // 如果对象是数字、布尔值、字符串、空值、列表或映射，那么返回true
-    if (object is num || object is bool || object is String || object == null || object is List || object is Map) {
-      return true;
-    }
     try {
-      object.tojson();
-      return true;
-    } on NoSuchMethodError {
-      return false;
+      String text = jsonEncode(message);
+      // return const JsonEncoder.withIndent(' ').convert(message);
+      return text;
+    } catch (e) {
+      return message;
     }
   }
 }

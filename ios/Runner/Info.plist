@@ -149,8 +149,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Upload profile photo require permission to access camera</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Nothing Need Get Local NetWork </string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Nothing use Location</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Nothing Need Save Photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>

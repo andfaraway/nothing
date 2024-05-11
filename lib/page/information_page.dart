@@ -82,18 +82,14 @@ class _InformationPageState extends State<InformationPage> with SingleTickerProv
         requestCallback: () async {
           AppResponse response = await API.informationApi(type);
           if (response.isSuccess) {
-            Map map = response.dataMap['result'].first;
+            Map map = response.dataMap['result'];
             String str = '';
-            String jieri = ((map['lunar_festival'] ?? map['festival'])
-                    .toString()
-                    .isNotEmpty)
+            String jieri = ((map['lunar_festival'] ?? map['festival']).toString().isNotEmpty)
                 ? (map['lunar_festival'] ?? map['festival']) + '\n\n'
                 : '';
             str += jieri;
             String dateStr = '日期：' + map['gregoriandate'];
-            String nongliStr = '${'\n农历：' + map['tiangandizhiyear']}年 ' +
-                map['lubarmonth'] +
-                map['lunarday'];
+            String nongliStr = '${'\n农历：' + map['tiangandizhiyear']}年 ' + map['lubarmonth'] + map['lunarday'];
             String yiStr = '\n宜：' + map['fitness'];
             String jiStr = '\n忌：' + map['taboo'];
             str = dateStr + nongliStr + yiStr + jiStr;

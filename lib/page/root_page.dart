@@ -69,6 +69,10 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
               ),
             ),
             bottomNavigationBar: _salomonBottomBar(onTap: (index) {
+              // Geolocator.requestPermission();
+              // return;
+              //  Geolocator.openLocationSettings();
+              // return;
               setState(() {
                 homeProvider.pageIndex = index;
               });

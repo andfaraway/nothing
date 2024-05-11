@@ -119,6 +119,8 @@ dependencies:
   lottie: ^2.6.0
   clay_containers: ^0.3.4
 
+  geolocator: ^11.0.0
+
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0

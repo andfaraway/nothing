@@ -125,3 +125,24 @@ extension IteratorExt<E> on Iterable<E> {
     return null;
   }
 }
+
+extension ListExt<E> on List<E> {
+  List<E> bringChildToFront(E child) {
+    List<E> copyList = List.generate(length, (index) => this[index]);
+    copyList.removeAt(copyList.indexOf(child));
+    copyList.insert(0, child);
+    return this;
+  }
+
+  List<E> sendChildToBack(E child) {
+    List<E> copyList = List.generate(length, (index) => this[index]);
+    copyList.removeAt(copyList.indexOf(child));
+    copyList.add(child);
+    return this;
+  }
+
+  List<E> exchange(E a, E b) {
+    insert(indexOf(a), removeAt(indexOf(b)));
+    return this;
+  }
+}

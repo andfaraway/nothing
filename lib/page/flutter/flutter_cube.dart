@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:nothing/page/flutter/shiny_text.dart';
 
 class FlutterCube extends StatefulWidget {
   const FlutterCube({super.key});
@@ -34,12 +35,16 @@ class _FlutterCubeState extends State<FlutterCube> {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onPanUpdate: (details) {
-                  // _rx = details.delta.dx * 0.01;
-                  // _ry = details.delta.dy * 0.01;
-                  // setState(() {
-                  //   _rx %= pi * 2;
-                  //   _ry %= pi * 2;
-                  // });
+                  print(details.delta);
+                  // _rx = _rx + details.delta.dy * 0.01;
+                  _ry += details.delta.dx * 0.01;
+                  // _ry =  _ry < 0 ? -(_ry % pi) : _ry % pi;
+
+                  // print('_ry = $_ry');
+                  setState(() {
+                    // _rx %= pi * 2;
+                    _ry %= pi;
+                  });
                 },
                 child: Cube(
                   rotateX: _rx,
@@ -54,33 +59,33 @@ class _FlutterCubeState extends State<FlutterCube> {
               child: Card(
                 child: Column(
                   children: [
-                    Slider(
-                        value: _rx,
-                        min: -pi,
-                        max: pi,
-                        onChanged: (value) {
-                          setState(() {
-                            _rx = value;
-                          });
-                        }),
-                    Slider(
-                        value: _ry,
-                        min: -pi,
-                        max: pi,
-                        onChanged: (value) {
-                          setState(() {
-                            _ry = value;
-                          });
-                        }),
-                    Slider(
-                        value: _rz,
-                        min: -pi,
-                        max: pi,
-                        onChanged: (value) {
-                          setState(() {
-                            _rz = value;
-                          });
-                        }),
+                    // Slider(
+                    //     value: _rx,
+                    //     min: -pi,
+                    //     max: pi,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _rx = value;
+                    //       });
+                    //     }),
+                    // Slider(
+                    //     value: _ry,
+                    //     min: -pi,
+                    //     max: pi,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _ry = value;
+                    //       });
+                    //     }),
+                    // Slider(
+                    //     value: _rz,
+                    //     min: -pi,
+                    //     max: pi,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _rz = value;
+                    //       });
+                    //     }),
                   ],
                 ),
               ),
@@ -120,62 +125,158 @@ class Cube extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final front = _buildSide(SideType.front);
-    final back = _buildSide(SideType.back);
-    final port = _buildSide(SideType.port);
-    final starboard = _buildSide(SideType.starboard);
-    final top = _buildSide(SideType.top);
-    final bottom = _buildSide(SideType.bottom);
+    Widget front = const SideWidget(
+      SideType.front,
+      label: 'front',
+    );
+    Widget back = const SideWidget(
+      SideType.back,
+      label: 'back',
+    );
+    Widget port = const SideWidget(
+      SideType.port,
+      label: 'port',
+    );
+    Widget starboard = const SideWidget(
+      SideType.starboard,
+      label: 'starboard',
+    );
+    Widget top = const SideWidget(
+      SideType.top,
+      label: 'top',
+    );
+    Widget bottom = const SideWidget(
+      SideType.bottom,
+      label: 'bottom',
+    );
 
     List<Widget> children = [];
 
-    const oneAngle = pi / 4;
-    print(rotateX);
+    // print('ry=${rotateY / oneAngle},_rx=${rotateX / oneAngle}');
 
-    if (rotateY > -oneAngle && rotateY < oneAngle) {
-      if (rotateY > 0) {
+    double _rx = rotateX / (pi / 4);
+    double _ry = rotateY / (pi / 4);
+    double _rz = rotateZ / (pi / 4);
+
+    if ((_rx > 2 && _rx <= 4) || (_rx >= -4 && _rx < -2)) {
+      front = const SideWidget(
+        SideType.back,
+        label: 'back',
+      );
+      back = const SideWidget(
+        SideType.front,
+        label: 'back',
+      );
+      port = const SideWidget(
+        SideType.starboard,
+        label: 'back',
+      );
+      starboard = const SideWidget(
+        SideType.port,
+        label: 'back',
+      );
+    }
+
+    if ((_rz > 2 && _rz <= 4) || (_rz >= -4 && _rz < -2)) {
+      port = const SideWidget(
+        SideType.starboard,
+        label: 'back',
+      );
+      starboard = const SideWidget(
+        SideType.port,
+        label: 'back',
+      );
+    }
+
+    if (_ry > -1 && _ry <= 1) {
+      if (_ry >= 0) {
         children = [front, port];
       } else {
         children = [starboard, front];
       }
-    } else if (rotateY > oneAngle * -2 && rotateY < oneAngle * 2) {
-      if (rotateY > 0) {
-        children = [back, port];
+    } else if (_ry > -2 && _ry <= 2) {
+      if (_ry > 0) {
+        children = [port, front];
       } else {
-        children = [back, starboard];
+        children = [starboard, front];
       }
-    } else if (rotateY > oneAngle * -3 && rotateY < oneAngle * 3) {
-      if (rotateY > 0) {
-        children = [back, starboard];
-      } else {
+    } else if (_ry > -3 && _ry <= 3) {
+      if (_ry > 0) {
         children = [port, back];
-      }
-    } else if (rotateY >= oneAngle * -4 && rotateY <= oneAngle * 4) {
-      if (rotateY > 0) {
-        children = [front, starboard];
       } else {
-        children = [front, port];
+        children = [starboard, back];
+      }
+    } else if (_ry >= -4 && _ry <= 4) {
+      if (_ry > 0) {
+        children = [port, back];
+      } else {
+        children = [starboard, back];
       }
     }
 
     if (rotateX > 0.0) {
-      children.add(top);
-    } else {
       children.add(bottom);
+    } else {
+      children.add(top);
     }
+
+    // children.exchange(top, back);
 
     return Transform(
       transform: Matrix4.identity()
         // ..setEntry(3, 2, 0.001)
         ..rotateX(rotateX)
-        ..rotateY(rotateY),
+        ..rotateY(rotateY)
+        ..rotateZ(rotateZ),
       alignment: Alignment.center,
       child: Stack(children: children),
     );
   }
+}
 
-  /// Build 4 thinner sides: 0=top; 1=starboard(right); 2=bottom; 3=port(left)
-  Widget _buildSide(SideType sideType) {
+class SideModel {
+  Key? key;
+  final SideType type;
+  final Widget side;
+
+  List<SideWidget> get sides => [];
+
+  SideModel({required this.side, required this.type});
+
+  @override
+  bool operator ==(Object other) {
+    return type == (other as SideModel).type;
+  }
+
+  @override
+  int get hashCode => type.hashCode;
+}
+
+enum SideType {
+  front,
+  back,
+  top,
+  bottom,
+  port,
+  starboard,
+}
+
+class SideWidget extends StatelessWidget {
+  const SideWidget(
+    this.sideType, {
+    super.key,
+    this.label,
+    this.width = 200,
+    this.height = 200,
+    this.depth = 200,
+  });
+
+  final double width, height, depth;
+  final SideType sideType;
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
     late final double translate;
     late final Matrix4 transform;
     late final Color color;
@@ -225,18 +326,9 @@ class Cube extends StatelessWidget {
         height: 200,
         alignment: Alignment.center,
         child: Center(
-          child: Text('$sideType'),
+          child: ShinyText(label: label ?? ''),
         ),
       ),
     );
   }
-}
-
-enum SideType {
-  front,
-  back,
-  top,
-  bottom,
-  port,
-  starboard,
 }

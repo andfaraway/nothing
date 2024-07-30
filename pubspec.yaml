@@ -121,6 +121,8 @@ dependencies:
 
   geolocator: ^11.0.0
 
+  google_fonts: ^6.2.1
+
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0

@@ -117,20 +117,20 @@ class ThemesProvider with ChangeNotifier {
 
   ThemeData get _lightThemeData {
     return defaultThemeData.copyWith(
-        primaryColor: _currentThemeGroup.lightThemeColor,
+        // primaryColor: _currentThemeGroup.lightThemeColor,
         appBarTheme: defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.lightThemeColor));
   }
 
   ThemeData get _darkThemeData => defaultThemeData.copyWith(
-        primaryColor: _currentThemeGroup.darkThemeColor,
+    // primaryColor: _currentThemeGroup.darkThemeColor,
         appBarTheme: defaultThemeData.appBarTheme.copyWith(backgroundColor: _currentThemeGroup.darkThemeColor),
       );
 
   ThemeData get currentThemeData => dark ? _darkThemeData : _lightThemeData;
 
   ThemeData get defaultThemeData => ThemeData(
-        scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
-        primaryColor: AppColor.mainColor,
+    scaffoldBackgroundColor: AppColor.scaffoldBackgroundColor,
+        useMaterial3: true,
         appBarTheme: AppBarTheme(
           systemOverlayStyle: AppOverlayStyle.dark,
           color: Colors.white,

@@ -31,6 +31,7 @@ class R {
   static const String imagesIconQq = 'assets/images/icon_qq.png';
   static const String imagesLoadError = 'assets/images/load_error.png';
   static const String imagesLogOut = 'assets/images/log-out.svg';
+  static const String imagesLoginBg = 'assets/images/login_bg.jpg';
   static const String imagesMessage = 'assets/images/message.svg';
   static const String imagesNothingToDo = 'assets/images/nothingToDo.png';
   static const String imagesRing1 = 'assets/images/ring_1.png';
@@ -42,7 +43,7 @@ class R {
   static const String lottieAnimation404 = 'assets/lottie/animation_404.json';
   static const String lottieAnimationAvatar = 'assets/lottie/animation_avatar.json';
   static const String lottieAnimationChicken = 'assets/lottie/animation_chicken.json';
-  static const String lottieAnimationFunny = 'assets/lottie/Animation_funny.json';
+  static const String lottieAnimationFunny = 'assets/lottie/animation_funny.json';
   static const String lottieAnimationFunnyBlack = 'assets/lottie/animation_funny_black.json';
   static const String lottieAnimationLove = 'assets/lottie/animation_love.json';
   static const String lottieAnimationWalk = 'assets/lottie/Animation_walk.json';

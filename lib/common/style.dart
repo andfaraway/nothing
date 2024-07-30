@@ -15,6 +15,8 @@ class AppColor {
     Color(0xFFACACAC),
   ];
 
+  static const Color primaryColor = Color(0xFF333333);
+
   static const Color transparent = Color(0x00FFFFFF);
 
   static const Color white = Color(0xFFFFFFFF);

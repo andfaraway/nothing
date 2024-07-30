@@ -3,6 +3,9 @@
 //  [Date] 2022-01-07 09:48:35
 //
 
+import 'dart:io';
+
+import 'package:google_fonts/google_fonts.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 
 import '../common/prefix_header.dart';
@@ -15,9 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final ValueNotifier<String> _username = ValueNotifier('');
-  final ValueNotifier<String> _password = ValueNotifier('');
-
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -28,6 +28,10 @@ class _LoginPageState extends State<LoginPage> {
   final Color textColor1 = const Color(0xFF444444);
 
   Widget loginButton() {
+    if (!Constants.isIOS) {
+      return const SizedBox.shrink();
+    }
+
     return SizedBox(
       width: double.infinity,
       height: 44.h,
@@ -35,8 +39,13 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             loginButtonPressed();
           },
-          color: AppColor.specialColor,
-          shape: RoundedRectangleBorder(side: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(44.w))),
+          color: AppColor.mainColor,
+          shape: RoundedRectangleBorder(
+            side: BorderSide.none,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8.r),
+            ),
+          ),
           child: Text(
             S.current.login,
             style: AppTextStyle.headLineMedium.copyWith(color: Colors.white),
@@ -45,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> loginButtonPressed() async {
-    AppResponse response = await API.login(username: _username.value, password: _password.value);
+    AppResponse response = await API.login(username: _usernameController.text, password: _passwordController.text);
     if (response.isSuccess) {
       Handler.accessToken = response.dataMap['access_token'];
       Handler.refreshToken = response.dataMap['refresh_token'];
@@ -82,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
-    _username.dispose();
-    _password.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     _keyboardAppeared.dispose();
   }
 
@@ -94,148 +103,144 @@ class _LoginPageState extends State<LoginPage> {
     // UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
 
     setAlignment(context);
-    return WillPopScope(
-      onWillPop: doubleBackExit,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (pop) async {
+        if (pop) {
+          if (await doubleBackExit()) {
+            exit(0);
+          }
+        }
+      },
       child: GestureDetector(
         onTap: () {
           // 触摸收起键盘
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.green,
-          body: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(R.imagesLoginBg), // 替换为你的实际图片路径
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
+              child: Column(
+                children: [
+                  30.hSizedBox,
+                  Text(
                     'nothing',
-                    style: AppTextStyle.displayLarge,
+                    style: GoogleFonts.shantellSans(
+                      fontSize: 55,
+                    ),
                   ),
-                ),
-              ),
-              ValueListenableBuilder<bool>(
-                  valueListenable: _keyboardAppeared,
-                  builder: (_, bool isAppear, __) {
-                    if (isAppear == false) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    }
-                    return Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(20.h), topRight: Radius.circular(20.h))),
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: distance, right: distance),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            110.hSizedBox,
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.circular(22.h),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                        decoration: InputDecoration(
-                                          border: const OutlineInputBorder(borderSide: BorderSide.none),
-                                          hintText: S.current.username_hint,
-                                          hintStyle: AppTextStyle.titleMedium.placeholderColor,
-                                          contentPadding: EdgeInsets.zero,
-                                        ),
-                                        style: AppTextStyle.titleMedium,
-                                        controller: _usernameController,
-                                        textAlign: TextAlign.center,
-                                        onChanged: (value) {
-                                          _username.value = value;
-                                        },
-                                        cursorColor: AppColor.errorColor),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            30.hSizedBox,
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: AppColor.scaffoldBackgroundColor, borderRadius: BorderRadius.circular(22.h)),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(borderSide: BorderSide.none),
-                                  hintText: S.current.password_hint,
-                                  hintStyle: AppTextStyle.titleMedium.placeholderColor,
-                                  contentPadding: EdgeInsets.zero,
+                  ValueListenableBuilder<bool>(
+                      valueListenable: _keyboardAppeared,
+                      builder: (_, bool isAppear, __) {
+                        if (isAppear == false) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        }
+                        return Padding(
+                          padding: EdgeInsets.only(left: distance, right: distance),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              110.hSizedBox,
+                              TextField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'username',
+                                  contentPadding: EdgeInsets.only(left: 18),
                                 ),
                                 style: AppTextStyle.titleMedium,
-                                controller: _passwordController,
-                                textAlign: TextAlign.center,
-                                onChanged: (value) {
-                                  _password.value = value;
-                                },
+                                controller: _usernameController,
+                                cursorColor: AppColor.errorColor,
                               ),
-                            ),
-                            80.hSizedBox,
-                            loginButton(),
-                            22.hSizedBox,
-                            Row(
-                              children: [
-                                Text(
-                                  S.current.sign_up,
-                                  style: AppTextStyle.titleMedium,
+                              30.hSizedBox,
+                              TextField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'password',
+                                  contentPadding: EdgeInsets.only(left: 18),
                                 ),
-                                Expanded(child: Container()),
-                                Text(
-                                  S.current.forgot_password,
-                                  style: AppTextStyle.titleMedium,
-                                )
-                              ],
-                            ),
-                            55.hSizedBox,
-                            _qqButton(),
-                            55.hSizedBox
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-            ],
+                                obscureText: true,
+                                obscuringCharacter: '*',
+                                style: AppTextStyle.titleMedium,
+                                controller: _passwordController,
+                              ),
+                              30.hSizedBox,
+                              loginButton(),
+                              _registerWidget(),
+                            ],
+                          ),
+                        );
+                      }),
+                ],
+              ),
+            ),
+            bottomNavigationBar: _thirdButtons(),
           ),
         ),
       ),
     );
   }
 
+  Widget _registerWidget() {
+    return const SizedBox.shrink();
+    return Padding(
+      padding: EdgeInsets.only(top: 22.h),
+      child: Row(
+        children: [
+          Text(
+            S.current.sign_up,
+            style: AppTextStyle.titleMedium,
+          ),
+          Expanded(child: Container()),
+          Text(
+            S.current.forgot_password,
+            style: AppTextStyle.titleMedium,
+          )
+        ],
+      ),
+    );
+  }
+
   //qq登录
-  Widget _qqButton() {
-    return GestureDetector(
-      onTap: () async {
-        UMShareUserInfo info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
-        if (info.error == null) {
-          AppResponse response =
-              await API.thirdLogin(name: info.name, platform: 1, openId: info.openid, icon: info.iconurl);
-          if (response.isSuccess) {
-            Handler.accessToken = response.dataMap['access_token'];
-            Handler.refreshToken = response.dataMap['refresh_token'];
-            String? nickName = response.dataMap['nick_name'];
-            if (mounted) {
-              NotificationUtils.register();
-              AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
-              showToast("hello $nickName");
+  Widget _thirdButtons() {
+    if (!Constants.isIOS) {
+      return const SizedBox.shrink();
+    }
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () async {
+          UMShareUserInfo info = await UMSharePlugin.getUserInfoForPlatform(UMSocialPlatformType_QQ);
+          if (info.error == null) {
+            AppResponse response =
+                await API.thirdLogin(name: info.name, platform: 1, openId: info.openid, icon: info.iconurl);
+            if (response.isSuccess) {
+              Handler.accessToken = response.dataMap['access_token'];
+              Handler.refreshToken = response.dataMap['refresh_token'];
+              String? nickName = response.dataMap['nick_name'];
+              if (mounted) {
+                NotificationUtils.register();
+                AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
+                showToast("hello $nickName");
+              }
+            } else {
+              showToast("登录失败");
             }
           } else {
-            showToast("登录失败");
+            showToast(info.error ?? '登录失败');
           }
-        } else {
-          showToast(info.error ?? '登录失败');
-        }
-      },
-      child: Image.asset(
-        R.imagesIconQq,
-        width: 44.w,
-        height: 44.h,
+        },
+        child: Image.asset(
+          R.imagesIconQq,
+          width: 44.w,
+          height: 44.h,
+        ),
       ),
     );
   }

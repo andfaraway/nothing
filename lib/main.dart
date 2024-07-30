@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,
-                theme: themesProvider.currentThemeData.copyWith(useMaterial3: true),
+                theme: themesProvider.currentThemeData,
                 localizationsDelegates: const [
                   S.delegate,
                   GlobalMaterialLocalizations.delegate,

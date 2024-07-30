@@ -124,7 +124,7 @@ class _MusicPageState extends State<MusicPage> {
                         child: Center(child: Image.network(metadata.artUri.toString())),
                       ),
                     ),
-                    Text(metadata.album!, style: Theme.of(context).textTheme.headline6),
+                    Text(metadata.album!, style: Theme.of(context).textTheme.titleMedium),
                     Text(metadata.title),
                   ],
                 );
@@ -175,7 +175,7 @@ class _MusicPageState extends State<MusicPage> {
               Expanded(
                 child: Text(
                   "Playlist",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               ),

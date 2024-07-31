@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:tetris/main.dart';
 
 import 'flutter/catalog_page.dart';
 
@@ -59,6 +60,15 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           title: '退出登录',
           onTap: () {
             showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
+          }),
+      _titleCell(
+          icon: Icon(
+            Icons.videogame_asset_rounded,
+            size: 20,
+          ),
+          title: 'Tetris',
+          onTap: () {
+            AppRoute.pushPage(context, MyApp());
           }),
       _titleCell(
           icon: const FlutterLogo(

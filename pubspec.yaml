@@ -123,21 +123,12 @@ dependencies:
 
   google_fonts: ^6.2.1
 
+  tetris:
+    path: flutter-tetris
+
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0
-
-flutter_assets_generator:
-  # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated
-  output_dir: generated
-  # Optional. Sets whether automatic monitoring of file changes. Default: true
-  auto_detection: true
-  # Optional. Sets file name conversion rules. Default: true
-  named_with_parent: true
-  # Optional. Sets the name for the generated localization file. Default: assets
-  output_filename: assets
-  # Optional. Sets the name for the generated localization class. Default: Assets
-  class_name: R
 
 dev_dependencies:
   flutter_test:
@@ -167,28 +158,23 @@ flutter:
     - assets/images/icons/
     - assets/images/tab/
     - assets/lottie/
-  #   - images/a_dot_ham.jpeg
+    - flutter-tetris/assets/
+    - flutter-tetris/assets/audios/
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+flutter_assets_generator:
+  # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated
+  output_dir: generated
+  # Optional. Sets whether automatic monitoring of file changes. Default: true
+  auto_detection: true
+  # Optional. Sets file name conversion rules. Default: true
+  named_with_parent: true
+  # Optional. Sets the name for the generated localization file. Default: assets
+  output_filename: assets
+  # Optional. Sets the name for the generated localization class. Default: Assets
+  class_name: R
+  path_ignore: [ "flutter-tetris" ]
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  #  fonts:
-  #    - family: SourceHanSansCN
-  #      fonts:
-  #        - asset: assets/fonts/SourceHanSansCN-Regular.otf
-  #        - asset: assets/fonts/SourceHanSansCN-Medium.otf
-  #          weight: 500
-  #        - asset: assets/fonts/SourceHanSansCN-Bold.otf
-  #          weight: 700
-  #  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:
   enabled: true
+

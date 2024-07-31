@@ -28,17 +28,24 @@ class ToastUtils {
 
   static void init() {
     Widget? indicatorWidget = Lottie.asset(
-      R.lottieLogin,
-      width: 80,
-      height: 80,
+      R.lottieAnimationChicken,
+      width: 120,
+      height: 120,
       repeat: true,
     );
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.custom;
+    EasyLoading.instance.maskType = EasyLoadingMaskType.custom;
 
-    EasyLoading.instance.contentPadding = EdgeInsets.zero;
     EasyLoading.instance.maskColor = const Color(0x22000000);
     EasyLoading.instance.indicatorWidget = indicatorWidget;
+    EasyLoading.instance.textColor = Colors.transparent;
+    EasyLoading.instance.indicatorColor = Colors.transparent;
+    EasyLoading.instance.backgroundColor = Colors.transparent;
+    EasyLoading.instance.boxShadow = [const BoxShadow(color: Colors.transparent)];
+
+    EasyLoading.instance.contentPadding = EdgeInsets.zero;
+
     EasyLoading.instance.radius = 12;
-    EasyLoading.instance.maskType = EasyLoadingMaskType.custom;
   }
 }
 

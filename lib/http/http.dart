@@ -106,7 +106,7 @@ class Http {
     bool refresh = false,
   }) async {
     late AppResponse httpResponse;
-    if (needLoading) showLoading();
+    if (needLoading) ToastUtils.showLoading();
     try {
       _dio.options.method = method;
       if (Handler.isLogin) {
@@ -135,7 +135,7 @@ class Http {
       );
       showToast('网络繁忙');
     }
-    if (needLoading) hideLoading();
+    if (needLoading) ToastUtils.hideLoading();
     return httpResponse;
   }
 
@@ -145,7 +145,7 @@ class Http {
       void Function(int, int, double)? onReceiveProgress,
       CancelToken? cancelToken,
       bool needLoading = false}) async {
-    if (needLoading) showLoading();
+    if (needLoading) ToastUtils.showLoading();
     late AppResponse httpResponse;
 
     try {
@@ -186,7 +186,7 @@ class Http {
 
       showToast('网络繁忙');
     }
-    if (needLoading) hideLoading();
+    if (needLoading) ToastUtils.hideLoading();
     return httpResponse;
   }
 }

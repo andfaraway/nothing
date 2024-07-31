@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/page/test_page.dart';
 import 'package:tetris/main.dart';
 
 import 'flutter/catalog_page.dart';
@@ -62,7 +63,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
             showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
           }),
       _titleCell(
-          icon: Icon(
+          icon: const Icon(
             Icons.videogame_asset_rounded,
             size: 20,
           ),
@@ -77,6 +78,15 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           title: 'Flutter',
           onTap: () {
             AppRoute.pushPage(context, const CatalogPage());
+          }),
+      _titleCell(
+          icon: const Icon(
+            Icons.telegram,
+            size: 20,
+          ),
+          title: 'testPage',
+          onTap: () {
+            AppRoute.pushPage(context, const TestPage());
           }),
     ];
     return CustomScrollView(

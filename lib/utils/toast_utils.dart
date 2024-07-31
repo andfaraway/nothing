@@ -5,17 +5,41 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../common/prefix_header.dart';
 import '../widgets/dialogs/toast_tips_dialog.dart';
 
-void showLoading({String? msg}) {
-  EasyLoading.show();
-}
+class ToastUtils {
+  static bool hasInit = false;
 
-void hideLoading() {
-  EasyLoading.dismiss();
+  static void showLoading({String? msg}) {
+    if (!hasInit) {
+      init();
+      hasInit = true;
+    }
+    EasyLoading.show();
+  }
+
+  static void hideLoading() {
+    EasyLoading.dismiss();
+  }
+
+  static void init() {
+    Widget? indicatorWidget = Lottie.asset(
+      R.lottieLogin,
+      width: 80,
+      height: 80,
+      repeat: true,
+    );
+
+    EasyLoading.instance.contentPadding = EdgeInsets.zero;
+    EasyLoading.instance.maskColor = const Color(0x22000000);
+    EasyLoading.instance.indicatorWidget = indicatorWidget;
+    EasyLoading.instance.radius = 12;
+    EasyLoading.instance.maskType = EasyLoadingMaskType.custom;
+  }
 }
 
 void showToast(String text, {int timeInSecForIosWeb = 1, ToastGravity? gravity}) {
@@ -37,24 +61,6 @@ void showErrorToast(String text) {
 
 void showCenterErrorToast(String text) {
   Fluttertoast.showToast(msg: text, gravity: ToastGravity.CENTER, backgroundColor: Colors.redAccent);
-}
-
-void showHttpLoading() {
-  EasyLoading.instance
-    ..loadingStyle = EasyLoadingStyle.custom
-
-  ///背景颜色
-    ..backgroundColor = const Color(0xfff4f7fb)
-
-  ///进度颜色
-    ..indicatorColor = const Color(0xff0082CD)
-    ..textColor = const Color(0xff0082CD)
-    ..textStyle = const TextStyle(fontSize: 12)
-    ..indicatorType = EasyLoadingIndicatorType.wave;
-}
-
-void hideHttpLoading() {
-  EasyLoading.dismiss();
 }
 
 void showIOSAlert(

@@ -121,10 +121,10 @@ dependencies:
 
   geolocator: ^11.0.0
 
-  google_fonts: ^6.2.1
 
   tetris:
     path: flutter-tetris
+  google_fonts: ^6.2.0
 
 dependency_overrides:
   intl: ^0.18.1

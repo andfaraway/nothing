@@ -6,6 +6,7 @@
 import 'dart:io';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
 
 import '../common/prefix_header.dart';
@@ -124,64 +125,80 @@ class _LoginPageState extends State<LoginPage> {
               fit: BoxFit.cover,
             ),
           ),
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              child: Column(
-                children: [
-                  30.hSizedBox,
-                  Text(
-                    'nothing',
-                    style: GoogleFonts.shantellSans(
-                      fontSize: 55,
-                    ),
-                  ),
-                  ValueListenableBuilder<bool>(
-                      valueListenable: _keyboardAppeared,
-                      builder: (_, bool isAppear, __) {
-                        if (isAppear == false) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        }
-                        return Padding(
-                          padding: EdgeInsets.only(left: distance, right: distance),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              110.hSizedBox,
-                              TextField(
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'username',
-                                  contentPadding: EdgeInsets.only(left: 18),
-                                ),
-                                style: AppTextStyle.titleMedium,
-                                controller: _usernameController,
-                                cursorColor: AppColor.errorColor,
-                              ),
-                              30.hSizedBox,
-                              TextField(
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'password',
-                                  contentPadding: EdgeInsets.only(left: 18),
-                                ),
-                                obscureText: true,
-                                obscuringCharacter: '*',
-                                style: AppTextStyle.titleMedium,
-                                controller: _passwordController,
-                              ),
-                              30.hSizedBox,
-                              loginButton(),
-                              _registerWidget(),
-                            ],
-                          ),
-                        );
-                      }),
-                ],
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Lottie.asset(
+                  R.lottieLogin,
+                  width: double.infinity,
+                  // height: 120,
+                  repeat: true,
+                ),
               ),
-            ),
-            bottomNavigationBar: _thirdButtons(),
+              Align(
+                alignment: Alignment.topRight,
+                child: _thirdButtons(),
+              ),
+              Scaffold(
+                resizeToAvoidBottomInset: false,
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      30.hSizedBox,
+                      Text(
+                        'nothing',
+                        style: GoogleFonts.shantellSans(
+                          fontSize: 55,
+                        ),
+                      ),
+                      ValueListenableBuilder<bool>(
+                          valueListenable: _keyboardAppeared,
+                          builder: (_, bool isAppear, __) {
+                            if (isAppear == false) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                            }
+                            return Padding(
+                              padding: EdgeInsets.only(left: distance, right: distance),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  110.hSizedBox,
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'username',
+                                      contentPadding: EdgeInsets.only(left: 18),
+                                    ),
+                                    style: AppTextStyle.titleMedium,
+                                    controller: _usernameController,
+                                    cursorColor: AppColor.errorColor,
+                                  ),
+                                  30.hSizedBox,
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'password',
+                                      contentPadding: EdgeInsets.only(left: 18),
+                                    ),
+                                    obscureText: true,
+                                    obscuringCharacter: '*',
+                                    style: AppTextStyle.titleMedium,
+                                    controller: _passwordController,
+                                  ),
+                                  30.hSizedBox,
+                                  loginButton(),
+                                  _registerWidget(),
+                                ],
+                              ),
+                            );
+                          }),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -236,10 +253,13 @@ class _LoginPageState extends State<LoginPage> {
             showToast(info.error ?? '登录失败');
           }
         },
-        child: Image.asset(
-          R.imagesIconQq,
-          width: 44.w,
-          height: 44.h,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Image.asset(
+            R.imagesIconQq,
+            width: 24.w,
+            height: 24.h,
+          ),
         ),
       ),
     );

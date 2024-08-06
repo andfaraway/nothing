@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
-import 'package:nothing/page/test_page.dart';
+import 'package:nothing/games/gomoku/gomoku.dart';
 import 'package:tetris/main.dart';
 
 import 'flutter/catalog_page.dart';
@@ -81,13 +81,22 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           }),
       _titleCell(
           icon: const Icon(
-            Icons.telegram,
+            Icons.ac_unit_sharp,
             size: 20,
           ),
-          title: 'testPage',
+          title: '五子棋',
           onTap: () {
-            AppRoute.pushPage(context, const TestPage());
+            AppRoute.pushPage(context, const Gomoku());
           }),
+      // _titleCell(
+      //     icon: const Icon(
+      //       Icons.telegram,
+      //       size: 20,
+      //     ),
+      //     title: 'testPage',
+      //     onTap: () {
+      //       AppRoute.pushPage(context, const TestPage());
+      //     }),
     ];
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),

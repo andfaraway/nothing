@@ -1,6 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/services.dart';
 
+import 'constants.dart';
+
 class Tools {
   static Map<String, dynamic> safeJson(dynamic value) {
     return value is Map<String, dynamic> ? value : <String, dynamic>{};
@@ -62,5 +64,22 @@ class Tools {
 
   static stopGift() {
     confettiController.stop();
+  }
+
+  static giftWidget({required Widget child}) {
+    return Stack(
+      children: [
+        child,
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: confettiController,
+            blastDirectionality: BlastDirectionality.explosive,
+            shouldLoop: true,
+            colors: const [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+          ),
+        ),
+      ],
+    );
   }
 }

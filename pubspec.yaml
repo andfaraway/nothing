@@ -125,6 +125,7 @@ dependencies:
   tetris:
     path: flutter-tetris
   google_fonts: ^6.2.0
+  dio_log_interceptor: ^0.0.7
 
 dependency_overrides:
   intl: ^0.18.1

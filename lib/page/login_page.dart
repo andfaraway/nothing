@@ -31,10 +31,6 @@ class _LoginPageState extends State<LoginPage> {
   String loginErrorText = '';
 
   Widget loginButton() {
-    if (!Constants.isIOS) {
-      return const SizedBox.shrink();
-    }
-
     return SizedBox(
       width: double.infinity,
       height: 44.h,
@@ -75,32 +71,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  /// 键盘弹出或收起时设置输入字段的对齐方式以防止遮挡。
-  void setAlignment(BuildContext context) {
-    final double inputMethodHeight = MediaQuery.viewInsetsOf(context).bottom;
-    if (inputMethodHeight > 1.0 && !_keyboardAppeared.value) {
-      _keyboardAppeared.value = true;
-    } else if (inputMethodHeight <= 1.0 && _keyboardAppeared.value) {
-      _keyboardAppeared.value = false;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
 
-    //初始化第三方登录
-    UMSharePlugin.init('61b81959e014255fcbb28077');
-    UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
-
-    _usernameController.addListener(() {
-      loginErrorText = '';
-      setState(() {});
-    });
-    _passwordController.addListener(() {
-      loginErrorText = '';
-      setState(() {});
-    });
+    if (Platform.isIOS) {
+      //初始化第三方登录
+      UMSharePlugin.init('61b81959e014255fcbb28077');
+      UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
+    }
   }
 
   @override
@@ -113,11 +92,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //初始化第三方登录
-    // UMSharePlugin.init('61b81959e014255fcbb28077');
-    // UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
-
-    setAlignment(context);
     return PopScope(
       canPop: false,
       onPopInvoked: (pop) async {

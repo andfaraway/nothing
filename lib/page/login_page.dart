@@ -28,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   final double distance = 55.w;
   final Color textColor1 = const Color(0xFF444444);
 
+  String loginErrorText = '';
+
   Widget loginButton() {
     if (!Constants.isIOS) {
       return const SizedBox.shrink();
@@ -67,6 +69,9 @@ class _LoginPageState extends State<LoginPage> {
           showToast("hello $nickName");
         }
       }
+    } else {
+      loginErrorText = response.msg ?? '';
+      setState(() {});
     }
   }
 
@@ -87,6 +92,15 @@ class _LoginPageState extends State<LoginPage> {
     //初始化第三方登录
     UMSharePlugin.init('61b81959e014255fcbb28077');
     UMSharePlugin.setPlatform(platform: UMSocialPlatformType_QQ, appKey: '1112081029');
+
+    _usernameController.addListener(() {
+      loginErrorText = '';
+      setState(() {});
+    });
+    _passwordController.addListener(() {
+      loginErrorText = '';
+      setState(() {});
+    });
   }
 
   @override
@@ -166,10 +180,11 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   110.hSizedBox,
                                   TextField(
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
+                                    decoration: InputDecoration(
+                                      border: const OutlineInputBorder(),
                                       labelText: 'username',
-                                      contentPadding: EdgeInsets.only(left: 18),
+                                      contentPadding: const EdgeInsets.only(left: 18),
+                                      error: loginErrorText.isEmpty ? null : const SizedBox.shrink(),
                                     ),
                                     style: AppTextStyle.titleMedium,
                                     controller: _usernameController,
@@ -177,10 +192,18 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   30.hSizedBox,
                                   TextField(
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
+                                    decoration: InputDecoration(
+                                      border: const OutlineInputBorder(),
                                       labelText: 'password',
-                                      contentPadding: EdgeInsets.only(left: 18),
+                                      contentPadding: const EdgeInsets.only(left: 18),
+                                      error: loginErrorText.isEmpty
+                                          ? null
+                                          : Text(
+                                              loginErrorText,
+                                              style: const TextStyle(
+                                                color: AppColor.red,
+                                              ),
+                                            ),
                                     ),
                                     obscureText: true,
                                     obscuringCharacter: '*',

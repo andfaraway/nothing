@@ -151,12 +151,13 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
                           children: [
                             Text(
                               Singleton().currentUser.nickname ?? '',
-                              style: AppTextStyle.titleMedium.copyWith(letterSpacing: .1, fontWeight: weightBold),
+                              style: AppTextStyle.headLineMedium.copyWith(letterSpacing: .1, fontWeight: weightBold),
                             ),
-                            Text(
-                              'my love',
-                              style: AppTextStyle.bodySmall.copyWith(letterSpacing: .1),
-                            ),
+                            if (Singleton().currentUser.signature != null)
+                              Text(
+                                Singleton().currentUser.signature ?? '',
+                                style: AppTextStyle.bodySmall.copyWith(letterSpacing: .1),
+                              ),
                           ],
                         ),
                       ),
@@ -192,16 +193,16 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
                               title: e.module ?? '',
                               onTap: e.onTap != null
                                   ? () {
-                                functionWithString(context, e.onTap!)?.call();
-                              }
+                                      functionWithString(context, e.onTap!)?.call();
+                                    }
                                   : () {
-                                AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
-                              },
+                                      AppRoute.pushNamePage(context, e.routeName ?? '', arguments: e.arguments);
+                                    },
                               onLongPress: e.onLongPress == null
                                   ? null
                                   : () {
-                                functionWithString(context, e.onLongPress!)?.call();
-                              },
+                                      functionWithString(context, e.onLongPress!)?.call();
+                                    },
                             );
                           }).toList(),
                         ),
@@ -225,6 +226,9 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
   }
 
   Widget _beautifulWords(String text) {
+    if (text.isEmpty) {
+      return const SizedBox.shrink();
+    }
     text = text.trim();
     return Container(
       // color: Colors.red,
@@ -272,41 +276,40 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
     String date1 = map['first_dic']['date'];
     String date2 = map['second_dic']['date'];
     return Container(
-      padding: AppPadding.main,
-      decoration: BoxDecoration(
-        color: HexColor.fromHex('C78D65'),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: <BoxShadow>[
-          BoxShadow(color: AppColor.black.withOpacity(.4), offset: const Offset(2, 2), blurRadius: 4),
-        ],
-      ),
-      child: DefaultTextStyle(
-        style: AppTextStyle.titleMedium.copyWith(color: AppColor.white),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              map['tips_name'],
-            ),
-            Text(
-              map['date_str'] + '\n',
-            ),
-            Text(
-              map['wish_str'],
-            ),
-            if (map['week_distance'] != null) _holidayDistanceWidget('周末', '', map['week_distance'].toString(), '天'),
-            _holidayDistanceWidget(dayName1, date1, dayStr1, timeStr1),
-            _holidayDistanceWidget(dayName2, date2, dayStr2, timeStr2),
+        padding: AppPadding.main,
+        decoration: BoxDecoration(
+          color: HexColor.fromHex('C78D65'),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: <BoxShadow>[
+            BoxShadow(color: AppColor.black.withOpacity(.4), offset: const Offset(2, 2), blurRadius: 4),
           ],
         ),
-      ),
-    );
+        child: DefaultTextStyle(
+          style: AppTextStyle.titleMedium.copyWith(color: AppColor.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                map['tips_name'],
+              ),
+              Text(
+                map['date_str'] + '\n',
+              ),
+              Text(
+                map['wish_str'],
+              ),
+              if (map['week_distance'] != null) _holidayDistanceWidget('周末', '', map['week_distance'].toString(), '天'),
+              _holidayDistanceWidget(dayName1, date1, dayStr1, timeStr1),
+              _holidayDistanceWidget(dayName2, date2, dayStr2, timeStr2),
+            ],
+          ),
+        ));
   }
 
   Widget _holidayDistanceWidget(String holidayName, String date, String days, String timeStr) {
     TextStyle defaultStyle = AppTextStyle.titleMedium.copyWith(color: AppColor.white);
     TextStyle vipStyle =
-    AppTextStyle.displayMedium.copyWith(color: Colors.blueGrey, decoration: TextDecoration.lineThrough);
+        AppTextStyle.displayMedium.copyWith(color: Colors.blueGrey, decoration: TextDecoration.lineThrough);
     InlineSpan span = TextSpan(children: [
       TextSpan(text: '离$holidayName$date还有', style: defaultStyle),
       TextSpan(text: ' $days ', style: vipStyle),
@@ -366,12 +369,13 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
     }
 
     if (provider.drawerTitle.isEmpty || force) {
-      API.getLoveTips().then((response) {
-        if (response.isSuccess) {
-          provider.drawerTitle =
-              response.dataMap['result']?['content']?.replaceAll('娶', '嫁');
-        }
-      });
+      if (Singleton().currentUser.showLove) {
+        API.getLoveTips().then((response) {
+          if (response.isSuccess) {
+            provider.drawerTitle = response.dataMap['result']?['content']?.replaceAll('娶', '嫁');
+          }
+        });
+      }
     }
 
     if (provider.drawerContent.isEmpty || force) {

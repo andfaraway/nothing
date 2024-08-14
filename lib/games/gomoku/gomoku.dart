@@ -34,7 +34,6 @@ class _GomokuState extends State<Gomoku> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     Tools.stopGift();
   }
@@ -58,16 +57,17 @@ class _GomokuState extends State<Gomoku> {
       } else {
         pointList[dx][dy] = PointState.white;
       }
-      _isBlack = !_isBlack;
-
       if (gameIsOver(dx, dy)) {
         showToast('game over');
         gameOver = true;
         Tools.startGift();
+        setState(() {});
+        return;
       } else {
         gameOver = false;
       }
 
+      _isBlack = !_isBlack;
       setState(() {});
     }
   }
@@ -206,13 +206,28 @@ class _GomokuState extends State<Gomoku> {
     return Tools.giftWidget(
       child: Scaffold(
         appBar: AppBar(
-          title: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              color: _isBlack ? Colors.black : Colors.grey,
-            ),
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.r),
+                  color: _isBlack ? Colors.black : Colors.grey,
+                ),
+              ),
+              if (gameOver)
+                Padding(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: const Text(
+                    'Win!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+            ],
           ),
           actions: [
             if (temp != null && !gameOver)
@@ -226,6 +241,14 @@ class _GomokuState extends State<Gomoku> {
                 },
                 icon: const Icon(
                   Icons.replay_circle_filled_rounded,
+                  color: Colors.green,
+                ),
+              ),
+            if (gameOver)
+              IconButton(
+                onPressed: initGame,
+                icon: const Icon(
+                  Icons.label_important,
                   color: Colors.green,
                 ),
               ),
@@ -264,6 +287,20 @@ class _GomokuState extends State<Gomoku> {
         ),
       ),
     );
+  }
+
+  initGame() {
+    pointList.clear();
+    for (int i = 0; i < 15; i++) {
+      pointList.add([]);
+      for (int j = 0; j < 15; j++) {
+        pointList[i].add(PointState.none);
+      }
+    }
+    gameOver = false;
+    temp = null;
+    Tools.stopGift();
+    setState(() {});
   }
 }
 

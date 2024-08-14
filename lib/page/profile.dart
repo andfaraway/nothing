@@ -53,16 +53,6 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           title: '主题',
           onTap: () => AppRoute.pushNamePage(context, AppRoute.themeSetting.name)),
       _titleCell(
-          icon: AppImage.asset(R.imagesSettings),
-          title: '设置',
-          onTap: () => AppRoute.pushNamePage(context, AppRoute.setting.name)),
-      _titleCell(
-          icon: AppImage.asset(R.imagesLogOut),
-          title: '退出登录',
-          onTap: () {
-            showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
-          }),
-      _titleCell(
           icon: const Icon(
             Icons.videogame_asset_rounded,
             size: 20,
@@ -88,15 +78,16 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           onTap: () {
             AppRoute.pushPage(context, const Gomoku());
           }),
-      // _titleCell(
-      //     icon: const Icon(
-      //       Icons.telegram,
-      //       size: 20,
-      //     ),
-      //     title: 'testPage',
-      //     onTap: () {
-      //       AppRoute.pushPage(context, const TestPage());
-      //     }),
+      _titleCell(
+          icon: AppImage.asset(R.imagesSettings),
+          title: '设置',
+          onTap: () => AppRoute.pushNamePage(context, AppRoute.setting.name)),
+      _titleCell(
+          icon: AppImage.asset(R.imagesLogOut),
+          title: '退出登录',
+          onTap: () {
+            showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
+          }),
     ];
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),

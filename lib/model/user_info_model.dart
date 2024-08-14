@@ -9,29 +9,31 @@ part of 'models.dart';
 
 @HiveType(typeId: HiveAdapterTypeIds.userInfo)
 class UserInfoModel extends HiveObject {
-  UserInfoModel(
-      {this.username,
-      this.nickname,
-      this.email,
-      this.platform,
-      this.userId,
-      this.avatar,
-      this.token,
-      this.openId,
-      this.accountType});
+  UserInfoModel({
+    this.username,
+    this.nickname,
+    this.email,
+    this.platform,
+    this.userId,
+    this.avatar,
+    this.token,
+    this.openId,
+    this.accountType,
+    this.signature,
+  });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
     return UserInfoModel(
-      username: json['username'],
-      nickname: json['nick_name'],
-      email: json['email'],
-      platform: json['platform'],
-      userId: json['id'].toString(),
-      avatar: json['avatar'],
-      token: json['token'],
-      openId: json['openId'],
-      accountType: json['account_type'].toString(),
-    );
+        username: json['username'],
+        nickname: json['nick_name'],
+        email: json['email'],
+        platform: json['platform'],
+        userId: json['id'].toString(),
+        avatar: json['avatar'],
+        token: json['token'],
+        openId: json['openId'],
+        accountType: json['account_type'].toString(),
+        signature: json['signature']);
   }
 
   @HiveField(0)
@@ -52,6 +54,10 @@ class UserInfoModel extends HiveObject {
   String? openId;
   @HiveField(8)
   String? accountType;
+  @HiveField(9)
+  String? signature;
+
+  bool get showLove => accountType == '11' || accountType == '111';
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -64,6 +70,7 @@ class UserInfoModel extends HiveObject {
       'token': token,
       'openId': openId,
       'accountType': accountType,
+      'signature': signature,
     };
   }
 

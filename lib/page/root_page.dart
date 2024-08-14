@@ -177,13 +177,14 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         page: AppRoute.home.page.call(),
         selectedColor: Colors.purple,
       ),
-      BarItem(
-        icon: const Icon(Icons.mail_outline),
-        activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, fit: BoxFit.contain),
-        label: '信息',
-        page: AppRoute.message.page.call(),
-        selectedColor: Colors.pinkAccent,
-      ),
+      if (Singleton().currentUser.showLove)
+        BarItem(
+          icon: const Icon(Icons.mail_outline),
+          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, fit: BoxFit.contain),
+          label: '信息',
+          page: AppRoute.message.page.call(),
+          selectedColor: Colors.pinkAccent,
+        ),
       // BarItem(
       //   icon: const Icon(Icons.data_usage),
       //   activeIcon: const Icon(Icons.data_usage),

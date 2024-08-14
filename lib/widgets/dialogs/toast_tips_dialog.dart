@@ -20,65 +20,123 @@ class ToastTipsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
-            // width: 690.w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
+        width: 320.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
+              child: Text(
+                title,
+                style: AppTextStyle.headLineMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              color: const Color(0xFFE8E8E8),
+              height: 1.h,
+            ),
+            Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
-                  child: Text(
-                    title,
-                    style: AppTextStyle.titleMedium,
-                    textAlign: TextAlign.center,
+                Expanded(
+                  child: InkWell(
+                    onTap: onCancel ??
+                        () {
+                          Navigator.pop(context);
+                        },
+                    child: Center(
+                      child: Text(
+                        cancelLabel ?? S.current.cancel,
+                        style: AppTextStyle.headLineMedium.copyWith(color: AppColor.secondlyColor),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
                   color: const Color(0xFFE8E8E8),
-                  height: 1.h,
+                  height: 60.h,
+                  width: 1.w,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: onCancel ??
-                            () {
-                              Navigator.pop(context);
-                            },
-                        child: Text(
-                          cancelLabel ?? S.current.cancel,
-                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.mainColor),
-                        ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      onConfirm?.call();
+                    },
+                    child: Center(
+                      child: Text(
+                        confirmLabel ?? S.current.confirm,
+                        style: AppTextStyle.headLineMedium.copyWith(color: AppColor.red),
                       ),
                     ),
-                    Container(
-                      color: const Color(0xFFE8E8E8),
-                      height: 60.h,
-                      width: 1.w,
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          onConfirm?.call();
-                        },
-                        child: Text(
-                          confirmLabel ?? S.current.confirm,
-                          style: AppTextStyle.bodyMedium.copyWith(color: AppColor.red),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                  ),
+                ),
               ],
-            ),
+            )
+          ],
+        ),
+      ),
+    );
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.w)),
+          // width: 690.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
+                child: Text(
+                  title,
+                  style: AppTextStyle.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                color: const Color(0xFFE8E8E8),
+                height: 1.h,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: onCancel ??
+                          () {
+                            Navigator.pop(context);
+                          },
+                      child: Text(
+                        cancelLabel ?? S.current.cancel,
+                        style: AppTextStyle.bodyMedium.copyWith(color: AppColor.mainColor),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: const Color(0xFFE8E8E8),
+                    height: 60.h,
+                    width: 1.w,
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onConfirm?.call();
+                      },
+                      child: Text(
+                        confirmLabel ?? S.current.confirm,
+                        style: AppTextStyle.bodyMedium.copyWith(color: AppColor.red),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),
@@ -116,7 +174,7 @@ class ToastTipsDialog extends StatelessWidget {
                     Expanded(
                       child: TextButton(
                         onPressed: onCancel ??
-                            () {
+                                () {
                               Navigator.pop(context);
                             },
                         child: Text(

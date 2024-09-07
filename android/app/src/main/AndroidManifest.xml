@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.libin.nothing">
+    package="com.biubiu.nothing">
 
-    <uses-permission android:name="com.libin.nothing.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.biubiu.nothing.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -37,6 +37,8 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!-- EDIT THE android:name ATTRIBUTE IN YOUR EXISTING "ACTIVITY" ELEMENT -->
+        <activity android:name="com.ryanheise.audioservice.AudioServiceActivity" />
 
         <!-- ADD THIS "SERVICE" element -->
         <service

@@ -436,6 +436,23 @@ class API {
     Map<String, dynamic> param = {'page': pageIndex, 'size': pageSize};
     return Http.get(ConstUrl.getExceptions, params: param);
   }
+
+  static Future<AppResponse> getMusicList({
+    String? album,
+    String? author,
+    String? name,
+    int? pageNum,
+    int? pageSize,
+  }) async {
+    Map<String, dynamic> param = {
+      'album': album,
+      'author': author,
+      'name': name,
+      'pageNum': pageNum,
+      'pageSize': pageSize,
+    };
+    return Http.get(ConstUrl.getMusicList, params: param);
+  }
 }
 
 class ConstUrl {
@@ -563,6 +580,9 @@ class ConstUrl {
 
   /// 获取异常信息
   static const String getExceptions = '/getExceptions';
+
+  /// 获取音乐列表
+  static const String getMusicList = '/getMusicList';
 }
 
 class InformationType {

@@ -124,10 +124,6 @@ class _LoginPageState extends State<LoginPage> {
                   repeat: true,
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: _thirdButtons(),
-              ),
               Scaffold(
                 resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.transparent,
@@ -194,6 +190,10 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: _thirdButtons(),
               ),
             ],
           ),

@@ -1,4 +1,4 @@
-package com.libin.nothing;
+package com.biubiu.nothing;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
-    private static final String CHANNEL = "com.libin.nothing";
+    private static final String CHANNEL = "com.biubiu.nothing";
     private static MethodChannel channel;
 
 

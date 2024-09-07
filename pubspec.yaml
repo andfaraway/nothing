@@ -121,6 +121,7 @@ dependencies:
 
   geolocator: ^11.0.0
 
+  quick_actions: ^1.0.7
 
   tetris:
     path: flutter-tetris

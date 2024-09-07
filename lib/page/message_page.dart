@@ -117,7 +117,7 @@ class _MessagePageState extends State<MessagePage> with AutomaticKeepAliveClient
 
   Future<void> _loadData() async {
     bool noMore = false;
-    String? alias = HiveBoxes.get(HiveKey.pushAlias);
+    String? alias = HiveBoxes.get(HiveKey.pushAlias, defaultValue: '1');
     AppResponse response = await API.getMessages(alias: alias, pageNum: _pageNum);
     if (response.isSuccess) {
       if (_pageNum == 0) {

@@ -7,6 +7,37 @@ part of 'providers.dart';
 class HomeProvider extends ChangeNotifier {
   HomeProvider();
 
+  List<BarItem> get rootBars => [
+        BarItem(
+          icon: const Icon(Icons.home),
+          activeIcon: const Icon(Icons.home),
+          label: '资讯',
+          page: AppRoute.home.page.call(),
+          selectedColor: Colors.purple,
+        ),
+        // if (Singleton().currentUser.showLove)
+        //   BarItem(
+        //     icon: const Icon(Icons.mail_outline),
+        //     activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, fit: BoxFit.contain),
+        //     label: '信息',
+        //     page: AppRoute.message.page.call(),
+        //     selectedColor: Colors.pinkAccent,
+        //   ),
+        BarItem(
+          icon: const Icon(Icons.music_note),
+          activeIcon: const Icon(Icons.music_note),
+          label: 'music',
+          page: AppRoute.musicPage.page.call(),
+          selectedColor: Colors.cyan,
+        ),
+        BarItem(
+            icon: const Icon(Icons.person),
+            activeIcon: const Icon(Icons.person),
+            label: '我的',
+            page: AppRoute.profile.page.call(),
+            selectedColor: Colors.teal),
+      ];
+
   int _pageIndex = 0;
 
   int get pageIndex => _pageIndex;
@@ -54,4 +85,6 @@ class HomeProvider extends ChangeNotifier {
     _drawerSettings = value;
     notifyListeners();
   }
+
+  ActionType? actionType;
 }

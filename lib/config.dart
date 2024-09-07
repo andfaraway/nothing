@@ -9,5 +9,7 @@ class Config {
 
   static const String netServer = 'https://apis.libin.zone';
 
+  static const String webServer = 'https://libin.zone';
+
   static const String baseUrl = isDebug ? localUrl : netServer;
 }

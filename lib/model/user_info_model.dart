@@ -24,16 +24,17 @@ class UserInfoModel extends HiveObject {
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
     return UserInfoModel(
-        username: json['username'],
-        nickname: json['nick_name'],
-        email: json['email'],
-        platform: json['platform'],
-        userId: json['id'].toString(),
-        avatar: json['avatar'],
-        token: json['token'],
-        openId: json['openId'],
-        accountType: json['account_type'].toString(),
-        signature: json['signature']);
+      username: json['username'].toString().removeNull,
+      nickname: json['nick_name'].toString().removeNull,
+      email: json['email'].toString().removeNull,
+      platform: json['platform'].toString().removeNull,
+      userId: json['id'].toString().toString().removeNull,
+      avatar: json['avatar'].toString().removeNull,
+      token: json['token'].toString().removeNull,
+      openId: json['openId'].toString().removeNull,
+      accountType: json['account_type'].toString().removeNull,
+      signature: json['signature'].toString().removeNull,
+    );
   }
 
   @HiveField(0)

@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:confetti/confetti.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nothing/widgets/app_drawer.dart';
 import 'package:nothing/widgets/drag_move_box.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../common/prefix_header.dart';
@@ -16,22 +16,29 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin {
-  List<BarItem> _rootBars = [];
-
-  late final TabController _tabController;
+class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
+  late TabController _tabController;
 
   final GlobalKey _tabBarKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _loadData();
 
-    Handler.getUserInfo();
+    const QuickActions quickActions = QuickActions();
+    quickActions.initialize((shortcutType) {
+      if (shortcutType == 'sleep') {
+        final provider = context.read<HomeProvider>();
+        provider.pageIndex = 1;
+        provider.actionType = ActionType.playSleep;
+        AppMessage.send(ActionEvent(ActionType.playSleep));
+      }
+    });
+    quickActions
+        .setShortcutItems(<ShortcutItem>[const ShortcutItem(type: 'sleep', localizedTitle: 'sleep', icon: 'music')]);
 
     _tabController = TabController(
-      length: _rootBars.length,
+      length: context.read<HomeProvider>().rootBars.length,
       vsync: this,
       animationDuration: Duration.zero,
     );
@@ -58,21 +65,17 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             drawer: const AppDrawer(),
             drawerEnableOpenDragGesture: true,
             onEndDrawerChanged: (open) {},
-            extendBody: true,
+            extendBody: false,
             resizeToAvoidBottomInset: false,
             body: DragHoverBothSidesWidget(
               dragWidget: _floatingActionButton(),
               child: TabBarView(
                 controller: _tabController,
                 physics: const NeverScrollableScrollPhysics(),
-                children: _rootBars.map((e) => e.page).toList(),
+                children: homeProvider.rootBars.map((e) => e.page).toList(),
               ),
             ),
-            bottomNavigationBar: _salomonBottomBar(onTap: (index) {
-              // Geolocator.requestPermission();
-              // return;
-              //  Geolocator.openLocationSettings();
-              // return;
+            bottomNavigationBar: _salomonBottomBar(homeProvider, onTap: (index) {
               setState(() {
                 homeProvider.pageIndex = index;
               });
@@ -108,10 +111,10 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
               repeat: true,
             ),
           );
-    });
+        });
   }
 
-  Widget _salomonBottomBar({required Function(int) onTap}) {
+  Widget _salomonBottomBar(HomeProvider logic, {required Function(int) onTap}) {
     return RepaintBoundary(
       key: _tabBarKey,
       child: ClipRect(
@@ -123,7 +126,7 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
             margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             currentIndex: _tabController.index,
             onTap: onTap,
-            items: _rootBars
+            items: logic.rootBars
                 .map(
                   (item) => SalomonBottomBarItem(
                     icon: item.icon,
@@ -136,76 +139,6 @@ class _RootPageState extends State<RootPage> with SingleTickerProviderStateMixin
         ),
       ),
     );
-  }
-
-  Widget _bottomNavigationBar({required Function(int) onTap}) {
-    return AnimatedBottomNavigationBar.builder(
-      // elevation: 0.5,
-      // gapWidth: 44.0.w,
-      shadow: BoxShadow(
-        offset: const Offset(0.0, 1.0),
-        blurRadius: 1.0,
-        color: Colors.black.withOpacity(0.1),
-      ),
-      backgroundColor: AppColor.tabColor,
-      activeIndex: _tabController.index,
-      gapLocation: GapLocation.center,
-      notchSmoothness: NotchSmoothness.defaultEdge,
-      splashSpeedInMilliseconds: 0,
-      leftCornerRadius: 10,
-      rightCornerRadius: 10,
-      onTap: onTap,
-      itemCount: _rootBars.length,
-      tabBuilder: (int index, bool isActive) {
-        BarItem item = _rootBars[index];
-        return Container(
-            width: item.size,
-            height: item.size,
-            margin: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: isActive ? item.activeIcon : item.icon);
-      }, //other params
-    );
-  }
-
-  void _loadData() {
-    _rootBars = [
-      BarItem(
-        icon: const Icon(Icons.home),
-        activeIcon: const Icon(Icons.home),
-        label: '资讯',
-        page: AppRoute.home.page.call(),
-        selectedColor: Colors.purple,
-      ),
-      if (Singleton().currentUser.showLove)
-        BarItem(
-          icon: const Icon(Icons.mail_outline),
-          activeIcon: AppImage.asset(R.tabMail, color: AppColor.errorColor, fit: BoxFit.contain),
-          label: '信息',
-          page: AppRoute.message.page.call(),
-          selectedColor: Colors.pinkAccent,
-        ),
-      // BarItem(
-      //   icon: const Icon(Icons.data_usage),
-      //   activeIcon: const Icon(Icons.data_usage),
-      //   label: '色彩板',
-      //   page: AppRoute.funnyColors.page.call(),
-      //   selectedColor: Colors.orange,
-      // ),
-      BarItem(
-        icon: const Icon(Icons.book),
-        activeIcon: const Icon(Icons.book),
-        label: '诗歌',
-        page: AppRoute.poetry.page.call(),
-        selectedColor: AppRoute.poetry.pageColor,
-      ),
-      BarItem(
-          icon: const Icon(Icons.person),
-          activeIcon: const Icon(Icons.person),
-          label: '我的',
-          page: AppRoute.profile.page.call(),
-          selectedColor: Colors.teal),
-    ];
   }
 }
 

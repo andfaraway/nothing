@@ -7,9 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:nothing/common/constants.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../common/app_routes.dart';
 import '../common/style.dart';
 import '../http/api.dart';
 import '../model/setting_config_model.dart';
+import '../page/root_page.dart';
 
 export 'package:provider/provider.dart';
 

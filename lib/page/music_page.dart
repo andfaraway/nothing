@@ -1,7 +1,9 @@
-import 'package:audio_session/audio_session.dart';
+import 'dart:async';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/model/music_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'music_common.dart';
@@ -13,43 +15,11 @@ class MusicPage extends StatefulWidget {
   State<MusicPage> createState() => _MusicPageState();
 }
 
-class _MusicPageState extends State<MusicPage> {
-  static int _nextMediaId = 0;
+class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixin {
   late AudioPlayer _player;
-  final _playlist = ConcatenatingAudioSource(children: [
-    // ClippingAudioSource(
-    //   start: const Duration(seconds: 60),
-    //   end: const Duration(seconds: 90),
-    //   child: AudioSource.uri(Uri.parse(
-    //       "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3")),
-    //   tag: MediaItem(
-    //     id: '${_nextMediaId++}',
-    //     album: "Science Friday",
-    //     title: "A Salute To Head-Scratching Science (30 seconds)",
-    //     artUri: Uri.parse(
-    //         "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-    //   ),
-    // ),
-    AudioSource.uri(
-      Uri.parse("${Config.netServer}/music/badukongjian/bandaotiehe.mp3"),
-      tag: MediaItem(
-        id: '${_nextMediaId++}',
-        album: "八度空间-周杰伦",
-        title: "半岛铁盒",
-        artUri: Uri.parse('${Config.netServer}/src/handsomeman.jpeg'),
-      ),
-    ),
-    AudioSource.uri(
-      Uri.parse("${Config.netServer}/music/qqmusic_体面..m4a"),
-      tag: MediaItem(
-        id: '${_nextMediaId++}',
-        album: "于文文",
-        title: "体面",
-        artUri: Uri.parse('${Config.netServer}/src/handsomeman.jpeg'),
-      ),
-    ),
-  ]);
-  int _addedCount = 0;
+  final _playlist = ConcatenatingAudioSource(children: []);
+
+  StreamSubscription? _sub;
 
   @override
   void initState() {
@@ -69,37 +39,87 @@ class _MusicPageState extends State<MusicPage> {
       Constants.justAudioBackgroundInit = true;
     }
 
-    final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.music());
+    // final session = await AudioSession.instance;
+    // await session.configure(const AudioSessionConfiguration.music());
 
-    // await session.configure(const AudioSessionConfiguration.speech());
-    // Listen to errors during playback.
-    _player.playbackEventStream.listen((event) {}, onError: (Object e, StackTrace stackTrace) {
+    _player.playbackEventStream.listen((event) {
+      print('play event = $event');
+    }, onError: (Object e, StackTrace stackTrace) {
       print('A stream error occurred: $e');
     });
-    try {
-      await _player.setAudioSource(_playlist);
-    } catch (e, stackTrace) {
-      // Catch load errors: 404, invalid url ...
-      print("Error loading playlist: $e");
-      print(stackTrace);
+
+    await _player.setAudioSource(_playlist);
+
+    _sub = AppMessage.addListener<ActionEvent>((event) {
+      if (event.action == ActionType.playSleep) {
+        _playSleep();
+      }
+    });
+
+    final result = await API.getMusicList();
+    if (result.isSuccess) {
+      final list = result.dataMap['music_list'] ?? [];
+      try {
+        _playlist.addAll(list
+            .map((e) {
+          MusicModel model = MusicModel.fromJson(e);
+          return LockCachingAudioSource(
+            Uri.parse(model.url),
+            tag: MediaItem(
+              id: model.id,
+              album: model.album,
+              title: model.name,
+              artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+            ),
+          );
+        })
+            .cast<LockCachingAudioSource>()
+            .toList());
+      } catch (e, stackTrace) {
+        // Catch load errors: 404, invalid url ...
+        print("Error loading playlist: $e");
+        print(stackTrace);
+      }
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (context
+          .read<HomeProvider>()
+          .actionType == ActionType.playSleep) {
+        _playSleep();
+      }
+    });
+  }
+
+  _playSleep() {
+    int index = _playlist.sequence.indexWhere((element) {
+      MediaItem item = element.tag;
+      return item.id.toString() == '115';
+    });
+    if (index != -1) {
+      _player.seek(Duration.zero, index: index);
+      _player.play();
     }
   }
 
   @override
   void dispose() {
     _player.dispose();
+    _sub?.cancel();
+    _sub = null;
     super.dispose();
   }
 
-  Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-      _player.positionStream,
-      _player.bufferedPositionStream,
-      _player.durationStream,
-      (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
+  Stream<PositionData> get _positionDataStream =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+          _player.positionStream,
+          _player.bufferedPositionStream,
+          _player.durationStream,
+              (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppWidget.appbar(title: 'MUSIC PLAY'),
       body: Column(
@@ -201,64 +221,59 @@ class _MusicPageState extends State<MusicPage> {
           ),
           SizedBox(
             height: 240.0,
-            child: StreamBuilder<SequenceState?>(
-              stream: _player.sequenceStateStream,
-              builder: (context, snapshot) {
-                final state = snapshot.data;
-                final sequence = state?.sequence ?? [];
-                return ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {
-                    if (oldIndex < newIndex) newIndex--;
-                    _playlist.move(oldIndex, newIndex);
-                  },
-                  children: [
-                    for (var i = 0; i < sequence.length; i++)
-                      Dismissible(
-                        key: ValueKey(sequence[i]),
-                        background: Container(
-                          color: Colors.redAccent,
-                          alignment: Alignment.centerRight,
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: Icon(Icons.delete, color: Colors.white),
+            child: SingleChildScrollView(
+              child: StreamBuilder<SequenceState?>(
+                stream: _player.sequenceStateStream,
+                builder: (context, snapshot) {
+                  final state = snapshot.data;
+                  final sequence = state?.sequence ?? [];
+                  return ReorderableListView(
+                    onReorder: (int oldIndex, int newIndex) {
+                      if (oldIndex < newIndex) newIndex--;
+                      _playlist.move(oldIndex, newIndex);
+                    },
+                    children: [
+                      for (var i = 0; i < sequence.length; i++)
+                        Dismissible(
+                          key: ValueKey(sequence[i]),
+                          background: Container(
+                            color: Colors.redAccent,
+                            alignment: Alignment.centerRight,
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Icon(Icons.delete, color: Colors.white),
+                            ),
+                          ),
+                          onDismissed: (dismissDirection) {
+                            _playlist.removeAt(i);
+                          },
+                          child: Material(
+                            color: i == state!.currentIndex ? Colors.grey.shade300 : null,
+                            child: ListTile(
+                              title: Text(sequence[i].tag.title as String),
+                              onTap: () {
+                                _player.seek(Duration.zero, index: i);
+                              },
+                            ),
                           ),
                         ),
-                        onDismissed: (dismissDirection) {
-                          _playlist.removeAt(i);
-                        },
-                        child: Material(
-                          color: i == state!.currentIndex ? Colors.grey.shade300 : null,
-                          child: ListTile(
-                            title: Text(sequence[i].tag.title as String),
-                            onTap: () {
-                              _player.seek(Duration.zero, index: i);
-                            },
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          _playlist.add(AudioSource.uri(
-            Uri.parse("asset:///audio/nature.mp3"),
-            tag: MediaItem(
-              id: '${_nextMediaId++}',
-              album: "Public Domain",
-              title: "Nature Sounds ${++_addedCount}",
-              artUri: Uri.parse("https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg"),
-            ),
-          ));
-        },
+        onPressed: () {},
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class ControlButtons extends StatelessWidget {

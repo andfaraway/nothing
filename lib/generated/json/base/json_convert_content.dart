@@ -12,6 +12,7 @@ import 'package:nothing/model/file_model.dart';
 import 'package:nothing/model/image_compression_model.dart';
 import 'package:nothing/model/login_model.dart';
 import 'package:nothing/model/message_model.dart';
+import 'package:nothing/model/music_model.dart';
 import 'package:nothing/model/poetry_model.dart';
 import 'package:nothing/model/server_image_model.dart';
 import 'package:nothing/model/setting_config_model.dart';
@@ -22,33 +23,30 @@ JsonConvert jsonConvert = JsonConvert();
 
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 typedef EnumConvertFunction<T> = T Function(String value);
+typedef ConvertExceptionHandler = void Function(Object error, StackTrace stackTrace);
 
 class JsonConvert {
-  static Map<String, JsonConvertFunction> get convertFuncMap => {
-        (DeviceInfoModel).toString(): DeviceInfoModel.fromJson,
-        (DeviceInfoDeviceInfo).toString(): DeviceInfoDeviceInfo.fromJson,
-        (DeviceInfoDeviceInfoIosInfo).toString(): DeviceInfoDeviceInfoIosInfo.fromJson,
-        (DeviceInfoDeviceInfoInfo).toString(): DeviceInfoDeviceInfoInfo.fromJson,
-        (Utsname).toString(): Utsname.fromJson,
-        (DeviceInfoDeviceInfoAndroidInfo).toString(): DeviceInfoDeviceInfoAndroidInfo.fromJson,
-        (DeviceInfoDeviceInfoAndroidInfoDisplayMetrics).toString():
-            DeviceInfoDeviceInfoAndroidInfoDisplayMetrics.fromJson,
-        (DeviceInfoDeviceInfoAndroidInfoVersion).toString(): DeviceInfoDeviceInfoAndroidInfoVersion.fromJson,
-        (DeviceInfoRuntimeInfo).toString(): DeviceInfoRuntimeInfo.fromJson,
-        (DeviceInfoPackageInfo).toString(): DeviceInfoPackageInfo.fromJson,
-        (ErrorModel).toString(): ErrorModel.fromJson,
-        (ExceptionModel).toString(): ExceptionModel.fromJson,
-        (FavoriteModel).toString(): FavoriteModel.fromJson,
-        (FileModel).toString(): FileModel.fromJson,
-        (ImageCompressionModel).toString(): ImageCompressionModel.fromJson,
-        (LoginModel).toString(): LoginModel.fromJson,
-        (MessageModel).toString(): MessageModel.fromJson,
-        (PoetryModel).toString(): PoetryModel.fromJson,
-        (ServerImageModel).toString(): ServerImageModel.fromJson,
-        (SettingConfigModel).toString(): SettingConfigModel.fromJson,
-        (VersionUpdateModel).toString(): VersionUpdateModel.fromJson,
-        (WeddingModel).toString(): WeddingModel.fromJson,
-      };
+  static ConvertExceptionHandler? onError;
+  JsonConvertClassCollection convertFuncMap = JsonConvertClassCollection();
+
+  /// When you are in the development, to generate a new model class, hot-reload doesn't find new generation model class, you can build on MaterialApp method called jsonConvert. ReassembleConvertFuncMap (); This method only works in a development environment
+  /// https://flutter.cn/docs/development/tools/hot-reload
+  /// class MyApp extends StatelessWidget {
+  ///    const MyApp({Key? key})
+  ///        : super(key: key);
+  ///
+  ///    @override
+  ///    Widget build(BuildContext context) {
+  ///      jsonConvert.reassembleConvertFuncMap();
+  ///      return MaterialApp();
+  ///    }
+  /// }
+  void reassembleConvertFuncMap() {
+    bool isReleaseMode = const bool.fromEnvironment('dart.vm.product');
+    if (!isReleaseMode) {
+      convertFuncMap = JsonConvertClassCollection();
+    }
+  }
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
     if (value == null) {
@@ -61,6 +59,9 @@ class JsonConvert {
       return _asT<T>(value, enumConvert: enumConvert);
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return null;
     }
   }
@@ -73,6 +74,9 @@ class JsonConvert {
       return value.map((dynamic e) => _asT<T>(e, enumConvert: enumConvert)).toList();
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return <T>[];
     }
   }
@@ -85,6 +89,9 @@ class JsonConvert {
       return (value as List<dynamic>).map((dynamic e) => _asT<T>(e, enumConvert: enumConvert)!).toList();
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return <T>[];
     }
   }
@@ -119,9 +126,9 @@ class JsonConvert {
         if (value == null) {
           return null;
         }
-        return convertFuncMap[type]!(Map<String, dynamic>.from(value)) as T;
+        return convertFuncMap[type]!(value as Map<String, dynamic>) as T;
       } else {
-        throw UnimplementedError('$type unimplemented');
+        throw UnimplementedError('$type unimplemented,you can try running the app again');
       }
     }
   }
@@ -194,6 +201,9 @@ class JsonConvert {
     if (<MessageModel>[] is M) {
       return data.map<MessageModel>((Map<String, dynamic> e) => MessageModel.fromJson(e)).toList() as M;
     }
+    if (<MusicModel>[] is M) {
+      return data.map<MusicModel>((Map<String, dynamic> e) => MusicModel.fromJson(e)).toList() as M;
+    }
     if (<PoetryModel>[] is M) {
       return data.map<PoetryModel>((Map<String, dynamic> e) => PoetryModel.fromJson(e)).toList() as M;
     }
@@ -210,7 +220,7 @@ class JsonConvert {
       return data.map<WeddingModel>((Map<String, dynamic> e) => WeddingModel.fromJson(e)).toList() as M;
     }
 
-    debugPrint("${M.toString()} not found");
+    debugPrint("$M not found");
 
     return null;
   }
@@ -220,9 +230,45 @@ class JsonConvert {
       return json;
     }
     if (json is List) {
-      return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
+      return _getListChildType<M>(json.map((dynamic e) => e as Map<String, dynamic>).toList());
     } else {
       return jsonConvert.convert<M>(json);
     }
+  }
+}
+
+class JsonConvertClassCollection {
+  Map<String, JsonConvertFunction> convertFuncMap = {
+    (DeviceInfoModel).toString(): DeviceInfoModel.fromJson,
+    (DeviceInfoDeviceInfo).toString(): DeviceInfoDeviceInfo.fromJson,
+    (DeviceInfoDeviceInfoIosInfo).toString(): DeviceInfoDeviceInfoIosInfo.fromJson,
+    (DeviceInfoDeviceInfoInfo).toString(): DeviceInfoDeviceInfoInfo.fromJson,
+    (Utsname).toString(): Utsname.fromJson,
+    (DeviceInfoDeviceInfoAndroidInfo).toString(): DeviceInfoDeviceInfoAndroidInfo.fromJson,
+    (DeviceInfoDeviceInfoAndroidInfoDisplayMetrics).toString(): DeviceInfoDeviceInfoAndroidInfoDisplayMetrics.fromJson,
+    (DeviceInfoDeviceInfoAndroidInfoVersion).toString(): DeviceInfoDeviceInfoAndroidInfoVersion.fromJson,
+    (DeviceInfoRuntimeInfo).toString(): DeviceInfoRuntimeInfo.fromJson,
+    (DeviceInfoPackageInfo).toString(): DeviceInfoPackageInfo.fromJson,
+    (ErrorModel).toString(): ErrorModel.fromJson,
+    (ExceptionModel).toString(): ExceptionModel.fromJson,
+    (FavoriteModel).toString(): FavoriteModel.fromJson,
+    (FileModel).toString(): FileModel.fromJson,
+    (ImageCompressionModel).toString(): ImageCompressionModel.fromJson,
+    (LoginModel).toString(): LoginModel.fromJson,
+    (MessageModel).toString(): MessageModel.fromJson,
+    (MusicModel).toString(): MusicModel.fromJson,
+    (PoetryModel).toString(): PoetryModel.fromJson,
+    (ServerImageModel).toString(): ServerImageModel.fromJson,
+    (SettingConfigModel).toString(): SettingConfigModel.fromJson,
+    (VersionUpdateModel).toString(): VersionUpdateModel.fromJson,
+    (WeddingModel).toString(): WeddingModel.fromJson,
+  };
+
+  bool containsKey(String type) {
+    return convertFuncMap.containsKey(type);
+  }
+
+  JsonConvertFunction? operator [](String key) {
+    return convertFuncMap[key];
   }
 }

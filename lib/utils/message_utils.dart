@@ -12,6 +12,16 @@ class AppMessage {
   static void send<T>(T event) => _eventBus.fire(event);
 }
 
+class ActionEvent {
+  final ActionType action;
+
+  ActionEvent(this.action);
+}
+
+enum ActionType {
+  playSleep,
+}
+
 // class DownloadTaskEvent{
 //   final DownloadTask task;
 //   DownloadTaskEvent(this.task);

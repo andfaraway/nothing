@@ -5,7 +5,7 @@
 
 import 'package:flutter/services.dart';
 
-const MethodChannel platformChannel = MethodChannel('com.libin.nothing');
+const MethodChannel platformChannel = MethodChannel('com.biubiu.nothing');
 
 class ChannelKey {
   static const String backToDeskTop = 'backToDeskTop';

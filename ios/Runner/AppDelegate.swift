@@ -15,7 +15,7 @@ var channel: FlutterMethodChannel? = nil
       let notificationDic = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
 
       let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
-      channel = FlutterMethodChannel(name: "com.libin.nothing",
+      channel = FlutterMethodChannel(name: "com.biubiu.nothing",
                                                     binaryMessenger: controller.binaryMessenger)
       channel?.setMethodCallHandler({
             (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in

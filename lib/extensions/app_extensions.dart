@@ -27,6 +27,10 @@ extension ObjectEx on dynamic {
 
     return false;
   }
+
+  String get removeNull {
+    return this == 'null' ? '' : this;
+  }
 }
 
 extension StringEx on String {
@@ -95,9 +99,8 @@ extension DateTimeEx on DateTime {
   }
 }
 
-extension MapExt<E, V> on Map<E, V> {
-  Map<E, V> removeEmptyValue() =>
-      this..removeWhere((key, value) => value == null || value == '' || value == [] || value == {});
+extension MapEx on Map {
+  get removeEmptyValue => this..removeWhere((key, value) => value == null || value == '' || value == [] || value == {});
 }
 
 extension EdgeInsetsEx on EdgeInsets {

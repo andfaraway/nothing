@@ -113,7 +113,10 @@ class Http {
         _dio.options.headers['Authorization'] = refresh ? Handler.refreshToken : Handler.accessToken;
       }
       Response response = await _dio.request(path,
-          data: data, queryParameters: params, onSendProgress: onSendProgress, cancelToken: cancelToken);
+          data: data?.removeEmptyValue,
+          queryParameters: params?.removeEmptyValue,
+          onSendProgress: onSendProgress,
+          cancelToken: cancelToken);
       httpResponse = response.data;
       if (!httpResponse.isSuccess) {
         if (httpResponse.code == AppResponseCode.tokenError) {

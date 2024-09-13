@@ -251,8 +251,8 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
                           color: i == state!.currentIndex ? Colors.grey.shade300 : null,
                           child: ListTile(
                             title: Text(sequence[i].tag.title as String),
-                            onTap: () {
-                              _player.seek(Duration.zero, index: i);
+                            onTap: () async {
+                              await _player.seek(Duration.zero, index: i);
                               _player.play();
                             },
                           ),

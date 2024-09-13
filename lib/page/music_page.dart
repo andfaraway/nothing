@@ -252,8 +252,10 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
                           child: ListTile(
                             title: Text(sequence[i].tag.title as String),
                             onTap: () async {
-                              await _player.seek(Duration.zero, index: i);
-                              _player.play();
+                              try {
+                                await _player.seek(Duration.zero, index: i);
+                                _player.play();
+                              } catch (_) {}
                             },
                           ),
                         ),

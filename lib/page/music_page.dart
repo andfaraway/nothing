@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:nothing/common/prefix_header.dart';
@@ -62,17 +61,18 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
       try {
         _playlist.addAll(list
             .map((e) {
-          MusicModel model = MusicModel.fromJson(e);
-          return LockCachingAudioSource(
-            Uri.parse(model.url),
-            tag: MediaItem(
-              id: model.id,
-              album: model.album,
-              title: model.name,
-              artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
-            ),
-          );
-        })
+              MusicModel model = MusicModel.fromJson(e);
+              print('model.cover = ${model.cover},${model.cover.isNotEmpty}');
+              return LockCachingAudioSource(
+                Uri.parse(model.url),
+                tag: MediaItem(
+                  id: model.id,
+                  album: model.album,
+                  title: model.name,
+                  artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+                ),
+              );
+            })
             .cast<LockCachingAudioSource>()
             .toList());
       } catch (e, stackTrace) {
@@ -81,11 +81,10 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
         print(stackTrace);
       }
     }
+    _player.setLoopMode(LoopMode.all);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (context
-          .read<HomeProvider>()
-          .actionType == ActionType.playSleep) {
+      if (context.read<HomeProvider>().actionType == ActionType.playSleep) {
         _playSleep();
       }
     });
@@ -99,6 +98,7 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
     if (index != -1) {
       _player.seek(Duration.zero, index: index);
       _player.play();
+      _player.setLoopMode(LoopMode.one);
     }
   }
 
@@ -110,12 +110,11 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
     super.dispose();
   }
 
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
-              (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
+  Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+      _player.positionStream,
+      _player.bufferedPositionStream,
+      _player.durationStream,
+      (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +140,9 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Image.network(metadata.artUri.toString())),
+                        child: metadata.artUri != null
+                            ? Center(child: Image.network(metadata.artUri.toString()))
+                            : const SizedBox.shrink(),
                       ),
                     ),
                     Text(metadata.album!, style: Theme.of(context).textTheme.titleMedium),
@@ -221,59 +222,112 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
           ),
           SizedBox(
             height: 240.0,
-            child: SingleChildScrollView(
-              child: StreamBuilder<SequenceState?>(
-                stream: _player.sequenceStateStream,
-                builder: (context, snapshot) {
-                  final state = snapshot.data;
-                  final sequence = state?.sequence ?? [];
-                  return ReorderableListView(
-                    onReorder: (int oldIndex, int newIndex) {
-                      if (oldIndex < newIndex) newIndex--;
-                      _playlist.move(oldIndex, newIndex);
-                    },
-                    children: [
-                      for (var i = 0; i < sequence.length; i++)
-                        Dismissible(
-                          key: ValueKey(sequence[i]),
-                          background: Container(
-                            color: Colors.redAccent,
-                            alignment: Alignment.centerRight,
-                            child: const Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Icon(Icons.delete, color: Colors.white),
-                            ),
-                          ),
-                          onDismissed: (dismissDirection) {
-                            _playlist.removeAt(i);
-                          },
-                          child: Material(
-                            color: i == state!.currentIndex ? Colors.grey.shade300 : null,
-                            child: ListTile(
-                              title: Text(sequence[i].tag.title as String),
-                              onTap: () {
-                                _player.seek(Duration.zero, index: i);
-                              },
-                            ),
+            child: StreamBuilder<SequenceState?>(
+              stream: _player.sequenceStateStream,
+              builder: (context, snapshot) {
+                final state = snapshot.data;
+                final sequence = state?.sequence ?? [];
+                return ReorderableListView(
+                  onReorder: (int oldIndex, int newIndex) {
+                    if (oldIndex < newIndex) newIndex--;
+                    _playlist.move(oldIndex, newIndex);
+                  },
+                  children: [
+                    for (var i = 0; i < sequence.length; i++)
+                      Dismissible(
+                        key: ValueKey(sequence[i]),
+                        background: Container(
+                          color: Colors.redAccent,
+                          alignment: Alignment.centerRight,
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
-                    ],
-                  );
-                },
-              ),
+                        onDismissed: (dismissDirection) {
+                          _playlist.removeAt(i);
+                        },
+                        child: Material(
+                          color: i == state!.currentIndex ? Colors.grey.shade300 : null,
+                          child: ListTile(
+                            title: Text(sequence[i].tag.title as String),
+                            onTap: () {
+                              _player.seek(Duration.zero, index: i);
+                              _player.play();
+                            },
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.add),
+      //   onPressed: addCLick,
+      // ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  addCLick() async {
+    _init();
+    return;
+    // _playlist.add(LockCachingAudioSource(
+    //   Uri.parse(model.url),
+    //   tag: MediaItem(
+    //     id: model.id,
+    //     album: test,
+    //     title: 'test',
+    //     artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+    //   ),
+    // ));
+    // _player.seek(Duration.zero, index: 4);
+    // _player.play();
+
+    _playlist.clear();
+
+    final result = await API.getMusicList();
+    if (result.isSuccess) {
+      final List<dynamic> list = result.dataMap['music_list'] ?? [];
+
+      Map<String, dynamic> map = list.firstWhereOrNull((element) => element['id'] == '117');
+      MusicModel model = MusicModel.fromJson(map);
+
+      try {
+        LockCachingAudioSource? temp;
+        List<LockCachingAudioSource> l = list
+            .map((e) {
+              MusicModel model = MusicModel.fromJson(e);
+
+              final result = LockCachingAudioSource(
+                Uri.parse(model.url),
+                tag: MediaItem(
+                  id: model.id,
+                  album: model.album,
+                  title: model.name,
+                  artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+                ),
+              );
+
+              if (model.id == '117') {
+                temp = result;
+              }
+              return result;
+            })
+            .cast<LockCachingAudioSource>()
+            .toList();
+
+        _playlist.add(temp!);
+      } catch (_) {}
+    }
+  }
 }
 
 class ControlButtons extends StatelessWidget {
@@ -316,8 +370,8 @@ class ControlButtons extends StatelessWidget {
             if (processingState == ProcessingState.loading || processingState == ProcessingState.buffering) {
               return Container(
                 margin: const EdgeInsets.all(8.0),
-                width: 64.0,
-                height: 64.0,
+                width: 54.0,
+                height: 54.0,
                 child: const CircularProgressIndicator(),
               );
             } else if (playing != true) {

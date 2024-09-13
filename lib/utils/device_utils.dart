@@ -16,13 +16,10 @@ class DeviceUtils {
   static Future<void> init() async {
     if (Constants.isIOS) {
       IosDeviceInfo iosInfo = await _deviceInfoPlugin.iosInfo;
-      deviceInfo.device.iosInfo = DeviceInfoDeviceInfoIosInfo.fromJson(iosInfo.data);
-      deviceInfo.device.info.uuid = iosInfo.identifierForVendor ?? '';
       deviceInfo.device.info.deviceInfo = '${getCurrentIphoneName(iosInfo.utsname.machine)} ${iosInfo.systemVersion}';
       deviceInfo.device.info.isPhysicalDevice = iosInfo.isPhysicalDevice;
     } else {
       AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
-      deviceInfo.device.iosInfo = DeviceInfoDeviceInfoIosInfo.fromJson(androidInfo.data);
       deviceInfo.device.info.uuid = const Uuid().v4();
       deviceInfo.device.info.isPhysicalDevice = androidInfo.isPhysicalDevice;
     }

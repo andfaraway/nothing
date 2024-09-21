@@ -61,9 +61,6 @@ class _LoginPageState extends State<LoginPage> {
       NotificationUtils.register();
       if (mounted) {
         AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
-        if (nickName != null) {
-          showToast("hello $nickName");
-        }
       }
     } else {
       loginErrorText = response.msg ?? '';
@@ -241,7 +238,6 @@ class _LoginPageState extends State<LoginPage> {
               if (mounted) {
                 NotificationUtils.register();
                 AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
-                showToast("hello $nickName");
               }
             } else {
               showToast("登录失败");

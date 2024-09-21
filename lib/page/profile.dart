@@ -4,8 +4,7 @@ import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/games/gomoku/gomoku.dart';
-import 'package:tetris/main.dart';
-
+import 'package:flutter_tetris/flutter_tetris.dart';
 import 'flutter/catalog_page.dart';
 
 class Profile extends StatefulWidget {
@@ -59,7 +58,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           ),
           title: 'Tetris',
           onTap: () {
-            AppRoute.pushPage(context, MyApp());
+            AppRoute.pushPage(context, TetrisWidget());
           }),
       _titleCell(
           icon: const FlutterLogo(

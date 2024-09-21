@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/music_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'music_common.dart';
@@ -15,15 +17,14 @@ class MusicPage extends StatefulWidget {
 }
 
 class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixin {
-  late AudioPlayer _player;
-  final _playlist = ConcatenatingAudioSource(children: []);
+  AudioPlayer _player = AudioPlayer();
+  ConcatenatingAudioSource _playlist = ConcatenatingAudioSource(children: []);
 
   StreamSubscription? _sub;
 
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
     Screens.updateStatusBarStyle(dark: true);
     _init();
   }
@@ -41,13 +42,9 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
     // final session = await AudioSession.instance;
     // await session.configure(const AudioSessionConfiguration.music());
 
-    _player.playbackEventStream.listen((event) {
-      print('play event = $event');
-    }, onError: (Object e, StackTrace stackTrace) {
+    _player.playbackEventStream.listen((event) {}, onError: (Object e, StackTrace stackTrace) {
       print('A stream error occurred: $e');
     });
-
-    await _player.setAudioSource(_playlist);
 
     _sub = AppMessage.addListener<ActionEvent>((event) {
       if (event.action == ActionType.playSleep) {
@@ -55,39 +52,61 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
       }
     });
 
-    final result = await API.getMusicList();
-    if (result.isSuccess) {
-      final list = result.dataMap['music_list'] ?? [];
-      try {
-        _playlist.addAll(list
-            .map((e) {
-              MusicModel model = MusicModel.fromJson(e);
-              print('model.cover = ${model.cover},${model.cover.isNotEmpty}');
-              return LockCachingAudioSource(
-                Uri.parse(model.url),
-                tag: MediaItem(
-                  id: model.id,
-                  album: model.album,
-                  title: model.name,
-                  artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
-                ),
-              );
-            })
-            .cast<LockCachingAudioSource>()
-            .toList());
-      } catch (e, stackTrace) {
-        // Catch load errors: 404, invalid url ...
-        print("Error loading playlist: $e");
-        print(stackTrace);
-      }
-    }
-    _player.setLoopMode(LoopMode.all);
+    await _player.setLoopMode(LoopMode.all);
+    await _player.setShuffleModeEnabled(true);
+
+    await request();
+    await _player.setAudioSource(_playlist);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (context.read<HomeProvider>().actionType == ActionType.playSleep) {
         _playSleep();
       }
     });
+  }
+
+  request() async {
+    Directory directory = Directory('${(await getTemporaryDirectory()).path}/test');
+
+    final result = await API.getMusicList(pageSize: 100);
+    if (result.isSuccess) {
+      List<dynamic> list = result.dataMap['music_list'] ?? [];
+
+      try {
+        List<AudioSource> l = list
+            .map((e) {
+              MusicModel model = MusicModel.fromJson(e);
+              String type = model.url.split('.').last.toLowerCase();
+              if (type != 'flac' || Constants.isAndroid || true) {
+                final audioSource = LockCachingAudioSource(
+                  Uri.parse(model.url),
+                  tag: MediaItem(
+                    id: model.id,
+                    album: model.album,
+                    title: model.name,
+                    artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+                  ),
+                );
+                return audioSource;
+              } else {
+                return AudioSource.uri(
+                  Uri.parse(model.url),
+                  tag: MediaItem(
+                    id: model.id,
+                    album: model.album,
+                    title: model.name,
+                    artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
+                  ),
+                );
+              }
+            })
+            .cast<AudioSource>()
+            .toList();
+        _playlist = ConcatenatingAudioSource(children: l);
+      } catch (e, stackTrace) {
+        print("Error loading playlist: $e,\n $stackTrace");
+      }
+    }
   }
 
   _playSleep() {
@@ -115,6 +134,23 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
       _player.bufferedPositionStream,
       _player.durationStream,
       (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero));
+
+  addCLick() async {
+    _player.dispose();
+    _player = AudioPlayer();
+    _init();
+  }
+
+  playClick(int index) async {
+    try {
+      await _player.seek(Duration.zero, index: index);
+      _player.play();
+      setState(() {});
+    } catch (e) {
+      print('${_playlist.sequence[index].tag.name} remove : $e');
+      _playlist.removeAt(index);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +181,7 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
                             : const SizedBox.shrink(),
                       ),
                     ),
-                    Text(metadata.album!, style: Theme.of(context).textTheme.titleMedium),
+                    Text(metadata.album ?? '', style: Theme.of(context).textTheme.titleMedium),
                     Text(metadata.title),
                   ],
                 );
@@ -251,12 +287,7 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
                           color: i == state!.currentIndex ? Colors.grey.shade300 : null,
                           child: ListTile(
                             title: Text(sequence[i].tag.title as String),
-                            onTap: () async {
-                              try {
-                                await _player.seek(Duration.zero, index: i);
-                                _player.play();
-                              } catch (_) {}
-                            },
+                            onTap: () => playClick(i),
                           ),
                         ),
                       ),
@@ -267,69 +298,16 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
           ),
         ],
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.add),
-      //   onPressed: addCLick,
-      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: FloatingActionButton(
+        onPressed: addCLick,
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  addCLick() async {
-    _init();
-    return;
-    // _playlist.add(LockCachingAudioSource(
-    //   Uri.parse(model.url),
-    //   tag: MediaItem(
-    //     id: model.id,
-    //     album: test,
-    //     title: 'test',
-    //     artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
-    //   ),
-    // ));
-    // _player.seek(Duration.zero, index: 4);
-    // _player.play();
-
-    _playlist.clear();
-
-    final result = await API.getMusicList();
-    if (result.isSuccess) {
-      final List<dynamic> list = result.dataMap['music_list'] ?? [];
-
-      Map<String, dynamic> map = list.firstWhereOrNull((element) => element['id'] == '117');
-      MusicModel model = MusicModel.fromJson(map);
-
-      try {
-        LockCachingAudioSource? temp;
-        List<LockCachingAudioSource> l = list
-            .map((e) {
-              MusicModel model = MusicModel.fromJson(e);
-
-              final result = LockCachingAudioSource(
-                Uri.parse(model.url),
-                tag: MediaItem(
-                  id: model.id,
-                  album: model.album,
-                  title: model.name,
-                  artUri: model.cover.isNotEmpty ? Uri.parse(model.cover) : null,
-                ),
-              );
-
-              if (model.id == '117') {
-                temp = result;
-              }
-              return result;
-            })
-            .cast<LockCachingAudioSource>()
-            .toList();
-
-        _playlist.add(temp!);
-      } catch (_) {}
-    }
-  }
 }
 
 class ControlButtons extends StatelessWidget {

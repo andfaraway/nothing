@@ -155,8 +155,15 @@
 	<string>Nothing Need Save Photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload profile photo require permission to access album</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Nothing use microphone</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

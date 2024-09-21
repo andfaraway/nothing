@@ -94,9 +94,9 @@ dependencies:
     git:
       url: https://github.com/diegothucao/cfijkplayer.git
       ref: master
-  just_audio: ^0.9.34
-  just_audio_background: ^0.0.1-beta.10
-  audio_session: ^0.1.16
+  just_audio: ^0.9.40
+  just_audio_background: ^0.0.1-beta.13
+  audio_session: ^0.1.21
   rxdart: ^0.27.7
   flutter_smart_dialog: ^4.9.4
   file_preview: ^1.1.8
@@ -123,8 +123,10 @@ dependencies:
 
   quick_actions: ^1.0.7
 
-  tetris:
-    path: flutter-tetris
+  flutter_tetris:
+    git:
+      url: https://github.com/andfaraway/flutter-tetris.git
+
   google_fonts: ^6.2.0
   dio_log_interceptor: ^0.0.7
 
@@ -160,8 +162,6 @@ flutter:
     - assets/images/icons/
     - assets/images/tab/
     - assets/lottie/
-    - flutter-tetris/assets/
-    - flutter-tetris/assets/audios/
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated
@@ -174,8 +174,6 @@ flutter_assets_generator:
   output_filename: assets
   # Optional. Sets the name for the generated localization class. Default: Assets
   class_name: R
-  path_ignore: [ "flutter-tetris" ]
-
 
 flutter_intl:
   enabled: true

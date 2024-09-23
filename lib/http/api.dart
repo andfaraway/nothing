@@ -3,6 +3,7 @@
 //  [Date] 2022-02-15 18:21:40
 //
 import 'dart:core';
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -16,7 +17,12 @@ class API {
   /// 登录
   static Future<AppResponse> login({required String username, required String password}) async {
     Map<String, dynamic> param = {'username': username, 'password': password.getMd5()};
-    return Http.post(ConstUrl.login, params: param, needErrorToast: false);
+    final result = await Http.post(ConstUrl.login, params: param, needErrorToast: false);
+
+    if (result.isSuccess) {
+      Handler.getUserInfo();
+    }
+    return result;
   }
 
   /// 第三方登录
@@ -27,7 +33,11 @@ class API {
     String? icon,
   }) async {
     Map<String, dynamic> param = {'name': name, 'platform': platform, 'openId': openId, 'icon': icon};
-    return Http.post(ConstUrl.thirdLogin, params: param);
+    final result = await Http.post(ConstUrl.thirdLogin, params: param);
+    if (result.isSuccess) {
+      Handler.getUserInfo();
+    }
+    return result;
   }
 
   /// 获取用户信息

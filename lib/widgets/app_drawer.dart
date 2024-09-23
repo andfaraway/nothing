@@ -66,8 +66,8 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => Future.value(false),
+    return PopScope(
+      canPop: false,
       child: Consumer<HomeProvider>(builder: (context, homeProvider, child) {
         return Container(
           key: _globalKey,
@@ -123,10 +123,12 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
                                     },
                                   );
                                 },
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''),
-                                  radius: 25,
-                                ),
+                                child: Singleton().currentUser.avatar != null
+                                    ? CircleAvatar(
+                                        backgroundImage: NetworkImage(Singleton().currentUser.avatar ?? ''),
+                                        radius: 25,
+                                      )
+                                    : const SizedBox.shrink(),
                               ),
                             ),
                             IgnorePointer(

@@ -2,6 +2,7 @@
 class R {
   R._();
 
+  static const String filesSleep = 'assets/files/sleep.m4a';
   static const String fontsSourceHanSansCNBold = 'assets/fonts/SourceHanSansCN-Bold.otf';
   static const String fontsSourceHanSansCNMedium = 'assets/fonts/SourceHanSansCN-Medium.otf';
   static const String fontsSourceHanSansCNRegular = 'assets/fonts/SourceHanSansCN-Regular.otf';

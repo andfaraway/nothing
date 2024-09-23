@@ -14,7 +14,7 @@ import 'package:nothing/page/information_page.dart';
 import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
-import 'package:nothing/page/music_page.dart';
+import 'package:nothing/page/music.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/profile.dart';
 import 'package:nothing/page/release_version.dart';

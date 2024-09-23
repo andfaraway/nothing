@@ -97,6 +97,9 @@ dependencies:
   just_audio: ^0.9.40
   just_audio_background: ^0.0.1-beta.13
   audio_session: ^0.1.21
+
+  audioplayers: ^6.1.0
+
   rxdart: ^0.27.7
   flutter_smart_dialog: ^4.9.4
   file_preview: ^1.1.8
@@ -162,6 +165,7 @@ flutter:
     - assets/images/icons/
     - assets/images/tab/
     - assets/lottie/
+    - assets/files/
 
 flutter_assets_generator:
   # Optional. Sets the directory of generated localization files. Provided value should be a valid path on lib dir. Default: generated

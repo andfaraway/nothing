@@ -461,7 +461,7 @@ class API {
       'pageNum': pageNum,
       'pageSize': pageSize,
     };
-    return Http.get(ConstUrl.getMusicList, params: param);
+    return Http.get(ConstUrl.getMusicList, params: param, needLoading: true);
   }
 }
 

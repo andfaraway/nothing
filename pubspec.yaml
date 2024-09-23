@@ -133,6 +133,8 @@ dependencies:
   google_fonts: ^6.2.0
   dio_log_interceptor: ^0.0.7
 
+  audio_video_progress_bar: ^2.0.3
+
 dependency_overrides:
   intl: ^0.18.1
   file: ^7.0.0

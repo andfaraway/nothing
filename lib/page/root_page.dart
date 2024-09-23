@@ -68,7 +68,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
             extendBody: false,
             resizeToAvoidBottomInset: false,
             body: DragHoverBothSidesWidget(
-              dragWidget: _floatingActionButton(),
+              dragWidget: homeProvider.showFunny ? _floatingActionButton() : null,
               child: TabBarView(
                 controller: _tabController,
                 physics: const NeverScrollableScrollPhysics(),
@@ -76,9 +76,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
               ),
             ),
             bottomNavigationBar: _salomonBottomBar(homeProvider, onTap: (index) {
-              setState(() {
-                homeProvider.pageIndex = index;
-              });
+              homeProvider.pageIndex = index;
+              homeProvider.showFunny = index == 0;
             }),
           );
         }),

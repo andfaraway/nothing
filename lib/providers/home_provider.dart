@@ -42,6 +42,8 @@ class HomeProvider extends ChangeNotifier {
 
   int get pageIndex => _pageIndex;
 
+  bool showFunny = false;
+
   set pageIndex(int value) {
     if (_pageIndex == value) {
       return;

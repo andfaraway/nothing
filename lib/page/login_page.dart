@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
       }
+      Handler.getUserInfo();
     } else {
       loginErrorText = response.msg ?? '';
       setState(() {});
@@ -239,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                 NotificationUtils.register();
                 AppRoute.pushNamedAndRemoveUntil(context, AppRoute.root.name);
               }
+              Handler.getUserInfo();
             } else {
               showToast("登录失败");
             }

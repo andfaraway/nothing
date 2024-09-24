@@ -18,10 +18,6 @@ class API {
   static Future<AppResponse> login({required String username, required String password}) async {
     Map<String, dynamic> param = {'username': username, 'password': password.getMd5()};
     final result = await Http.post(ConstUrl.login, params: param, needErrorToast: false);
-
-    if (result.isSuccess) {
-      Handler.getUserInfo();
-    }
     return result;
   }
 
@@ -34,9 +30,6 @@ class API {
   }) async {
     Map<String, dynamic> param = {'name': name, 'platform': platform, 'openId': openId, 'icon': icon};
     final result = await Http.post(ConstUrl.thirdLogin, params: param);
-    if (result.isSuccess) {
-      Handler.getUserInfo();
-    }
     return result;
   }
 

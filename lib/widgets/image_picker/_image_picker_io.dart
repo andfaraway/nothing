@@ -31,6 +31,7 @@ class ImageSaver {
     final AssetEntity? imageEntity = await PhotoManager.editor.saveImage(
       fileData,
       title: title,
+      filename: name,
     );
     final File? file = await imageEntity?.file;
     return file?.path;

@@ -5,7 +5,7 @@ import AVFoundation
 
 var channel: FlutterMethodChannel? = nil
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
     
   override func application(

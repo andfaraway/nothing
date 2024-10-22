@@ -35,13 +35,13 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   dio: ^5.7.0
+  dio_cache_interceptor: ^3.5.0
   permission_handler: ^11.3.1
-  logging: ^1.2.0
+  logging: ^1.3.0
   event_bus: ^2.0.1
-  connectivity_plus: ^6.0.5
+  connectivity_plus: ^6.1.0
   provider: ^6.1.2
-  #  photo_manager: ^2.8.1
-  photo_manager: ^3.4.0
+  photo_manager: ^3.5.1
   flutter_local_notifications: ^17.2.3
   extended_text: ^14.1.0
   hive: ^2.2.3
@@ -49,7 +49,7 @@ dependencies:
   time: ^2.1.4
   uuid: ^4.5.0
   flutter_displaymode: ^0.6.0
-  url_launcher: ^6.3.0
+  url_launcher: ^6.3.1
   pull_to_refresh:
     git:
       url: https://github.com/andfaraway/flutter_pulltorefresh.git
@@ -77,7 +77,7 @@ dependencies:
   build_runner: ^2.4.12
   hive_generator: ^2.0.1
   flutter_svg: ^2.0.10+1
-  wechat_assets_picker: ^9.3.0
+  wechat_assets_picker: ^9.3.3
   # 网络图片缓存
   cached_network_image: ^3.4.1
   photo_view: ^0.15.0
@@ -85,11 +85,11 @@ dependencies:
   # 系统风格弹框
   adaptive_dialog: ^2.2.1+2
   dropdown_button2: ^2.3.9
-  extended_image: ^8.3.0
+  extended_image: ^9.0.4
   image_editor: ^1.5.1
-  image: ^4.2.0
+  image: ^4.3.0
   live_photo_maker: ^0.0.3
-  video_player: ^2.9.1
+  video_player: ^2.9.2
   fijkplayer:
     git:
       url: https://github.com/diegothucao/cfijkplayer.git
@@ -101,28 +101,28 @@ dependencies:
   audioplayers: ^6.1.0
 
   rxdart: ^0.28.0
-  flutter_smart_dialog: ^4.9.8+2
+  flutter_smart_dialog: ^4.9.8+3
   file_preview: ^1.2.0
   flutter_image_compress: ^2.3.0
-  share_plus: ^7.2.2
-  webview_flutter: ^4.9.0
+
+  webview_flutter: ^4.10.0
   lpinyin: ^2.0.3
   animated_bottom_navigation_bar: ^1.3.3
-  confetti: ^0.7.0
+  confetti: ^0.8.0
   extra_hittest_area: ^0.1.0
 
   dotted_border: ^2.1.0
   desktop_drop: ^0.5.0
-  crypto: ^3.0.5
+  crypto: ^3.0.6
 
-  flutter_native_splash: ^2.4.1
+  flutter_native_splash: ^2.4.2
   salomon_bottom_bar: ^3.3.2
   flutter_keyboard_visibility: ^6.0.0
 
-  lottie: ^3.1.2
+  lottie: ^3.1.3
   clay_containers: ^0.3.4
 
-  geolocator: ^11.0.0
+  geolocator: ^13.0.1
 
   quick_actions: ^1.0.8
 
@@ -137,9 +137,11 @@ dependencies:
 
 dependency_overrides:
   intl: ^0.19.0
-  file: ^7.0.0
+  file: ^7.0.1
   fconsole: ^2.6.2
-  device_info_plus: ^10.1.2
+  device_info_plus: ^11.1.0
+  share_plus: ^10.1.0
+  extended_image: ^9.0.4
 
 dev_dependencies:
   flutter_test:
@@ -150,7 +152,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.po
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

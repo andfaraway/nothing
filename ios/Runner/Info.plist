@@ -147,23 +147,23 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Upload profile photo require permission to access camera</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Nothing use Location</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Nothing Need Save Photo</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload profile photo require permission to access album</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Nothing use microphone</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Upload profile photo require permission to access camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Nothing use Location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Nothing use microphone</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Nothing Need Save Photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload profile photo require permission to access album</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

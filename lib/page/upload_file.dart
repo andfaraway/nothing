@@ -4,7 +4,8 @@
 //
 import 'dart:io';
 
-import 'package:flutter_native_image/flutter_native_image.dart';
+// import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nothing/common/prefix_header.dart';
@@ -257,7 +258,17 @@ class _UploadFileState extends State<UploadFile> {
     );
 
     if (croppedFile != null) {
-      File compressedFile = await FlutterNativeImage.compressImage(croppedFile.path, quality: 70, percentage: 70);
+      XFile? compressedFile = await FlutterImageCompress.compressAndGetFile(
+        croppedFile.path,
+        croppedFile.path,
+        quality: 88,
+        rotate: 0,
+      );
+      if (compressedFile == null) {
+        return;
+      }
+
+      // File compressedFile = await FlutterNativeImage.compressImage(croppedFile.path, quality: 70, percentage: 70);
       PickedFile? file = PickedFile(compressedFile.path);
       upload(file);
     }

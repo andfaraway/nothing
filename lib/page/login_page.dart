@@ -99,102 +99,96 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
       },
-      child: GestureDetector(
-        onTap: () {
-          // 触摸收起键盘
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(R.imagesLoginBg), // 替换为你的实际图片路径
-              fit: BoxFit.cover,
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(R.imagesLoginBg), // 替换为你的实际图片路径
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Lottie.asset(
+                R.lottieLogin,
+                width: double.infinity,
+                // height: 120,
+                repeat: true,
+              ),
             ),
-          ),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Lottie.asset(
-                  R.lottieLogin,
-                  width: double.infinity,
-                  // height: 120,
-                  repeat: true,
-                ),
-              ),
-              Scaffold(
-                resizeToAvoidBottomInset: false,
-                backgroundColor: Colors.transparent,
-                body: SafeArea(
-                  child: Column(
-                    children: [
-                      30.hSizedBox,
-                      Text(
-                        'nothing',
-                        style: GoogleFonts.shantellSans(
-                          fontSize: 55,
-                        ),
+            Scaffold(
+              resizeToAvoidBottomInset: false,
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    30.hSizedBox,
+                    Text(
+                      'nothing',
+                      style: GoogleFonts.shantellSans(
+                        fontSize: 55,
                       ),
-                      ValueListenableBuilder<bool>(
-                          valueListenable: _keyboardAppeared,
-                          builder: (_, bool isAppear, __) {
-                            if (isAppear == false) {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                            }
-                            return Padding(
-                              padding: EdgeInsets.only(left: distance, right: distance),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  110.hSizedBox,
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      border: const OutlineInputBorder(),
-                                      labelText: 'username',
-                                      contentPadding: const EdgeInsets.only(left: 18),
-                                      error: loginErrorText.isEmpty ? null : const SizedBox.shrink(),
-                                    ),
-                                    style: AppTextStyle.titleMedium,
-                                    controller: _usernameController,
-                                    cursorColor: AppColor.errorColor,
+                    ),
+                    ValueListenableBuilder<bool>(
+                        valueListenable: _keyboardAppeared,
+                        builder: (_, bool isAppear, __) {
+                          if (isAppear == false) {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          }
+                          return Padding(
+                            padding: EdgeInsets.only(left: distance, right: distance),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                110.hSizedBox,
+                                TextField(
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(),
+                                    labelText: 'username',
+                                    contentPadding: const EdgeInsets.only(left: 18),
+                                    error: loginErrorText.isEmpty ? null : const SizedBox.shrink(),
                                   ),
-                                  30.hSizedBox,
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      border: const OutlineInputBorder(),
-                                      labelText: 'password',
-                                      contentPadding: const EdgeInsets.only(left: 18),
-                                      error: loginErrorText.isEmpty
-                                          ? null
-                                          : Text(
-                                              loginErrorText,
-                                              style: const TextStyle(
-                                                color: AppColor.red,
-                                              ),
+                                  style: AppTextStyle.titleMedium,
+                                  controller: _usernameController,
+                                  cursorColor: AppColor.errorColor,
+                                ),
+                                30.hSizedBox,
+                                TextField(
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(),
+                                    labelText: 'password',
+                                    contentPadding: const EdgeInsets.only(left: 18),
+                                    error: loginErrorText.isEmpty
+                                        ? null
+                                        : Text(
+                                            loginErrorText,
+                                            style: const TextStyle(
+                                              color: AppColor.red,
                                             ),
-                                    ),
-                                    obscureText: true,
-                                    obscuringCharacter: '*',
-                                    style: AppTextStyle.titleMedium,
-                                    controller: _passwordController,
+                                          ),
                                   ),
-                                  30.hSizedBox,
-                                  loginButton(),
-                                  _registerWidget(),
-                                ],
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
+                                  obscureText: true,
+                                  obscuringCharacter: '*',
+                                  style: AppTextStyle.titleMedium,
+                                  controller: _passwordController,
+                                ),
+                                30.hSizedBox,
+                                loginButton(),
+                                _registerWidget(),
+                              ],
+                            ),
+                          );
+                        }),
+                  ],
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: _thirdButtons(),
-              ),
-            ],
-          ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: _thirdButtons(),
+            ),
+          ],
         ),
       ),
     );

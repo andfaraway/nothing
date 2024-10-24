@@ -15,7 +15,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -76,22 +76,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return AppRefreshConfiguration(
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(themesProvider.filterColor, BlendMode.color),
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                navigatorKey: navigatorKey,
-                theme: themesProvider.currentThemeData,
-                localizationsDelegates: const [
-                  S.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate
-                ],
-                supportedLocales: S.delegate.supportedLocales,
-                initialRoute: AppRoute.initialRoute,
-                onGenerateRoute: onGenerateRoute,
-                scrollBehavior: const CupertinoScrollBehavior(),
-                navigatorObservers: [FlutterSmartDialog.observer, AppNavigatorObserver()],
-                builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
+              child: KeyboardHideOnTap(
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: navigatorKey,
+                  theme: themesProvider.currentThemeData,
+                  localizationsDelegates: const [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate
+                  ],
+                  supportedLocales: S.delegate.supportedLocales,
+                  initialRoute: AppRoute.initialRoute,
+                  onGenerateRoute: onGenerateRoute,
+                  scrollBehavior: const CupertinoScrollBehavior(),
+                  navigatorObservers: [FlutterSmartDialog.observer, AppNavigatorObserver()],
+                  builder: EasyLoading.init(builder: FlutterSmartDialog.init()),
+                ),
               ),
             ),
           );

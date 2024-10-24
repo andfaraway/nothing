@@ -5,6 +5,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:um_share_plugin/um_share_plugin.dart';
@@ -12,7 +13,7 @@ import 'package:um_share_plugin/um_share_plugin.dart';
 import '../common/prefix_header.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -21,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _passwordFocus = FocusNode();
 
   /// 键盘是否出现
   final ValueNotifier<bool> _keyboardAppeared = ValueNotifier<bool>(false);
@@ -53,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> loginButtonPressed() async {
+    hideKeyboard(context);
     AppResponse response = await API.login(username: _usernameController.text, password: _passwordController.text);
     if (response.isSuccess) {
       Handler.accessToken = response.dataMap['access_token'];
@@ -92,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (pop) async {
+      onPopInvokedWithResult: (pop, _) async {
         if (pop) {
           if (await doubleBackExit()) {
             exit(0);
@@ -118,70 +121,61 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Scaffold(
-              resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    30.hSizedBox,
-                    Text(
-                      'nothing',
-                      style: GoogleFonts.shantellSans(
-                        fontSize: 55,
-                      ),
+              body: Column(
+                children: [
+                  30.hSizedBox,
+                  Text(
+                    'nothing',
+                    style: GoogleFonts.shantellSans(
+                      fontSize: 55,
                     ),
-                    ValueListenableBuilder<bool>(
-                        valueListenable: _keyboardAppeared,
-                        builder: (_, bool isAppear, __) {
-                          if (isAppear == false) {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          }
-                          return Padding(
-                            padding: EdgeInsets.only(left: distance, right: distance),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                110.hSizedBox,
-                                TextField(
-                                  decoration: InputDecoration(
-                                    border: const OutlineInputBorder(),
-                                    labelText: 'username',
-                                    contentPadding: const EdgeInsets.only(left: 18),
-                                    error: loginErrorText.isEmpty ? null : const SizedBox.shrink(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: distance, right: distance),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        110.hSizedBox,
+                        TextField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: 'username',
+                            contentPadding: const EdgeInsets.only(left: 18),
+                            error: loginErrorText.isEmpty ? null : const SizedBox.shrink(),
+                          ),
+                          style: AppTextStyle.titleMedium,
+                          controller: _usernameController,
+                          cursorColor: AppColor.errorColor,
+                        ),
+                        30.hSizedBox,
+                        TextField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: 'password',
+                            contentPadding: const EdgeInsets.only(left: 18),
+                            error: loginErrorText.isEmpty
+                                ? null
+                                : Text(
+                                    loginErrorText,
+                                    style: const TextStyle(
+                                      color: AppColor.red,
+                                    ),
                                   ),
-                                  style: AppTextStyle.titleMedium,
-                                  controller: _usernameController,
-                                  cursorColor: AppColor.errorColor,
-                                ),
-                                30.hSizedBox,
-                                TextField(
-                                  decoration: InputDecoration(
-                                    border: const OutlineInputBorder(),
-                                    labelText: 'password',
-                                    contentPadding: const EdgeInsets.only(left: 18),
-                                    error: loginErrorText.isEmpty
-                                        ? null
-                                        : Text(
-                                            loginErrorText,
-                                            style: const TextStyle(
-                                              color: AppColor.red,
-                                            ),
-                                          ),
-                                  ),
-                                  obscureText: true,
-                                  obscuringCharacter: '*',
-                                  style: AppTextStyle.titleMedium,
-                                  controller: _passwordController,
-                                ),
-                                30.hSizedBox,
-                                loginButton(),
-                                _registerWidget(),
-                              ],
-                            ),
-                          );
-                        }),
-                  ],
-                ),
+                          ),
+                          obscureText: true,
+                          obscuringCharacter: '*',
+                          style: AppTextStyle.titleMedium,
+                          controller: _passwordController,
+                          focusNode: _passwordFocus,
+                        ),
+                        30.hSizedBox,
+                        loginButton(),
+                        _registerWidget(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Align(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class KeyboardHideOnTap extends StatelessWidget {
   const KeyboardHideOnTap({
@@ -24,5 +25,6 @@ hideKeyboard(BuildContext context) {
   FocusScopeNode currentFocus = FocusScope.of(context);
   if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
     FocusManager.instance.primaryFocus?.unfocus();
+    SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
   }
 }

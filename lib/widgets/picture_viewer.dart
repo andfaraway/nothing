@@ -12,8 +12,7 @@ class PictureViewer extends StatefulWidget {
   final GestureTapCallback? onTap;
 
   const PictureViewer(
-      {Key? key, required this.imageUrl, this.imageName, this.imageSize, this.originalImageSize, this.onTap})
-      : super(key: key);
+      {super.key, required this.imageUrl, this.imageName, this.imageSize, this.originalImageSize, this.onTap});
 
   @override
   State<PictureViewer> createState() => _PictureViewerState();

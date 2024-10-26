@@ -12,7 +12,7 @@ class MusicPage extends StatefulWidget {
 
 class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixin {
   @override
-  bool get wantKeepAlive => false;
+  bool get wantKeepAlive => true;
 
   late AudioPlayer _player;
   AudioPlayer? _sleepPlayer;

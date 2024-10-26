@@ -15,6 +15,7 @@ import 'package:nothing/page/live_photo_page.dart';
 import 'package:nothing/page/login_page.dart';
 import 'package:nothing/page/message_page.dart';
 import 'package:nothing/page/music.dart';
+import 'package:nothing/page/photo_preview.dart';
 import 'package:nothing/page/photo_show.dart';
 import 'package:nothing/page/profile.dart';
 import 'package:nothing/page/release_version.dart';
@@ -67,7 +68,8 @@ class AppRoute {
           AppRoute.webView,
           AppRoute.imageCompression,
           AppRoute.poetry,
-          AppRoute.funnyColors
+          AppRoute.funnyColors,
+          AppRoute.photoPreview,
         ];
 
   static Widget? pageWithRouteName(String routeName, {Object? arguments}) {
@@ -131,6 +133,8 @@ class AppRoute {
       pageColor: Colors.orangeAccent);
   static final RoutePage funnyColors =
       RoutePage(name: '/funnyColors', page: ({Object? arguments}) => const FunnyColors());
+  static final RoutePage photoPreview =
+      RoutePage(name: '/photoPreview', page: ({Object? arguments}) => const PhotoPreview());
 
   static Future<dynamic> pushPage(BuildContext? context, Widget page) async {
     context ??= currentContext;

@@ -27,7 +27,7 @@ class Screens {
 
   static double get topSafeHeight => mediaQuery.padding.top;
 
-  static double get bottomSafeHeight => mediaQuery.padding.bottom;
+  static double get bottomSafeHeight => mediaQuery.padding.bottom == 0 ? 12 : mediaQuery.padding.bottom;
 
   static double get safeHeight => height - topSafeHeight - bottomSafeHeight;
 

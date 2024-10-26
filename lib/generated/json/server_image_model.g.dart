@@ -19,10 +19,6 @@ ServerImageModel $ServerImageModelFromJson(Map<String, dynamic> json) {
   if (prefix != null) {
     serverImageModel.prefix = prefix;
   }
-  final String? imageUrl = jsonConvert.convert<String>(json['imageUrl']);
-  if (imageUrl != null) {
-    serverImageModel.imageUrl = imageUrl;
-  }
   return serverImageModel;
 }
 
@@ -32,7 +28,6 @@ Map<String, dynamic> $ServerImageModelToJson(ServerImageModel entity) {
   data['name'] = entity.name;
   data['size'] = entity.size;
   data['prefix'] = entity.prefix;
-  data['imageUrl'] = entity.imageUrl;
   return data;
 }
 
@@ -42,13 +37,11 @@ extension ServerImageModelExtension on ServerImageModel {
     String? name,
     int? size,
     String? prefix,
-    String? imageUrl,
   }) {
     return ServerImageModel()
       ..id = id ?? this.id
       ..name = name ?? this.name
       ..size = size ?? this.size
-      ..prefix = prefix ?? this.prefix
-      ..imageUrl = imageUrl ?? this.imageUrl;
+      ..prefix = prefix ?? this.prefix;
   }
 }

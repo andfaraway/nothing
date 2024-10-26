@@ -125,10 +125,12 @@ class _LoginPageState extends State<LoginPage> {
               body: Column(
                 children: [
                   30.hSizedBox,
-                  Text(
-                    'nothing',
-                    style: GoogleFonts.shantellSans(
-                      fontSize: 55,
+                  SafeArea(
+                    child: Text(
+                      'nothing',
+                      style: GoogleFonts.shantellSans(
+                        fontSize: 55,
+                      ),
                     ),
                   ),
                   Padding(

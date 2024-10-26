@@ -29,6 +29,7 @@ class R {
   static const String imagesChevronRight = 'assets/images/chevron-right.svg';
   static const String imagesHandsomeman = 'assets/images/handsomeman.jpeg';
   static const String imagesHelp = 'assets/images/help.svg';
+  static const String imagesIcon = 'assets/images/icon.png';
   static const String imagesIconQq = 'assets/images/icon_qq.png';
   static const String imagesLoadError = 'assets/images/load_error.png';
   static const String imagesLogOut = 'assets/images/log-out.svg';

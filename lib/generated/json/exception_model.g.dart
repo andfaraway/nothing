@@ -1,6 +1,6 @@
 import 'package:nothing/generated/json/base/json_convert_content.dart';
-import 'package:nothing/model/device_info_model.dart';
 import 'package:nothing/model/exception_model.dart';
+import 'package:nothing/model/device_info_model.dart';
 
 ExceptionModel $ExceptionModelFromJson(Map<String, dynamic> json) {
   final ExceptionModel exceptionModel = ExceptionModel();

@@ -138,10 +138,7 @@ class _PhotoShowState extends State<PhotoShow> {
       _data.clear();
       for (Map<String, dynamic> map in response.dataList) {
         ServerImageModel model = ServerImageModel.fromJson(map);
-        model.imageUrl = '${model.prefix}${model.name}';
-        if (model.imageUrl!.contains('.')) {
-          _data.add(model);
-        }
+        _data.add(model);
       }
       _data.sort((a, b) {
         return a.name!.compareTo(b.name!);

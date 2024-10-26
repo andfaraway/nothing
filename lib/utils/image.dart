@@ -50,7 +50,7 @@ class AppImage {
     }
   }
 
-  static Widget network(String url,
+  static Widget network(String? url,
       {Key? key,
       double? width,
       double? height,
@@ -58,9 +58,17 @@ class AppImage {
       Widget? placeholder,
       Widget? errorWidget,
       BoxFit fit = BoxFit.cover}) {
+    if ((url ?? '').isEmpty) {
+      return Container(
+        color: Colors.grey.withOpacity(.3),
+        width: width,
+        height: height,
+      );
+    }
+
     return CachedNetworkImage(
       key: key,
-      imageUrl: url,
+      imageUrl: url!,
       width: width,
       height: height,
       color: color,

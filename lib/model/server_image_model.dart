@@ -9,8 +9,9 @@ class ServerImageModel {
   String? name;
   int? size;
   String? prefix;
+  String? temp;
 
-  String get imageUrl => '$prefix$name';
+  String get imageUrl => temp ?? '$prefix$name';
 
   ServerImageModel();
 

@@ -97,6 +97,28 @@ class AppImage {
       return ExtendedImage.file(asset);
     }
   }
+
+  static String randomUrl({int? id, int? size, int? width, int? height}) {
+    String url = 'https://picsum.photos';
+
+    if (id != null) {
+      url += '/id/$id';
+    }
+
+    if (size != null) {
+      url += '/$size';
+    }
+
+    if (width != null) {
+      url += '/$width';
+    }
+
+    if (height != null) {
+      url += '/$height';
+    }
+
+    return url;
+  }
 }
 
 Future<bool> saveImageToLocal(

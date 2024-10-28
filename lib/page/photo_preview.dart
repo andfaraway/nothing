@@ -33,6 +33,13 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
   }
 
   _request() async {
+    photos = List.generate(30, (index) {
+      return ServerImageModel()..temp = AppImage.randomUrl(id: index++, size: 750);
+    }).toList();
+
+    setState(() {});
+    return;
+
     final response = await API.getImages('wedding/20241004');
     if (response.isSuccess) {
       photos = response.dataList.map((e) => ServerImageModel.fromJson(e)).toList();
@@ -43,6 +50,7 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppWidget.appbar(
         title: currentImage?.name,
         actions: [
@@ -106,6 +114,8 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
+                print(photos[index].imageUrl);
+
                 _pageController.jumpToPage(index);
                 setState(() {
                   currentImage = photos[index];

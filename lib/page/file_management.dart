@@ -24,12 +24,8 @@ class _FileManagementState extends State<FileManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppWidget.appbar(
-        titleWidget: Text(
-          currentCatalog ?? 'File Management',
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ),
+      appBar: DefaultAppBar(
+        title: currentCatalog ?? 'File Management',
       ),
       body: AppRefresher(
         controller: _refreshController,

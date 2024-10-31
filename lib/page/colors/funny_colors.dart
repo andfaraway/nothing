@@ -36,7 +36,7 @@ class _FunnyColorsState extends State<FunnyColors> with AutomaticKeepAliveClient
     super.build(context);
     return KeyboardHideOnTap(
       child: Scaffold(
-        appBar: AppWidget.appbar(title: 'funny colors'),
+        appBar: DefaultAppBar(title: 'funny colors'),
         body: Padding(
           padding: AppPadding.main,
           child: Column(children: [

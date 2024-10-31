@@ -53,15 +53,16 @@ class _ImageCompressionPageState extends State<ImageCompressionPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text('压缩系数：$value'),
-                        Slider(
-                          value: value.toDouble(),
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                          onChanged: (value) {
-                            _quality.value = value.round();
-                          },
-                          min: 0,
-                          max: 100,
+                        Expanded(
+                          child: Slider(
+                            value: value.toDouble(),
+                            overlayColor: MaterialStateProperty.all(Colors.transparent),
+                            onChanged: (value) {
+                              _quality.value = value.round();
+                            },
+                            min: 0,
+                            max: 100,
+                          ),
                         )
                       ],
                     );
@@ -218,9 +219,9 @@ class _UploadWidgetState extends State<UploadWidget> {
         fileName: file.name,
         quality: widget.quality,
         onSendProgress: (progress) => widget.controller.progress = progress);
+    print('response = $response');
     if (response.isSuccess) {
-      widget.controller.imageCompressionModel =
-          ImageCompressionModel.fromJson(response.dataMap);
+      widget.controller.imageCompressionModel = ImageCompressionModel.fromJson(response.dataMap);
       widget.controller.complete = true;
     } else {
       widget.controller.complete = true;

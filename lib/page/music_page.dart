@@ -156,7 +156,7 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppWidget.appbar(title: 'MUSIC PLAY'),
+      appBar: DefaultAppBar(title: 'MUSIC PLAY'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

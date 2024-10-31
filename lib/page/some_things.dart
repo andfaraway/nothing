@@ -34,7 +34,7 @@ class _SomeThingsState extends State<SomeThings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppWidget.appbar(
+      appBar: DefaultAppBar(
         titleWidget: SizedBox(
           width: 200,
           height: 50,

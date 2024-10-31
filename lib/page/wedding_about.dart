@@ -31,7 +31,7 @@ class _WeddingAboutState extends State<WeddingAbout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppWidget.appbar(
+      appBar: DefaultAppBar(
         title: '💑 婚礼待办 💑',
         actions: [
           IconButton(
@@ -39,7 +39,7 @@ class _WeddingAboutState extends State<WeddingAbout> {
               await addWedding();
             },
             icon: const Icon(Icons.add),
-          )
+          ),
         ],
       ),
       body: AppRefresher(

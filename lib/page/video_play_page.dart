@@ -19,7 +19,9 @@ class _VideoPlayState extends State<VideoPlayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppWidget.appbar(title: 'Video Play'),
+      appBar: DefaultAppBar(
+        title: 'Video Play',
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

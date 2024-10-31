@@ -116,7 +116,7 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppWidget.appbar(actions: [
+      appBar: DefaultAppBar(actions: [
         IconButton(
           onPressed: playSleep,
           icon: _sleepPlayer?.state == PlayerState.playing ? const Icon(Icons.pause) : const Icon(Icons.bed),

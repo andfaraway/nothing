@@ -21,7 +21,7 @@ class _WeddingDetailState extends State<WeddingDetailPage> {
   Widget build(BuildContext context) {
     return KeyboardHideOnTap(
       child: Scaffold(
-        appBar: AppWidget.appbar(
+        appBar: DefaultAppBar(
           title: 'Wedding Detail',
           actions: [
             AppButton.button(

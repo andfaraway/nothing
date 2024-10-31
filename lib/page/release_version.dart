@@ -32,7 +32,7 @@ class _ReleaseVersionState extends State<ReleaseVersion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppWidget.appbar(
+      appBar: DefaultAppBar(
         title: 'Release Version',
         actions: [
           AppButton.button(

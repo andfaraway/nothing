@@ -45,7 +45,7 @@ class _FilePreviewState extends State<FilePreviewPage> {
       return Center(child: Text('open error:$url'));
     }
     return Scaffold(
-      appBar: AppWidget.appbar(title: widget.title ?? _map['title']),
+      appBar: DefaultAppBar(title: widget.title ?? _map['title']),
       body: ValueListenableBuilder(
         builder: (context1, bool openSuccess, child) {
           return Stack(

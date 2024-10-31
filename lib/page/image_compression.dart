@@ -38,7 +38,7 @@ class _ImageCompressionPageState extends State<ImageCompressionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.arguments == null ? null : AppWidget.appbar(title: widget.arguments.toString()),
+      appBar: widget.arguments == null ? null : DefaultAppBar(title: widget.arguments.toString()),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: AppPadding.main,

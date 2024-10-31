@@ -33,16 +33,19 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
   }
 
   _request() async {
-    photos = List.generate(30, (index) {
-      return ServerImageModel()..temp = AppImage.randomUrl(id: index++, size: 750);
+    photos = List.generate(27, (index) {
+      return ServerImageModel()
+        ..temp = 'https://nothing-1258987808.cos.ap-guangzhou.myqcloud.com/compression/1004${index + 1}.jpg';
     }).toList();
 
     setState(() {});
     return;
 
-    final response = await API.getImages('wedding/20241004');
+    final response = await API.getImages('wedding/20241004/compression');
+    // final response = await API.getImages('wedding/photos/beautiful/compression');
     if (response.isSuccess) {
       photos = response.dataList.map((e) => ServerImageModel.fromJson(e)).toList();
+      currentImage = photos.firstOrNull;
       setState(() {});
     }
   }
@@ -51,7 +54,7 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppWidget.appbar(
+      appBar: DefaultAppBar(
         title: currentImage?.name,
         actions: [
           IconButton(
@@ -59,6 +62,7 @@ class _PhotoPreviewState extends State<PhotoPreview> with TickerProviderStateMix
             icon: Icon(Icons.add),
           ),
         ],
+        statusIsLight: true,
       ),
       body: PageView(
         controller: _pageController,

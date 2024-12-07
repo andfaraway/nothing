@@ -28,7 +28,7 @@ class _FontsSettingState extends State<FontsSetting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('字体设置'),
+        title: const Text('字体设置-test'),
       ),
       body: Consumer<ThemesProvider>(
         builder: (context, themesProvider, child) {
@@ -80,6 +80,7 @@ class _FontsSettingState extends State<FontsSetting> {
     AppResponse response = await API.getFiles('src/fonts/');
     if (response.isSuccess) {
       _dataList.clear();
+
       _dataList.add(FileModel()..name = AppTextStyle.fontFamilyNameDefault);
 
       _dataList.addAll(response.dataList.map((e) => FileModel.fromJson(e)).toList());

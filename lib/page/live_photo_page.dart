@@ -10,15 +10,16 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'image_editor_widget.dart';
 
 class LivePhotoPage extends StatefulWidget {
-  const LivePhotoPage({Key? key}) : super(key: key);
+  const LivePhotoPage({super.key});
 
   @override
   State<LivePhotoPage> createState() => _LivePhotoPageState();
 }
 
 class _LivePhotoPageState extends State<LivePhotoPage> {
-  File? firstImage;
-  File? secondImage;
+  File? coverImage;
+  File? contentImage;
+  File? contentVoice;
   late int movWidth;
   late int movHeight;
 
@@ -39,14 +40,14 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                       pickPhoto(0);
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: firstImage != null
-                        ? AppImage.file(firstImage!)
+                    child: coverImage != null
+                        ? AppImage.file(coverImage!)
                         : Container(
                             color: Colors.green,
                             height: double.infinity,
                             child: const Center(
                               child: Text(
-                                'first photo',
+                                'Cover Image',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -59,18 +60,22 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
                       pickPhoto(1);
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: secondImage != null
-                        ? AppImage.file(secondImage!)
-                        : Container(
-                            color: Colors.cyan,
-                            height: double.infinity,
-                            child: const Center(
-                              child: Text(
-                                'second photo',
-                                style: TextStyle(color: Colors.white),
+                    child: contentImage != null
+                        ? Image.file(contentImage!)
+                        : contentVoice != null
+                            ? const Center(
+                                child: Icon(Icons.play_circle, size: 88),
+                              )
+                            : Container(
+                                color: Colors.cyan,
+                                height: double.infinity,
+                                child: const Center(
+                                  child: Text(
+                                    'Content',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                   ),
                 ),
               ],
@@ -95,41 +100,80 @@ class _LivePhotoPageState extends State<LivePhotoPage> {
 
   Future<void> pickPhoto(int index) async {
     final List<AssetEntity>? result = await AssetPicker.pickAssets(context,
-        pickerConfig: const AssetPickerConfig(
+        pickerConfig: AssetPickerConfig(
           maxAssets: 1,
-          requestType: RequestType.image,
+          requestType: index == 0 ? RequestType.image : RequestType.common,
         ));
     if (result == null) {
       return;
     }
 
-    dynamic imageFile = await result.first.originFile;
-    if (!mounted) return;
-    dynamic file =
-        await AppRoute.pushPage(context, SimpleImageEditor(imageFile!));
+    movWidth = result.first.width;
+    movHeight = result.first.height;
+
+    File? pickFile = await result.first.originFile;
+    if (!mounted || pickFile == null) return;
+
+    if (fileIsVideo(pickFile.path)) {
+      contentImage = null;
+      contentVoice = pickFile;
+      return;
+    }
+
+    pickFile = await AppRoute.pushPage(context, SimpleImageEditor(pickFile));
 
     if (index == 0) {
-      firstImage = file;
+      coverImage = pickFile;
     } else {
-      secondImage = file;
-      movWidth = result.first.width;
-      movHeight = result.first.height;
+      contentImage = pickFile;
+      contentVoice = null;
     }
     setState(() {});
   }
 
+  Future<void> pickVideo(int index) async {
+    final List<AssetEntity>? result = await AssetPicker.pickAssets(context,
+        pickerConfig: const AssetPickerConfig(
+          maxAssets: 1,
+          requestType: RequestType.video,
+        ));
+    if (result == null) {
+      return;
+    }
+    contentVoice = await result.first.originFile;
+    setState(() {});
+  }
+
   Future<void> create() async {
-    if (firstImage == null || secondImage == null) {
+    if (coverImage == null || (contentImage == null && contentVoice == null)) {
       showToast('please select photo');
       return;
     }
     EasyLoading.show(dismissOnTap: false);
     bool success = await LivePhotoMaker.create(
-        firstImagePath: firstImage!.path, secondImagePath: secondImage!.path, width: movWidth, height: movHeight);
+        coverImage: coverImage!.path,
+        imagePath: contentImage?.path,
+        voicePath: contentVoice?.path,
+        width: movWidth,
+        height: movHeight);
+    EasyLoading.dismiss();
     if (success) {
       showToast(S.current.success);
     } else {
       showToast(S.current.fail);
+    }
+  }
+
+  bool fileIsVideo(String filePath) {
+    final file = File(filePath);
+    final extension = file.path.split('.').last.toLowerCase();
+
+    if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].contains(extension)) {
+      return false;
+    } else if (['mp4', 'mkv', 'avi', 'mov', 'flv'].contains(extension)) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

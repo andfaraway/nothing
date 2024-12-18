@@ -8,7 +8,7 @@ import 'package:nothing/utils/web_import.dart';
 class SimpleImageEditor extends StatefulWidget {
   final File image;
 
-  const SimpleImageEditor(this.image, {Key? key}) : super(key: key);
+  const SimpleImageEditor(this.image, {super.key});
 
   @override
   State<SimpleImageEditor> createState() => _SimpleImageEditorState();
@@ -69,9 +69,9 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
     if (await file.exists()) {
       file.delete();
     }
-    //生成file文件格式
+
     file = await io.File(path).create();
-    //转成file文件
+
     file.writeAsBytesSync(imageByte);
     return file;
   }

@@ -4,6 +4,7 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/flutter/flutter_cube.dart';
 import 'package:nothing/page/flutter/flutter_isolate.dart';
 import 'package:nothing/page/flutter/flutter_stream.dart';
+import 'package:nothing/page/flutter/overflow_box.dart';
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key});
@@ -33,6 +34,11 @@ class CatalogPage extends StatelessWidget {
                 title: 'Cube',
                 onTap: () {
                   AppRoute.pushPage(context, const FlutterCube());
+                }),
+            _titleCell(
+                title: 'OverflowBox',
+                onTap: () {
+                  AppRoute.pushPage(context, const OverflowBoxPage());
                 }),
           ],
         ),

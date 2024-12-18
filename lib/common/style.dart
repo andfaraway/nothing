@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
@@ -97,6 +98,11 @@ class AppColor {
         Color(0xfffce38a),
         Color(0xfff38181),
       ];
+
+  static Color get randomColor {
+    int index = Random().nextInt(randomColors.length);
+    return randomColors[index];
+  }
 }
 
 /*  theme textStyle */

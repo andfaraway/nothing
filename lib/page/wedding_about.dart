@@ -31,6 +31,7 @@ class _WeddingAboutState extends State<WeddingAbout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: DefaultAppBar(
         title: '💑 婚礼待办 💑',
         actions: [
@@ -48,24 +49,14 @@ class _WeddingAboutState extends State<WeddingAbout> {
           _controller.completed();
         },
         controller: _controller,
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: ReorderableListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      WeddingModel model = todoList[i];
-                      return checkCell(model);
-                    },
-                    itemCount: todoList.length,
-                    onReorder: onReorder),
-              ),
-            ],
-          ),
+        child: ReorderableListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, i) {
+            WeddingModel model = todoList[i];
+            return checkCell(model);
+          },
+          itemCount: todoList.length,
+          onReorder: onReorder,
         ),
       ),
       floatingActionButton: IconButton(
@@ -102,62 +93,64 @@ class _WeddingAboutState extends State<WeddingAbout> {
   Widget checkCell(WeddingModel model) {
     ValueNotifier<bool> notifier = ValueNotifier(model.done == '1');
     TextEditingController controller = TextEditingController(text: model.title);
-    return Padding(
+    return Container(
       key: ValueKey(model.id),
-      padding: const EdgeInsets.all(8.0),
-      child: ValueListenableBuilder(
-        builder: (context, bool value, child) {
-          return Row(
-            children: [
-              Checkbox(
-                  value: notifier.value,
-                  onChanged: (value) async {
-                    notifier.value = !notifier.value;
-                    if (notifier.value) {
-                      model.done = '1';
-                    } else {
-                      model.done = '0';
-                    }
-                    await updateWedding(model);
-                  }),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () async {
-                    var s = await AppRoute.pushPage(
-                        context,
-                        WeddingDetailPage(
-                          model: model,
-                        ));
-                    if (s != null) {
-                      setState(() {
-                        loadWeddings();
-                      });
-                    }
-                  },
-                  child: TextField(
-                    controller: controller,
-                    enabled: false,
-                    textInputAction: TextInputAction.done,
-                    onEditingComplete: () async {
-                      if (model.title != controller.text) {
-                        model.title = controller.text;
-                        await updateWedding(model);
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+      child: Card(
+        child: ValueListenableBuilder(
+          builder: (context, bool value, child) {
+            return Row(
+              children: [
+                Checkbox(
+                    value: notifier.value,
+                    onChanged: (value) async {
+                      notifier.value = !notifier.value;
+                      if (notifier.value) {
+                        model.done = '1';
+                      } else {
+                        model.done = '0';
                       }
-                      if (mounted) {
-                        FocusScope.of(context).requestFocus(FocusNode());
+                      await updateWedding(model);
+                    }),
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () async {
+                      var s = await AppRoute.pushPage(
+                          context,
+                          WeddingDetailPage(
+                            model: model,
+                          ));
+                      if (s != null) {
+                        setState(() {
+                          loadWeddings();
+                        });
                       }
                     },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                    child: TextField(
+                      controller: controller,
+                      enabled: false,
+                      textInputAction: TextInputAction.done,
+                      onEditingComplete: () async {
+                        if (model.title != controller.text) {
+                          model.title = controller.text;
+                          await updateWedding(model);
+                        }
+                        if (mounted) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        }
+                      },
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
-        valueListenable: notifier,
+              ],
+            );
+          },
+          valueListenable: notifier,
+        ),
       ),
     );
   }

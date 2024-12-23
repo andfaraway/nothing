@@ -89,7 +89,7 @@ dependencies:
   extended_image: ^9.0.4
   image_editor: ^1.5.1
   image: ^4.3.0
-  live_photo_maker: ^0.0.5
+  live_photo_maker: ^0.0.6
   video_player: ^2.9.2
   fijkplayer:
     git:

@@ -4,6 +4,7 @@ import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/page/flutter/flutter_cube.dart';
 import 'package:nothing/page/flutter/flutter_isolate.dart';
 import 'package:nothing/page/flutter/flutter_stream.dart';
+import 'package:nothing/page/flutter/music_play.dart';
 import 'package:nothing/page/flutter/overflow_box.dart';
 
 class CatalogPage extends StatelessWidget {
@@ -39,6 +40,11 @@ class CatalogPage extends StatelessWidget {
                 title: 'OverflowBox',
                 onTap: () {
                   AppRoute.pushPage(context, const OverflowBoxPage());
+                }),
+            _titleCell(
+                title: 'Music Play',
+                onTap: () {
+                  AppRoute.pushPage(context, const MusicPlay());
                 }),
           ],
         ),

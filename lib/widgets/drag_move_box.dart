@@ -5,12 +5,14 @@ class DragHoverBothSidesWidget extends StatefulWidget {
   final Offset offset;
   final Widget? child;
   final Widget? dragWidget;
+  final Size dragSize;
 
   const DragHoverBothSidesWidget({
     super.key,
     this.offset = Offset.zero,
     this.child,
     required this.dragWidget,
+    required this.dragSize,
   });
 
   @override
@@ -20,30 +22,21 @@ class DragHoverBothSidesWidget extends StatefulWidget {
 }
 
 class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
-  DragIconModel? _dragIconModel = HiveBoxes.get(HiveKey.dragIconModel);
+  late DragIconModel _dragIconModel;
 
-  final GlobalKey _myKey = GlobalKey();
-
-  double _dx = 0;
-  double _dy = 0;
   final Size _windowSize = Size(AppSize.screenWidth, AppSize.screenHeight);
-
-  late final Size size;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      size = _myKey.currentContext?.size ?? Size(88.r, 88.r);
-      _dx = _dragIconModel?.dx ?? _windowSize.width - size.width;
-      _dy = _dragIconModel?.dy ??
-          _windowSize.height - size.height - AppSize.tabBarHeight;
-
-      _dragIconModel ??= DragIconModel();
-      // _dx = _windowSize.width - size.width;
-      // _dy = _windowSize.height - size.height - AppSize.tabBarHeight;
-      setState(() {});
-    });
+    _dragIconModel = HiveBoxes.get(
+      HiveKey.dragIconModel,
+      defaultValue: DragIconModel()
+        ..dx = _windowSize.width - widget.dragSize.width
+        ..dy = _windowSize.height - widget.dragSize.height - AppSize.tabBarHeight
+        ..width = widget.dragSize.width
+        ..height = widget.dragSize.height,
+    );
   }
 
   void dragEnd(DragEndDetails details) {
@@ -51,22 +44,15 @@ class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
   }
 
   void dragEvent(DragUpdateDetails details) {
-    double currentX = details.globalPosition.dx - size.width / 2;
-    double currentY = details.globalPosition.dy - size.height / 2;
-    if (currentX > 0 && currentX < _windowSize.width - size.width) {
-      _dx = currentX;
+    double currentX = details.globalPosition.dx - widget.dragSize.width / 2;
+    double currentY = details.globalPosition.dy - widget.dragSize.height / 2;
+    if (currentX > 0 && currentX < _windowSize.width - widget.dragSize.width) {
+      _dragIconModel.dx = currentX;
     }
 
-    if (currentY > 0 &&
-        currentY < _windowSize.height - size.height - AppSize.tabBarHeight) {
-      _dy = currentY;
+    if (currentY > 0 && currentY < _windowSize.height - widget.dragSize.height - AppSize.tabBarHeight) {
+      _dragIconModel.dy = currentY;
     }
-
-    _dragIconModel
-      ?..dx = _dx
-      ..dy = _dy
-      ..width = size.width
-      ..height = size.height;
     setState(() {});
   }
 
@@ -76,17 +62,9 @@ class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
       children: [
         if (widget.child != null) widget.child!,
         Positioned(
-          key: _myKey,
-          left: _dx,
-          top: _dy,
-          child: GestureDetector(
-              // onVerticalDragEnd: dragEnd,
-              // onHorizontalDragEnd: dragEnd,
-              // onHorizontalDragUpdate: dragEvent,
-              // onVerticalDragUpdate: dragEvent,
-              onPanEnd: dragEnd,
-              onPanUpdate: dragEvent,
-              child: Container(child: widget.dragWidget)),
+          left: _dragIconModel.dx,
+          top: _dragIconModel.dy,
+          child: GestureDetector(onPanEnd: dragEnd, onPanUpdate: dragEvent, child: Container(child: widget.dragWidget)),
         ),
       ],
     );

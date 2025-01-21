@@ -61,6 +61,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       children: [
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
           _tabController.index = homeProvider.pageIndex;
+          print('index=${homeProvider.showFunny}');
           return Scaffold(
             drawer: const AppDrawer(),
             drawerEnableOpenDragGesture: true,
@@ -68,7 +69,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
             extendBody: false,
             resizeToAvoidBottomInset: false,
             body: DragHoverBothSidesWidget(
-              dragWidget: homeProvider.showFunny ? _floatingActionButton() : null,
+              dragSize: Size(88.r, 88.r),
+              dragWidget: _floatingActionButton(visible: homeProvider.showFunny),
               child: TabBarView(
                 controller: _tabController,
                 physics: const NeverScrollableScrollPhysics(),
@@ -95,22 +97,25 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _floatingActionButton() {
-    return Builder(
-        key: UniqueKey(),
-        builder: (context) {
-          return InkWell(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: Lottie.asset(
-              R.lottieAnimationWalk,
-              width: 88.r,
-              height: 88.r,
-              repeat: true,
-            ),
-          );
-        });
+  Widget _floatingActionButton({required bool visible}) {
+    return Visibility(
+      visible: visible,
+      child: Builder(
+          key: UniqueKey(),
+          builder: (context) {
+            return InkWell(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Lottie.asset(
+                R.lottieAnimationWalk,
+                width: 88.r,
+                height: 88.r,
+                repeat: true,
+              ),
+            );
+          }),
+    );
   }
 
   Widget _salomonBottomBar(HomeProvider logic, {required Function(int) onTap}) {

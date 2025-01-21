@@ -40,9 +40,19 @@ class HomeProvider extends ChangeNotifier {
 
   int _pageIndex = 0;
 
-  int get pageIndex => _pageIndex;
+  bool _showFunny = true;
 
-  bool showFunny = false;
+  bool get showFunny => _showFunny;
+
+  set showFunny(bool value) {
+    if (_showFunny == value) {
+      return;
+    }
+    _showFunny = value;
+    notifyListeners();
+  }
+
+  int get pageIndex => _pageIndex;
 
   set pageIndex(int value) {
     if (_pageIndex == value) {

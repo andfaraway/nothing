@@ -44,9 +44,9 @@ class Constants {
     await HiveBoxes.init();
     if (Constants.isWeb) return;
     ExceptionReportUtil.init();
+    await NotificationUtils.jPushInit();
     await DeviceUtils.init();
     await PathUtils.init();
-    await NotificationUtils.jPushInit();
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);

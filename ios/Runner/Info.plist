@@ -155,9 +155,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Upload profile photo require permission to access camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Nothing use Location</string>
+	<string>Nothing need use Location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Nothing need use Location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Nothing use microphone</string>
+	<string>Nothing need use microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Nothing Need Save Photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>

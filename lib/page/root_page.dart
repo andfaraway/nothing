@@ -61,7 +61,6 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       children: [
         Consumer2<ThemesProvider, HomeProvider>(builder: (context, themesProvider, homeProvider, child) {
           _tabController.index = homeProvider.pageIndex;
-          print('index=${homeProvider.showFunny}');
           return Scaffold(
             drawer: const AppDrawer(),
             drawerEnableOpenDragGesture: true,

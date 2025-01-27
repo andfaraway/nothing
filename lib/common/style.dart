@@ -193,7 +193,7 @@ extension TextStyleExtension on TextStyle {
 class AppSize {
   const AppSize._();
 
-  static double tabBarHeight = 0;
+  static double tabBarHeight = 64;
 
   static double get screenWidth => Screens.width;
 

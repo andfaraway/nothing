@@ -29,6 +29,7 @@ class DragHoverBothSidesState extends State<DragHoverBothSidesWidget> {
   @override
   void initState() {
     super.initState();
+
     _dragIconModel = HiveBoxes.get(
       HiveKey.dragIconModel,
       defaultValue: DragIconModel()

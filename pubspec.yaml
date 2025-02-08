@@ -140,7 +140,8 @@ dependencies:
 
   audio_video_progress_bar: ^2.0.3
   flutter_animate: ^4.5.0
-  info_utils_plugin: ^0.0.3
+  info_utils_plugin:
+    path: /Users/biubiu/Desktop/info_utils_plugin
 
 dependency_overrides:
   intl: ^0.19.0

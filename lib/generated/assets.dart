@@ -27,6 +27,7 @@ class R {
   static const String imagesArrowRight = 'assets/images/arrow_right.svg';
   static const String imagesChevronLeft = 'assets/images/chevron-left.svg';
   static const String imagesChevronRight = 'assets/images/chevron-right.svg';
+  static const String imagesCover = 'assets/images/cover.jpg';
   static const String imagesHandsomeman = 'assets/images/handsomeman.jpeg';
   static const String imagesHelp = 'assets/images/help.svg';
   static const String imagesIcon = 'assets/images/icon.png';

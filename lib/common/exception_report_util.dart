@@ -21,13 +21,12 @@ class ExceptionReportUtil {
   }
 
   static Future<void> _reportError(Object obj, StackTrace stack) async {
-    DeviceUtils.refreshRuntimeInfo();
     Map<String, dynamic> data = {
       'type': obj.runtimeType.toString(),
       'des': obj.toString(),
       'stack': stack.toString(),
-      'deviceInfo': DeviceUtils.deviceInfo,
     };
+    data.addAll(DeviceUtils.deviceInfoModel.toJson());
     await API.exceptionReport(data);
   }
 }
@@ -70,7 +69,7 @@ class ExceptionTestPage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              await platformChannel.invokeMethod(ChannelKey.getBatteryLevel + '1');
+              await platformChannel.invokeMethod('1');
             },
             child: const Text('_TypeError'),
           ),

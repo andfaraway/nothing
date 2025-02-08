@@ -109,4 +109,8 @@ class NotificationUtils {
     String? body,
     String? payload,
   ) async {}
+
+  static Future<String> pushToken() async {
+    return await jPush?.getRegistrationID() ?? '';
+  }
 }

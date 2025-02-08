@@ -43,9 +43,10 @@ class Constants {
   static Future<void> init() async {
     await HiveBoxes.init();
     if (Constants.isWeb) return;
+    await DeviceUtils.init();
+
     ExceptionReportUtil.init();
     await NotificationUtils.jPushInit();
-    await DeviceUtils.init();
     await PathUtils.init();
 
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -79,7 +80,7 @@ class Constants {
   /// 中文
   static final bool isChinese = (Intl.getCurrentLocale() == 'zh') ? true : false;
 
-  static final bool isPhysicalDevice = DeviceUtils.deviceInfo.device.info.isPhysicalDevice;
+  static final bool isPhysicalDevice = DeviceUtils.deviceInfoModel.isPhysical;
 
   // 初始化音频播放
   static bool justAudioBackgroundInit = false;
@@ -88,7 +89,6 @@ class Constants {
 
   static final int appId = Constants.isIOS ? 274 : 273;
   static const String apiKey = 'c2bd7a89a377595c1da3d49a0ca825d5';
-  static final String deviceType = Constants.isIOS ? 'iPhone' : 'Android';
 
   /// 获取当天时间字符串
   static String get nowString => DateTime.now().format('yyyyMMdd');

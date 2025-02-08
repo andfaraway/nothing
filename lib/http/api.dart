@@ -6,6 +6,7 @@ import 'dart:core';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:info_utils_plugin/info_utils_plugin.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/model/poetry_model.dart';
 import 'package:nothing/model/version_update_model.dart';
@@ -59,7 +60,7 @@ class API {
     }
     Map<String, dynamic> param = {
       'platform': Constants.platform,
-      'version': DeviceUtils.deviceInfo.package.version,
+      'version': DeviceUtils.deviceInfoModel.version,
     };
     return Http.post(ConstUrl.checkUpdate, params: param, needLoading: needLoading);
   }
@@ -201,7 +202,7 @@ class API {
       'userid': Singleton().currentUser.userId,
       'content': content,
       'nickname': nickname,
-      'version': DeviceUtils.deviceInfo.package.version
+      'version': DeviceUtils.deviceInfoModel.version,
     };
     return Http.post(ConstUrl.addFeedback, params: param);
   }
@@ -209,21 +210,22 @@ class API {
   /// 插入登录表
   static Future<AppResponse> insertLaunch() async {
     if (Constants.isWeb) return AppResponse();
-    if (!DeviceUtils.deviceInfo.device.info.isPhysicalDevice) return AppResponse();
+    if (!DeviceUtils.deviceInfoModel.isPhysical) return AppResponse();
 
-    Map<String, dynamic> param = {};
-    param['userid'] = Singleton().currentUser.userId;
-    param['username'] = Singleton().currentUser.username;
+    Map<String, dynamic> data = {};
+    data['userid'] = Singleton().currentUser.userId;
+    data['username'] = Singleton().currentUser.username;
     //推送别名
-    param['alias'] = HiveBoxes.get(HiveKey.pushAlias);
-    await DeviceUtils.refreshRuntimeInfo();
-    //推送注册id
-    param['registrationID'] = DeviceUtils.deviceInfo.runtime.deviceToken;
-    param['battery'] = DeviceUtils.deviceInfo.runtime.battery;
-    param['network'] = DeviceUtils.deviceInfo.runtime.network;
-    param['device_info'] = DeviceUtils.deviceInfo.device.info.deviceInfo;
+    data['alias'] = HiveBoxes.get(HiveKey.pushAlias);
 
-    return Http.post(ConstUrl.insertLaunch, params: param);
+    //推送注册id
+    data['registrationID'] = NotificationUtils.pushToken();
+
+    data.addAll(DeviceUtils.deviceInfoModel.toJson());
+
+    print('data =$data');
+    return AppResponse();
+    return Http.post(ConstUrl.insertLaunch, data: data);
   }
 
   /// 获取启动页信息

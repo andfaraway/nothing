@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:info_utils_plugin/info_utils_plugin.dart';
 import 'package:nothing/generated/json/base/json_field.dart';
 import 'package:nothing/generated/json/exception_model.g.dart';
-import 'package:nothing/model/device_info_model.dart';
 
 @JsonSerializable()
 class ExceptionModel {

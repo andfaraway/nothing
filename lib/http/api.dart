@@ -125,7 +125,7 @@ class API {
 
   /// 获取推荐颜色
   static Future<AppResponse> getBeautifulColors({String model = 'default', List<String> colors = const []}) async {
-    Map<String, dynamic> params = {"model": model, "colors": colors}.removeEmptyValue();
+    Map<String, dynamic> params = {"model": model, "colors": colors};
     return Http.get(ConstUrl.getBeautifulColors, params: params);
   }
 
@@ -219,12 +219,10 @@ class API {
     data['alias'] = HiveBoxes.get(HiveKey.pushAlias);
 
     //推送注册id
-    data['registrationID'] = NotificationUtils.pushToken();
+    data['registrationID'] = await NotificationUtils.pushToken();
 
     data.addAll(DeviceUtils.deviceInfoModel.toJson());
 
-    print('data =$data');
-    return AppResponse();
     return Http.post(ConstUrl.insertLaunch, data: data);
   }
 
@@ -423,16 +421,16 @@ class API {
       {String? keyword, PoetryModel? model, int pageNum = 0, int pageSize = 10}) async {
     keyword = keyword?.trim();
     Map<String, dynamic> params = model?.toJson() ?? {};
-    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword}.removeEmptyValue());
+    params.addAll({"pageNum": pageNum, "pageSize": pageSize, 'keyword': keyword});
     return Http.get(
       ConstUrl.getPoetry,
-      params: params.removeEmptyValue(),
+      params: params,
     );
   }
 
   /// 上报异常
   static Future<AppResponse> exceptionReport(Map<String, dynamic> data) async {
-    return Http.post(ConstUrl.exceptionReport, data: data.removeEmptyValue());
+    return Http.post(ConstUrl.exceptionReport, data: data);
   }
 
   /// 获取异常

@@ -111,6 +111,10 @@ class NotificationUtils {
   ) async {}
 
   static Future<String> pushToken() async {
+    if (Constants.isIOS) {
+      return '';
+    }
+
     return await jPush?.getRegistrationID() ?? '';
   }
 }

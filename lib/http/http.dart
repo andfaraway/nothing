@@ -52,7 +52,7 @@ class Http {
     return _request(
       path,
       method: 'GET',
-      params: params,
+      params: params?.removeEmptyValue,
       needLoading: needLoading,
       needErrorToast: needErrorToast,
       refresh: refresh,
@@ -98,7 +98,7 @@ class Http {
     String path, {
     String method = 'GET',
     Map<String, dynamic>? params,
-    dynamic data,
+    Map<String, dynamic>? data,
     ProgressCallback? onSendProgress,
     CancelToken? cancelToken,
     bool needLoading = true,

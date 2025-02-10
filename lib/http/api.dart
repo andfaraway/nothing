@@ -309,7 +309,7 @@ class API {
       "name": fileName
     });
 
-    return Http.post(ConstUrl.uploadFile, data: formData, onSendProgress: (a, b) {
+    return Http.post(ConstUrl.uploadFile, formData: formData, onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     });
@@ -331,7 +331,7 @@ class API {
       "fileName": fileName
     });
 
-    return Http.post(ConstUrl.imageCompress, data: formData, onSendProgress: (a, b) {
+    return Http.post(ConstUrl.imageCompress, formData: formData, onSendProgress: (a, b) {
       double s = double.parse(a.toString()) / double.parse(b.toString());
       onSendProgress?.call(s);
     }, needLoading: false);

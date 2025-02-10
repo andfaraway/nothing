@@ -62,7 +62,8 @@ class Http {
   static Future<AppResponse> post<T>(
     String path, {
     Map<String, dynamic>? params,
-    data,
+    Map<String, dynamic>? data,
+    FormData? formData,
     ProgressCallback? onSendProgress,
     bool needLoading = true,
     bool needErrorToast = true,
@@ -73,6 +74,7 @@ class Http {
       method: 'POST',
       params: params,
       data: data,
+      formData: formData,
       onSendProgress: onSendProgress,
       needLoading: needLoading,
       needErrorToast: needErrorToast,
@@ -99,6 +101,7 @@ class Http {
     String method = 'GET',
     Map<String, dynamic>? params,
     Map<String, dynamic>? data,
+    FormData? formData,
     ProgressCallback? onSendProgress,
     CancelToken? cancelToken,
     bool needLoading = true,
@@ -113,7 +116,7 @@ class Http {
         _dio.options.headers['Authorization'] = refresh ? Handler.refreshToken : Handler.accessToken;
       }
       Response response = await _dio.request(path,
-          data: data?.removeEmptyValue,
+          data: formData ?? data?.removeEmptyValue,
           queryParameters: params?.removeEmptyValue,
           onSendProgress: onSendProgress,
           cancelToken: cancelToken);
@@ -131,7 +134,7 @@ class Http {
           showToast(httpResponse.msg ?? '服务器开小差了');
         }
       }
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       httpResponse = AppResponse(
         code: AppResponseCode.networkError,
         error: ErrorModel()..message = error.toString(),

@@ -126,27 +126,32 @@ class _MusicPageState extends State<MusicPage> with AutomaticKeepAliveClientMixi
           icon: const Icon(Icons.refresh, color: Colors.green),
         ),
       ]),
-      body: SingleChildScrollView(
-        child: Column(
-          children: musicList.map((e) {
-            return SizedBox(
-              width: double.infinity,
-              child: GestureDetector(
-                onTap: () async {
-                  currentMusic = e;
-                  await play();
-                },
-                child: Card(
-                  color: currentMusic == e ? AppColor.randomColors.first : Colors.white,
-                  margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(e.name),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200], // 添加背景颜色
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: musicList.map((e) {
+              return SizedBox(
+                width: double.infinity,
+                child: GestureDetector(
+                  onTap: () async {
+                    currentMusic = e;
+                    await play();
+                  },
+                  child: Card(
+                    color: currentMusic == e ? AppColor.randomColors.first : Colors.white,
+                    margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(e.name),
+                    ),
                   ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ),
       bottomNavigationBar: _playWidget(),

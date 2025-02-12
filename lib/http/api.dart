@@ -478,7 +478,7 @@ class ConstUrl {
   ///添加版本更新信息
   static const String addVersionInfo = '/addVersionInfo';
 
-  ///添加版本更新信息
+  ///更新版本更新信息
   static const String updateVersionInfo = '/updateVersionInfo';
 
   ///发送版本更新通知

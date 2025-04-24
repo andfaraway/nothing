@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/games/gomoku/gomoku.dart';
 import 'package:flutter_tetris/flutter_tetris.dart';
@@ -88,6 +89,17 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
             showConfirmToast(context: context, title: '退出登录', onConfirm: Constants.logout);
           }),
     ];
+
+    SizedBox(
+      width: 44,
+      height: 67,
+      child: BlurHash(
+        hash: "LuOp+2oz_NM{?Ht7M_RjxvM{M{%M",
+        image: 'https://libin.zone/src/handsomeman.jpeg',
+        optimizationMode: BlurHashOptimizationMode.none,
+      ),
+    );
+
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       controller: _scrollController,

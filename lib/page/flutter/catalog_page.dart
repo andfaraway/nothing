@@ -1,6 +1,7 @@
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:nothing/common/prefix_header.dart';
+import 'package:nothing/page/flutter/chat.dart';
 import 'package:nothing/page/flutter/flutter_cube.dart';
 import 'package:nothing/page/flutter/flutter_isolate.dart';
 import 'package:nothing/page/flutter/flutter_stream.dart';
@@ -45,6 +46,11 @@ class CatalogPage extends StatelessWidget {
                 title: 'Music Play',
                 onTap: () {
                   AppRoute.pushPage(context, const MusicPlay());
+                }),
+            _titleCell(
+                title: 'Chat',
+                onTap: () {
+                  AppRoute.pushPage(context, const ChatPage());
                 }),
           ],
         ),

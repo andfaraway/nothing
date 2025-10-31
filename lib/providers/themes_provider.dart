@@ -151,7 +151,7 @@ class ThemesProvider with ChangeNotifier {
             color: AppColor.mainColor,
           ),
         ),
-        tabBarTheme: TabBarTheme(
+        tabBarTheme: TabBarThemeData(
           indicatorSize: TabBarIndicatorSize.label,
           labelColor: AppColor.tabBarTitleSelectedColor,
           labelStyle: TextStyle(

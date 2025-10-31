@@ -20,10 +20,10 @@ class Http {
       baseUrl: Config.baseUrl,
 
       //打开超时时间
-      connectTimeout: const Duration(seconds: 20),
+      connectTimeout: const Duration(seconds: 10),
 
       //接收超时时间
-      receiveTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 10),
 
       //是否不使用缓存
       extra: {

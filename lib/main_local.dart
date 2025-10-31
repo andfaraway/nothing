@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'page/my_app.dart';
@@ -11,6 +7,6 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Constants.init();
 
+  isDebug = true;
   runApp(const MyApp());
 }
-

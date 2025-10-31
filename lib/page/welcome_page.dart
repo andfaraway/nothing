@@ -5,6 +5,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:nothing/utils/photo_save.dart';
 import 'package:nothing/widgets/dialogs/privacy_dialog.dart';
 import 'package:nothing/widgets/launch_widget.dart';
@@ -72,6 +73,11 @@ class _WelcomePageState extends State<WelcomePage> {
     AppResponse response = await API.getLaunchInfo();
     if (response.isSuccess) {
       provider.launchInfo = LaunchInfo.fromJson(response.dataMap);
+    } else {
+      provider.launchInfo = null;
+    }
+    if (kDebugMode) {
+      return;
     }
 
     timeCount.value = provider.launchInfo?.timeCount ?? timeCount.value;

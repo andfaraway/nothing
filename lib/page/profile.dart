@@ -6,6 +6,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:nothing/common/prefix_header.dart';
 import 'package:nothing/games/gomoku/gomoku.dart';
 import 'package:flutter_tetris/flutter_tetris.dart';
+import 'package:nothing/page/calendar_page.dart';
 import 'flutter/catalog_page.dart';
 
 class Profile extends StatefulWidget {
@@ -68,6 +69,15 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           title: 'Flutter',
           onTap: () {
             AppRoute.pushPage(context, const CatalogPage());
+          }),
+      _titleCell(
+          icon: const Icon(
+            Icons.calendar_month,
+            size: 20,
+          ),
+          title: 'Calendar',
+          onTap: () {
+            AppRoute.pushPage(context, const CalendarPage());
           }),
       _titleCell(
           icon: const Icon(
@@ -139,7 +149,7 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           padding: AppPadding.main,
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 return _cellList[index];
               },
               childCount: _cellList.length,

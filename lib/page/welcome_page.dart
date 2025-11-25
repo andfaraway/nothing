@@ -13,7 +13,7 @@ import 'package:nothing/widgets/launch_widget.dart';
 import '../common/prefix_header.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key, String? localPath}) : super(key: key);
+  const WelcomePage({super.key, String? localPath});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -75,9 +75,6 @@ class _WelcomePageState extends State<WelcomePage> {
       provider.launchInfo = LaunchInfo.fromJson(response.dataMap);
     } else {
       provider.launchInfo = null;
-    }
-    if (kDebugMode) {
-      return;
     }
 
     timeCount.value = provider.launchInfo?.timeCount ?? timeCount.value;
